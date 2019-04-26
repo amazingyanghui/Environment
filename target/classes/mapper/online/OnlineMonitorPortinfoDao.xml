@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineMonitorPortinfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity" id="onlineMonitorPortinfoMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="monitorCode" column="monitor_code"/>
+        <result property="monitorName" column="monitor_name"/>
+        <result property="monitorType" column="monitor_type"/>
+        <result property="monitorUseflag" column="monitor_useflag"/>
+        <result property="linkmen" column="linkmen"/>
+        <result property="linkphone" column="linkphone"/>
+        <result property="addressCode" column="address_code"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="mainPollution" column="main_pollution"/>
+        <result property="emissionMode" column="emission_mode"/>
+        <result property="emissionDirection" column="emission_direction"/>
+        <result property="receivingWater" column="receiving_water"/>
+        <result property="operationUnit" column="operation_unit"/>
+        <result property="photoPath" column="photo_path"/>
+        <result property="emissionType" column="emission_type"/>
+        <result property="networkingDate" column="networking_date"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedata" column="deletedata"/>
+        <result property="permitid" column="permitid"/>
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity">
+        SELECT f.*,a.value monitorUseFlagName,b.value emissionModeName
+        ,c.value emissionTypeName ,t.permit_code permitCode
+        ,d.value dayAndNightName,e.value domainTypeName
+        ,g.value fuelTypeName,h.value computingMethodName
+        ,i.value airpollutantTypeName,j.value useTypeName
+        FROM online_monitor_portinfo f
+        LEFT JOIN sys_dict a ON f.monitor_useflag=a.key AND a.type='boolean_type'
+        LEFT JOIN sys_dict b ON f.emission_mode=b.key AND b.type='emission_mode_type'
+        LEFT JOIN sys_dict c ON f.emission_type=c.key AND c.type='emission_type_type'
+        LEFT JOIN sys_dict d ON f.day_and_night=d.key AND d.type='boolean_type'
+        LEFT JOIN sys_dict e ON f.domain_type=e.key AND e.type='domain_type'
+        LEFT JOIN sys_dict g ON f.fuel_type=g.key AND g.type='fuel_type_type'
+        LEFT JOIN sys_dict h ON f.computing_method=h.key AND h.type='computing_method_type'
+        LEFT JOIN sys_dict i ON f.airpollutant_type=i.key AND i.type='airpollutant_type_type'
+        LEFT JOIN sys_dict j ON f.use_type=j.key AND j.type='use_type_type'
+        LEFT JOIN pollutant_discharge_permit t
+        on f.permitid = t.pid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND f.cid = #{cid}
+        </if>
+        <if test="monitorType!=null and monitorType!=''">
+            AND f.monitor_type = #{monitorType}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) FROM online_monitor_portinfo f
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND f.cid = #{cid}
+        </if>
+        <if test="monitorType!=null and monitorType!=''">
+            AND f.monitor_type = #{monitorType}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity">
+        SELECT f.*,a.value monitorUseFlagName
+        ,b.value emissionModeName,c.value emissionTypeName
+        ,d.value dayAndNightName,e.value domainTypeName
+        ,g.value fuelTypeName,h.value computingMethodName
+        ,i.value airpollutantTypeName,j.value useTypeName
+        FROM online_monitor_portinfo f
+        LEFT JOIN sys_dict a ON f.monitor_useflag=a.key AND a.type='boolean_type'
+        LEFT JOIN sys_dict b ON f.emission_mode=b.key AND b.type='emission_mode_type'
+        LEFT JOIN sys_dict c ON f.emission_type=c.key AND c.type='emission_type_type'
+        LEFT JOIN sys_dict d ON f.day_and_night=d.key AND d.type='boolean_type'
+        LEFT JOIN sys_dict e ON f.domain_type=e.key AND e.type='domain_type'
+        LEFT JOIN sys_dict g ON f.fuel_type=g.key AND g.type='fuel_type_type'
+        LEFT JOIN sys_dict h ON f.computing_method=h.key AND h.type='computing_method_type'
+        LEFT JOIN sys_dict i ON f.airpollutant_type=i.key AND i.type='airpollutant_type_type'
+        LEFT JOIN sys_dict j ON f.use_type=j.key AND j.type='use_type_type'
+        WHERE f.cid=#{cid}
+    </select>
+
+    <select id="queryList" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity" parameterType="java.util.Map" >
+        select p.pid,p.monitor_name,p.monitor_useflag,p.longitude,p.latitude,
+        c.company_name companyName,c.company_address companyAddress,p.cid
+        from online_monitor_portinfo p
+        LEFT JOIN cominfo_baseinfo c
+        on p.cid = c.pid
+        where p.monitor_type = #{monitorType}
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="monitorUseFlag!=null and monitorUseFlag!=''">
+            AND p.monitor_useflag=#{monitorUseFlag}
+        </if>
+    </select>
+
+    <insert id="idByInsert" parameterType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        insert into online_monitor_portinfo
+        (pid,cid,monitor_code,monitor_name,monitor_type,monitor_useflag,linkmen
+        ,linkphone,address_code,longitude,latitude,main_pollution,emission_mode
+        ,emission_direction,receiving_water,operation_unit,photo_path,emission_type
+        ,networking_date,createdate,updatedate,use_type,permitid,tax_source_code,computing_method
+        ,domain_type,day_and_night,executive_standard,standard_limits_day,standard_limits_night,airpollutant_type,monitor_position
+        ,sewage_plant_name,out_port_height,out_port_diameter,fuel_name,fuel_type,fuel_mode,delivery_vehicle_count
+        ,average_carrying_capacity,point_area)
+        values(#{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{monitorCode,jdbcType=VARCHAR}
+        ,#{monitorName,jdbcType=VARCHAR},#{monitorType},#{monitorUseflag},#{linkmen},#{linkphone}
+        ,#{addressCode},#{longitude},#{latitude},#{mainPollution},#{emissionMode},#{emissionDirection}
+        ,#{receivingWater},#{operationUnit},#{photoPath},#{emissionType},#{networkingDate}
+        ,#{createdate},#{updatedate},#{useType},#{permitid},#{taxSourceCode},#{computingMethod}
+        ,#{domainType},#{dayAndNight},#{executiveStandard},#{standardLimitsDay},#{standardLimitsNight},#{airpollutantType},#{monitorPosition}
+        ,#{sewagePlantName},#{outPortHeight},#{outPortDiameter},#{fuelName},#{fuelType},#{fuelMode},#{deliveryVehicleCount}
+        ,#{averageCarryingCapacity},#{pointArea})
+    </insert>
+
+    <update id="createDateTable" parameterType="java.lang.String">
+        CREATE TABLE ${tableName}(
+        pid varchar(36) NOT NULL PRIMARY KEY COMMENT '主键（UUID）',
+        createdate varchar(50) DEFAULT NULL COMMENT '数据时间',
+        cid varchar(36) DEFAULT NULL COMMENT '企业ID',
+        mid varchar(36) DEFAULT NULL COMMENT '监控点ID',
+        fid varchar(36) DEFAULT NULL COMMENT '因子ID',
+        test_data double(20,8) DEFAULT NULL COMMENT '检测数据',
+        data_type varchar(10) DEFAULT NULL COMMENT 'avg：日平均值；cou：日排放量；max：日最大值；min：日最小值；zsavg：日平均折算浓度；zscou：日折算排放量；zsmax：日折算最大值；',
+        avg_value varchar(50) DEFAULT NULL COMMENT '日平均值',
+        cou_value varchar(50) DEFAULT NULL COMMENT '日排放量',
+        max_value varchar(50) DEFAULT NULL COMMENT '日最大值',
+        min_value varchar(50) DEFAULT NULL COMMENT '日最小值',
+        zsavg_value varchar(50) DEFAULT NULL COMMENT '日平均折算浓度',
+        zscou_value varchar(50) DEFAULT NULL COMMENT '日折算排放量',
+        zsmax_value varchar(50) DEFAULT NULL COMMENT '日折算最大值') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日数据存放表'
+    </update>
+
+    <update id="createHourTable" parameterType="java.lang.String">
+        CREATE TABLE ${tableName}(
+        pid varchar(36) NOT NULL PRIMARY KEY COMMENT '主键（UUID）',
+        createdate varchar(50) DEFAULT NULL COMMENT '数据时间',
+        history_id varchar(36) DEFAULT NULL COMMENT '历史数据ID',
+        cid varchar(36) DEFAULT NULL COMMENT '企业ID',
+        mid varchar(36) DEFAULT NULL COMMENT '监控点ID',
+        fid varchar(36) DEFAULT NULL COMMENT '因子ID',
+        test_data double(20,8) DEFAULT NULL COMMENT '检测数据',
+        data_type varchar(10) DEFAULT NULL COMMENT 'avg：日平均值；cou：日排放量；max：日最大值；min：日最小值；zsavg：日平均折算浓度；zscou：日折算排放量；zsmax：日折算最大值；',
+        avg_value varchar(50) DEFAULT NULL COMMENT '日平均值',
+        cou_value varchar(50) DEFAULT NULL COMMENT '日排放量',
+        max_value varchar(50) DEFAULT NULL COMMENT '日最大值',
+        min_value varchar(50) DEFAULT NULL COMMENT '日最小值',
+        zsavg_value varchar(50) DEFAULT NULL COMMENT '日平均折算浓度',
+        zscou_value varchar(50) DEFAULT NULL COMMENT '日折算排放量',
+        zsmax_value varchar(50) DEFAULT NULL COMMENT '日折算最大值') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='小时数据表'
+    </update>
+
+    <update id="dropDateTable" parameterType="java.lang.String">
+        drop table ${tableName}
+    </update>
+
+    <update id="dropHourTable" parameterType="java.lang.String">
+        drop table ${tableName}
+    </update>
+
+    <update id="updateForEnvironment" parameterType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity">
+        UPDATE online_monitor_portinfo
+        SET tax_source_code=#{taxSourceCode},airpollutant_type=#{airpollutantType},updatedate=#{updatedate}
+        WHERE pid=#{pid}
+    </update>
+
+    <select id="noiseBaseInfoById" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPortinfoEntity" parameterType="java.lang.String">
+      SELECT * from online_monitor_portinfo WHERE  cid=#{cid}
+    </select>
+
+</mapper>

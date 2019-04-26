@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.radioactiveore.dao.CominfoRadioactiveOreDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.radioactiveore.entity.CominfoRadioactiveOreEntity" id="cominfoRadioactiveOreMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="rawOre" column="raw_ore"/>
+        <result property="rawOreQuantity" column="raw_ore_quantity"/>
+        <result property="concentrate" column="concentrate"/>
+        <result property="concentrateQuantity" column="concentrate_quantity"/>
+        <result property="solidWaste" column="solid_waste"/>
+        <result property="solidWasteQuantity" column="solid_waste_quantity"/>
+        <result property="solidWasteUtilize" column="solid_waste_utilize"/>
+        <result property="solidWasteInnerUtilize" column="solid_waste_inner_utilize"/>
+        <result property="solidWasteOuterUtilize" column="solid_waste_outer_utilize"/>
+        <result property="solidWasteReceiveUtilize" column="solid_waste_receive_utilize"/>
+        <result property="solidWasteDeal" column="solid_waste_deal"/>
+        <result property="solidWasteInnerDeal" column="solid_waste_inner_deal"/>
+        <result property="solidWasteOuterDeal" column="solid_waste_outer_deal"/>
+        <result property="solidWasteReceiveDeal" column="solid_waste_receive_deal"/>
+        <result property="solidWasteStorage" column="solid_waste_storage"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.radioactiveore.entity.CominfoRadioactiveOreEntity">
+        SELECT *
+        FROM cominfo_radioactive_ore
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM cominfo_radioactive_ore
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

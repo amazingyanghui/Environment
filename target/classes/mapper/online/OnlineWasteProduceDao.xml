@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineWasteProduceDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineWasteProduceEntity" id="onlineWasteProduceMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="useType" column="use_type"/>
+        <result property="produceYear" column="produce_year"/>
+        <result property="wasteName" column="waste_name"/>
+        <result property="wasteType" column="waste_type"/>
+        <result property="wasteCode" column="waste_code"/>
+        <result property="disposeMethod" column="dispose_method"/>
+        <result property="yearCount" column="year_count"/>
+        <result property="totalCount" column="total_count"/>
+        <result property="isWaste" column="is_waste"/>
+        <result property="isTransferCouplet" column="is_transfer_couplet"/>
+        <result property="storeFacilities" column="store_facilities"/>
+        <result property="disposeCompany" column="dispose_company"/>
+        <result property="remark" column="remark"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+    <!--列表信息-->
+    <select id="queryPage" parameterType="java.util.Map"  resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineWasteProduceEntity">
+        SELECT a.*,b.value useTypeStr,f.value wasteTypeName
+        ,d.value isWasteName,e.value isTransferCoupletName
+        FROM online_waste_produce a
+        LEFT JOIN sys_dict b on b.key=a.use_type
+        LEFT JOIN sys_dict d on d.key=a.is_waste AND d.type='boolean_type'
+        LEFT JOIN sys_dict e on e.key=a.is_transfer_couplet AND e.type='boolean_type'
+        LEFT JOIN sys_dict f on f.key=a.waste_type AND f.type='waste_type'
+        where use_type=#{useType} and b.type='waste_classify'
+        order by createdate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!--列表信息总数-->
+    <select id="queryPageCom" parameterType="java.util.Map"  resultType="java.lang.Integer">
+        select count(*)
+       from online_waste_produce a
+        LEFT JOIN sys_dict b on a.use_type=b.key
+        where use_type=#{useType} and b.type='waste_classify'
+    </select>
+</mapper>

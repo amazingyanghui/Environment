@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.RiskPreventionMeasuresDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.RiskPreventionMeasuresEntity"
+               id="riskPreventionMeasuresMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="mainChemicalName" column="main_chemical_name"/>
+        <result property="mainChemicalStock" column="main_chemical_stock"/>
+        <result property="maxStorageCapacity" column="max_storage_capacity"/>
+        <result property="riskProfiles" column="risk_profiles"/>
+        <result property="riskProfilesOtherName" column="risk_profiles_other_name"/>
+        <result property="cofferdam" column="cofferdam"/>
+        <result property="cofferdamEffectiveArea" column="cofferdam_effective_area"/>
+        <result property="specialDrainageDitch" column="special_drainage_ditch"/>
+        <result property="groundSeepageControl" column="ground_seepage_control"/>
+        <result property="imperviousMaterial" column="impervious_material"/>
+        <result property="leakDetection" column="leak_detection"/>
+        <result property="isRemoteMonitor" column="is_remote_monitor"/>
+        <result property="gasAbsorptionDevice" column="gas_absorption_device"/>
+        <result property="fateType" column="fate_type"/>
+        <result property="otherFateType" column="other_fate_type"/>
+        <result property="emergencyPool" column="emergency_pool"/>
+        <result property="emergencyPoolVolume" column="emergency_pool_volume"/>
+        <result property="isChangeValve" column="is_change_valve"/>
+        <result property="isBufferPool" column="is_buffer_pool"/>
+        <result property="bufferPoolArea" column="buffer_pool_area"/>
+        <result property="gasLeakMonitorwarningMeasures" column="gas_leak_monitorwarning_measures"/>
+        <result property="closureMeasures" column="closure_measures"/>
+        <result property="accidentWastewaterCollectionMeasures" column="accident_wastewater_collection_measures"/>
+        <result property="cleanWaterPreventionMeasures" column="clean_water_prevention_measures"/>
+        <result property="rainPreventionMeasures" column="rain_prevention_measures"/>
+        <result property="productionWastewaterPreventionMeasures" column="production_wastewater_prevention_measures"/>
+        <result property="pipeNetworkPermit" column="pipe_network_permit"/>
+        <result property="environmentalManagement" column="environmental_management"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+    <select id="entityById"
+            resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.RiskPreventionMeasuresEntity"
+            parameterType="java.lang.String">
+SELECT a.*, c.company_name companyName
+        FROM risk_prevention_measures a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+    <select id="queryList" parameterType="java.util.Map"
+            resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.RiskPreventionMeasuresEntity">
+        SELECT
+        a.*, c.company_name companyName
+        FROM risk_prevention_measures a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        order by c.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM risk_prevention_measures a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+
+    </select>
+
+</mapper>

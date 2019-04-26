@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.greentax.dao.EpSolidWasteMeasuresDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpSolidWasteMeasuresEntity" id="epSolidWasteMeasuresMap">
+        <result property="id" column="id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="mainId" column="main_id"/>
+        <result property="measuresCode" column="measures_code"/>
+        <result property="measuresName" column="measures_name"/>
+        <result property="measuresBasic" column="measures_basic"/>
+        <result property="waste" column="waste"/>
+        <result property="wasteSource" column="waste_source"/>
+        <result property="product" column="product"/>
+        <result property="mode" column="mode"/>
+        <result property="processingCapacity" column="processing_capacity"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="com.tengdi.environmentalprotectionint.modules.common.entity.QueryCriterias" resultType="java.util.Map">
+        select * from ep_solid_waste_measures
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="equal"
+                         separator=" and ">
+                    ${equal.column} = #{equal.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" groupColumn != null and groupColumn != ''">
+                and ${groupColumn} != ''
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="orderColumn!= null">
+            ORDER BY ${orderColumn}
+        </if>
+        limit ${pagenumber}, ${pagesize}
+    </select>
+
+    <select id="queryListCount" parameterType="com.tengdi.environmentalprotectionint.modules.common.entity.QueryCriterias" resultType="java.lang.Integer">
+        select count(1) from ep_solid_waste_measures
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="item"
+                         separator=" and ">
+                    ${item.column} = #{item.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+    <!--获取固废下拉选项-->
+    <select id="getSolidWaste" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpSolidWasteMeasuresEntity">
+        select * from ep_solid_waste_measures where company_id=#{cid};
+    </select>
+</mapper>

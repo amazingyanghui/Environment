@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.manual.dao.EnvironmentalProtectionManualDao">
+
+    <select id="sellist" resultType="com.tengdi.environmentalprotectionint.modules.manual.entity.EnvironmentalProtectionManualEntity">
+        select * from environmental_protection_manual where status=1;
+    </select>
+    <select id="queryPage" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.manual.entity.LegalDocumentsEntity">
+        select * from legal_documents
+        <where>
+            <if test="storecode!=null and storecode!=''">
+                code LIKE concat(#{storecode}, '%')
+            </if>
+            <if test="content!=null and content!=''">
+                and (content like CONCAT('%',#{content},'%') or file_name like CONCAT('%',#{content},'%'))
+            </if>
+        </where>
+        order by create_time desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="queryPageSum" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from legal_documents
+        <where>
+            <if test="storecode!=null and storecode!=''">
+                 code LIKE concat(#{storecode}, '%')
+            </if>
+            <if test="content!=null and content!=''">
+                and (content like CONCAT('%',#{content},'%') or file_name like CONCAT('%',#{content},'%'))
+            </if>
+        </where>
+    </select>
+    <insert id="insertFile" parameterType="com.tengdi.environmentalprotectionint.modules.manual.entity.LegalDocumentsEntity" >
+        insert into legal_documents
+        (pid,code,path,file_name,file_size,heir,create_time,content)
+        values
+         (#{pid},#{code},#{path},#{fileName},#{fileSize},#{heir},#{createTime},#{content})
+    </insert>
+    <insert id="addAndGetId" keyProperty="id" useGeneratedKeys="true" parameterType="com.tengdi.environmentalprotectionint.modules.manual.entity.EnvironmentalProtectionManualEntity">
+        insert into environmental_protection_manual
+        (pid,parent_id,code_name,parent_name,status,create_date,update_date)
+        values
+        (#{pid},#{parentId},#{codeName},#{parentName},#{status},#{createDate},#{updateDate})
+    </insert>
+    <update id="updateCode" parameterType="com.tengdi.environmentalprotectionint.modules.manual.entity.EnvironmentalProtectionManualEntity">
+        UPDATE environmental_protection_manual SET store_code=#{storeCode} WHERE pid=#{pid}
+    </update>
+    <!-- 批量删除文件 -->
+    <delete id="dellaw" parameterType="java.lang.String">
+        delete from legal_documents where pid in
+        <foreach item="pid" collection="array" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </delete>
+    <!-- 查询节点下是否存在子节点 -->
+    <select id="nodeSel" parameterType="java.lang.String"  resultType="java.util.Map" >
+      select count(*) counts,c.countst
+      from environmental_protection_manual  a,
+        (select store_code storeCode  from environmental_protection_manual where pid=#{pid} ) b,
+        (select count(*) countst  from legal_documents where code in (select store_code storeCode  from environmental_protection_manual where pid=#{pid} ) )c
+      where a.parent_id=#{pid}
+    </select>
+</mapper>

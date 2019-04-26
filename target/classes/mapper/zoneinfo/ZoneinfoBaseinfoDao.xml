@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.zoneinfo.dao.ZoneinfoBaseinfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.zoneinfo.entity.ZoneinfoBaseinfoEntity" id="zoneinfoBaseinfoMap">
+        <result property="pid" column="pid"/>
+        <result property="zoneName" column="zone_name"/>
+        <result property="zoneCode" column="zone_code"/>
+        <result property="compartmentCode" column="compartment_code"/>
+        <result property="address" column="address"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="town" column="town"/>
+        <result property="street" column="street"/>
+        <result property="zoneLevel" column="zone_level"/>
+        <result property="zoneTypeIndustry" column="zone_type_industry"/>
+        <result property="zoneTypeComprehensive" column="zone_type_comprehensive"/>
+        <result property="approvedArea" column="approved_area"/>
+        <result property="approvedDept" column="approved_dept"/>
+        <result property="approvedDate" column="approved_date"/>
+        <result property="enterprisesNumber" column="enterprises_number"/>
+        <result property="actualEnterprisesNumber" column="actual_enterprises_number"/>
+        <result property="leadingIndustryName1" column="leading_industry_name1"/>
+        <result property="leadingIndustryCode1" column="leading_industry_code1"/>
+        <result property="leadingIndustryPercent1" column="leading_industry_percent1"/>
+        <result property="leadingIndustryName2" column="leading_industry_name2"/>
+        <result property="leadingIndustryCode2" column="leading_industry_code2"/>
+        <result property="leadingIndustryPercent2" column="leading_industry_percent2"/>
+        <result property="leadingIndustryName3" column="leading_industry_name3"/>
+        <result property="leadingIndustryCode3" column="leading_industry_code3"/>
+        <result property="leadingIndustryPercent3" column="leading_industry_percent3"/>
+        <result property="isSewageDiversion" column="is_sewage_diversion"/>
+        <result property="clearWaterDrainageDirection" column="clear_water_drainage_direction"/>
+        <result property="clearWaterReceivingBodyName" column="clear_water_receiving_body_name"/>
+        <result property="clearWaterReceivingBodyCode" column="clear_water_receiving_body_code"/>
+        <result property="sewageDrainageDirection" column="sewage_drainage_direction"/>
+        <result property="sewageReceivingBodyName" column="sewage_receiving_body_name"/>
+        <result property="sewageReceivingBodyCode" column="sewage_receiving_body_code"/>
+        <result property="isDomesticSewageTreatmentPlant" column="is_domestic_sewage_treatment_plant"/>
+        <result property="domesticSewageTreatmentPlantName" column="domestic_sewage_treatment_plant_name"/>
+        <result property="domesticSewageTreatmentPlantCode" column="domestic_sewage_treatment_plant_code"/>
+        <result property="domesticSewageTreatmentPlantOrganizational" column="domestic_sewage_treatment_plant_organizational"/>
+        <result property="isIndustrialSewageTreatmentPlant" column="is_industrial_sewage_treatment_plant"/>
+        <result property="industrialSewageTreatmentPlantName" column="industrial_sewage_treatment_plant_name"/>
+        <result property="industrialSewageTreatmentPlantCode" column="industrial_sewage_treatment_plant_code"/>
+        <result property="industrialSewageTreatmentPlantOrganizational" column="industrial_sewage_treatment_plant_organizational"/>
+        <result property="industrialSewageTreatmentPlantEnterprisesNumber" column="industrial_sewage_treatment_plant_enterprises_number"/>
+        <result property="isHazardousWasteDisposalPlant" column="is_hazardous_waste_disposal_plant"/>
+        <result property="hazardousWasteDisposalPlantName" column="hazardous_waste_disposal_plant_name"/>
+        <result property="hazardousWasteDisposalPlantCode" column="hazardous_waste_disposal_plant_code"/>
+        <result property="hazardousWasteDisposalPlantOrganizational" column="hazardous_waste_disposal_plant_organizational"/>
+        <result property="isHeatingFacilities" column="is_heating_facilities"/>
+        <result property="heatingFacilitiesName" column="heating_facilities_name"/>
+        <result property="heatingFacilitiesCode" column="heating_facilities_code"/>
+        <result property="heatingFacilitiesOrganizational" column="heating_facilities_organizational"/>
+        <result property="zoneEnvironmentalManagementInstitutionName" column="zone_environmental_management_institution_name"/>
+        <result property="archives" column="archives"/>
+        <result property="airMonitoringStationInternet" column="air_monitoring_station_internet"/>
+        <result property="airMonitoringStationPoints" column="air_monitoring_station_points"/>
+        <result property="waterMonitoringStationInternet" column="water_monitoring_station_internet"/>
+        <result property="waterMonitoringStationPoints" column="water_monitoring_station_points"/>
+        <result property="zoneEmergencyPlan" column="zone_emergency_plan"/>
+        <result property="informationOpenPlatform" column="information_open_platform"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.zoneinfo.entity.ZoneinfoBaseinfoEntity">
+        select * from zoneinfo_baseinfo o
+        <where>
+            <if test="zoneName != null and zoneName!=''">
+                o.zoneName like CONCAT('%',#{zoneName},'%')
+            </if>
+            <if test="zoneCode != null and zoneCode!=''">
+              and o.zoneCode = #{zoneCode}
+            </if>
+            <if test="compartmentCode != null and compartmentCode!=''">
+                and o.compartmentCode = #{compartmentCode}
+            </if>
+
+        </where>
+
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from zoneinfo_baseinfo o
+        <where>
+            <if test="zoneName != null  and zoneName!=''">
+                o.zoneName like CONCAT('%',#{zoneName},'%')
+            </if>
+            <if test="zoneCode != null and zoneCode!=''">
+                and o.zoneCode = #{zoneCode}
+            </if>
+            <if test="compartmentCode != null and compartmentCode!=''">
+                and o.compartmentCode = #{compartmentCode}
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

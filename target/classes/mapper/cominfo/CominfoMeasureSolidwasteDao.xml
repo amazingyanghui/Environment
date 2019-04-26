@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoMeasureSolidwasteDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureSolidwasteEntity" id="cominfoMeasureSolidwasteMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="measureName" column="measure_name"/>
+        <result property="measureNumber" column="measure_number"/>
+        <result property="governanceMode" column="governance_mode"/>
+        <result property="storageCapacity" column="storage_capacity"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="runningState" column="running_state"/>
+        <result property="yearThroughput" column="year_throughput"/>
+        <result property="yearOperatingCost" column="year_operating_cost"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="singleDesign_capability" column="single_design_capability"/>
+        <result property="dayRuntime" column="day_runtime"/>
+        <result property="governanceLimit" column="governance_limit"/>
+        <result property="acceptanceOpinion" column="acceptance_opinion"/>
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureSolidwasteEntity">
+        SELECT s.pid,s.cid,s.measure_name,s.measure_number,s.governance_mode,s.storage_capacity,d.value governanceModeName
+        ,s.delivery_date,s.running_state,s.year_throughput,s.year_operating_cost,s.remarks
+        ,s.createdate,s.updatedate,s.deletedate
+        ,s.single_design_capability,s.day_runtime,s.governance_limit,s.acceptance_opinion
+        FROM cominfo_measure_solidwaste s
+        LEFT JOIN sys_dict d ON d.key=s.governance_mode AND d.type='governance_mode_type'
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND s.cid=#{cid}
+        </if>
+        order by s.delivery_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countData" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM cominfo_measure_solidwaste s
+        LEFT JOIN sys_dict d ON d.key=s.governance_mode AND d.type='governance_mode_type'
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND s.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureSolidwasteEntity">
+        SELECT s.pid,s.cid,s.measure_name,s.measure_number,s.governance_mode,s.storage_capacity,d.value governanceModeName
+        ,s.delivery_date,s.running_state,s.year_throughput,s.year_operating_cost,s.remarks
+        ,s.createdate,s.updatedate,s.deletedate
+        FROM cominfo_measure_solidwaste s
+        LEFT JOIN sys_dict d ON d.key=s.governance_mode AND d.type='governance_mode_type'
+        WHERE s.cid=#{cid}
+    </select>
+
+</mapper>

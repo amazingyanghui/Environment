@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.penalty.dao.AdministrativePenaltyInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity" id="administrativePenaltyInfoMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="filingTime" column="filing_time"/>
+        <result property="punishSubject" column="punish_subject"/>
+        <result property="punishedCompanyName" column="punished_company_name"/>
+        <result property="caseOverview" column="case_overview"/>
+        <result property="illegalActivities" column="illegal_activities"/>
+        <result property="illegalType" column="illegal_type"/>
+        <result property="punishmentResult" column="punishment_result"/>
+        <result property="punishmentBasis" column="punishment_basis"/>
+        <result property="punishmentExecution" column="punishment_execution"/>
+        <result property="closingTime" column="closing_time"/>
+        <result property="createdate" column="createdate"/>
+        <result property="companyName" column="company_name"/>
+        <result property="companyaddress" column="company_address"/>
+        <result property="penaltyNumber" column="penalty_number"/>
+        <result property="business" column="business"/>
+        <result property="representative" column="representative"/>
+        <result property="phone" column="phone"/>
+        <result property="postcode" column="postcode"/>
+        <result property="researcher" column="researcher"/>
+        <result property="penaltySign" column="penalty_sign"/>
+    </resultMap>
+    <select id="queryList2" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+      SELECT a.*,c.company_name companyName,c.company_address companyaddress,d.value illegalTypeName from administrative_penalty_info a
+      LEFT JOIN sys_dict d ON d.`key` = a.illegal_type AND d.type = 'illegal_type_type'
+      LEFT JOIN cominfo_baseinfo c on c.pid = a.cid
+      <where>
+          <if test="cid!=null and cid!=''">
+              AND a.cid=#{cid}
+          </if>
+          <if test="companyName != null and companyName != ''">
+              and c.company_name like CONCAT('%',#{companyName},'%')
+          </if>
+          <if test="illegalType != null and illegalType != ''">
+              and a.illegal_type=#{illegalType}
+          </if>
+          <if test="startTime != null and startTime != ''">
+              and a.filing_time &gt; #{startTime}
+          </if>
+          <if test="endTime != null and endTime != ''">
+              AND a.filing_time &lt; #{endTime}
+          </if>
+          <if test="year != null and year != ''">
+              AND year(a.filing_time)=#{year}
+          </if>
+          <if test="yearMonth!=null and yearMonth!=''">
+              AND DATE_FORMAT(a.filing_time,'%Y-%m')=#{yearMonth}
+          </if>
+          <if test="unknownType!=null and unknownType!=''">
+              <if test="unknownType=1">
+                  AND a.illegal_type IS NULL
+              </if>
+          </if>
+          <if test="totalCompanyName!=null and totalCompanyName!=''">
+              AND c.company_name =#{totalCompanyName}
+          </if>
+      </where>
+        order by c.company_name desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        SELECT a.*,c.company_name companyName,c.company_address companyaddress,d.value illegalTypeName from administrative_penalty_info a
+        LEFT JOIN sys_dict d ON d.`key` = a.illegal_type AND d.type = 'illegal_type_type'
+        LEFT JOIN cominfo_baseinfo c on c.pid = a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        SELECT a.*,c.company_name companyName,c.company_address companyaddress,d.value illegalTypeName from administrative_penalty_info a
+      LEFT JOIN sys_dict d ON d.`key` = a.illegal_type AND d.type = 'illegal_type_type'
+      LEFT JOIN cominfo_baseinfo c on c.pid = a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        SELECT a.*,c.company_name companyName,c.company_address companyaddress,d.value illegalTypeName from administrative_penalty_info a
+        LEFT JOIN sys_dict d ON d.`key` = a.illegal_type AND d.type = 'illegal_type_type'
+        LEFT JOIN cominfo_baseinfo c on c.pid = a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and c.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="illegalType != null and illegalType != ''">
+                and a.illegal_type=#{illegalType}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and a.filing_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND a.filing_time &lt; #{endTime}
+            </if>
+        </where>
+        GROUP BY a.cid
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) from administrative_penalty_info a
+        LEFT JOIN sys_dict d ON d.`key` = a.illegal_type AND d.type = 'illegal_type_type'
+        LEFT JOIN cominfo_baseinfo c on c.pid = a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and c.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="illegalType != null and illegalType != ''">
+                and a.illegal_type=#{illegalType}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and a.filing_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND a.filing_time &lt; #{endTime}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(a.filing_time)=#{year}
+            </if>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(a.filing_time,'%Y-%m')=#{yearMonth}
+            </if>
+            <if test="unknownType!=null and unknownType!=''">
+                <if test="unknownType=1">
+                    AND a.illegal_type IS NULL
+                </if>
+            </if>
+            <if test="totalCompanyName!=null and totalCompanyName!=''">
+                AND c.company_name =#{totalCompanyName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO
+        administrative_penalty_info(pid,cid,filing_time,punish_subject
+        ,punished_company_name,case_overview,illegal_activities
+        ,illegal_type,punishment_result,punishment_basis,punishment_execution
+        ,closing_time,reconsideration,appeal_situation,createdate
+        ,penalty_number,business,representative,phone,postcode,researcher,penalty_sign)
+        VALUES (#{pid},#{cid},#{filingTime},#{punishSubject}
+        ,#{punishedCompanyName},#{caseOverview},#{illegalActivities}
+        ,#{illegalType},#{punishmentResult},#{punishmentBasis},#{punishmentExecution}
+        ,#{closingTime},#{reconsideration},#{appealSituation},#{createdate}
+        ,#{penaltyNumber},#{business},#{representative},#{phone},#{postcode},#{researcher},#{penaltySign})
+    </insert>
+
+    <!--查询年度总案件数sql -->
+    <select id="totalcases" parameterType="String" resultType="java.lang.Integer" >
+      SELECT count(*) FROM administrative_penalty_info WHERE YEAR(  filing_time ) = #{year}
+    </select>
+
+    <!--查询年度总金额sql -->
+    <select id="totalmoney" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity" >
+      SELECT    *  FROM administrative_penalty_info WHERE YEAR(  filing_time ) = #{year}
+    </select>
+
+    <!--每月金额统计sql-->
+    <select id="monthmoneryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity" >
+        select  *  from administrative_penalty_info WHERE YEAR(  filing_time ) = #{year} and month(filing_time)=#{month}
+    </select>
+
+    <!--每月案件数量统计sql-->
+    <select id="monthcacesList" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity" >
+         select year(filing_time) year,
+            month(filing_time) month,
+            COUNT(*) monthcases
+            from administrative_penalty_info
+            WHERE YEAR(  filing_time ) = #{year}
+            group by year(filing_time),
+            month(filing_time)
+    </select>
+
+    <!--处罚数量排行榜 sql-->
+    <select id="caseranking" parameterType="String"  resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+
+        select o.company_name punishedCompanyName,s.cid,
+        COUNT(*) companyrankcount
+        from administrative_penalty_info s
+        LEFT JOIN cominfo_baseinfo o
+        on s.cid = o.pid
+        where year(filing_time)= #{year}
+        group by cid
+        order by companyrankcount desc
+
+
+    </select>
+
+    <!--处罚金额排行榜 sql-->
+    <select id="moneryranking" parameterType="java.util.Map"  resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        select * from  administrative_penalty_info
+        where  year(filing_time)= #{year} and punishment_result is not null
+        and cid = #{cid}
+    </select>
+
+    <!--类型金额总数统计-->
+    <select id="typemonerycountstatic" parameterType="java.util.Map"  resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+       select *
+        from administrative_penalty_info s
+        where year(filing_time)= #{year}
+        and s.illegal_type =#{illtype}
+    </select>
+
+    <!--未知类型金额总数统计-->
+    <select id="othertypemonerycountstatic" parameterType="String"  resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+       select *
+        from administrative_penalty_info s
+        where year(filing_time)= #{year}
+        and s.illegal_type is null
+    </select>
+
+    <!--类型数量总数统计-->
+    <select id="typecasecountstatic" parameterType="String"  resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyInfoEntity">
+        select s.illegal_type ,
+        count(*) typecounts
+        from administrative_penalty_info s
+        where year(filing_time)= #{year}
+        group by s.illegal_type
+    </select>
+</mapper>

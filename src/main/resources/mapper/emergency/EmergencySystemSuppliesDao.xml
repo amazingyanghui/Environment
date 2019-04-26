@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.EmergencySystemSuppliesDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemSuppliesEntity" id="emergencySystemSuppliesMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="suppliesName" column="supplies_name"/>
+        <result property="suppliesNumber" column="supplies_number"/>
+        <result property="suppliesUnit" column="supplies_unit"/>
+        <result property="suppliesType" column="supplies_type"/>
+        <result property="storeCompany" column="store_company"/>
+        <result property="storeAddress" column="store_address"/>
+        <result property="linkmen" column="linkmen"/>
+        <result property="linkphone" column="linkphone"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="queryPage" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemSuppliesEntity">
+        SELECT a.*,b.company_name companyName,y.value suppliesTypeName FROM emergency_system_supplies a
+        LEFT JOIN sys_dict y ON y.key=a.supplies_type AND y.type='supplies_type_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="suppliesType!=null and suppliesType!=''">
+            AND a.supplies_type=#{suppliesType}
+        </if>
+        <if test="suppliesName!=null and suppliesName!=''">
+            AND a.supplies_name like CONCAT('%',#{suppliesName},'%')
+        </if>
+        order by b.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemSuppliesEntity">
+        SELECT a.*,b.company_name companyName,y.value suppliesTypeName FROM emergency_system_supplies a
+        LEFT JOIN sys_dict y ON y.key=a.supplies_type AND y.type='supplies_type_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        AND a.pid=#{pid}
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemSuppliesEntity">
+        SELECT a.*,b.company_name companyName,y.value suppliesTypeName FROM emergency_system_supplies a
+        LEFT JOIN sys_dict y ON y.key=a.supplies_type AND y.type='supplies_type_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        AND a.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemSuppliesEntity">
+        SELECT a.*,b.company_name companyName,y.value suppliesTypeName FROM emergency_system_supplies a
+        LEFT JOIN sys_dict y ON y.key=a.supplies_type AND y.type='supplies_type_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="suppliesType!=null and suppliesType!=''">
+            AND a.supplies_type=#{suppliesType}
+        </if>
+        <if test="suppliesName!=null and suppliesName!=''">
+            AND a.supplies_name like CONCAT('%',#{suppliesName},'%')
+        </if>
+        GROUP BY a.cid
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(*) FROM emergency_system_supplies a
+        LEFT JOIN sys_dict y ON y.key=a.supplies_type AND y.type='supplies_type_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="suppliesType!=null and suppliesType!=''">
+            AND a.supplies_type=#{suppliesType}
+        </if>
+        <if test="suppliesName!=null and suppliesName!=''">
+            AND a.supplies_name like CONCAT('%',#{suppliesName},'%')
+        </if>
+    </select>
+
+</mapper>

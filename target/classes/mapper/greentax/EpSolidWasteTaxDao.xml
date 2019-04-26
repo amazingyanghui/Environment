@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.greentax.dao.EpSolidWasteTaxDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpSolidWasteTaxEntity" id="epSolidWasteTaxMap">
+        <result property="id" column="id"/>
+        <result property="solidWasteId" column="solid_waste_id"/>
+        <result property="dispostionType" column="dispostion_type"/>
+        <result property="quantity" column="quantity"/>
+        <result property="comprehensiveUtilization" column="comprehensive_utilization"/>
+        <result property="disposalCapacity" column="disposal_capacity"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpSolidWasteTaxEntity">
+        SELECT a.id,a.solid_waste_id,a.report_section,b.measures_code,b.measures_name,b.waste,b.eight_code,b.mode,
+        a.quantity,a.comprehensive_utilization,a.disposal_capacity,a.status
+        FROM ep_solid_waste_tax a
+        LEFT JOIN    ep_solid_waste_measures b  on a.solid_waste_id=b.id
+        LEFT JOIN   cominfo_baseinfo c on c.pid=b.company_id
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND b.company_id =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND a.report_section =#{reportSection}
+            </if>
+            <if test="measuresName!=null and measuresName!=''">
+                AND b.measures_name like CONCAT('%',#{measuresName},'%')
+            </if>
+            <if test="waste!=null and waste!=''">
+                AND b.waste like CONCAT('%',#{waste},'%')
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM ep_solid_waste_tax a
+        LEFT JOIN    ep_solid_waste_measures b  on a.solid_waste_id=b.id
+        LEFT JOIN   cominfo_baseinfo c on c.pid=b.company_id
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND b.company_id =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND a.report_section =#{reportSection}
+            </if>
+            <if test="measuresName!=null and measuresName!=''">
+                AND b.measures_name like CONCAT('%',#{measuresName},'%')
+            </if>
+            <if test="waste!=null and waste!=''">
+                AND b.waste like CONCAT('%',#{waste},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.statistics.dao.StatisticsTotalDao">
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.statistics.entity.StatisticsTotalEntity">
+        SELECT * FROM vw_baseinfo_total_companynum
+        WHERE 1=1
+        <if test="type!=null and type!=''">
+          AND `type`=#{type}
+        </if>
+    </select>
+
+    <select id="getCompanyType" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.statistics.entity.StatisticsTotalEntity">
+        SELECT
+        CASE WHEN b.pollution_source_category IS NULL THEN 0 ELSE count(1) END AS `count`
+        ,b.`value` AS `name`
+        FROM
+        (SELECT d.`key`,d.`value`,a.pollution_source_category FROM sys_dict d LEFT JOIN cominfo_baseinfo a ON d.`key` = a.pollution_source_category WHERE d.type = 'pollution_source_category_type') b
+        GROUP BY b.`key`
+    </select>
+
+</mapper>

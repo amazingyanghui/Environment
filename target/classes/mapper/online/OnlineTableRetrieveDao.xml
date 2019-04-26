@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineTableRetrieveDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineTableRetrieveEntity" id="onlineTableRetrieveMap">
+        <result property="pid" column="pid"/>
+        <result property="mid" column="mid"/>
+        <result property="hdTabName" column="hd_tab_name"/>
+        <result property="ddTabName" column="dd_tab_name"/>
+    </resultMap>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineTableRetrieveEntity">
+      SELECT * FROM online_table_retrieve WHERE mid=#{pid}
+    </select>
+
+    <select id="dataByCid" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineTableRetrieveEntity">
+        SELECT * FROM online_table_retrieve WHERE cid=#{cid} and mid=#{mid}
+    </select>
+
+    <select id="queryPortTable" parameterType="java.util.Map" resultType="java.util.Map">
+            SELECT c.dd_tab_name ddtablename,b.monitor_name portname FROM online_table_retrieve c
+			LEFT JOIN online_monitor_portinfo b
+			  on c.mid=b.pid
+			WHERE c.cid=#{cid} and b.monitor_type=#{type}
+    </select>
+
+</mapper>

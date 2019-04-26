@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoProductionEquipmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoProductionEquipmentEntity" id="cominfoProductionEquipmentMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="equipmentName" column="equipment_name"/>
+        <result property="equipmentWorkshop" column="equipment_workshop"/>
+        <result property="equipmentModel" column="equipment_model"/>
+        <result property="number" column="number"/>
+        <result property="unit" column="unit"/>
+        <result property="equipmentUsage" column="equipment_usage"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="remarks" column="remarks"/>
+
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoProductionEquipmentEntity">
+        SELECT a.*,z.value isCogenerationName
+        ,x.value equipmentClassifyName,y.value processingModeName
+        ,w.value productionProcessName,u.value equipmentTypeName
+        from cominfo_production_equipment a
+        LEFT JOIN sys_dict z ON z.`key`=a.is_cogeneration AND z.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.equipment_classify AND x.`type`='equipment_classify_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.processing_mode AND y.`type`='processing_mode_type'
+        LEFT JOIN sys_dict w ON w.`key`=a.production_process AND w.`type`='production_process_type'
+        LEFT JOIN sys_dict u ON u.`key`=a.equipment_type AND u.`type`=x.`backup`
+        where 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        order by a.createdate DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        from cominfo_production_equipment a
+        LEFT JOIN sys_dict z ON z.`key`=a.is_cogeneration AND z.`type`='boolean_type'
+        where 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoProductionEquipmentEntity">
+        SELECT a.*,z.value isCogenerationName
+        ,x.value equipmentClassifyName,y.value processingModeName
+        ,w.value productionProcessName,u.value equipmentTypeName
+        from cominfo_production_equipment a
+        LEFT JOIN sys_dict z ON z.`key`=a.is_cogeneration AND z.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.equipment_classify AND x.`type`='equipment_classify_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.processing_mode AND y.`type`='processing_mode_type'
+        LEFT JOIN sys_dict w ON w.`key`=a.production_process AND w.`type`='production_process_type'
+        LEFT JOIN sys_dict u ON u.`key`=a.equipment_type AND u.`type`=x.`backup`
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoProductionEquipmentEntity">
+       SELECT a.*,z.value isCogenerationName
+        ,x.value equipmentClassifyName,y.value processingModeName
+        ,w.value productionProcessName,u.value equipmentTypeName
+        from cominfo_production_equipment a
+        LEFT JOIN sys_dict z ON z.`key`=a.is_cogeneration AND z.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.equipment_classify AND x.`type`='equipment_classify_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.processing_mode AND y.`type`='processing_mode_type'
+        LEFT JOIN sys_dict w ON w.`key`=a.production_process AND w.`type`='production_process_type'
+        LEFT JOIN sys_dict u ON u.`key`=a.equipment_type AND u.`type`=x.`backup`
+        WHERE a.pid=#{pid}
+    </select>
+</mapper>

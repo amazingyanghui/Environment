@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoWasteProcessPlaceDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoWasteProcessPlaceEntity" id="cominfoWasteProcessPlaceMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="wasteProcessPlaceCode" column="waste_process_place_code"/>
+        <result property="wasteProcessPlaceName" column="waste_process_place_name"/>
+        <result property="wasteProcessPlaceType" column="waste_process_place_type"/>
+        <result property="wasteProcessPlacePosition" column="waste_process_place_position"/>
+        <result property="wasteCategoryType" column="waste_category_type"/>
+        <result property="placeLongitude" column="place_longitude"/>
+        <result property="placeLatitude" column="place_latitude"/>
+        <result property="placeDesignCapacity" column="place_design_capacity"/>
+        <result property="placeFilledCapacity" column="place_filled_capacity"/>
+        <result property="placeDesignAbility" column="place_design_ability"/>
+        <result property="riskLevel" column="risk_level"/>
+        <result property="riskDelineationYear" column="risk_delineation_year"/>
+        <result property="actualLandfillCapacity" column="actual_landfill_capacity"/>
+        <result property="burnDevicePosition" column="burn_device_position"/>
+        <result property="burnDeviceLongitude" column="burn_device_longitude"/>
+        <result property="burnDeviceLatitude" column="burn_device_latitude"/>
+        <result property="facilitiesNumber" column="facilities_number"/>
+        <result property="burnDisposalCapacity" column="burn_disposal_capacity"/>
+        <result property="actualBurnDisposalCapacity" column="actual_burn_disposal_capacity"/>
+        <result property="comprehensiveMode" column="comprehensive_mode"/>
+        <result property="comprehensiveAbility" column="comprehensive_ability"/>
+        <result property="actualComprehensiveAmount" column="actual_comprehensive_amount"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="singleDesignCapability" column="single_design_capability"/>
+        <result property="dayRuntime" column="day_runtime"/>
+        <result property="governanceLimit" column="governance_limit"/>
+        <result property="acceptanceOpinion" column="acceptance_opinion"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.util.Map">
+        select * from cominfo_waste_process_place
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="equal"
+                         separator=" and ">
+                    ${equal.column} = #{equal.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" groupColumn != null and groupColumn != ''">
+                and ${groupColumn} != ''
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="orderColumn!= null">
+            ORDER BY ${orderColumn}
+        </if>
+        limit ${pagenumber}, ${pagesize}
+    </select>
+
+    <select id="queryListCount" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.lang.Integer">
+        select count(1) from cominfo_waste_process_place
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="item"
+                         separator=" and ">
+                    ${item.column} = #{item.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

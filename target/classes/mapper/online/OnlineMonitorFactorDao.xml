@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineMonitorFactorDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity" id="onlineMonitorFactorMap">
+        <result property="pid" column="pid"/>
+        <result property="factorName" column="factor_name"/>
+        <result property="factorCode" column="factor_code"/>
+        <result property="factorInternationalCode" column="factor_international_code"/>
+        <result property="sort" column="sort"/>
+        <result property="unit" column="unit"/>
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity">
+        SELECT f.*,d.value factorTypeName
+        FROM online_monitor_factor f
+        LEFT JOIN sys_dict d ON f.factor_type=d.key AND d.type='factor_type_type'
+        WHERE 1=1
+        <if test="factorName!=null and factorName!=''">
+           AND f.factor_name like concat('%',#{factorName}, '%')
+        </if>
+        <if test="factorCode!=null and factorCode!=''">
+            AND f.factor_code like concat('%',#{factorCode}, '%')
+        </if>
+        <if test="factorType!=null and factorType!=''">
+            AND f.factor_type =#{factorType}
+        </if>
+        <if test="isEnvironmentFactor!=null and isEnvironmentFactor!=''">
+            AND f.is_environment_factor =#{isEnvironmentFactor}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM online_monitor_factor f
+        LEFT JOIN sys_dict d ON f.factor_type=d.key AND d.type='factor_type_type'
+        WHERE 1=1
+        <if test="factorName!=null and factorName!=''">
+            AND f.factor_name like concat('%',#{factorName}, '%')
+        </if>
+        <if test="factorCode!=null and factorCode!=''">
+            AND f.factor_code like concat('%',#{factorCode}, '%')
+        </if>
+        <if test="factorType!=null and factorType!=''">
+            AND f.factor_type =#{factorType}
+        </if>
+        <if test="isEnvironmentFactor!=null and isEnvironmentFactor!=''">
+            AND f.is_environment_factor =#{isEnvironmentFactor}
+        </if>
+    </select>
+
+    <select id="selectList" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity" parameterType="java.lang.Integer">
+        SELECT * FROM online_monitor_factor
+        WHERE factor_type=#{type}
+        <if test="type>0">
+            OR factor_type=3
+        </if>
+    </select>
+
+    <!--在线监控统计-根据统计类型联动获取该类型的污染因子-->
+    <select id="selFactorByStatisticalType" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity">
+      SELECT * FROM online_monitor_factor where  factor_type = #{type}and is_environment_factor=1 and factor_name  &lt;&gt; &apos;pH&apos;
+    </select>
+
+    <!--选择排口查询出排口下对应的因子-->
+    <select id="queryFactorByPort"  parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity">
+        select r.factor_name factorName ,r.factor_code factorCode ,r.unit,r.emission_unit emissionUnit from (SELECT fid  from ${tableName}
+        group by fid) x
+		LEFT JOIN online_monitor_factor r  on x.fid = r.factor_code
+        where  r.factor_type=#{type} and r.is_environment_factor=1 and r.factor_name  &lt;&gt; &apos;pH&apos;
+    </select>
+
+</mapper>

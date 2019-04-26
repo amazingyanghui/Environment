@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoCentralizedSewageDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoCentralizedSewageEntity" id="cominfoCentralizedSewageMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="operationDays" column="operation_days"/>
+        <result property="electricityConsumption" column="electricity_consumption"/>
+        <result property="sewageTreatmentDesign" column="sewage_treatment_design"/>
+        <result property="sewageTreatmentActual" column="sewage_treatment_actual"/>
+        <result property="sewageTreatmentDomestic" column="sewage_treatment_domestic"/>
+        <result property="reclaimedWaterVolume" column="reclaimed_water_volume"/>
+        <result property="industrialWaterConsumption" column="industrial_water_consumption"/>
+        <result property="municipaWaterConsumption" column="municipa_water_consumption"/>
+        <result property="landscapeWaterConsumption" column="landscape_water_consumption"/>
+        <result property="drySludgeProduction" column="dry_sludge_production"/>
+        <result property="anaerobicInstallationGasProduction" column="anaerobic_installation_gas_production"/>
+        <result property="anaerobicInstallationGasUtilizationMode" column="anaerobic_installation_gas_utilization_mode"/>
+        <result property="drySludgeDisposal" column="dry_sludge_disposal"/>
+        <result property="selfDisposalCapacity" column="self_disposal_capacity"/>
+        <result property="landUse" column="land_use"/>
+        <result property="landfillDisposal" column="landfill_disposal"/>
+        <result property="buildingMaterialsUtilization" column="building_materials_utilization"/>
+        <result property="incinerationDisposal" column="incineration_disposal"/>
+        <result property="forOuterDisposalQuantity" column="for_outer_disposal_quantity"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <!--<select id="queryList" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.util.Map">-->
+        <!--select * from cominfo_centralized_sewage-->
+        <!--<where>-->
+            <!--<if test="equalColumns != null and equalColumns.size &gt; 0">-->
+                <!--<foreach collection="equalColumns" index="index" item="equal"-->
+                         <!--separator=" and ">-->
+                    <!--${equal.column} = #{equal.value}-->
+                <!--</foreach>-->
+            <!--</if>-->
+            <!--<if test=" likeColumns != null and likeColumns.size &gt; 0">-->
+                <!--and (-->
+                <!--<foreach collection="likeColumns" index="index" item="like"-->
+                         <!--separator=" or ">-->
+                    <!--${like.column} like CONCAT('%',#{like.value},'%')-->
+                <!--</foreach>-->
+                <!--)-->
+            <!--</if>-->
+            <!--<if test=" dateColumn != null and dateColumn != '' " >-->
+                <!--and ${dateColumn} BETWEEN #{startDate} and #{endDate}-->
+            <!--</if>-->
+            <!--<if test=" groupColumn != null and groupColumn != ''">-->
+                <!--and ${groupColumn} != ''-->
+            <!--</if>-->
+            <!--<if test=" status != null">-->
+                <!--and status = #{status}-->
+            <!--</if>-->
+        <!--</where>-->
+        <!--<if test="orderColumn!= null">-->
+            <!--ORDER BY ${orderColumn}-->
+        <!--</if>-->
+        <!--limit ${pagenumber}, ${pagesize}-->
+    <!--</select>-->
+
+    <!--<select id="queryListCount" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.lang.Integer">-->
+        <!--select count(1) from cominfo_centralized_sewage-->
+        <!--<where>-->
+            <!--<if test="equalColumns != null and equalColumns.size &gt; 0">-->
+                <!--<foreach collection="equalColumns" index="index" item="item"-->
+                         <!--separator=" and ">-->
+                    <!--${item.column} = #{item.value}-->
+                <!--</foreach>-->
+            <!--</if>-->
+            <!--<if test=" likeColumns != null and likeColumns.size &gt; 0">-->
+                <!--and (-->
+                <!--<foreach collection="likeColumns" index="index" item="like"-->
+                         <!--separator=" or ">-->
+                    <!--${like.column} like CONCAT('%',#{like.value},'%')-->
+                <!--</foreach>-->
+                <!--)-->
+            <!--</if>-->
+            <!--<if test=" dateColumn != null and dateColumn != '' " >-->
+                <!--and ${dateColumn} BETWEEN #{startDate} and #{endDate}-->
+            <!--</if>-->
+            <!--<if test=" status != null">-->
+                <!--and status = #{status}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+</mapper>

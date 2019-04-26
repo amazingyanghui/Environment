@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.EmergencySystemExpertDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemExpertEntity" id="emergencySystemExpertMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="expertName" column="expert_name"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="nativePlace" column="native_place"/>
+        <result property="linkphone" column="linkphone"/>
+        <result property="field" column="field"/>
+        <result property="company" column="company"/>
+        <result property="appointmentStarttime" column="appointment_starttime"/>
+        <result property="appointmentEndtime" column="appointment_endtime"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemExpertEntity">
+        SELECT a.*,b.company_name companyName,z.value sexName
+        FROM emergency_system_expert a
+        LEFT JOIN sys_dict z ON z.key=a.sex AND z.type='sex_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemExpertEntity">
+        SELECT a.*,b.company_name companyName,z.value sexName
+        FROM emergency_system_expert a
+        LEFT JOIN sys_dict z ON z.key=a.sex AND z.type='sex_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemExpertEntity">
+        SELECT a.*,b.company_name companyName,z.value sexName
+        FROM emergency_system_expert a
+        LEFT JOIN sys_dict z ON z.key=a.sex AND z.type='sex_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM emergency_system_expert a
+        LEFT JOIN sys_dict z ON z.key=a.sex AND z.type='sex_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+</mapper>

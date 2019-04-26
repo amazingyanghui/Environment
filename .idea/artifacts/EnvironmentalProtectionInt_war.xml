@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="EnvironmentalProtectionInt:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>EnvironmentalProtectionInt</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="EnvironmentalProtectionInt.war">
+      <element id="artifact" artifact-name="EnvironmentalProtectionInt:war exploded" />
+    </root>
+  </artifact>
+</component>

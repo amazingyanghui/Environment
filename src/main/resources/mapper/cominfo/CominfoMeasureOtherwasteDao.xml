@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoMeasureOtherwasteDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureOtherwasteEntity" id="cominfoMeasureOtherwasteMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="measureName" column="measure_name"/>
+        <result property="measureNumber" column="measure_number"/>
+        <result property="measureFunction" column="measure_function"/>
+        <result property="process" column="process"/>
+        <result property="blowdownOutlet" column="blowdown_outlet"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="runningState" column="running_state"/>
+        <result property="yearThroughput" column="year_throughput"/>
+        <result property="yearOperatingCost" column="year_operating_cost"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="singleDesign_capability" column="single_design_capability"/>
+        <result property="dayRuntime" column="day_runtime"/>
+        <result property="governanceLimit" column="governance_limit"/>
+        <result property="acceptanceOpinion" column="acceptance_opinion"/>
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureOtherwasteEntity">
+        SELECT o.pid,o.cid,o.measure_name,o.measure_number,o.measure_function,o.process
+        ,o.blowdown_outlet,p.monitor_name blowDownOutLetName
+        ,o.delivery_date,o.running_state,o.year_throughput,o.year_operating_cost,o.remarks
+        ,o.createdate,o.updatedate,o.deletedate
+        ,o.single_design_capability,o.day_runtime,o.governance_limit,o.acceptance_opinion
+        FROM cominfo_measure_otherwaste o
+        LEFT JOIN online_monitor_portinfo p ON p.pid=o.blowdown_outlet
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND o.cid=#{cid}
+        </if>
+        order by o.delivery_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countData" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM cominfo_measure_otherwaste o
+        LEFT JOIN online_monitor_portinfo p ON p.pid=o.blowdown_outlet
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND o.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureOtherwasteEntity">
+        SELECT o.pid,o.cid,o.measure_name,o.measure_number,o.measure_function,o.process
+        ,o.blowdown_outlet,p.monitor_name blowDownOutLetName
+        ,o.delivery_date,o.running_state,o.year_throughput,o.year_operating_cost,o.remarks
+        ,o.createdate,o.updatedate,o.deletedate
+        FROM cominfo_measure_otherwaste o
+        LEFT JOIN online_monitor_portinfo p ON p.pid=o.blowdown_outlet
+        WHERE o.cid=#{cid}
+    </select>
+
+</mapper>

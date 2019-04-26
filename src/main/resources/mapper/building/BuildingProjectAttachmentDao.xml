@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.building.dao.BuildingProjectAttachmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectAttachmentEntity" id="buildingProjectAttachmentMap">
+        <result property="pid" column="pid"/>
+        <result property="fileName" column="file_name"/>
+        <result property="attachmentSize" column="attachment_size"/>
+        <result property="attachmentFormat" column="attachment_format"/>
+        <result property="attachmentUrl" column="attachment_url"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="getBuildFile" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectAttachmentEntity">
+        select * FROM building_project_attachment WHERE pid=#{pid}
+    </select>
+
+    <select id="dataByFile" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectAttachmentEntity">
+        SELECT * FROM building_project_attachment WHERE bid=#{bid}
+    </select>
+
+</mapper>

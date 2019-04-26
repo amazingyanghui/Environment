@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.penalty.dao.AdministrativePenaltyFileDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyFileEntity" id="administrativePenaltyFileMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="aid" column="aid"/>
+        <result property="fileName" column="file_name"/>
+        <result property="attachmentSize" column="attachment_size"/>
+        <result property="attachmentFormat" column="attachment_format"/>
+        <result property="attachmentUrl" column="attachment_url"/>
+        <result property="uploadPerson" column="upload_person"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="dataByFile" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.penalty.entity.AdministrativePenaltyFileEntity">
+        SELECT * FROM administrative_penalty_file WHERE aid=#{aid}
+    </select>
+
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.mobile.dao.MobileEnforcementAttachmentDao">
+
+    <select id="dataByFile" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAttachmentEntity">
+        SELECT * FROM mobile_enforcement_attachment WHERE mid=#{mid} AND `type`=#{type}
+    </select>
+
+</mapper>

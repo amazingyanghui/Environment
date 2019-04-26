@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.building.dao.BuildingProjectApprovalDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity"
+               id="buildingProjectApprovalMap">
+        <result property="pid" column="pid"/>
+        <result property="projectName" column="project_name"/>
+        <result property="projectAddress" column="project_address"/>
+        <result property="fileType" column="file_type"/>
+        <result property="totalInvestment" column="total_investment"/>
+        <result property="environmentalProtectionInvestment" column="environmental_protection_investment"/>
+        <result property="constructionUnit" column="construction_unit"/>
+        <result property="eiaUnit" column="eia_unit"/>
+        <result property="eiaApprovalAuthority" column="eia_approval_authority"/>
+        <result property="admissibilityTime" column="admissibility_time"/>
+        <result property="approvalUnit" column="approval_unit"/>
+        <result property="batchTime" column="batch_time"/>
+        <result property="acceptanceRequestTime" column="acceptance_request_time"/>
+        <result property="acceptanceBatchTime" column="acceptance_batch_time"/>
+        <result property="createdate" column="createdate"/>
+
+        <result property="linkman" column="linkman"/>
+        <result property="phone" column="phone"/>
+        <result property="representative" column="representative"/>
+        <result property="legalPersonPhone" column="legal_person_phone"/>
+        <result property="projectType" column="project_type"/>
+        <result property="approvalOpinion" column="approval_opinion"/>
+        <result property="approvalNumbe" column="approval_numbe"/>
+        <result property="operator" column="operator"/>
+        <result property="environmentalAssessmentOpinion" column="environmental_assessment_opinion"/>
+        <result property="acceptanceOpinion" column="acceptance_opinion"/>
+        <result property="postAssessment" column="post_assessment"/>
+        <result property="environmentalAssessmentAddopinion" column="environmental_assessment_addopinion"/>
+    </resultMap>
+
+    <select id="getBuildingInfo" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity">
+        SELECT a.*,z.company_name companyName,d.value fileTypeName,c.value projectNatureName,x.company_name approvalUnitName
+        FROM building_project_approval a
+        LEFT JOIN sys_dict d ON d.`key` = a.file_type AND d.type = 'file_type_type'
+        LEFT JOIN sys_dict c ON c.`key` = a.project_nature AND c.type = 'project_nature_type'
+        LEFT JOIN sys_approval_unit x ON x.`company_code` = a.approval_unit
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.pid = #{pid}
+    </select>
+
+    <select id="queryData" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity" parameterType="java.util.Map">
+        SELECT a.*,z.company_name companyName,d.value fileTypeName,c.value projectNatureName,x.company_name approvalUnitName
+        FROM building_project_approval a
+        LEFT JOIN sys_dict d ON d.`key` = a.file_type AND d.type = 'file_type_type'
+        LEFT JOIN sys_dict c ON c.`key` = a.project_nature AND c.type = 'project_nature_type'
+        LEFT JOIN sys_approval_unit x ON x.`company_code` = a.approval_unit
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        where 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid = #{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND z.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="projectName!=null and projectName!=''">
+            AND a.project_name like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="batchTime!=null and batchTime!=''">
+            AND date_format(a.batch_time,'%Y')=#{batchTime}
+        </if>
+        <if test="fileType!=null and fileType!=''">
+            AND a.file_type=#{fileType}
+        </if>
+        <if test="projectNature!=null and projectNature!=''">
+            AND a.project_nature=#{projectNature}
+        </if>
+        ORDER BY a.batch_time desc,z.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+
+    </select>
+
+    <select id="queryName" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity" parameterType="java.util.Map">
+        SELECT a.*,z.company_name companyName,d.value fileTypeName,c.value projectNatureName,x.company_name approvalUnitName
+        FROM building_project_approval a
+        LEFT JOIN sys_dict d ON d.`key` = a.file_type AND d.type = 'file_type_type'
+        LEFT JOIN sys_dict c ON c.`key` = a.project_nature AND c.type = 'project_nature_type'
+        LEFT JOIN sys_approval_unit x ON x.`company_code` = a.approval_unit
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        where 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid = #{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND z.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="projectName!=null and projectName!=''">
+            AND a.project_name like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="batchTime!=null and batchTime!=''">
+            AND date_format(a.batch_time,'%Y')=#{batchTime}
+        </if>
+        <if test="fileType!=null and fileType!=''">
+            AND a.file_type=#{fileType}
+        </if>
+        <if test="projectNature!=null and projectNature!=''">
+            AND a.project_nature=#{projectNature}
+        </if>
+        GROUP BY a.cid
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity">
+        SELECT a.*,z.company_name companyName,d.value fileTypeName,c.value projectNatureName,x.company_name approvalUnitName
+        FROM building_project_approval a
+        LEFT JOIN sys_dict d ON d.`key` = a.file_type AND d.type = 'file_type_type'
+        LEFT JOIN sys_dict c ON c.`key` = a.project_nature AND c.type = 'project_nature_type'
+        LEFT JOIN sys_approval_unit x ON x.`company_code` = a.approval_unit
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(*)
+        FROM building_project_approval a
+        LEFT JOIN sys_dict d ON d.`key` = a.file_type AND d.type = 'file_type_type'
+        LEFT JOIN sys_dict c ON c.`key` = a.project_nature AND c.type = 'project_nature_type'
+        LEFT JOIN sys_approval_unit x ON x.`company_code` = a.approval_unit
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        where 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid = #{cid}
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND z.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="projectName!=null and projectName!=''">
+            AND a.project_name like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="batchTime!=null and batchTime!=''">
+            AND date_format(a.batch_time,'%Y')=#{batchTime}
+        </if>
+        <if test="fileType!=null and fileType!=''">
+            AND a.file_type=#{fileType}
+        </if>
+        <if test="projectNature!=null and projectNature!=''">
+            AND a.project_nature=#{projectNature}
+        </if>
+    </select>
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.building.entity.BuildingProjectApprovalEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO
+        building_project_approval(pid,cid,project_name,project_address
+        ,file_type,total_investment,environmental_protection_investment
+        ,construction_unit,eia_unit,eia_approval_authority,admissibility_time
+        ,approval_unit,batch_time,acceptance_request_time,acceptance_batch_time
+        ,createdate,construction_content,project_nature,
+        linkman,phone,representative,legal_person_phone,project_type,approval_opinion,
+        approval_numbe,operator,environmental_assessment_opinion,acceptance_opinion,post_assessment,environmental_assessment_addopinion)
+        VALUES (#{pid},#{cid},#{projectName},#{projectAddress},#{fileType}
+        ,#{totalInvestment},#{environmentalProtectionInvestment},#{constructionUnit}
+        ,#{eiaUnit},#{eiaApprovalAuthority},#{admissibilityTime},#{approvalUnit}
+        ,#{batchTime},#{acceptanceRequestTime},#{acceptanceBatchTime},#{createdate}
+        ,#{constructionContent},#{projectNature}
+        ,#{linkman},#{phone},#{representative},#{legalPersonPhone},#{projectType},
+        #{approvalOpinion},#{approvalNumbe},#{operator},#{environmentalAssessmentOpinion},#{acceptanceOpinion}
+        ,#{postAssessment},#{environmentalAssessmentAddopinion}
+        )
+    </insert>
+    <!--项目建设-各月投资统计-->
+    <select id="monthlyInvestmentStatistics" parameterType="java.util.Map" resultType="java.util.Map" >
+    select year(batch_time) years,MONTH(batch_time) months,
+    (case when sum(total_investment) is null  then 0 else sum(total_investment) end)  counts
+    from building_project_approval
+    where (year(batch_time)=#{year} or year(batch_time)=#{lastYear})
+    group by year(batch_time),MONTH(batch_time)
+    </select>
+    <!--项目建设-本年投资总额与去年对比-->
+    <select id="yearAndLastyearContrastByInvestment" resultType="java.util.Map" parameterType="java.util.Map">
+        select year(batch_time) years,
+        (case when sum(total_investment) is null  then 0 else sum(total_investment) end)  counts
+        from building_project_approval
+        where (year(batch_time)=#{year} or year(batch_time)=#{lastYear})
+        group by year(batch_time)
+    </select>
+    <!--项目建设-本年度各行业投资总额统计-->
+    <select id="totalIndustryInvestment" parameterType="java.lang.String" resultType="java.util.Map" >
+       select  sum(a.total_investment)totalInvestment ,c.MingCheng mingCheng
+        from building_project_approval a
+        LEFT JOIN cominfo_baseinfo b on b.pid=a.cid
+        LEFT JOIN sys_hangyedaima c on  c.DaiMaZhi=b.industryids
+        where year(a.batch_time)=#{year} and  b.industryids is not null and a.total_investment is not null
+        group by b.industryids
+        ORDER BY sum(a.total_investment) DESC
+    </select>
+    <!--查询项目建设列表-->
+    <select id="industry" parameterType="java.util.Map"  resultType="java.util.Map" >
+    select a.project_name,b.company_name ,b.industryids,
+    case when a.total_investment is null then 0 ELSE a.total_investment END as totalInvestment
+    from  building_project_approval a  left join cominfo_baseinfo	b on a.cid=b.pid
+    where  a.createdate  like CONCAT(#{year},'%')
+    </select>
+
+    <select id="ProjectConstructionStatistics" resultType="java.util.Map" parameterType="java.util.Map">
+      select year(batch_time) years ,count(*) counts ,
+      sum(total_investment) investment,
+      (select sum(total_investment) from building_project_approval where year(batch_time)=#{lastYear} ) test,
+      (case when sum(environmental_protection_investment) is null  then 0 else sum(environmental_protection_investment) end) protectionInvestment
+        from building_project_approval
+        where year(batch_time)=#{year}
+    </select>
+    <!--查出所有父级行业-->
+    <select id="selParentIndustry"  resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity">
+      select * from sys_hangyedaima where  1=1 and FuJiDaiMaBiaoShi=1
+    </select>
+    <!--获取当父级目录的二级目录列表-->
+    <select id="selSublevelIndustries" parameterType="java.lang.Integer" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity">
+      select * from sys_hangyedaima where  1=1 and FuJiDaiMaBiaoShi=#{key}
+</select>
+    <select id="selAllHangYe"  resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity">
+        select * from sys_hangyedaima
+    </select>
+</mapper>

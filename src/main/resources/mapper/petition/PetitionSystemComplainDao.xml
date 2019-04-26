@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.petition.dao.PetitionSystemComplainDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.petition.entity.PetitionSystemComplainEntity" id="petitionSystemComplainMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="informTitle" column="inform_title"/>
+        <result property="informPerson" column="inform_person"/>
+        <result property="informType" column="inform_type"/>
+        <result property="informDate" column="inform_date"/>
+        <result property="linkPhone" column="link_phone"/>
+        <result property="linkEmail" column="link_email"/>
+        <result property="letterPersonNum" column="letter_person_num"/>
+        <result property="informedCompany" column="informed_company"/>
+        <result property="informedAddress" column="informed_address"/>
+        <result property="informContent" column="inform_content"/>
+        <result property="handleCompany" column="handle_company"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="informIsTrue" column="inform_is_true"/>
+        <result property="replyLawContent" column="reply_law_content"/>
+        <result property="isReply" column="is_reply"/>
+        <result property="isPenalize" column="is_penalize"/>
+        <result property="replyType" column="reply_type"/>
+        <result property="informOpinion" column="inform_opinion"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="deleteDate" column="delete_date"/>
+        <result property="backup" column="backup"/>
+    </resultMap>
+
+    <select id="queryList" resultType="com.tengdi.environmentalprotectionint.modules.petition.entity.PetitionSystemComplainEntity" parameterType="java.util.Map">
+        SELECT a.*,b.company_name companyName,b.company_address companyAddress,l.value informTypeName,m.value informIsTrueName
+        ,n.value isReplyName,x.value isPenalizeName,y.value replyTypeName
+        FROM petition_system_complain a
+        LEFT JOIN sys_dict l ON l.`key`=a.inform_type AND l.`type`='inform_type_type'
+        LEFT JOIN sys_dict m ON m.`key`=a.inform_is_true AND m.`type`='boolean_type'
+        LEFT JOIN sys_dict n ON n.`key`=a.is_reply AND n.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.is_penalize AND x.`type`='boolean_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.reply_type AND y.`type`='reply_type_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        ORDER BY a.inform_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM petition_system_complain a
+        LEFT JOIN sys_dict l ON l.`key`=a.inform_type AND l.`type`='inform_type_type'
+        LEFT JOIN sys_dict m ON m.`key`=a.inform_is_true AND m.`type`='boolean_type'
+        LEFT JOIN sys_dict n ON n.`key`=a.is_reply AND n.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.is_penalize AND x.`type`='boolean_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.reply_type AND y.`type`='reply_type_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.petition.entity.PetitionSystemComplainEntity">
+        SELECT a.*,b.company_name companyName,b.company_address companyAddress,l.value informTypeName,m.value informIsTrueName
+        ,n.value isReplyName,x.value isPenalizeName,y.value replyTypeName
+        FROM petition_system_complain a
+        LEFT JOIN sys_dict l ON l.`key`=a.inform_type AND l.`type`='inform_type_type'
+        LEFT JOIN sys_dict m ON m.`key`=a.inform_is_true AND m.`type`='boolean_type'
+        LEFT JOIN sys_dict n ON n.`key`=a.is_reply AND n.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.is_penalize AND x.`type`='boolean_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.reply_type AND y.`type`='reply_type_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.petition.entity.PetitionSystemComplainEntity">
+        SELECT a.*,b.company_name companyName,b.company_address companyAddress,l.value informTypeName,m.value informIsTrueName
+        ,n.value isReplyName,x.value isPenalizeName,y.value replyTypeName
+        FROM petition_system_complain a
+        LEFT JOIN sys_dict l ON l.`key`=a.inform_type AND l.`type`='inform_type_type'
+        LEFT JOIN sys_dict m ON m.`key`=a.inform_is_true AND m.`type`='boolean_type'
+        LEFT JOIN sys_dict n ON n.`key`=a.is_reply AND n.`type`='boolean_type'
+        LEFT JOIN sys_dict x ON x.`key`=a.is_penalize AND x.`type`='boolean_type'
+        LEFT JOIN sys_dict y ON y.`key`=a.reply_type AND y.`type`='reply_type_type'
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+</mapper>

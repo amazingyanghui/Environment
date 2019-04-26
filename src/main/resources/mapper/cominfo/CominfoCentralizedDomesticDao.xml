@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoCentralizedDomesticDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoCentralizedDomesticEntity" id="cominfoCentralizedDomesticMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="operationDays" column="operation_days"/>
+        <result property="actualProcessingVolume" column="actual_processing_volume"/>
+        <result property="landfillDesignCapacity" column="landfill_design_capacity"/>
+        <result property="landfillLandfilledCapacity" column="landfill_landfilled_capacity"/>
+        <result property="landfillArea" column="landfill_area"/>
+        <result property="landfillClayArea" column="landfill_clay_area"/>
+        <result property="landfillPlasticArea" column="landfill_plastic_area"/>
+        <result property="landfillActualCapacity" column="landfill_actual_capacity"/>
+        <result property="compostDesignCapacity" column="compost_design_capacity"/>
+        <result property="compostActualCapacity" column="compost_actual_capacity"/>
+        <result property="compostLeachateCollectionSystem" column="compost_leachate_collection_system"/>
+        <result property="burnEquipmentNumbers" column="burn_equipment_numbers"/>
+        <result property="burnGrateStoves" column="burn_grate_stoves"/>
+        <result property="burnFluidizedBed" column="burn_fluidized_bed"/>
+        <result property="burnFixedBed" column="burn_fixed_bed"/>
+        <result property="burnRotaryFurnace" column="burn_rotary_furnace"/>
+        <result property="burnOthers" column="burn_others"/>
+        <result property="designedIncinerationCapacity" column="designed_incineration_capacity"/>
+        <result property="actualBurnVolume" column="actual_burn_volume"/>
+        <result property="combustionPromoter" column="combustion_promoter"/>
+        <result property="coalConsumption" column="coal_consumption"/>
+        <result property="fuelOilConsumption" column="fuel_oil_consumption"/>
+        <result property="naturalGasConsumption" column="natural_gas_consumption"/>
+        <result property="wasteGasDesignDeal" column="waste_gas_design_deal"/>
+        <result property="slagProduction" column="slag_production"/>
+        <result property="slagDealType" column="slag_deal_type"/>
+        <result property="slagDealVolume" column="slag_deal_volume"/>
+        <result property="slagUtilization" column="slag_utilization"/>
+        <result property="burnAshProduction" column="burn_ash_production"/>
+        <result property="burnAshDeal" column="burn_ash_deal"/>
+        <result property="burnAshUtilization" column="burn_ash_utilization"/>
+        <result property="anaerobicFermentationDesignCapacity" column="anaerobic_fermentation_design_capacity"/>
+        <result property="anaerobicFermentationActualCapacity" column="anaerobic_fermentation_actual_capacity"/>
+        <result property="biodegradationDesignCapacity" column="biodegradation_design_capacity"/>
+        <result property="biodegradationActualCapacity" column="biodegradation_actual_capacity"/>
+        <result property="otherDesignCapacity" column="other_design_capacity"/>
+        <result property="otherActualCapacity" column="other_actual_capacity"/>
+        <result property="wastewaterProduction" column="wastewater_production"/>
+        <result property="wastewaterDealType" column="wastewater_deal_type"/>
+        <result property="wastewaterDesignCapacity" column="wastewater_design_capacity"/>
+        <result property="wastewaterDealMethod" column="wastewater_deal_method"/>
+        <result property="wastewaterActualDeal" column="wastewater_actual_deal"/>
+        <result property="wastewaterActualDischarge" column="wastewater_actual_discharge"/>
+        <result property="leachateProduction" column="leachate_production"/>
+        <result property="leachateDealMethod" column="leachate_deal_method"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoCentralizedDomesticEntity">
+        select * from cominfo_centralized_domestic o
+        <where>
+            <!--<if test="zoneName != null and zoneName!=''">-->
+                <!--o.zoneName like CONCAT('%',#{zoneName},'%')-->
+            <!--</if>-->
+            <!--<if test="zoneCode != null and zoneCode!=''">-->
+                <!--and o.zoneCode = #{zoneCode}-->
+            <!--</if>-->
+            <!--<if test="compartmentCode != null and compartmentCode!=''">-->
+                <!--and o.compartmentCode = #{compartmentCode}-->
+            <!--</if>-->
+
+        </where>
+
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from cominfo_centralized_domestic o
+        <where>
+            <!--<if test="zoneName != null  and zoneName!=''">-->
+                <!--o.zoneName like CONCAT('%',#{zoneName},'%')-->
+            <!--</if>-->
+            <!--<if test="zoneCode != null and zoneCode!=''">-->
+                <!--and o.zoneCode = #{zoneCode}-->
+            <!--</if>-->
+            <!--<if test="compartmentCode != null and compartmentCode!=''">-->
+                <!--and o.compartmentCode = #{compartmentCode}-->
+            <!--</if>-->
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+
+
+
+
+    <!--<select id="queryList" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.util.Map">-->
+        <!--select * from cominfo_centralized_domestic-->
+        <!--<where>-->
+            <!--<if test="equalColumns != null and equalColumns.size &gt; 0">-->
+                <!--<foreach collection="equalColumns" index="index" item="equal"-->
+                         <!--separator=" and ">-->
+                    <!--${equal.column} = #{equal.value}-->
+                <!--</foreach>-->
+            <!--</if>-->
+            <!--<if test=" likeColumns != null and likeColumns.size &gt; 0">-->
+                <!--and (-->
+                <!--<foreach collection="likeColumns" index="index" item="like"-->
+                         <!--separator=" or ">-->
+                    <!--${like.column} like CONCAT('%',#{like.value},'%')-->
+                <!--</foreach>-->
+                <!--)-->
+            <!--</if>-->
+            <!--<if test=" dateColumn != null and dateColumn != '' " >-->
+                <!--and ${dateColumn} BETWEEN #{startDate} and #{endDate}-->
+            <!--</if>-->
+            <!--<if test=" groupColumn != null and groupColumn != ''">-->
+                <!--and ${groupColumn} != ''-->
+            <!--</if>-->
+            <!--<if test=" status != null">-->
+                <!--and status = #{status}-->
+            <!--</if>-->
+        <!--</where>-->
+        <!--<if test="orderColumn!= null">-->
+            <!--ORDER BY ${orderColumn}-->
+        <!--</if>-->
+        <!--limit ${pagenumber}, ${pagesize}-->
+    <!--</select>-->
+
+    <!--<select id="queryListCount" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.lang.Integer">-->
+        <!--select count(1) from cominfo_centralized_domestic-->
+        <!--<where>-->
+            <!--<if test="equalColumns != null and equalColumns.size &gt; 0">-->
+                <!--<foreach collection="equalColumns" index="index" item="item"-->
+                         <!--separator=" and ">-->
+                    <!--${item.column} = #{item.value}-->
+                <!--</foreach>-->
+            <!--</if>-->
+            <!--<if test=" likeColumns != null and likeColumns.size &gt; 0">-->
+                <!--and (-->
+                <!--<foreach collection="likeColumns" index="index" item="like"-->
+                         <!--separator=" or ">-->
+                    <!--${like.column} like CONCAT('%',#{like.value},'%')-->
+                <!--</foreach>-->
+                <!--)-->
+            <!--</if>-->
+            <!--<if test=" dateColumn != null and dateColumn != '' " >-->
+                <!--and ${dateColumn} BETWEEN #{startDate} and #{endDate}-->
+            <!--</if>-->
+            <!--<if test=" status != null">-->
+                <!--and status = #{status}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+</mapper>

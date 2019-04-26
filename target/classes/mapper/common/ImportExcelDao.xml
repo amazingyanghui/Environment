@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.common.dao.ImportExcelDao">
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.common.entity.ImportExcelEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO ${tableName}(pid,${colsName}) ${colsValue}
+    </insert>
+</mapper>

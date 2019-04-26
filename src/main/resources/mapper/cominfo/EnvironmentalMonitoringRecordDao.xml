@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.EnvironmentalMonitoringRecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.EnvironmentalMonitoringRecordEntity" id="environmentalMonitoringRecordMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="testerName" column="tester_name"/>
+        <result property="testType" column="test_type"/>
+        <result property="testContent" column="test_content"/>
+        <result property="testDate" column="test_date"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+
+    <select id="queryList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.EnvironmentalMonitoringRecordEntity" parameterType="java.util.Map">
+        SELECT a.*,c.company_name companyName
+        FROM environmental_monitoring_record a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        order by a.test_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM environmental_monitoring_record a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="entityById" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.EnvironmentalMonitoringRecordEntity" parameterType="java.lang.String">
+        SELECT a.*,c.company_name companyName
+        FROM environmental_monitoring_record a
+        LEFT JOIN cominfo_baseinfo c ON c.pid = a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.SysHangyedaimaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity" id="sysHangyedaimaMap">
+        <result property="hangbiaoshi" column="HangBiaoShi"/>
+        <result property="biaoshi" column="BiaoShi"/>
+        <result property="xianshi" column="XianShi"/>
+        <result property="jiluleixing" column="JiLuLeiXing"/>
+        <result property="mingcheng" column="MingCheng"/>
+        <result property="daimazhi" column="DaiMaZhi"/>
+        <result property="yijifenleibiaoshi" column="YiJiFenLeiBiaoShi"/>
+        <result property="erjifenleibiaoshi" column="ErJiFenLeiBiaoShi"/>
+        <result property="sanjifenleibiaoshi" column="SanJiFenLeiBiaoShi"/>
+        <result property="sijifenleibiaoshi" column="SiJiFenLeiBiaoShi"/>
+        <result property="wujifenleibiaoshi" column="WuJiFenLeiBiaoShi"/>
+        <result property="liujifenleibiaoshi" column="LiuJiFenLeiBiaoShi"/>
+        <result property="fujidaimabiaoshi" column="FuJiDaiMaBiaoShi"/>
+        <result property="daimazifu" column="DaiMaZiFu"/>
+        <result property="cixu" column="CiXu"/>
+        <result property="banbenhao" column="BanBenHao"/>
+        <result property="beiyongzifu" column="BeiYongZiFu"/>
+        <result property="beiyongzi" column="BeiYongZi"/>
+        <result property="chuangjianshijian" column="ChuangJianShiJian"/>
+        <result property="xiugaishijian" column="XiuGaiShiJian"/>
+        <result property="symbol" column="SymBol"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity">
+        SELECT * FROM sys_hangyedaima
+        WHERE 1=1
+        <if test="firstGrade!=null and firstGrade!=''">
+            AND SanJiFenLeiBiaoShi=#{firstGrade}
+        </if>
+        <if test="secondGrade!=null and secondGrade!=''">
+            AND FuJiDaiMaBiaoShi=#{secondGrade}
+        </if>
+        <if test="thirdGrade!=null and thirdGrade!=''">
+            AND FuJiDaiMaBiaoShi=#{thirdGrade}
+        </if>
+        <if test="fourGrade!=null and fourGrade!=''">
+            AND FuJiDaiMaBiaoShi=#{fourGrade}
+        </if>
+    </select>
+
+    <select id="dataByCode" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.SysHangyedaimaEntity" parameterType="java.lang.String">
+        SELECT c.HangBiaoShi FROM sys_hangyedaima c WHERE c.DaiMaZhi=#{code}
+    </select>
+
+</mapper>

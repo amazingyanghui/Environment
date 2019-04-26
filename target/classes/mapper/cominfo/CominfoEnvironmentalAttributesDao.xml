@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoEnvironmentalAttributesDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalAttributesEntity" id="cominfoEnvironmentalAttributesMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="basin" column="basin"/>
+        <result property="waterLevel" column="water_level"/>
+        <result property="noiseLevel" column="noise_level"/>
+        <result property="airLevel" column="air_level"/>
+        <result property="seaLevel" column="sea_level"/>
+        <result property="waterSourceArea" column="water_source_area"/>
+        <result property="sotwoArea" column="sotwo_area"/>
+        <result property="acidRainArea" column="acid_rain_area"/>
+        <result property="nearestRiver" column="nearest_river"/>
+        <result property="nearestRiverDistance" column="nearest_river_distance"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalAttributesEntity">
+        SELECT * FROM cominfo_environmental_attributes WHERE cid=#{cid}
+    </select>
+</mapper>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoStatisticsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity" id="cominfoEnvironmentalManageMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="regulatoryLevel" column="regulatory_level"/>
+        <result property="regulatoryYear" column="regulatory_year"/>
+        <result property="keySource" column="key_source"/>
+        <result property="riskSource" column="risk_source"/>
+        <result property="sewagePlant" column="sewage_plant"/>
+        <result property="wasteWater" column="waste_water"/>
+        <result property="emissionEnterprises" column="emission_enterprises"/>
+        <result property="sourceUnit" column="source_unit"/>
+        <result property="heavyMetal" column="heavy_metal"/>
+        <result property="cleanerProduction" column="cleaner_production"/>
+        <result property="environmentalStatistics" column="environmental_statistics"/>
+        <result property="onlineMonitoring" column="online_monitoring"/>
+        <result property="dischargeFee" column="discharge_fee"/>
+        <result property="emissionDeclaration" column="emission_declaration"/>
+        <result property="wasteManagement" column="waste_management"/>
+        <result property="wasteGeneration" column="waste_generation"/>
+        <result property="thirtykwCompany" column="thirtykw_company"/>
+        <result property="powerEnterprises" column="power_enterprises"/>
+        <result property="randomCheck" column="random_check"/>
+        <result property="specialSource" column="special_source"/>
+        <result property="creditEvaluation" column="credit_evaluation"/>
+        <result property="sourceLabel" column="source_label"/>
+        <result property="cancelManagement" column="cancel_management"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="isiso" column="isiso"/>
+    </resultMap>
+
+    <select id="queryPage" parameterType="java.util.Map" resultType="CominfoBaseinfoEntity">
+        select c.*
+        ,(select d.`value` from sys_dict d where d.type = 'regulatory_level_type' and d.`key` = e.regulatory_level) as regulatoryLevel
+        ,(select d.`value` from sys_dict d where d.type = 'pollution_source_category_type' and d.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        ,(select d.`value` from sys_dict d where d.type = 'boolean_type' and d.`key` = e.key_source) as keySourceText
+        from  cominfo_baseinfo c
+        LEFT JOIN cominfo_environmental_manage e
+        ON e.cid = c.pid
+        where 1=1
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            and e.regulatory_level = #{regulatoryLevel}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="keySource != null and keySource != ''">
+            and e.key_source = #{keySource}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="onlineMonitoring != null and onlineMonitoring != ''">
+            and e.online_monitoring =1
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and e.waste_water = #{wasteWater}
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and e.emission_enterprises = #{emissionEnterprises}
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and e.voc_enterprises = #{vocEnterprises}
+        </if>
+        <if test="riskSource != null and riskSource != ''">
+            and e.risk_source = #{riskSource}
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND e.risk_rating=#{riskRating}
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+        order by c.createDate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        from  cominfo_baseinfo c
+        LEFT JOIN cominfo_environmental_manage e
+        ON e.cid = c.pid
+        where 1=1
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            and e.regulatory_level = #{regulatoryLevel}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="keySource != null and keySource != ''">
+            and e.key_source = #{keySource}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="onlineMonitoring != null and onlineMonitoring != ''">
+            and e.online_monitoring =1
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and e.waste_water = #{wasteWater}
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and e.emission_enterprises = #{emissionEnterprises}
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and e.voc_enterprises = #{vocEnterprises}
+        </if>
+        <if test="riskSource != null and riskSource != ''">
+            and e.risk_source = #{riskSource}
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND e.risk_rating=#{riskRating}
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+    </select>
+
+
+
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        SELECT * FROM cominfo_environmental_manage WHERE cid=#{cid}
+    </select>
+    <!--企业总数-->
+    <select id="sourceCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM cominfo_baseinfo a
+        LEFT JOIN cominfo_environmental_manage b
+        on a.pid = b.cid
+    </select>
+    <!--重点污染源-->
+    <select id="keySourceCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM cominfo_baseinfo a
+        LEFT JOIN cominfo_environmental_manage b
+        ON a.pid = b.cid
+        WHERE b.key_source ='1'
+    </select>
+
+
+
+    <!--企业规模数量统计-->
+    <select id="enterpriScaleStaticList"  resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        SELECT enterprise_scale enterpriseScale , COUNT(1) AS enterpriseCount FROM cominfo_baseinfo
+       /* WHERE enterprise_scale IS NOT NULL AND enterprise_scale <![CDATA[ <> ]]> '' 没有符合字典的规模的列入其他 */
+        GROUP BY enterprise_scale
+    </select>
+
+    <!--企业区域数量统计-->
+    <select id="enterpriAreaStaticList"  resultType="java.util.Map">
+        SELECT areaName,COUNT(areaCount) as areaCount FROM
+        (
+            SELECT IFNULL(industrial_area,'') AS areaName , COUNT(1) AS areaCount FROM cominfo_baseinfo
+            /*WHERE industrial_area IS NOT NULL AND industrial_area <![CDATA[ <> ]]> '' 没有数值的区域的列入其他 */
+            GROUP BY industrial_area
+        ) AS a
+        GROUP BY a.areaName
+    </select>
+
+
+    <select id="lawEnforceStatic" resultType="java.util.Map">
+        SELECT cname.allAreaName AS areaName,IFNULL(ccount.areaCount,0) AS areaCount FROM
+        (
+            SELECT IFNULL(industrial_area,'') AS allAreaName FROM cominfo_baseinfo GROUP BY industrial_area
+        ) AS cname
+        LEFT JOIN
+        (
+            SELECT areaName,COUNT(areaName) AS areaCount FROM
+        (
+            SELECT c.`industrial_area` AS areaName FROM mobile_enforcement_scene AS m
+            INNER JOIN cominfo_baseinfo AS c
+            ON m.`cid` = c.`pid`
+            WHERE YEAR(m.check_starttime) = #{year} and MONTH(m.check_starttime) = #{month}
+            ) AS a
+            GROUP BY a.`areaName`
+        ) AS ccount
+        ON cname.allAreaName = ccount.areaName
+        GROUP BY cname.allAreaName
+        ORDER BY areaName DESC
+    </select>
+
+
+
+
+
+
+
+
+
+
+    <!--行业类别信息-->
+    <select id="industryidStaticList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select * from (select b.industryids industryCode ,IFNULL(b.industryidCount,0) industryidCount,a.MingCheng industryName ,IFNULL(a.parent,0)  parent from
+        (select IFNULL(d.DaiMaZhi,0) parent, c.MingCheng,c.DaiMaZhi from sys_hangyedaima c
+        LEFT JOIN sys_hangyedaima d
+        on c.FuJiDaiMaBiaoShi = d.HangBiaoShi
+        where d.DaiMaZhi is null  and  d.DaiMaZhi <![CDATA[ <> ]]> ''
+        UNION
+        select IFNULL(d.DaiMaZhi,0)  parent, c.MingCheng,c.DaiMaZhi from
+        sys_hangyedaima c
+        LEFT JOIN sys_hangyedaima d
+        on c.FuJiDaiMaBiaoShi = d.HangBiaoShi
+        where d.DaiMaZhi is not null)a
+        LEFT JOIN (select industryids ,count(*) industryidCount from cominfo_baseinfo s
+        where industryids is not null and industryids <![CDATA[ <> ]]> ''
+        GROUP BY industryids)  b   on b.industryids = a.DaiMaZhi where b.industryids is not null and  b.industryids <![CDATA[ <> ]]> '')x
+    </select>
+
+    <!--污染源类别企业数量统计-->
+    <select id="sourceCategoryStaticList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select s.pollution_source_category sourcecategory ,
+        count(*) sourcecounts from cominfo_baseinfo s
+        where s.pollution_source_category is not null and s.pollution_source_category <![CDATA[ <> ]]> ''
+        group by s.pollution_source_category
+    </select>
+    <!--风险类别企业数量统计-->
+    <select id="riskLevelStaticList"  resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+       select a.risk_rating riskLevel,count(*) riskCount  from cominfo_environmental_manage a
+        join cominfo_baseinfo o on a.cid = o.pid
+        where a.risk_rating is not null and a.risk_rating <![CDATA[ <> ]]> ''
+        GROUP BY a.risk_rating
+    </select>
+    <!--企业规模数量统计-->
+    <select id="enterpriSecaleStaticList"  resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select enterprise_scale enterpriseScale , count(*) enterpriseCount from cominfo_baseinfo
+        where enterprise_scale is not null and enterprise_scale <![CDATA[ <> ]]> ''
+        GROUP BY enterprise_scale
+    </select>
+    <!--统计企业属于第一级类别的数量-->
+    <select id="firstOrder" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        SELECT  y.*,x.HangBiaoShi industryid ,x.FuJiDaiMaBiaoShi parent ,x.MingCheng industryName  from (select industryids industryCode ,count(*) industryidCount from cominfo_baseinfo s
+                    where industryids is not null  and industryids <![CDATA[ <> ]]> ''
+                    GROUP BY industryids) y
+        join (select * from	sys_hangyedaima where SanJiFenLeiBiaoShi = '-1') x on y.industryCode = x.DaiMaZhi
+
+    </select>
+    <!--统计企业属于第二级类别的数量-->
+    <select id="secondOrder" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select h.industryid,h.industryidCount,h.parent,h.industryName ,o.parid,o.parname,o.parparent from	(
+        Select  y.*,x.HangBiaoShi industryid ,x.FuJiDaiMaBiaoShi parent ,x.MingCheng industryName   from (
+        select industryids industryCode,count(*) industryidCount from cominfo_baseinfo s
+        where industryids is not null  and industryids <![CDATA[ <> ]]> ''
+        GROUP BY industryids) y
+        join (select b.* from (select * from	sys_hangyedaima where SanJiFenLeiBiaoShi = '-1') a
+        LEFT JOIN (select * from	sys_hangyedaima where SanJiFenLeiBiaoShi &lt;&gt;'-1') b  on b.FuJiDaiMaBiaoShi = a.HangBiaoShi ) x
+        on y.industryCode = x.DaiMaZhi)h left join (select HangBiaoShi parid, MingCheng parname,FuJiDaiMaBiaoShi parparent from	sys_hangyedaima )o
+        on h.parent = o.parid
+
+    </select>
+    <!--统计企业属于第三级类别的数量-->
+    <select id="thirdOrder" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select h.industryid,h.industryidCount,h.parent,h.industryName ,o.parid,o.parname,o.parparent from ( SELECT  y.*,x.HangBiaoShi industryid ,x.FuJiDaiMaBiaoShi parent ,x.MingCheng industryName ,x.*
+        from (select industryids industryCode,count(*) industryidCount from cominfo_baseinfo s
+        where industryids is not null  and industryids <![CDATA[ <> ]]> ''
+        GROUP BY industryids) y join
+        (select * from	sys_hangyedaima where SanJiFenLeiBiaoShi &lt;&gt;'-1' and SiJiFenLeiBiaoShi &lt;&gt;'-1'and WuJiFenLeiBiaoShi ='-1'and LiuJiFenLeiBiaoShi ='-1' ) x
+        on y.industryCode = x.DaiMaZhi
+        )h left join (select HangBiaoShi parid, MingCheng parname,FuJiDaiMaBiaoShi parparent from	sys_hangyedaima )o
+
+        on h.parent = o.parid
+    </select>
+    <!--统计企业属于第四级类别的数量-->
+    <select id="fouthOrder" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        select h.industryid,h.industryidCount,h.parent,h.industryName ,o.parid,o.parname,o.parparent from ( SELECT  y.*,x.HangBiaoShi industryid ,x.FuJiDaiMaBiaoShi parent ,x.MingCheng industryName ,x.*
+        from (select industryids industryCode,count(*) industryidCount from cominfo_baseinfo s
+        where industryids is not null and industryids <![CDATA[ <> ]]> ''
+        GROUP BY industryids) y join
+        (select * from	sys_hangyedaima where SanJiFenLeiBiaoShi &lt;&gt;'-1'and SiJiFenLeiBiaoShi &lt;&gt;'-1'and WujiFenLeiBiaoShi &lt;&gt;'-1') x
+        on y.industryCode = x.DaiMaZhi
+        )h left join (select HangBiaoShi parid, MingCheng parname,FuJiDaiMaBiaoShi parparent from	sys_hangyedaima )o
+        on h.parent = o.parid
+    </select>
+
+    <update id="updateForEnvironment" parameterType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoEnvironmentalManageEntity">
+        UPDATE cominfo_environmental_manage
+        SET is_sampling=#{isSampling},is_oceaneering=#{isOceaneering}
+        ,is_sewagetreatment_sites=#{isSewagetreatmentSites}
+        ,is_domesticwaste_sites=#{isDomesticwasteSites},updatedate=#{updatedate}
+        WHERE pid=#{pid}
+    </update>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.EmergencySystemRanksDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemRanksEntity" id="emergencySystemRanksMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="ranksName" column="ranks_name"/>
+        <result property="ranksCompany" column="ranks_company"/>
+        <result property="ranksNumber" column="ranks_number"/>
+        <result property="ranksSpeciality" column="ranks_speciality"/>
+        <result property="linkmen" column="linkmen"/>
+        <result property="linkphone" column="linkphone"/>
+        <result property="address" column="address"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemRanksEntity">
+        SELECT a.*,b.company_name companyName
+        FROM emergency_system_ranks a
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemRanksEntity">
+        SELECT a.*,b.company_name companyName
+        FROM emergency_system_ranks a
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM emergency_system_ranks a
+        LEFT JOIN cominfo_baseinfo b ON b.pid=a.cid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+</mapper>

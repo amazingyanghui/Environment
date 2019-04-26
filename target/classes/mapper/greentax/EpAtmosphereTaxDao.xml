@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.greentax.dao.EpAtmosphereTaxDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpAtmosphereTaxEntity" id="epAtmosphereTaxMap">
+        <result property="id" column="id"/>
+        <result property="dischargeId" column="discharge_id"/>
+        <result property="dischargeType" column="discharge_type"/>
+        <result property="emissions" column="emissions"/>
+        <result property="pollutionEquivalent" column="pollution_equivalent"/>
+        <result property="reportSection" column="report_section"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpAtmosphereTaxEntity">
+        SELECT b.id,b.discharge_id,c.pid,b.report_section,b.discharge_type,
+        a.tax_source_code,a.monitor_code,a.monitor_name,a.main_pollution ,b.emissions,b.pollution_equivalent,b.status,a.computing_method
+        FROM ep_atmosphere_tax b
+        LEFT JOIN    online_monitor_portinfo a  on a.pid=b.discharge_id
+        LEFT JOIN   cominfo_baseinfo c on a.cid=c.pid
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM ep_atmosphere_tax b
+        LEFT JOIN   online_monitor_portinfo a  on a.pid=b.discharge_id
+        LEFT JOIN   cominfo_baseinfo c on a.cid=c.pid
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+    </select>
+    <select id="updateOnlineMonitorPortinfoEntity" parameterType="java.util.Map" >
+        update online_monitor_portinfo set computing_method=#{computingMethod} where pid=#{pid}
+    </select>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.mobile.dao.MobileEnforcementAskrecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAskrecordEntity" id="mobileEnforcementAskrecordMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="investigateStarttime" column="investigate_starttime"/>
+        <result property="investigateEndtime" column="investigate_endtime"/>
+        <result property="investigateCompany" column="investigate_company"/>
+        <result property="inquirerPersonName" column="inquirer_person_name"/>
+        <result property="inquirerPersonNumber" column="inquirer_person_number"/>
+        <result property="investigatedCompanyName" column="investigated_company_name"/>
+        <result property="investigatedCompanyCode" column="investigated_company_code"/>
+        <result property="investigatedCompanyAddress" column="investigated_company_address"/>
+        <result property="investigatedCompanyLegal" column="investigated_company_legal"/>
+        <result property="investigatedCompanyLegalPhone" column="investigated_company_legal_phone"/>
+        <result property="investigatedInquirerName" column="investigated_inquirer_name"/>
+        <result property="investigatedInquirerAge" column="investigated_inquirer_age"/>
+        <result property="investigatedInquirerIdentity" column="investigated_inquirer_identity"/>
+        <result property="investigatedInquirerPhone" column="investigated_inquirer_phone"/>
+        <result property="recordPersonName" column="record_person_name"/>
+        <result property="recordPersonNumber" column="record_person_number"/>
+        <result property="investigateInquirerContent" column="investigate_inquirer_content"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+    <!--列表信息-->
+    <select id="queryPage" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAskrecordEntity">
+        SELECT a.*,z.company_name investigatedCompanyName,z.company_address investigatedCompanyAddress FROM mobile_enforcement_askrecord a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="investigatedInquirerName != null and investigatedInquirerName != ''">
+                AND a.investigated_inquirer_name like CONCAT('%',#{investigatedInquirerName},'%')
+            </if>
+            <if test="investigateCompany != null and investigateCompany != ''">
+                AND a.investigate_company like CONCAT('%',#{investigateCompany},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(a.investigate_starttime,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(a.investigate_starttime,'~',1) &lt;= #{endTime}
+            </if>
+        </where>
+        order by z.company_name desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!--列表信息总数-->
+    <select id="queryPageSum" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT count(*) FROM mobile_enforcement_askrecord a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="investigatedInquirerName != null and investigatedInquirerName != ''">
+                AND a.investigated_inquirer_name like CONCAT('%',#{investigatedInquirerName},'%')
+            </if>
+            <if test="investigateCompany != null and investigateCompany != ''">
+                AND a.investigate_company like CONCAT('%',#{investigateCompany},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(a.investigate_starttime,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(a.investigate_starttime,'~',1) &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAskrecordEntity">
+        SELECT *,z.company_name companyName
+        FROM mobile_enforcement_askrecord a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAskrecordEntity">
+        SELECT a.pid,a.cid,a.investigate_starttime,a.investigate_endtime,a.investigate_company
+        ,a.inquirer_person_name,a.inquirer_person_number,a.investigated_company_name
+        ,a.investigated_company_code,a.investigated_company_address
+        ,(case WHEN a.investigated_company_legal IS NULL THEN z.company_representative ELSE a.investigated_company_legal END)AS investigated_company_legal
+        ,(case WHEN a.investigated_company_legal_phone IS NULL THEN z.representative_phone ELSE a.investigated_company_legal_phone END)AS investigated_company_legal_phone
+        ,a.investigated_inquirer_name,a.investigated_inquirer_age,a.investigated_inquirer_identity
+        ,a.investigated_inquirer_phone,a.record_person_name,a.record_person_number
+        ,a.investigate_inquirer_content,a.createdate
+        ,z.company_name investigatedCompanyName,z.company_address investigatedCompanyAddress
+        FROM mobile_enforcement_askrecord a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+    <!--列表信息-->
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementAskrecordEntity">
+        SELECT a.pid,a.cid,a.investigate_starttime,a.investigate_endtime,a.investigate_company
+        ,a.inquirer_person_name,a.inquirer_person_number,a.investigated_company_name
+        ,a.investigated_company_code,a.investigated_company_address
+        ,(case WHEN a.investigated_company_legal IS NULL THEN z.company_representative ELSE a.investigated_company_legal END)AS investigated_company_legal
+        ,(case WHEN a.investigated_company_legal_phone IS NULL THEN z.representative_phone ELSE a.investigated_company_legal_phone END)AS investigated_company_legal_phone
+        ,a.investigated_inquirer_name,a.investigated_inquirer_age,a.investigated_inquirer_identity
+        ,a.investigated_inquirer_phone,a.record_person_name,a.record_person_number
+        ,a.investigate_inquirer_content,a.createdate
+        ,z.company_name investigatedCompanyName,z.company_address investigatedCompanyAddress
+        FROM mobile_enforcement_askrecord a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="investigatedInquirerName != null and investigatedInquirerName != ''">
+                AND a.investigated_inquirer_name like CONCAT('%',#{investigatedInquirerName},'%')
+            </if>
+            <if test="investigateCompany != null and investigateCompany != ''">
+                AND a.investigate_company like CONCAT('%',#{investigateCompany},'%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(a.investigate_starttime,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(a.investigate_starttime,'~',1) &lt;= #{endTime}
+            </if>
+        </where>
+        order by a.investigate_starttime desc
+    </select>
+
+</mapper>

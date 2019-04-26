@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.seeper.dao.SeeperTaskDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.seeper.entity.SeeperTaskEntity" id="seeperTaskMap">
+        <result property="pid" column="pid"/>
+        <result property="seeperType" column="seeper_type"/>
+        <result property="projectName" column="project_name"/>
+        <result property="seeperReason" column="seeper_reason"/>
+        <result property="buildUnit" column="build_unit"/>
+        <result property="sort" column="sort"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="renovateProject" column="renovate_project"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.seeper.entity.SeeperTaskEntity">
+        SELECT a.*,z.value seeperTypeName
+        FROM seeper_task a
+        LEFT JOIN sys_dict z ON z.key=a.seeper_type AND z.type='seeper_type_type'
+        WHERE 1=1
+        <if test="projectName!=null and projectName!=''">
+            AND a.project_name like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="seeperType!=null and seeperType!=''">
+            AND a.seeper_type=#{seeperType}
+        </if>
+        order by a.createdate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM seeper_task a
+        LEFT JOIN sys_dict z ON z.key=a.seeper_type AND z.type='seeper_type_type'
+        WHERE 1=1
+        <if test="projectName!=null and projectName!=''">
+            AND a.project_name like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="seeperType!=null and seeperType!=''">
+            AND a.seeper_type=#{seeperType}
+        </if>
+    </select>
+
+</mapper>

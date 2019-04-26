@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.OrganicLiquidStorageLoadDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.OrganicLiquidStorageLoadEntity" id="organicLiquidStorageLoadMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="materielName" column="materiel_name"/>
+        <result property="materielCode" column="materiel_code"/>
+        <result property="storageTankType" column="storage_tank_type"/>
+        <result property="storageTankVolume" column="storage_tank_volume"/>
+        <result property="temperature" column="temperature"/>
+        <result property="storageTankNumber" column="storage_tank_number"/>
+        <result property="annualTurnover" column="annual_turnover"/>
+        <result property="treatmentProcess1" column="treatment_process1"/>
+        <result property="annualLoadingCapacity" column="annual_loading_capacity"/>
+        <result property="carTrainLoad" column="car_train_load"/>
+        <result property="carTrainLoadMode" column="car_train_load_mode"/>
+        <result property="shipLoad" column="ship_load"/>
+        <result property="shipLoadMode" column="ship_load_mode"/>
+        <result property="treatmentProcess2" column="treatment_process2"/>
+        <result property="output" column="output"/>
+        <result property="emissions" column="emissions"/>
+        <result property="dataTime" column="data_time"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+</mapper>
