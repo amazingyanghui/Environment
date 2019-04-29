@@ -1,0 +1,313 @@
+
+<title>数据字典表</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>数据字典表</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div class="layui-inline">
+                            <input class="layui-input" id="sysDictReload" autocomplete="off" placeholder="请输入关键字">
+                        </div>
+                        <button class="layui-btn" data-type="sysDictReload" perm="sysmgr:dict:index:query">
+                            <i class="layui-icon">&#xe615;</i>
+                        </button>
+                        <button class="layui-btn " data-events="add" perm="sysmgr:dict:index:add">新增</button>
+                        <button class="layui-btn " data-events="mod" perm="sysmgr:dict:index:mod">修改</button>
+                        <button class="layui-btn " data-events="del" perm="sysmgr:dict:index:del">删除</button>
+                    </div>
+                    <table id="LAY-market-sysDict" lay-filter="LAY-market-sysDict"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editsysDict" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysDictedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="id" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">字典key：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="key" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">字典名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="value" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">字典使用类型：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="type" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">状态：</label>
+                        <div class="layui-input-block">
+                            <select type="text" name="status" lay-verify="required" >
+                                <option value="1">正常</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">排序：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">备用：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="backup" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','perms'], function(){
+        var $ = layui.$
+                ,admin = layui.admin
+                ,table = layui.table
+                ,element = layui.element
+                ,laytpl = layui.laytpl
+                ,laydate=layui.laydate
+                ,perms = layui.perms
+                ,setter = layui.setter
+                ,form = layui.form
+                ,global_obj = {}
+                ,windowindex = 0
+                ,baseurl = setter.remoteServiceAddress + "/market/sysdict";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false ;
+            perms.doPerm();
+        // if(!(layui.data(setter.permissionName).list.indexOf('market:sysdict:list') === -1)) hasPermission = true;
+        //
+        table.render({//查询列表信息
+            elem: '#LAY-market-sysDict'
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{type: 'numbers', unresize: true, title: '序号',width:80}
+                // ,{field: 'id', title: 'ID主键',minWidth: 100, key: true }
+                ,{field: 'key', title: '字典key', minWidth: 100}
+                ,{field: 'value', title: '字典名称', minWidth: 100}
+                ,{field: 'type', title: '字典使用类型', minWidth: 100}
+                ,{field: 'status', title: '状态', minWidth: 100,templet: function(item, index){
+                        if(item.status === 0){
+                            return '<span class="layui-btn layui-btn-xs layui-bg-gray">禁用</span>';
+                        }
+                        if(item.status === 1){
+                            return '<span class="layui-btn layui-btn-xs layui-bg-orange">启用</span>';
+                        }
+                    }}
+                ,{field: 'sort', title: '排序', minWidth: 100}
+                ,{field: 'createDateStr', title: '创建时间', minWidth: 100}
+                ,{field: 'updateDateStr', title: '修改时间', minWidth: 100}
+                ,{field: 'backup', title: '备用', minWidth: 100}
+                ]]
+            ,skin: 'line'
+            ,height: 'full-370'
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+                sysDictReload: function(){
+                var sysDictName = $('#sysDictReload').val();
+                //执行重载
+                table.reload('LAY-market-sysDict', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                            sysDictName:sysDictName
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '350px']
+                // offset: '120px',
+                ,content: editsysDict.innerHTML
+            });
+
+
+            form.render(null, 'component-form-element');
+            if(title == "修改"){
+                var loadindex = layer.load(1);
+                admin.req({//根据id获取该记录的详细信息
+                    url: baseurl + "/" + data[0].id
+                    ,done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            for(var id in result.sysDict){
+                                $("[name="+id+"]").val(result.sysDict[id]);
+                            }
+                            form.render(null, 'component-form-element');
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    },error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var ids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                            ids.push(data[i].id);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-market-sysDict"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                    ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-sysDict")
+                    ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+
+            var type = "POST";
+            if(data.field.id){//修改
+                type = "PUT";
+            }
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.close(windowindex);
+                        table.reload("LAY-market-sysDict")
+                        layer.msg('操作成功！', {icon: 6,time:1000});
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                },error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

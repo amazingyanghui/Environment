@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.greentax.dao.EpTaxFormulaDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpTaxFormulaEntity" id="epTaxFormulaMap">
+        <id property="id" column="id"/>
+        <result property="formulaExpression" column="formula_expression"/>
+        <result property="industryCategory" column="industry_category"/>
+        <result property="contaminant" column="contaminant"/>
+        <result property="remark" column="remark"/>
+        <association property="epTaxAmountEntity" javaType="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpTaxAmountEntity">
+            <result property="pollutant" column="pollutant"/>
+            <result property="pollutantEquivalent" column="pollutant_equivalent"/>
+        </association>
+        <collection property="epTaxFormulaItemEntityList" ofType="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpTaxFormulaItemEntity">
+            <id property="id" column="i_id" />
+            <result property="formulaId" column="formula_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemExplain" column="item_explain"/>
+            <result property="itemType" column="item_type"/>
+            <result property="itemDataSource" column="item_data_source"/>
+            <result property="itemOrder" column="item_order"/>
+        </collection>
+    </resultMap>
+
+    <sql id="EpTaxFormulaEntityInclude">
+        f.* ,
+        fi.id AS i_id ,
+        fi.formula_id ,
+        fi.item_name ,
+        fi.item_explain ,
+        fi.item_type ,
+        fi.item_data_source ,
+        fi.item_order ,
+        a.pollutant ,
+        a.pollutant_equivalent
+    </sql>
+
+    <select id="selectByParam" resultMap="epTaxFormulaMap">
+        SELECT
+        <include refid="EpTaxFormulaEntityInclude" />
+        FROM `ep_tax_formula`  AS f
+        LEFT JOIN `ep_tax_formula_item` AS fi
+        ON f.`id` = fi.`formula_id`
+        LEFT JOIN `ep_tax_amount` AS a
+        ON f.`contaminant` = a.`pollutant`
+        <where>
+            <if test="industryCategory != null and industryCategory != ''">
+                f.`industry_category` = #{industryCategory}
+            </if>
+            <if test="contaminant != null and contaminant != ''">
+                and f.`contaminant` = #{contaminant}
+            </if>
+        </where>
+        ORDER BY fi.`item_order`
+    </select>
+
+</mapper>

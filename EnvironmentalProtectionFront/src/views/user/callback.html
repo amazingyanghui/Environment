@@ -1,0 +1,101 @@
+<script>
+    layui.use(['admin', 'form', 'user','perms'], function(){
+        var $ = layui.$
+            ,setter = layui.setter
+            ,perms = layui.perms
+            ,client_id = setter.clientId
+            ,client_secret = setter.clientSecret
+            ,url_GetUserInfo = setter.remoteServiceAddress + "/forUserAuthen/getUserInfo";
+        var code = perms.getParam("code",window.location.search);
+        var redirect;
+        if (code != "" && code != null) {
+            var token_url = perms.getParam("token_url",window.location.search);
+            redirect = perms.getParam("redirect",window.location.search);
+            location.href = token_url + "?grant_type=authorization_code&client_id=" + client_id + "&client_secret=" + client_secret + "&code=" + code + "&state=1&redirect=" + redirect;
+        }
+        var access_token = perms.getParam("access_token",window.location.search);
+        if (access_token != "" && access_token != null) {
+            redirect =  perms.getParam("redirect",window.location.search);
+            $.ajax({
+                url: setter.userAuthenServerAddress + setter.forGetUserInfo,
+                type: "GET",
+                data: { jsoncors:1,appId: client_id, accessToken: access_token },
+                success: function (json) {
+                    if (json.Code == "10030") {
+                        //alert(json.Message.LoginName)
+                        var vdata = {"username":json.Message.LoginName};
+                        dologin(url_GetUserInfo, vdata, setter,redirect)
+                    }
+                    else {
+                        $.dialog.alert(json.Code + ":" + json.Message);
+                    }
+                }
+            });
+        }
+    });
+
+    function dologin(url, data, setter,redirect){
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(result){
+                console.log(result);
+                if(result.code == 0){//登录成功
+                    //请求成功后，写入 access_token
+                    layui.data(setter.tableName, {
+                        key: setter.request.tokenName
+                        ,value: result.access_token
+                    });
+                    layui.data(setter.permissionName, {
+                        key: setter.permissionName
+                        ,value: result.permissions
+                    });
+                    layui.data(setter.userName, {
+                        key: setter.userName
+                        ,value: result.userName
+                    });
+                    layui.data(setter.userId, {
+                        key: setter.userId
+                        ,value: result.userId
+                    });
+                    layui.data(setter.userRoles, {
+                        key: setter.userRoles
+                        ,value: result.userRoles
+                    });
+                    layui.data(setter.userDeptId, {
+                        key: setter.userDeptId
+                        ,value: result.userDeptId
+                    });
+                    layui.data(setter.userDeptName, {
+                        key: setter.userDeptName
+                        ,value: result.userDeptName
+                    });
+                    layui.data(setter.remoteServiceAddressStore, {
+                        key: setter.remoteServiceAddressStore
+                        ,value: setter.remoteServiceAddress
+                    });
+                    layui.data(setter.superAdminStore, {
+                        key: setter.superAdminStore
+                        ,value: setter.superAdmin
+                    });
+                    layui.data(setter.companyRoleIdStore, {
+                        key: setter.companyRoleIdStore
+                        ,value: setter.companyRoleId
+                    });
+                    layui.data(setter.userNickName, {
+                        key: setter.userNickName
+                        ,value: result.userNickName
+                    });
+                    location.href = redirect;
+                }else{
+                    layer.alert(result.msg, {
+                        skin: 'layui-layer-lan',
+                        // offset: 't',
+                        anim: 6
+                    });
+                }
+            }
+        });
+    }
+</script>

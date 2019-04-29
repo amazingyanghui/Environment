@@ -1,0 +1,8 @@
+
+<script>
+    layui.use(['admin', 'form', 'user','perms'], function(){
+        var setter = layui.setter;
+        location.href = setter.userAuthenServerAddress + setter.loginPage;
+        setCookie("verifyClose","initialize");
+    });
+</script>

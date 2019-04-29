@@ -1,0 +1,1313 @@
+<script type="text/javascript" src="common/cominfo/wasterwater.js"></script>
+<script type="text/javascript" src="common/cominfo/repair.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.exhide.js"></script>
+<script type="text/javascript" src="zTree_v3/demo/js/fuzzysearch.js"></script>
+
+
+<title>治理设施</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<style type="text/css">
+    /*#waste .layui-table-cell {*/
+        /*height: auto;*/
+        /*line-height: 28px;*/
+        /*padding: 0 15px;*/
+        /*position: relative;*/
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+        /*white-space: normal;*/
+        /*box-sizing: border-box;*/
+    /*}*/
+</style>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li value="0" power="zl:ss:xxwh:fs:zlss">废水治理设施</li>
+                <li value="1" power="zl:ss:xxwh:fq:zlss">废气治理设施</li>
+                <li value="2" power="zl:ss:xxwh:vo:cszlss">VOCs治理设施</li>
+                <li value="3" power="zl:ss:xxwh:gf:zlss">固废治理设施</li>
+                <li value="4" power="zl:ss:xxwh:qt:zlss">其他治理设施</li>
+                <!--<li value="5" power="zl:ss:xxwh:fw:clcs">废物处理场所</li>-->
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+                <button class="layui-btn" id="link" data-events="link">维护记录</button>
+            </div>
+            <div class="layui-tab-content" id="waste">
+                <div class="layui-tab-item layui-show" power="zl:ss:xxwh:fs:zlss">
+                    <div id="wasteWater0">
+                        <table id="LAY-market-cominfoMeasureWastewater0" lay-filter="LAY-market-cominfoMeasureWastewater0"></table>
+                    </div>
+                    <div id="cominfoMeasureWastewater0"></div>
+                </div>
+                <div class="layui-tab-item" power="zl:ss:xxwh:fq:zlss">
+                    <div id="wasteWater1">
+                        <table id="LAY-market-cominfoMeasureWastewater1" lay-filter="LAY-market-cominfoMeasureWastewater1"></table>
+                    </div>
+                    <div id="cominfoMeasureWastewater1"></div>
+                </div>
+                <div class="layui-tab-item" power="zl:ss:xxwh:vo:cszlss">
+                    <div id="wasteWater2">
+                        <table id="LAY-market-cominfoMeasureWastewater2" lay-filter="LAY-market-cominfoMeasureWastewater2"></table>
+                    </div>
+                    <div id="cominfoMeasureWastewater2"></div>
+                </div>
+                <div class="layui-tab-item" power="zl:ss:xxwh:gf:zlss">
+                    <div id="wasteWater3">
+                        <table id="LAY-market-cominfoMeasureWastewater3" lay-filter="LAY-market-cominfoMeasureWastewater3"></table>
+                    </div>
+                    <div id="cominfoMeasureWastewater3"></div>
+                </div>
+                <div class="layui-tab-item" power="zl:ss:xxwh:qt:zlss">
+                    <div id="wasteWater4">
+                        <table id="LAY-market-cominfoMeasureWastewater4" lay-filter="LAY-market-cominfoMeasureWastewater4"></table>
+                    </div>
+                    <div id="cominfoMeasureWastewater4"></div>
+                </div>
+                <!--<div class="layui-tab-item" power="zl:ss:xxwh:fw:clcs">-->
+                    <!--<div id="wasteWater5">-->
+                        <!--<table id="LAY-market-cominfoMeasureWastewater5" lay-filter="LAY-market-cominfoMeasureWastewater5"></table>-->
+                    <!--</div>-->
+                    <!--<div id="cominfoMeasureWastewater5"></div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="comInfoRepairRecordEdit" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div style="margin-bottom: 10px;">
+                            <button class="layui-btn " id="repairAdd">新增</button>
+                            <button class="layui-btn " id="repairMod">修改</button>
+                            <button class="layui-btn " id="repairDel">删除</button>
+                            <button class="layui-btn " id="import">导入Excel</button>
+                        </div>
+                        <div id="cominfoRepair">
+                            <table id="LAY-cominfo-cominfoRepairRecord" lay-filter="LAY-cominfo-cominfoRepairRecord"></table>
+                        </div>
+                        <div id="cominfoRepairRecord"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfoMeasureWasteWater" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoMeasureShow0" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设施名称：</td>
+                            <td>
+                                <input type="text" name="measureName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应排污口：</td>
+                            <td>
+                                <input type="text" name="blowDownOutLetName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>规格型号：</td>
+                            <td>
+                                <input type="text" name="model" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处理工艺：</td>
+                            <td>
+                                <input type="text" name="process" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>废水类别：</td>
+                            <td>
+                                <input type="text" name="wastewaterCategoryName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>主要去除物质：</td>
+                            <td>
+                                <input type="text" name="removalOfMaterialName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>总投资额（万元）：</td>
+                            <td>
+                                <input type="text" name="totalInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>投运日期：</td>
+                            <td>
+                                <input type="text" name="deliveryDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设计处理能力（吨/天）：</td>
+                            <td>
+                                <input type="text" name="processingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>实际处理能力（吨/天）：</td>
+                            <td>
+                                <input type="text" name="actualProcessing" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运行状态：</td>
+                            <td>
+                                <input type="text" name="runningState" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年处理量（吨）：</td>
+                            <td>
+                                <input type="text" name="yearThroughput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年运行费用（万元）：</td>
+                            <td>
+                                <input type="text" name="yearOperatingCost" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>日平均运行时间（小时）：</td>
+                            <td>
+                                <input type="text" name="dayRuntime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>治理期限：</td>
+                            <td>
+                                <input type="text" name="governanceLimit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单台设计能力：</td>
+                            <td>
+                                <input type="text" name="singleDesignCapability" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>其中：处理其他单位水量：</td>
+                            <td>
+                                <input type="text" name="handleOtherUnitwater" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>加盖密闭情况：</td>
+                            <td>
+                                <input type="text" name="airtightSituation" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>处理后废水去向：</td>
+                            <td>
+                                <input type="text" name="handleWhereabouts" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年运行小时：</td>
+                            <td>
+                                <input type="text" name="annualoPeratingHours" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td >验收意见：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="acceptanceOpinion" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfoMeasureWasteVOCs" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoMeasureShow2" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设施名称：</td>
+                            <td>
+                                <input type="text" name="measureName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应排污口：</td>
+                            <td>
+                                <input type="text" name="blowDownOutLetName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>规格型号：</td>
+                            <td>
+                                <input type="text" name="model" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处理工艺：</td>
+                            <td>
+                                <input type="text" name="process" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>总投资额（万元）：</td>
+                            <td>
+                                <input type="text" name="totalInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>投运日期：</td>
+                            <td>
+                                <input type="text" name="deliveryDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设计处理能力（标立方米/小时）：</td>
+                            <td>
+                                <input type="text" name="processingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>实际处理能力（标立方米/小时）：</td>
+                            <td>
+                                <input type="text" name="actualProcessing" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运行状态：</td>
+                            <td>
+                                <input type="text" name="runningState" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年处理量（吨）：</td>
+                            <td>
+                                <input type="text" name="yearThroughput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>年运行费用（万元）：</td>
+                            <td>
+                                <input type="text" name="yearOperatingCost" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>日平均运行时间（小时）：</td>
+                            <td>
+                                <input type="text" name="dayRuntime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>治理期限：</td>
+                            <td>
+                                <input type="text" name="governanceLimit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单台设计能力：</td>
+                            <td>
+                                <input type="text" name="singleDesignCapability" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td >验收意见：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="acceptanceOpinion" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfoMeasureWasteGas" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoMeasureShow1" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设施名称：</td>
+                            <td>
+                                <input type="text" name="measureName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应排污口：</td>
+                            <td>
+                                <input type="text" name="blowDownOutLetName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>规格型号：</td>
+                            <td>
+                                <input type="text" name="model" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处理工艺：</td>
+                            <td>
+                                <input type="text" name="process" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>总投资额（万元）：</td>
+                            <td>
+                                <input type="text" name="totalInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>投运日期：</td>
+                            <td>
+                                <input type="text" name="deliveryDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设计处理能力（标立方米/小时）：</td>
+                            <td>
+                                <input type="text" name="processingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>实际处理能力（标立方米/小时）：</td>
+                            <td>
+                                <input type="text" name="actualProcessing" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运行状态：</td>
+                            <td>
+                                <input type="text" name="runningState" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年处理量（吨）：</td>
+                            <td>
+                                <input type="text" name="yearThroughput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>年运行费用（万元）：</td>
+                            <td>
+                                <input type="text" name="yearOperatingCost" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>日平均运行时间（小时）：</td>
+                            <td>
+                                <input type="text" name="dayRuntime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>治理期限：</td>
+                            <td>
+                                <input type="text" name="governanceLimit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单台设计能力：</td>
+                            <td>
+                                <input type="text" name="singleDesignCapability" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>年运行时间：</td>
+                            <td>
+                                <input type="text" name="annualOperatingHours" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硫处理设施编号：</td>
+                            <td>
+                                <input type="text" name="sulfurRemoveDeviceCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>脱硫处理工艺：</td>
+                            <td>
+                                <input type="text" name="sulfurEmoveTech" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硫处理效率：</td>
+                            <td>
+                                <input type="text" name="sulfurRemoveEfficiency" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>脱硫处理剂名称：</td>
+                            <td>
+                                <input type="text" name="sulfurRemoveChemical" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硫处理剂使用量：</td>
+                            <td>
+                                <input type="text" name="sulfurRemoveAgent" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>是否采用低氮燃烧技术脱硫：</td>
+                            <td>
+                                <input type="text" name="isOwBurnRemoveSulfur" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硝处理设施编号：</td>
+                            <td>
+                                <input type="text" name="nitreRemoveDeviceCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>脱硝处理工艺：</td>
+                            <td>
+                                <input type="text" name="nitreRemoveTech" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硝处理效率：</td>
+                            <td>
+                                <input type="text" name="nitreRemoveEfficiency" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>脱硝处理剂名称：</td>
+                            <td>
+                                <input type="text" name="nitreRemoveChemical" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>脱硝处理剂使用量：</td>
+                            <td>
+                                <input type="text" name="nitreRemoveAgent" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>是否采用低氮燃烧技术脱硝：</td>
+                            <td>
+                                <input type="text" name="islowBurnRemovenitre" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>除尘处理设施编号：</td>
+                            <td>
+                                <input type="text" name="dustRemoveDeviceCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>除尘处理工艺：</td>
+                            <td>
+                                <input type="text" name="dustRemoveTech" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>除尘处理效率：</td>
+                            <td>
+                                <input type="text" name="dustRemoveEfficiency" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >验收意见：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="acceptanceOpinion" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfoMeasureSolidWaste" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoMeasureShow3" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设施名称：</td>
+                            <td>
+                                <input type="text" name="measureName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>设施数量（台）：</td>
+                            <td>
+                                <input type="text" name="measureNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>治理方式：</td>
+                            <td>
+                                <input type="text" name="governanceModeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>储存能力（吨）：</td>
+                            <td>
+                                <input type="text" name="storageCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>投运日期：</td>
+                            <td>
+                                <input type="text" name="deliveryDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>运行状态：</td>
+                            <td>
+                                <input type="text" name="runningState" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年处理量（吨）：</td>
+                            <td>
+                                <input type="text" name="yearThroughput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td>年运行费用（万元）：</td>
+                            <td>
+                                <input type="text" name="yearOperatingCost" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>日平均运行时间（小时）：</td>
+                            <td>
+                                <input type="text" name="dayRuntime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>治理期限：</td>
+                            <td>
+                                <input type="text" name="governanceLimit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单台设计能力：</td>
+                            <td>
+                                <input type="text" name="singleDesignCapability" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td >验收意见：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="acceptanceOpinion" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfoMeasureOtherWaste" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoMeasureShow4" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设施名称：</td>
+                            <td>
+                                <input type="text" name="measureName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>设施数量（台）：</td>
+                            <td>
+                                <input type="text" name="measureNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设施功能：</td>
+                            <td>
+                                <input type="text" name="measureFunction" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处理工艺：</td>
+                            <td>
+                                <input type="text" name="process" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>对应排污口：</td>
+                            <td>
+                                <input type="text" name="blowDownOutLetName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>投运日期：</td>
+                            <td>
+                                <input type="text" name="deliveryDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运行状态：</td>
+                            <td>
+                                <input type="text" name="runningState" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年处理量（吨）：</td>
+                            <td>
+                                <input type="text" name="yearThroughput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>年运行费用（万元）：</td>
+                            <td>
+                                <input type="text" name="yearOperatingCost" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>日平均运行时间（小时）：</td>
+                            <td>
+                                <input type="text" name="dayRuntime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>治理期限：</td>
+                            <td>
+                                <input type="text" name="governanceLimit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单台设计能力：</td>
+                            <td>
+                                <input type="text" name="singleDesignCapability" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td >验收意见：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="acceptanceOpinion" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form','upload','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            , layer = layui.layer
+            ,form = layui.form
+            ,upload=layui.upload
+            ,formVerify=layui.formVerify
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/cominfo/cominforepairrecord"
+            ,baseurl0 = setter.remoteServiceAddress + "/market/cominfomeasurewastewater"
+            ,baseurl1 = setter.remoteServiceAddress + "/market/cominfomeasurewastegas"
+            ,baseurl2 = setter.remoteServiceAddress + "/market/cominfomeasurewastevocs"
+            ,baseurl3 = setter.remoteServiceAddress + "/market/cominfomeasuresolidwaste"
+            ,baseurl4 = setter.remoteServiceAddress + "/market/cominfomeasureotherwaste";
+
+        loadtab.power("com-info","waste");
+
+        var router = layui.router();
+        var cid=router.search.pid;
+
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>治理设施</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            cid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>治理设施</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(cid!=null&cid!="undefined"){
+            loadtab.tab('measure');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#wasteWater0").removeClass("layui-hide");
+            $("#wasteWater1").removeClass("layui-hide");
+            $("#wasteWater2").removeClass("layui-hide");
+            $("#wasteWater3").removeClass("layui-hide");
+            $("#wasteWater4").removeClass("layui-hide");
+            $("#cominfoMeasureWastewater0").addClass("layui-hide");
+            $("#cominfoMeasureWastewater1").addClass("layui-hide");
+            $("#cominfoMeasureWastewater2").addClass("layui-hide");
+            $("#cominfoMeasureWastewater3").addClass("layui-hide")
+            $("#cominfoMeasureWastewater4").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+            $("#link").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#wasteWater0").addClass("layui-hide");
+            $("#wasteWater1").addClass("layui-hide");
+            $("#wasteWater2").addClass("layui-hide");
+            $("#wasteWater3").addClass("layui-hide");
+            $("#wasteWater4").addClass("layui-hide");
+            $("#cominfoMeasureWastewater0").removeClass("layui-hide");
+            $("#cominfoMeasureWastewater1").removeClass("layui-hide");
+            $("#cominfoMeasureWastewater2").removeClass("layui-hide");
+            $("#cominfoMeasureWastewater3").removeClass("layui-hide");
+            $("#cominfoMeasureWastewater4").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+            $("#link").addClass("layui-hide");
+        };
+
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-market-cominfoMeasureWastewater'+differType;
+            showAndHide();
+            var url=baseurl0;
+            var cols=[[
+                {type: 'checkbox',unresize: true}
+                ,{type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'measureName', title: '设施名称', width: 170,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                ,{field: 'blowDownOutLetName', title: '对应排污口', minWidth: 110,unresize: true}
+//                ,{field: 'model', title: '规格型号', width: 100,unresize: true}
+//                ,{field: 'process', title: '处理工艺', width: 100,unresize: true}
+                ,{field: 'wastewaterCategoryName', title: '废水类别', width: 100,unresize: true}
+                ,{field: 'removalOfMaterialName', title: '主要去除物质', minWidth: 170,unresize: true}
+//                ,{field: 'totalInvestment', title: '总投资额（万元）', minWidth: 150,unresize: true}
+                ,{field: 'deliveryDate', title: '投运日期', width: 120,unresize: true}
+//                ,{field: 'processingCapacity', title: '设计处理能力（吨/天）', minWidth: 180,unresize: true}
+//                ,{field: 'actualProcessing', title: '实际处理能力（吨/天）', minWidth: 180,unresize: true}
+                ,{field: 'runningState', title: '运行状态', width: 100,unresize: true}
+                ,{field: 'yearThroughput', title: '年处理量（吨）', minWidth: 100,unresize: true}
+                ,{field: 'yearOperatingCost', title: '年运行费用（万元）', minWidth: 80,unresize: true}
+//                ,{field: 'remarks', title: '备注', width: 100,unresize: true}
+            ]];
+
+            if(differType==1){
+                url=baseurl1;
+                cols=[[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'measureName', title: '设施名称', width: 170,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                    ,{field: 'blowDownOutLetName', title: '对应排污口', minWidth: 110,unresize: true}
+//                    ,{field: 'model', title: '规格型号', width: 100,unresize: true}
+//                    ,{field: 'process', title: '处理工艺', width: 100,unresize: true}
+//                    ,{field: 'totalInvestment', title: '总投资额（万元）', minWidth: 150,unresize: true}
+                    ,{field: 'deliveryDate', title: '投运日期', width: 180,unresize: true}
+//                    ,{field: 'processingCapacity', title: '设计处理能力（标立方米/小时）', minWidth: 240,unresize: true}
+//                    ,{field: 'actualProcessing', title: '实际处理能力（标立方米/小时）', minWidth: 240,unresize: true}
+                    ,{field: 'runningState', title: '运行状态', width: 100,unresize: true}
+                    ,{field: 'yearThroughput', title: '年处理量（吨）', minWidth: 130,unresize: true}
+                    ,{field: 'yearOperatingCost', title: '年运行费用（万元）', minWidth: 100,unresize: true}
+//                    ,{field: 'remarks', title: '备注',width:100,unresize: true}
+                ]];
+            }
+            if(differType==2){
+                url=baseurl2;
+                cols=[[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'measureName', title: '设施名称', width: 170,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                    ,{field: 'blowDownOutLetName', title: '对应排污口', minWidth: 110,unresize: true}
+//                    ,{field: 'model', title: '规格型号', width: 100,unresize: true}
+//                    ,{field: 'process', title: '处理工艺', width: 100,unresize: true}
+//                    ,{field: 'totalInvestment', title: '总投资额（万元）', minWidth: 150,unresize: true}
+                    ,{field: 'deliveryDate', title: '投运日期', width: 180,unresize: true}
+//                    ,{field: 'processingCapacity', title: '设计处理能力（标立方米/小时）', minWidth: 240,unresize: true}
+//                    ,{field: 'actualProcessing', title: '实际处理能力（标立方米/小时）', minWidth: 240,unresize: true}
+                    ,{field: 'runningState', title: '运行状态', width: 100,unresize: true}
+                    ,{field: 'yearThroughput', title: '年处理量（吨）', minWidth: 130,unresize: true}
+                    ,{field: 'yearOperatingCost', title: '年运行费用（万元）', minWidth: 100,unresize: true}
+//                    ,{field: 'remarks', title: '备注',width:100,unresize: true}
+                ]];
+            }
+            if(differType==3){
+                url=baseurl3;
+                cols=[[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'measureName', title: '设施名称', width: 170,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                    ,{field: 'measureNumber', title: '设施数量（台）', width: 130,unresize: true}
+                    ,{field: 'governanceModeName', title: '治理方式', width: 100,unresize: true}
+                    ,{field: 'storageCapacity', title: '储存能力（吨） ', minWidth: 130,unresize: true}
+                    ,{field: 'deliveryDate', title: '投运日期', width: 180,unresize: true}
+                    ,{field: 'runningState', title: '运行状态', width: 100,unresize: true}
+                    ,{field: 'yearThroughput', title: '年处理量（吨）', minWidth: 130,unresize: true}
+                    ,{field: 'yearOperatingCost', title: '年运行费用（万元）', minWidth: 100,unresize: true}
+//                    ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            if(differType==4){
+                url=baseurl4;
+                cols=[[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'measureName', title: '设施名称', width: 100,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                    ,{field: 'measureNumber', title: '设施数量（台）', minWidth: 130,unresize: true}
+//                    ,{field: 'measureFunction', title: '设施功能', width: 100,unresize: true}
+//                    ,{field: 'process', title: '处理工艺', width: 100,unresize: true}
+                    ,{field: 'blowDownOutLetName', title: '对应排污口', minWidth: 110,unresize: true}
+                    ,{field: 'deliveryDate', title: '投运日期',width: 180,unresize: true}
+                    ,{field: 'runningState', title: '运行状态', width: 100,unresize: true}
+                    ,{field: 'yearThroughput', title: '年处理量（吨）', minWidth: 130,unresize: true}
+                    ,{field: 'yearOperatingCost', title: '年运行费用（万元）', minWidth: 170,unresize: true}
+//                    ,{field: 'remarks', title: '备注',minWidth: 100,unresize: true}
+                ]];
+            }
+
+            table.render({//查询列表信息
+                elem: elem
+                ,url: url
+                ,page: true
+                ,event:true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,cid:cid
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: cols
+                ,skin: 'line'
+            });
+        });
+
+        $("#com-info li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+        table.on("tool(LAY-market-cominfoMeasureWastewater0)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(0,data,showComInfoMeasureWasteWater.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-market-cominfoMeasureWastewater1)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(1,data,showComInfoMeasureWasteGas.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-market-cominfoMeasureWastewater2)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(2,data,showComInfoMeasureWasteVOCs.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-market-cominfoMeasureWastewater3)",function (obj) {
+            var data=obj.data;
+            debugger
+            if(obj.event=="setName"){
+                showInfo(3,data,showComInfoMeasureSolidWaste.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-market-cominfoMeasureWastewater4)",function (obj) {
+            debugger;
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(4,data,showComInfoMeasureOtherWaste.innerHTML)
+            }
+        });
+
+        function showInfo(differType,data,html) {
+            layer.open({
+                type: 1
+                , title: "查看"
+                , area: ['1100px', '450px']
+                // offset: '120px',
+                , content: html
+            });
+
+            for(var id in data){
+                $("#comInfoMeasureShow"+differType+" [name='"+id+"']").val(data[id]);
+                $("#comInfoMeasureShow"+differType+" [name='"+id+"']").attr("readonly","readonly");
+            }
+        }
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            var url=baseurl0;
+            if(differType==1){
+                url=baseurl1;
+            }
+            if(differType==2){
+                url=baseurl2;
+            }
+            if(differType==3){
+                url=baseurl3;
+            }
+            if(differType==4){
+                url=baseurl4;
+            }
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            wasterWater.editWin(admin,setter,$,table,form,url,laytpl,laydate,element,differType,global_obj,pid,cid);
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    var url=baseurl0;
+                    if(differType==1){
+                        url=baseurl1;
+                    }
+                    if(differType==2){
+                        url=baseurl2;
+                    }
+                    if(differType==3){
+                        url=baseurl3;
+                    }
+                    if(differType==4){
+                        url=baseurl4;
+                    }
+                    admin.req({//根据
+                        url: url
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-market-cominfoMeasureWastewater"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,link:function (othis,data) {
+                link(data);
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-cominfoMeasureWastewater"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent == "link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }else if(data.length > 1 && thisEvent == "link"){
+                    return layer.msg('只能操作一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            var url=baseurl0;
+            if(differType==1){
+                url=baseurl1;
+            }
+            if(differType==2){
+                url=baseurl2;
+            }
+            if(differType==3){
+                url=baseurl3;
+            }
+            if(differType==4){
+                url=baseurl4;
+            }
+            data.field.cid=cid;
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-market-cominfoMeasureWastewater"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+        var show=function () {
+            $("#repairAdd").addClass("layui-hide");
+            $("#repairMod").addClass("layui-hide");
+            $("#repairDel").addClass("layui-hide");
+            $("#import").addClass("layui-hide");
+            $("#cominfoRepair").addClass("layui-hide");
+            $("#cominfoRepairRecord").removeClass("layui-hide");
+        };
+
+        var hide=function () {
+            $("#repairAdd").removeClass("layui-hide");
+            $("#repairMod").removeClass("layui-hide");
+            $("#repairDel").removeClass("layui-hide");
+            $("#import").removeClass("layui-hide");
+            $("#cominfoRepair").removeClass("layui-hide");
+            $("#cominfoRepairRecord").addClass("layui-hide");
+        };
+
+        function link(data) {
+
+            layer.open({
+                type: 1
+                , title: "维护记录"
+                , area: admin.screen() < 2 ? ['80%', '300px'] :['900px', '400px']
+                // offset: '120px',
+                , content: comInfoRepairRecordEdit.innerHTML
+            });
+            hide();
+
+            table.render({//查询列表信息
+                elem: '#LAY-cominfo-cominfoRepairRecord'
+                ,url: baseurl
+                ,page: true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,wid:data[0].pid
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: [[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'repairPerson', title: '维护人', minWidth: 100,unresize: true}
+                    ,{field: 'repairContent', title: '维护内容', minWidth: 100,unresize: true}
+                    ,{field: 'repairCondition', title: '维护情况', minWidth: 100,unresize: true}
+                    ,{field: 'repairDate', title: '维护时间', minWidth: 100,unresize: true}
+                ]]
+                ,skin: 'line'
+                ,event:true
+                ,limit:5
+                ,limits:[5,10,15,20,25,30,35,40,45,50]
+            });
+            repairEditWin(data[0]);
+        }
+
+        var repairEditWin=function (dataId) {
+
+            $("#repairAdd").on("click",function () {
+                show();
+                repair.editWin(admin,setter,$,table,form,baseurl,laytpl,laydate,element,differType,global_obj,null);
+            });
+            $("#repairMod").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-cominfo-cominfoRepairRecord")
+                    ,data = checkStatus.data; //获得选中的数据
+                if(data.length==0){
+                    return layer.msg('未选中行!');
+                }else if(data.length>1){
+                    return layer.msg('只能修改一条数据！');
+                }else{
+                    show();
+                    var pid=null;
+                    if(data!=null){
+                        pid=data[0].pid;
+                    }
+                    repair.editWin(admin,setter,$,table,form,baseurl,laytpl,laydate,element,differType,global_obj,pid);
+                }
+            });
+            $("#repairDel").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-cominfo-cominfoRepairRecord")
+                    ,data = checkStatus.data; //获得选中的数据
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-cominfo-cominfoRepairRecord"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+
+            uploadExcel(upload,setter,layer,"cominfo_repair_record",dataId);
+
+            function uploadExcel(upload,setter,layer,tableName,dataId) {
+                var uploadInst = upload.render({
+                    elem: '#import' //绑定元素
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,url: setter.remoteServiceAddress + '/common/importExcel/import/'+tableName //上传接口
+                    ,accept:"file"
+                    ,before : function(obj){
+                        if(differType!=3){
+                            this.data = {"cid":dataId.cid,"wid":dataId.pid,"mid":dataId.blowdownOutlet};
+                        }else {
+                            this.data = {"cid":dataId.cid,"wid":dataId.pid};
+                        }
+                        layer.load();
+                    }
+                    ,done: function(result){
+                        layer.closeAll('loading');
+                        if(result.code == 0){//成功
+                            layer.msg(result.msg, {icon: 6,time:1000},function(){
+                            });
+                            table.reload("LAY-cominfo-cominfoRepairRecord"); //刷新表格
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error: function(){
+                        layer.closeAll('loading');
+                    }
+                });
+            }
+
+            //修改和增加
+            form.on('submit(repair-form-element)', function(data){
+                var loadindex = layer.load(1);
+                // layer.msg(JSON.stringify(data.field));
+
+                data.field.token = layui.data(setter.tableName).access_token;
+                if(data.field.pid=="undefined"){
+                    data.field.pid="";
+                }
+                // layer.load(1);
+                var type = "POST";
+                if(data.field.pid!=null&data.field.pid!=""){//修改
+                    type = "PUT";
+                }
+                if(differType!=3){
+                    data.field.mid=dataId.blowdownOutlet;
+                }
+                data.field.cid=dataId.cid;
+                data.field.wid=dataId.pid;
+
+                admin.req({
+                    type: type,
+                    contentType:"application/json",
+                    url: baseurl,
+                    data: JSON.stringify(data.field),
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            });
+                            hide();
+                            table.reload("LAY-cominfo-cominfoRepairRecord");
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false;
+            });
+        };
+
+
+    });
+</script>

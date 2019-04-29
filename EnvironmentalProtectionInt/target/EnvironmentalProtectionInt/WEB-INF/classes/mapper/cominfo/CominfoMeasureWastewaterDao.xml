@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoMeasureWastewaterDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureWastewaterEntity" id="cominfoMeasureWastewaterMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="measureName" column="measure_name"/>
+        <result property="blowdownOutlet" column="blowdown_outlet"/>
+        <result property="model" column="model"/>
+        <result property="process" column="process"/>
+        <result property="wastewaterCategory" column="wastewater_category"/>
+        <result property="removalOfMaterial" column="removal_of_material"/>
+        <result property="totalInvestment" column="total_investment"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="processingCapacity" column="processing_capacity"/>
+        <result property="actualProcessing" column="actual_processing"/>
+        <result property="runningState" column="running_state"/>
+        <result property="yearThroughput" column="year_throughput"/>
+        <result property="yearOperatingCost" column="year_operating_cost"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="singleDesign_capability" column="single_design_capability"/>
+        <result property="dayRuntime" column="day_runtime"/>
+        <result property="governanceLimit" column="governance_limit"/>
+        <result property="acceptanceOpinion" column="acceptance_opinion"/>
+
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureWastewaterEntity">
+        SELECT w.pid,w.cid,w.measure_name,w.blowdown_outlet
+        ,p.monitor_name blowDownOutLetName
+        ,z.value wastewaterCategoryName
+        ,w.model,w.process,w.wastewater_category
+        ,w.removal_of_material,w.total_investment
+        ,w.delivery_date,w.processing_capacity,w.actual_processing,w.running_state
+        ,w.year_throughput,w.year_operating_cost,w.remarks
+        ,w.createdate,w.updatedate,w.deletedate
+        ,w.single_design_capability,w.day_runtime,w.governance_limit,w.acceptance_opinion,
+        w.handle_other_unitWater,w.airtight_situation, w.handle_whereabouts, w.annualo_perating_hours
+        FROM cominfo_measure_wastewater w
+        LEFT JOIN online_monitor_portinfo p ON p.pid=w.blowdown_outlet
+        LEFT JOIN sys_dict z ON z.key=w.wastewater_category AND z.type='wastewater_category_type'
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND w.cid=#{cid}
+        </if>
+        <if test="mid!=null and mid!=''">
+            AND w.blowdown_outlet=#{mid}
+        </if>
+        order by w.delivery_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countData" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM cominfo_measure_wastewater w
+        LEFT JOIN online_monitor_portinfo p ON p.pid=w.blowdown_outlet
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND w.cid=#{cid}
+        </if>
+        <if test="mid!=null and mid!=''">
+            AND w.blowdown_outlet=#{mid}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoMeasureWastewaterEntity">
+        SELECT w.pid,w.cid,w.measure_name,w.blowdown_outlet
+        ,p.monitor_name blowDownOutLetName
+        ,z.value wastewaterCategoryName
+        ,w.model,w.process,w.wastewater_category
+        ,w.removal_of_material,w.total_investment
+        ,w.delivery_date,w.processing_capacity,w.actual_processing,w.running_state
+        ,w.year_throughput,w.year_operating_cost,w.remarks
+        ,w.createdate,w.updatedate,w.deletedate
+        FROM cominfo_measure_wastewater w
+        LEFT JOIN online_monitor_portinfo p ON p.pid=w.blowdown_outlet
+        LEFT JOIN sys_dict z ON z.key=w.wastewater_category AND z.type='wastewater_category_type'
+        WHERE w.cid=#{cid}
+    </select>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.sys.dao.SysFeedbackRecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.sys.entity.SysFeedbackRecordEntity" id="sysFeedbackRecordMap">
+        <result property="pid" column="pid"/>
+        <result property="oid" column="oid"/>
+        <result property="feedbackContent" column="feedback_content"/>
+        <result property="feedbackDate" column="feedback_date"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="replyDate" column="reply_date"/>
+        <result property="replyStatus" column="reply_status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="deleteDate" column="delete_date"/>
+        <result property="backup" column="backup"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.sys.entity.SysFeedbackRecordEntity">
+        SELECT a.*,z.company_name companyName FROM sys_feedback_record a
+        LEFT JOIN sys_feedback_info x ON x.pid=a.oid
+        LEFT JOIN cominfo_baseinfo z ON z.pid= x.login_user
+        WHERE 1=1
+        <if test="oid!=null and oid!=''">
+            AND a.oid=#{oid}
+        </if>
+        <if test="loginUser!=null and loginUser!=''">
+            AND x.login_user=#{loginUser}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and a.feedback_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.feedback_date &lt; #{endTime}
+        </if>
+        ORDER BY a.feedback_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_feedback_record a
+        LEFT JOIN sys_feedback_info x ON x.pid=a.oid
+        LEFT JOIN cominfo_baseinfo z ON z.pid= x.login_user
+        WHERE 1=1
+        <if test="oid!=null and oid!=''">
+            AND a.oid=#{oid}
+        </if>
+        <if test="loginUser!=null and loginUser!=''">
+            AND x.login_user=#{loginUser}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and a.feedback_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.feedback_date &lt; #{endTime}
+        </if>
+    </select>
+
+</mapper>

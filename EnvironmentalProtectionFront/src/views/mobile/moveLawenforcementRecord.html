@@ -1,0 +1,623 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<!--<style type="text/css">-->
+<!--#LAY-app-message .layui-table-body{-->
+<!--overflow-y: scroll;-->
+<!--overflow-x: hidden;-->
+<!--}-->
+<!--</style>-->
+<title>现场执法</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>移动执法</cite></a>
+        <a><cite>现场执法</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入被检查单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-move-moveLawenforcementRecord" lay-filter="LAY-move-moveLawenforcementRecord"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="lawEnforcementTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">执法人：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="checkPersonName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">执法类型：</label>
+                            <div class="layui-input-block">
+                                <select id="lawEnforcementType" name="lawEnforcementType" lay-filter="lawEnforcementType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">检查时间：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" id="searchTime" name="searchTime" placeholder="请选择" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--现场检查情况-->
+<script id="editproductionWasteBurnregister2" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="administrativePenaltyedit1" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="undefined">
+                    <input type="hidden" name="cid" value="undefined">
+                    <table class="reporttable">
+                        <tbody>
+                        <tr>
+                            <td>检查单位：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>执法人及执法证号：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>被检查单位：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>被检查单位地址：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>被检查单位法人：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>法人联系电话：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>检查开始时间：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>检查结束时间：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>现场负责人：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>负责人联系电话：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>记录人及执法证号：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>执法类型：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <input type="text" name="expertName" lay-verify="required" value="{{d.expertName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="expertName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>检查结果：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <textarea name="companyIntroduction"  value="{{d.expertName}}"  placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# }else{ }}
+                                <textarea name="companyIntroduction"  value="" placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>现场情况：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <textarea name="companyIntroduction"  value="{{d.expertName}}"  placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# }else{ }}
+                                <textarea name="companyIntroduction"  value="" placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监测意见：</td>
+                            <td>
+                                {{# if(d.expertName){ }}
+                                <textarea name="companyIntroduction"  value="{{d.expertName}}"  placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# }else{ }}
+                                <textarea name="companyIntroduction"  value="" placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--<div class="layui-form-item divbutton"> -->
+                    <!--<div> -->
+                    <!--<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="component-form-element">保存</button> -->
+                    <!--<button class="layui-btn layui-btn-normal" type="button" name="buildingHome3">返回</button>-->
+                    <!--</div> -->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!-- 编辑弹窗 -->
+<script id="editproductionWasteBurnregister" type="text/html">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id="com-info1" class="layui-this" value="0">现场检查情况</li>
+            <li value="1">现场检查资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="" value="undefined">
+                                <input type="hidden" name="" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>检查单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkCompany" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>执法人及执法证号</td>
+                                        <td colspan="3">
+                                            <input type="text" readonly name="checkPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被检查单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>被检查单位地址：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyAddress" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被检查单位法人：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyRepresentative" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>法人联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="representativePhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>检查开始时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkStarttime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>检查结束时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkEndtime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>现场负责人：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkedCompanyLeader" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>负责人联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkedCompanyLeaderPhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>记录人及执法证号：</td>
+                                        <td>
+                                            <input type="text" readonly name="recordPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>执法类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="lawEnforcementTypeName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>检查结果：</td>
+                                        <td>
+                                            <input type="text" readonly name="examinationResultsName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>结果类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="resultTypeStr" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>现场情况：</td>
+                                        <td colspan="3">
+                                            <textarea name="fieldSituation" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>监测意见：</td>
+                                        <td colspan="3">
+                                            <!--<div  name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></div>-->
+                                            <textarea name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--<div class="layui-form-item divbSysApprovalUnit.htmlutton"> -->
+                                <!--<div> -->
+                                <!--<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="component-form-element">保存</button> -->
+                                <!--<button class="layui-btn layui-btn-normal" type="button" name="buildingHome3">返回</button>-->
+                                <!--</div> -->
+                                <!--</div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/mobile/mobileenforcementscene"
+            ,baseurl2 = setter.remoteServiceAddress + "/mobile/mobileenforcementattachment";
+        var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_mobile_lawenforcement_records',
+            title: "移动执法-现场执法记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //执法类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/law_enforcement_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var lawEnforcementType=$("#lawEnforcementType");
+                var optiona=$("<option>").text("请选择").val("");
+                lawEnforcementType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    lawEnforcementType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(lawEnforcementType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='lawEnforcementTypeName']").val(name);
+            }else {
+                $("[name='lawEnforcementTypeName']").val("");
+            }
+        });
+
+        var serializeObject = function (form) {
+            var o = {};
+            var a = $("#" + form).serializeArray();
+            $.each(a, function () {
+                // 区划组件的值要排除
+                if (this.name.indexOf('region_') < 0) {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                }
+            });
+            return o;
+        };
+        var colstemp= [[
+            {type: 'numbers', title: '序号',unresize: true}
+            ,{field: 'companyName', title: '被检查单位', minWidth: 100,event:'preview',style:'color:blue;cursor:pointer;',unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                }}
+            }
+            ,{field: 'companyAddress', title: '被检查单位地址',minWidth: 100,unresize: true}
+            ,{field: 'checkPersonName', title: '执法人及执法证号', minWidth:100,unresize: true,templet: function(item, index){
+                    if(item.checkPersonName!=""){
+                        return '<span title="'+item.checkPersonName+'">'+item.checkPersonName+'</span>';
+                    }}}
+            ,{field: 'lawEnforcementTypeName', title: '执法类型', width: 100,unresize: true}
+            ,{field: 'checkStarttime', title: '检查时间', width: 180,unresize: true}
+            ,{field: 'examinationResultsName', title: '检查结果', width: 210,unresize: true}
+        ]];
+        table.render({//查询列表信息
+            elem: '#LAY-move-moveLawenforcementRecord'
+            ,url: baseurl+"/lq"
+            ,page: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:colstemp
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+//            ,size: 'sm' //小尺寸的表格
+
+        });
+
+        table.on('tool(LAY-move-moveLawenforcementRecord)',function (obj) {
+            if (obj.event == 'preview') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '600px']
+                    // offset: '120px',
+                    ,content: editproductionWasteBurnregister.innerHTML
+                });
+                var differType=0;
+                $('#com-info li').on('click', function(data){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        debugger
+                        var formdata = serializeObject("administrativePenaltyedit");
+                        console.log(formdata);
+                        for (var attr in formdata) {
+                            if(attr=="monitoringOpinion"){
+                                var monitoringOpinion=data.monitoringOpinion==null?'':data.monitoringOpinion.replace(/<br\/>/g,"");
+                                $("#administrativePenaltyedit [name='monitoringOpinion']").val(monitoringOpinion);
+                            }else{
+                                $("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                            }
+
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-online-onlineMonitorPortinfo0'
+                            ,url: baseurl2
+                            ,page: true
+                            ,height: 'full-500'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,mid:data.pid
+                                ,type:0//移动执法附件类型（0：现场检查；1：调查询问）
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                // {type: 'checkbox', fixed: 'left',width:"3%"}
+                                // {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                                {field: 'fileName', title: '资料名', minWidth: 100,event:'fujian',style:'color:blue;cursor:pointer;',unresize: true}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100,unresize: true}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                });
+                $("#com-info1").trigger('click');
+                table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                    var data=obj.data;
+                    if (obj.event == 'fujian') {
+                        baseInfoAttachment.view(data.attachmentUrl);
+                    }
+                });
+            }
+        });
+
+        laydate.render({
+            elem: '#searchTime' //指定元素,根据实际定义字段
+            ,type:'date'
+            // ,format:"yyyy-MM-dd "
+            ,range: '~'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-move-moveLawenforcementRecord","onlineCompanyReloadButton","labelTip");
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel","check_starttime");
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "被检查单位,被检查单位地址,执法人及执法证号,执法类型,检查时间,检查结果";
+//            var headerfield = "companyName,companyAddress,checkPersonName,lawenforcementtype,check_starttime,examinationResultsName";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

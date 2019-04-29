@@ -1,0 +1,406 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>排污许可证</title>
+<style>
+    /*.layui-form-label{*/
+        /*width: 170px;*/
+    /*}*/
+
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>排污许可证</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-market-contractmanage" lay-filter="LAY-market-contractmanage"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="layui-fluid" id="LAY-app-message">-->
+    <!--<div class="layui-card">-->
+        <!--<div class="layui-tab layui-tab-brief" >-->
+            <!--<div class="layui-tab-content">-->
+                <!--<div class="layui-tab-item layui-show">-->
+                    <!--<div style="margin-bottom: 10px" >-->
+
+                        <!--<div class="layui-inline" >-->
+                            <!--<label class="mylabel" >单位名称：</label>-->
+                            <!--<input  class="layui-input myinput" id="companyName" autocomplete="off" placeholder="">-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline" >-->
+                            <!--<label class="mylabel" >许可证编号：</label>-->
+                            <!--<input  class="layui-input myinput" id="permitCode" autocomplete="off" placeholder="">-->
+                        <!--</div>-->
+                        <!--<div class="layui-inline" style="margin-right: 45px">-->
+                            <!--<label class="mylabel" >发证年份：</label>-->
+                            <!--<div class="layui-inline">-->
+                                <!--<input class="layui-input myinput" id="searchTime" placeholder="请选择时间" type="text">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<button class="layui-btn" data-type="tableReload" id="tableReload">-->
+                            <!--<i class="layui-icon">&#xe615;</i>-->
+                        <!--</button>-->
+                        <!--<button class="layui-btn" data-type="reset" id="reset" >-->
+                            <!--<i class="layui-icon">&#xe669;</i>-->
+                        <!--</button>-->
+                        <!--<button class="layui-btn " id="export">导出</button>-->
+                    <!--</div>-->
+                    <!--<div id="exportTable">-->
+                        <!--<table id="LAY-market-contractmanage"  lay-filter="LAY-market-contractmanage"></table>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="lawEnforcementTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">许可证编号：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="permitCode" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">发证年份：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" id="batchTime" name="batchTime" placeholder="请选择" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="marketContractManageeditShowInfo" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid"/>
+                    <input type="hidden" name="cid"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>排污许可证编号：</td>
+                            <td>
+                                <input type="text" readonly name="permitCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>证书类型：</td>
+                            <td>
+                                <input type="text" readonly name="permitTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>单位名称：</td>
+                            <td>
+                                <input type="text" readonly name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>生产经营场所地址：</td>
+                            <td>
+                                <input type="text" readonly name="companyAddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>行业类别：</td>
+                            <td>
+                                <input type="text" readonly name="industry" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>技术负责人：</td>
+                            <td>
+                                <input type="text" readonly name="technologyLeader" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" readonly name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发证日期：</td>
+                            <td>
+                                <input type="text" readonly name="issueDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="1">
+                            </td>
+                            <td>有效期开始日期：</td>
+                            <td>
+                                <input type="text" readonly name="startDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>有效期结束日期：</td>
+                            <td>
+                                <input type="text" readonly name="endDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="3">
+                            </td>
+                            <td>发证单位：</td>
+                            <td>
+                                <input type="text" readonly name="issueCompany" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主要污染物类别：</td>
+                            <td>
+                                <input type="text" readonly name="mainWasteCategoryName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>大气主要污染物种类：</td>
+                            <td>
+                                <input type="text" readonly name="airMainWaste" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>大气污染物排放规律：</td>
+                            <td>
+                                <input type="text" readonly name="airPollutantsRuleName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>大气污染物排放执行标准：</td>
+                            <td>
+                                <input type="text" readonly name="airPollutantsStandard" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>废水主要污染物种类：</td>
+                            <td>
+                                <input type="text" readonly name="waterMainWaste" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>废水污染物排放规律：</td>
+                            <td>
+                                <input type="text" readonly name="waterPollutantsRule" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>废水污染物排放执行标准：</td>
+                            <td>
+                                <input type="text" readonly name="waterPollutantsStandard" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排污权使用和交易信息：</td>
+                            <td>
+                                <input type="text" readonly name="emissionsTrading" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td>正本文件：</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" readonly name="originalDocument" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</td>-->
+                        <!--<td>副本文件：</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" readonly name="copyFile" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</td>-->
+                        <!--</tr>-->
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-green" lay-event="zhengben">正本</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-blue" lay-event="fuben">副本</a>
+</script>
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','attachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,attachment = layui.attachment
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/permit/pollutantdischargepermit";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_pollutant_discharge_permit',
+            title: "排污许可证记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        var router = layui.router();
+        var pid=router.search.pid;
+        laydate.render({
+            elem: '#batchTime'
+            ,type: 'year'
+        });
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+        }
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        var column = [[
+            {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'companyName', title: '单位名称', event: 'getContract', minWidth: 130,unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }}}
+            ,{field: 'permitCode', title: '许可证编号', unresize: true, minWidth: 100,event:"showDetial",style:'color:blue;cursor:pointer;'}
+            ,{field: 'industry', title: '行业类别',  width: 140,unresize: true}
+            ,{field: 'startDate', title: '有效期开始日期',  minWidth: 110,unresize: true}
+            ,{field: 'endDate', title: '有效期结束日期',  minWidth: 110,unresize: true}
+            ,{field: 'issueDate', title: '发证日期',  minWidth: 110,unresize: true}
+            ,{field: 'remark', title: '操作', minWidth: 100,unresize: true,toolbar: '#barDemo1'}
+        ]];
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-market-contractmanage","onlineCompanyReloadButton","labelTip");
+
+        table.render({//查询列表信息
+            elem: "#LAY-market-contractmanage"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:column
+            ,skin: 'line'
+        });
+
+        //监听单元格事件
+        table.on('tool(LAY-market-contractmanage)', function(obj){
+            if(obj.event === 'showDetial'){
+                var data=obj.data;
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:   ['1100px', '450px']
+                    // offset: '120px',
+                    , content: recordShowInfo.innerHTML
+                });
+
+                for(var id in data){
+                    $("#marketContractManageeditShowInfo [name='"+id+"']").val(data[id]);
+                }
+            }
+            if(obj.event ==='zhengben'){
+                attachment.view(obj.data.originalDocument);
+            }
+            if(obj.event ==='fuben'){
+                attachment.view(obj.data.copyFile);
+            }
+
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "单位名称,许可证编号,行业类别,有效期开始日期,有效期结束日期,发证日期";
+//            var headerfield = "companyName,permitCode,industryids,start_date,end_date,issue_date";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

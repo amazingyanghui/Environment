@@ -1,0 +1,10 @@
+/* 全局样式 */ 
+*{ margin:0; padding:0; list-style:none; font-family:"微软雅黑","Microsoft YaHei";}
+body{ padding:0; margin:0; font-size:12px; }
+ul,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,form,p,input{ padding:0; margin:0;}
+ul{list-style:none;}
+img{border:0px;}
+.clearfloat{clear:both; height:0px; font-size:1px; line-height:0px;}
+input,button{font-family: 微软雅黑, "Microsoft YaHei";}
+a,a:hover,a:focus{text-decoration:none}
+body{background:#fff;}

@@ -1,0 +1,351 @@
+
+<title>危险废物</title>
+
+<style type="text/css">
+    .divtextarea{
+        min-height: 100px;
+        resize:none;
+        margin-bottom: 10px;
+    }
+
+
+</style>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>危险废物</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-col-md12">
+                        <button class="layui-btn " data-events="add" perm="sysmgr:waste:index:add">新增</button>
+                        <button class="layui-btn " data-events="mod" perm="sysmgr:waste:index:mod">修改</button>
+                        <button class="layui-btn " data-events="del" perm="sysmgr:waste:index:del">删除</button>
+                        <div style="float: right;margin-right: 30px;">
+                            <div class="layui-inline">
+                                <input class="layui-input" id="sysWasteReload" autocomplete="off" placeholder="请输入八位码">
+                            </div>
+                            <button class="layui-btn" data-type="sysWasteReload" id="sysWasteReloadQuery"  perm="sysmgr:waste:index:query">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                            <button class="layui-btn" data-type="reset" id="reset" >
+                                <i class="layui-icon">&#xe669;</i>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="LAY-sys-sysWaste" lay-filter="LAY-sys-sysWaste"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editsysWaste" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysWasteedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="id" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">废物类别：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="wastetype" lay-verify="required|wastetype" placeholder="请输入废物类别" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">行业来源：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="company" lay-verify="required|company" placeholder="请输入行业来源" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">废物代码：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="wastecode" lay-verify="required|wastecode" placeholder="请输入废物代码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">危险废物：</label>
+                        <div class="layui-input-block">
+                            <textarea name="waste" lay-verify="required|waste" placeholder="请输入危险废物" class="layui-textarea divtextarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">废物简称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="wastename" lay-verify="required|wastename" placeholder="请输入废物简称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">危险特性：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="danger" lay-verify="required|danger" placeholder="请输入危险特性" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','perms'], function(){
+        var $ = layui.$
+                ,admin = layui.admin
+                ,table = layui.table
+                ,element = layui.element
+                ,laytpl = layui.laytpl
+                ,laydate=layui.laydate
+                ,setter = layui.setter
+                ,perms = layui.perms
+                ,form = layui.form
+                ,global_obj = {}
+            ,windowindex = 0
+                ,baseurl = setter.remoteServiceAddress + "/sys/syswaste";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+        perms.doPerm();
+//        if(!(layui.data(setter.permissionName).list.indexOf('sys:syswaste:list') === -1)) hasPermission = true;
+        //
+
+        /* 自定义验证规则 */
+        form.verify({
+            wastetype: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            , company: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            , wastecode: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            , waste: function(value,item){
+                if(value.length > 200){
+                    return '不能超过100个字符！';
+                }
+            }
+            , wastename: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            , danger: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-sys-sysWaste'
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', key: true}
+//                ,{field: 'id', title: 'ID',minWidth: 100, key: true }
+                ,{field: 'wastetype', title: '废物类别',unresize: true, minWidth: 100}
+                ,{field: 'company', title: '行业来源',unresize: true, minWidth: 100}
+                ,{field: 'wastecode', title: '废物代码',unresize: true, minWidth: 100}
+                ,{field: 'wastename', title: '废物简称',unresize: true, minWidth: 100}
+                ,{field: 'waste', title: '危险废物',unresize: true, minWidth: 100}
+                ,{field: 'danger', title: '危险特性',unresize: true, minWidth: 100}
+//                ,{field: 'createdate', title: '创建时间', minWidth: 100}
+//                ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+//                ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+//                ,{field: 'backup', title: '备用', minWidth: 100}
+            ]]
+            ,skin: 'line'
+            ,height: 'full-370'
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+                sysWasteReload: function(){
+                var sysWasteName = $('#sysWasteReload').val();
+                //执行重载
+                table.reload('LAY-sys-sysWaste', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                            sysWasteName:sysWasteName
+                    }
+                });
+            },reset:function () {
+                $('#sysWasteReload').val("");
+                $("#sysWasteReloadQuery").click();
+            }
+        };
+
+        $("#sysWasteReload").keypress(function(event){
+            if(event.keyCode==13){
+                $("#sysWasteReloadQuery").click();
+            }
+        });
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '420px']
+                // offset: '120px',
+                ,content: editsysWaste.innerHTML
+            });
+
+
+            form.render(null, 'component-form-element');
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].id
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.sysWaste){
+                                $("[name="+id+"]").val(result.sysWaste[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var ids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                            ids.push(data[i].id);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sys-sysWaste"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                    ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sys-sysWaste")
+                    ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            var type = "POST";
+            if(data.field.id){//修改
+                type = "PUT";
+            }
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+
+                        });
+                        layer.close(windowindex);
+                        table.reload("LAY-sys-sysWaste")
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

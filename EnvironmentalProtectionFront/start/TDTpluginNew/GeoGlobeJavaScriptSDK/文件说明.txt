@@ -1,0 +1,21 @@
+文件说明：
+
+1.OpenLayers文件夹：包含了地图框架库以及相关的样式表和图片。
+
+2.demoComm.js：示例中用到的公共javascript代码。
+
+3.GeoGlobeJS.min.js：吉奥javascript API库包。
+
+4.Tdt.min.js：基于天地图2.0查询服务的扩展API库包，包括公交查询、地名查询、路网查询。
+
+5.ArcGISAnalysis.min.js：基于ArcGIS的GeometryService服务的扩展API库包，包括空间分析、网络分析。
+
+6.validation-util-1.0.0.js：示例中用到的校验函数代码。
+
+7.proj4js-compressed.js：proj4js是开源C语言投影库proj的JavaScript版。
+
+8.demoComm.css：示例中用到的公共样式。
+
+9.img文件夹：用来存放符号组相关的默认的常用图片。
+
+10.examples文件夹：存放基于天地图2.0查询服务扩展API的示例，基于ArcGIS的GeometryService服务扩展API的示例。

@@ -1,0 +1,645 @@
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/login/diylogin.css" media="all">
+</script>
+
+
+<div id="LAY-user-login" style="display: none; ">
+    <div class="layadmin-user-login-main">
+        <div id="LAY-user-login-form" class="layadmin-user-login-box layadmin-user-login-body layui-form" style="text-align: center;padding:50px;">
+            <div class="welcome">
+                <div style="width: 100px;margin: 0 auto;">
+                    欢迎登录
+                    <hr style="height:4px" class="diyline">
+                </div>
+            </div>
+            <div class="layui-form-item" id="usernameinput" style="margin-bottom:25px;">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+                <input type="text" name="username" style="width: 350px;font-size: 18px; font-weight:bold;" id="LAY-user-login-username" lay-verify="required" placeholder="手机/用户名" class="layui-input myinput">
+                <hr style="height:2px" id="usernamehr" class="layui-bg-gray">
+            </div>
+            <div class="layui-form-item" id="passwordinput" style="margin-bottom:25px;">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+                <input type="password" name="password" style="width: 350px;font-size: 18px; font-weight:bold;" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input myinput">
+                <hr style="height:2px"  id="passwordhr" class="layui-bg-gray">
+            </div>
+            <div class="layui-form-item" id="vercodeinput" style="margin-bottom:25px;">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+                        <input type="text" name="vercode"  style="width: 350px;font-size: 18px; font-weight:bold;" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input myinput">
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px;">
+
+                            <img style="width:100px; height: 20px;"  id="thevercode">
+
+                        </div>
+                    </div>
+                </div>
+                <hr style="height:2px"  id="vercodehr" class="layui-bg-gray">
+            </div>
+            <div class="layui-form-item" style="margin-bottom: 20px;">
+                <!--<a lay-href="/user/reg" class="layadmin-link" style="margin-top: 7px; float: left">立即注册</a>-->
+                <!--<a lay-href="/user/forget" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>-->
+            </div>
+            <div class="layui-form-item"  style="margin-bottom:25px;">
+                <button class="layui-btn layui-btn-fluid loginbutton" id="loginInTo" lay-submit lay-filter="LAY-user-login-submit">登 录</button>
+            </div>
+            <div class="layui-form-item"  style="margin-bottom:25px;">
+                <button class="layui-btn layui-btn-fluid loginbutton" id="register" lay-filter="LAY-user-register-submit">注 册</button>
+            </div>
+        </div>
+        <div class="layui-trans layui-diy-earth">
+            <div class = "logoimg" />
+            <div class="layui-trans layui-diy-earth-text1">
+                兵团第十二师环保综合监管软件平台
+            </div>
+            <div class="layui-trans layui-diy-earth-text2">
+                The 12th Division of the Corps Environmental Protection Supervision Software Platform
+            </div>
+        </div>
+        <div class="layui-trans layadmin-user-login-footer" >
+            <p>Copyright © 兵团第十二师环保综合监管软件平台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;技术支持：南京腾迪智能科技有限公司</p>
+        </div>
+    </div>
+</div>
+
+
+<!--编辑注册弹出框-->
+<script id="registerInfo" type="text/html">
+    <div class="layui-fluid ">
+        <div class="layui-row  ">
+
+            <div class="layui-card-body layui-form-item  ">
+                <form class="layui-form" action="" lay-filter="component-form-register">
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>企业名称：</label>
+                        <div class="layui-input-block" style="margin-left:180px;">
+                            <input type="text" id="companyName" name="companyName" lay-verify="required" maxlength="30" placeholder="请设置企业名称" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>法人：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id ="companyRepresentative" name="companyRepresentative" lay-verify="required" maxlength="15" placeholder="请输入法人姓名" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>联系电话：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id = "environmentalProtectionPhone" maxlength="15"  name="environmentalProtectionPhone" lay-verify="required||phoneVerify" placeholder="请输入联系电话" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>统一社会信用代码：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id="unifiedSocialCreditCode" name="unifiedSocialCreditCode" maxlength="18" lay-verify="required" placeholder="请设置统一社会信用代码" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button id ="ifclick" class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-register">确定</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space10 layui-f orm-item " style="margin-top: 10px;" id="userInfoShow">
+                        <div class="layui-col-md12">
+                            <label class="layui-form-label" style="width:54px;">账号：</label>
+                            <div class="layui-input-block" style="margin-left:84px;">
+                                <input type="text" id="username" style="border:none;" readonly placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                    </div >
+                    <div class="layui-row layui-col-space10 layui-f orm-item "  style="margin-top: 10px;" id="userInfoShow1">
+                        <div class="layui-col-md12">
+                            <label class="layui-form-label" style="width:54px;">密码：</label>
+                            <div class="layui-input-block" style="margin-left:84px;">
+                                <input type="text" id="password" style="border:none;" readonly placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--<div class="layui-row layui-col-space10 layui-form-item " style="margin-top: 0px;" id="userInfoShow1">-->
+                    <!--<div class="layui-col-md6">-->
+                    <!--<label class="layui-form-label" style="width:60px;">账号2：</label>-->
+                    <!--<div class="layui-input-block" style="margin-left:90px;">-->
+                    <!--<input type="text" id="username1" style="border:none;" readonly placeholder="" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-col-md6">-->
+                    <!--<label class="layui-form-label" style="width:60px;">密码：</label>-->
+                    <!--<div class="layui-input-block" style="margin-left:90px;">-->
+                    <!--<input type="text" id="password1" style="border:none;" readonly placeholder="" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'form', 'user'], function(){
+        var $ = layui.$
+            ,setter = layui.setter
+            ,admin = layui.admin
+            ,form = layui.form
+            ,router = layui.router()
+            ,search = router.search
+            ,global_obj={}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+
+        var heighttemp = window.innerHeight - 680;
+        if(window.innerHeight < 650 ){
+            heighttemp = window.innerHeight - 650
+        }
+        $(".welcome").css({'margin-top':''+heighttemp+'px'});
+
+        //页面初始化的执行操作
+        //img标签资源重新设定
+        //$('#LAY-user-get-vercode').src = setter.remoteServiceAddress+"captcha.jpg";
+        $("#thevercode").bind("click",function () {
+            getVerify($(this));
+        })
+
+        $("#thevercode").trigger("click");
+
+
+        // $.ajax({
+        //     type: 'POST',
+        //     contentType:"application/json",
+        //     url: setter.remoteServiceAddress+'/sys/getVercode',
+        //     success: function(result){
+        //         console.log("图片");
+        //         $("#LAY-user-get-vercode").attr("src","data:image/gif;base64,"+result);
+        //
+        //     }
+        //
+        // });
+        //获取验证码
+        function getVerify(obj){
+            obj.attr("src",setter.remoteServiceAddress+'/sys/getVercode?'+Math.random())
+        }
+        form.render();
+
+        global_obj.unifiedSocialCreditCode = true;
+        global_obj.companyName = true;
+        global_obj.environmentalProtectionPhone = true;
+        global_obj.usernamecode = true ;
+        //注册企业-企业名称异步判重
+        function verifyCode() {
+            $("#companyName").blur(function(){
+                var companyName = $.trim( $(this).val());
+                var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+                if(reg.test(companyName)){
+                    layer.tips('企业名称种含有特殊符号', '#companyName');
+                    console.log("特殊符号 ==== "+global_obj.companyName)
+                    return ;
+                }
+                var param = {
+                    companyName:companyName
+                };
+                if(companyName!=""){
+                    commonVerify(param) ;
+
+                }else{
+                    //alert("请输入企业名称！");
+                    //return;
+                }
+
+
+            });
+            $("#unifiedSocialCreditCode").blur(function () {
+                var unifiedSocialCreditCode = $.trim( $(this).val());
+                var param = {
+                    unifiedSocialCreditCode:unifiedSocialCreditCode
+                };
+                if(unifiedSocialCreditCode!=""){
+                    commonVerify(param) ;
+                }else{
+                    // alert("请输入统一社会信用代码！");
+                }
+
+            });
+
+            $("#environmentalProtectionPhone").blur(function () {
+                var environmentalProtectionPhone = $.trim( $(this).val());
+                var param = {
+                    environmentalProtectionPhone:environmentalProtectionPhone
+                };
+                if(environmentalProtectionPhone!=""){
+                    commonVerify(param) ;
+                }else{
+                    // alert("请输入联系人号码！"); str.substr(str.length-4)
+                }
+
+            });
+
+        }
+
+        function commonVerify(param){
+            admin.req({
+                type: 'post',
+                url: baseurl + "/VerifyCompanyName",
+                contentType:"application/json",
+                data: JSON.stringify(param),
+                done: function (result) {
+                    if(result.code == 0){
+                        if (result.data.length > 0) {//成功
+                            if( param.companyName!=""&&param.companyName!=undefined){
+                                layer.tips('企业名称已存在,请使用其他名称', '#companyName');
+                                global_obj.companyName = false;
+                                console.log("==== "+global_obj.companyName)
+                                return;
+                            }
+
+                            if(param.environmentalProtectionPhone!=""&&param.environmentalProtectionPhone!=undefined){
+                                layer.tips('该联系电话已使用,请更换其他号码', '#environmentalProtectionPhone');
+                                global_obj.unifiedSocialCreditCode = false;
+                                return;
+                            }
+
+                            if(param.unifiedSocialCreditCode!=""&&param.unifiedSocialCreditCode!=undefined){
+                                layer.tips('该统一社会信用代码已存在', '#unifiedSocialCreditCode');
+                                global_obj.unifiedSocialCreditCode = false;
+                                return;
+                            }
+
+                        } else {
+
+                            if( param.companyName!=""&&param.companyName!=undefined){
+                                global_obj.companyName = true;
+                            }
+                            if(param.environmentalProtectionPhone!=""&&param.environmentalProtectionPhone!=undefined){
+                                global_obj.environmentalProtectionPhone = true;
+                            }
+                            if(param.unifiedSocialCreditCode!=""&&param.unifiedSocialCreditCode!=undefined){
+                                global_obj.unifiedSocialCreditCode = true;
+                            }
+                        }
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            // offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+        }
+
+
+        //用户名重复验证
+        function verifyUserName(usernamecode){
+            admin.req({
+                type: 'Get',
+                url: baseurl + "/VerifyUserName/"+usernamecode,
+                contentType:"application/json",
+                done: function (result) {
+                    if (result.data.length > 0) {//成功
+
+                        if(result.data[0].username!=""){
+                            layer.tips('用户名重复，请再次确认该统一社会信用代码', '#unifiedSocialCreditCode');
+                            global_obj.usernamecode = false;
+                            return;
+                        }
+                    } else {
+                        global_obj.usernamecode = true;
+
+                    }
+                }
+
+            });
+
+        }
+
+
+
+        form.on('submit(component-form-register)', function (data) {
+            var reg=/^[0-9A-Z]{18}$/;//18位统一社会信用代码有数字和大写字母组成
+            var unifiedSocialCreditCode = $.trim( $('#unifiedSocialCreditCode').val());
+            if(!reg.test(unifiedSocialCreditCode)) {
+                layer.tips('统一社会信用代码是由数字或大写英文字母组成的18位统一码!','#unifiedSocialCreditCode');
+                return false ;
+            }
+            var companyName = $.trim( $('#companyName').val());
+            var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+            if(reg.test(companyName)){
+                layer.tips('企业名称种含有特殊符号', '#companyName');
+                return false ;
+            }
+            if (global_obj.companyName == false) {
+                layer.tips('企业名称已存在,请使用其他名称', '#companyName');
+                return false;
+            }
+            if (global_obj.unifiedSocialCreditCode == false) {
+                layer.tips('该统一社会信用代码已存在', '#unifiedSocialCreditCode');
+                return false;
+            }
+            if (global_obj.environmentalProtectionPhone == false) {
+                layer.tips('该联系电话已使用,请更换其他号码', '#environmentalProtectionPhone');
+                return false;
+            }
+
+            if(global_obj.usernamecode == false){
+                layer.tips('用户名重复，请再次确认该统一社会信用代码', '#unifiedSocialCreditCode');
+                return false;
+            }
+            if(global_obj.unifiedSocialCreditCode&&global_obj.unifiedSocialCreditCode&&global_obj.companyName){
+                admin.req({
+                    type: 'POST',
+                    url: baseurl + "/VerifyCompanyName",
+                    contentType: "application/json",
+                    data: JSON.stringify(data.field),
+                    done: function (result) {
+                        if(result.data.length<1){
+                            $.ajax({
+                                type: "POST",
+                                contentType:"application/json",
+                                url: setter.remoteServiceAddress + "/market/cominfobaseinfo/register",
+                                data: JSON.stringify(data.field),
+                                success: function(result){
+                                    debugger
+                                    console.log(result);
+                                    if(result.code == 0){//成功
+                                        //请求成功后，写入 access_token
+                                        $("#userInfoShow").show();
+                                        $("#userInfoShow1").show();
+                                        $("#ifclick").attr({"disabled":"disabled"});
+
+                                        $("#ifclick").removeClass("layui-btn-normal");
+                                        $("#ifclick").addClass("layui-btn-disabled");
+
+                                        // alert(data.field.environmentalProtectionPhone);
+                                        $("#username").val(data.field.unifiedSocialCreditCode.substring(data.field.unifiedSocialCreditCode.length-12)+"  (社会信用代码后十二位) 或 "+data.field.environmentalProtectionPhone+" (手机号码)");
+                                        // $("#username1").val();
+                                        $("#password").val(data.field.unifiedSocialCreditCode.substring(data.field.unifiedSocialCreditCode.length-6)+"  (社会信用代码后六位)");
+                                        // $("#password1").val(data.field.unifiedSocialCreditCode.substring(data.field.unifiedSocialCreditCode.length-6));
+                                        $('#companyName').attr("readonly","readonly") ;
+                                        $('#unifiedSocialCreditCode').attr("readonly","readonly") ;
+                                        $('#companyRepresentative').attr("readonly","readonly") ;
+                                        $('#environmentalProtectionPhone').attr("readonly","readonly") ;
+
+                                    }else{
+                                        $("#ifclick").removeClass("layui-btn-disabled ");
+                                        $("#ifclick").addClass(" layui-btn-normal");
+
+                                        $('#companyName').removeAttr("readonly");
+                                        $('#unifiedSocialCreditCode').removeAttr("readonly") ;
+                                        $('#companyRepresentative').removeAttr("readonly") ;
+                                        $('#environmentalProtectionPhone').removeAttr("readonly");
+
+                                        layer.alert(result.msg, {
+                                            skin: 'layui-layer-lan',
+                                            // offset: 't',
+                                            anim: 6
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+            }
+
+            return false;
+        });
+
+        //提交
+        form.on('submit(LAY-user-login-submit)', function(obj){
+            console.log('登录校验');
+            //请求登入接口
+            var grant_type = 'password'
+            var scope = 'server'
+            var code = obj.field.vercode;
+            var username = obj.field.username;
+            var password = obj.field.password;
+            // var url = setter.remoteServiceAddress + "sys/login?username="+username+"&password="+password+"&captcha="+code;
+            // var url = setter.remoteServiceAddress + "/sys/login";
+            // var url = setter.remoteServiceAddress + "/sys/shalogin";
+            var url = setter.remoteServiceAddress + "/sys/baselogin";
+            // http://localhost:8080/renren-admin/sys/user/list
+            //验证码url
+            // var codeimg_url = setter.remoteServiceAddress+"/sys/getVerifyCode";
+            var salt_url = setter.remoteServiceAddress + "/sys/getSaltCode";
+            // var data = {"username":username};
+            var b = new Base64();
+            var vdata = {"username":b.encode(username),"password":b.encode(password),"captcha":code};
+            dologin(url, vdata, setter)
+            // alert(JSON.stringify(vdata))
+            /*$.ajax({
+                type: "POST",
+                url: salt_url,
+                data: data,
+                success: function (result) {
+                    if(result.code == 0) {//成功
+                        var passwordnew = SHA256(password + result.salt)
+                        var vdata = {"username":username,"password":passwordnew,"captcha":code};
+                        dologin(url, vdata, setter)
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            // offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });*/
+
+            return;
+
+        });
+
+        function dologin(url, data, setter){
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(result){
+                    console.log(result);
+                    if(result.code == 0){//登录成功
+                        //请求成功后，写入 access_token
+                        layui.data(setter.tableName, {
+                            key: setter.request.tokenName
+                            ,value: result.access_token
+                        });
+                        layui.data(setter.permissionName, {
+                            key: setter.permissionName
+                            ,value: result.permissions
+                        });
+                        layui.data(setter.userName, {
+                            key: setter.userName
+                            ,value: result.userName
+                        });
+                        layui.data(setter.userId, {
+                            key: setter.userId
+                            ,value: result.userId
+                        });
+                        layui.data(setter.userRoles, {
+                            key: setter.userRoles
+                            ,value: result.userRoles
+                        });
+                        layui.data(setter.userDeptId, {
+                            key: setter.userDeptId
+                            ,value: result.userDeptId
+                        });
+                        layui.data(setter.userDeptName, {
+                            key: setter.userDeptName
+                            ,value: result.userDeptName
+                        });
+                        layui.data(setter.remoteServiceAddressStore, {
+                            key: setter.remoteServiceAddressStore
+                            ,value: setter.remoteServiceAddress
+                        });
+                        layui.data(setter.superAdminStore, {
+                            key: setter.superAdminStore
+                            ,value: setter.superAdmin
+                        });
+                        layui.data(setter.companyRoleIdStore, {
+                            key: setter.companyRoleIdStore
+                            ,value: setter.companyRoleId
+                        });
+                        //登入成功的提示与跳转
+                        layer.msg('登入成功', {
+                            icon: 1
+                            ,time: 500
+                        });
+
+
+                        if(result.userId == setter.superAdmin){
+                            location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        }else{
+                            if(layui.data(setter.userRoles).userRoles.indexOf(setter.administrativeRoleId) !== -1){//管委会
+                                location.hash = '/screen/show';
+                            }else if(layui.data(setter.userRoles).userRoles.indexOf(setter.EPARoleId) !== -1){//水环局
+                                alert(1)
+                            }else{//企业用户
+                                location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                            }
+                        }
+                        events.disconnect();
+                        events.connect();
+                        setCookie("verifyClose","initialize");
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            // offset: 't',
+                            anim: 6
+                        });
+                        if(result.msg == "验证码不正确"){
+                            $("#thevercode").trigger("click");
+                        }
+                    }
+                }
+            });
+        }
+
+        $("#usernameinput").mouseenter(function () {
+            $(".layui-bg-gray").removeClass("layui-bg-gray")
+            $("#usernamehr").addClass("diyline")
+            $("[name='username']").focus();
+        }).mouseleave(function () {
+            $("#usernamehr").removeClass("diyline").addClass("layui-bg-gray")
+        });
+
+        $("#passwordinput").mouseenter(function () {
+            $(".layui-bg-gray").removeClass("layui-bg-gray")
+            $("#passwordhr").addClass("diyline")
+            $("[name='password']").focus();
+        }).mouseleave(function () {
+            $("#passwordhr").removeClass("diyline").addClass("layui-bg-gray")
+        });
+
+        $("#vercodeinput").mouseenter(function () {
+            $(".layui-bg-gray").removeClass("layui-bg-gray")
+            $("#vercodehr").addClass("diyline")
+            $("[name='vercode']").focus();
+        }).mouseleave(function () {
+            $("#vercodehr").removeClass("diyline").addClass("layui-bg-gray")
+        });
+
+        $("[name='vercode']").keypress(function(event){
+            if(event.keyCode==13){
+                $("#loginInTo").click();
+            }
+        });
+
+        $("#register").bind("click",function () {
+            layer.open({
+                type: 1
+                , title: "注册"
+                , area: admin.screen() < 2 ? ['80%', '300px'] : ['680px', '350px']
+                // offset: '120px',
+                , content: registerInfo.innerHTML
+            });
+
+            verifyCode();
+
+            $("#userInfoShow").hide();
+            $("#userInfoShow1").hide();
+        });
+
+        //事件处理
+        var events = {
+            //创建socket连接
+            connect : function() {
+                var socket = new SockJS(setter.remoteServiceAddress +'/my-websocket');
+                setter.stompClient = Stomp.over(socket);
+                setter.stompClient.connect({}, function (frame) {
+
+                    console.log('Connected: ' + frame);
+                    setter.stompClient.subscribe('/topic/pushMessage', function (response) {
+                        if(response.body != null){
+                            var resp = eval("(" + response.body +")");
+                            if(layui.data(setter.userId).userId == setter.annulusRoleId){//系统管理员（安环部）
+                                events.receiveData("消息",resp.content);
+                            }else{
+                                if(resp.type == 0){//待办事项
+                                    if(layui.data(setter.userId).userId == resp.userid){
+                                        events.receiveData("待办事项",resp.content);
+                                    }
+                                }else if(resp.type == 1){//通知公告
+                                    events.receiveData("通知公告",resp.content);
+                                }
+                            }
+                        }
+                    });
+                });
+            },
+            //关闭连接
+            disconnect : function() {
+                if (setter.stompClient !== null) {
+                    setter.stompClient.disconnect();
+                    setter.stompClient = null;
+                }
+                console.log("Disconnected");
+            },
+            // //发送数据
+            // sendData : function() {
+            //     stompClient.send("/app/send", {}, JSON.stringify({'message': $("#message").val()}));
+            // },
+            //接收数据
+            receiveData : function(title,content) {
+                layer.open({
+                    title: "您有新的"+title
+                    ,content: content
+                    ,offset: 'rb'
+                    ,anim: 2
+                    ,shade :false
+                    ,area: ['450px', '200px']
+                });
+            }
+        }
+    });
+</script>

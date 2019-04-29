@@ -1,0 +1,766 @@
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+
+<style type="text/css">
+  .xtree_contianer {
+    width: 95%;
+    border: 1px solid #9C9C9C;
+    overflow: auto;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 10px 0 25px 5px;
+  }
+</style>
+<title>用户管理</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a><cite>系统管理</cite></a>
+    <a><cite>用户管理</cite></a>
+  </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+  <div class="layui-card">
+    <div class="layui-tab layui-tab-brief">
+      <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+          <div style="margin-bottom: 10px;" class="layui-col-md12">
+            <button class="layui-btn " data-events="add" perm="sysmgr:user:index:add">新增</button>
+            <button class="layui-btn " data-events="mod" perm="sysmgr:user:index:mod">修改</button>
+            <button class="layui-btn " data-events="del" perm="sysmgr:user:index:del">删除</button>
+            <button class="layui-btn " data-events="update" perm="sysmgr:user:index:update">重置密码</button>
+            <button class="layui-btn" id="exportAccount" >
+              <span>导出用户账号密码</span>
+            </button>
+            <div style="float: right;margin-right: 30px;">
+              <div class="layui-inline">
+                <input class="layui-input" id="userReload" autocomplete="off" placeholder="请输入用户名称">
+              </div>
+              <button class="layui-btn" data-type="userReload" id="userReloadQuery" perm="sysmgr:user:index:query">
+                <i class="layui-icon">&#xe615;</i>
+              </button>
+              <button class="layui-btn" data-type="reset" id="reset" >
+                <i class="layui-icon">&#xe669;</i>
+              </button>
+            </div>
+          </div>
+          <div id="exportTables">
+            <table id="LAY-sysmgr-user" lay-filter="LAY-sysmgr-user"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="edit" type="text/html">
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <!--<div class="layui-card-header">响应式组合</div>-->
+      <div class="layui-card-body">
+        <form class="layui-form" id="useredit" action="" lay-filter="component-form-element">
+          <input type="hidden" name="userId" />
+          <input type="hidden" name="salt" />
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">账号：</label>
+            <div class="layui-input-block">
+              <input type="text" name="username" lay-verify="required|username|user" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">用户名：</label>
+            <div class="layui-input-block">
+              <input type="text" name="nickName" lay-verify="required|username" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-block">
+              <input type="password" name="password" lay-verify="required|password" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">所属部门：</label>
+            <div class="layui-input-block">
+              <!--<select id="select_deptId" name="deptId" lay-verify="required" >
+              </select>-->
+              <!--<input type="text" id="select_deptId" name="deptId" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+              <input type="hidden" name="deptId" >
+              <input type="text" id="select_deptName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">邮箱：</label>
+            <div class="layui-input-block">
+              <input type="text" name="email" lay-verify="numSize" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">手机号：</label>
+            <div class="layui-input-block">
+              <input type="text" name="mobile" lay-verify="required|myphone" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">用户类型：</label>
+            <div id="role" class="layui-input-block">
+              <!--<input type="checkbox" name="" title="角色" lay-skin="primary" checked>-->
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+              <input type="radio" name="status" value="0" title="禁用">
+              <input type="radio" name="status" value="1" title="正常" checked>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-layer-btn-c">
+              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+              <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- 重置密码 -->
+<script id="updatePasswordTpl" type="text/html">
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <!--<div class="layui-card-header">响应式组合</div>-->
+      <div class="layui-card-body">
+        <form class="layui-form" id="passwordUpdate" action="" lay-filter="component-form-element-password">
+          <input type="hidden" name="userId" />
+          <input type="hidden" name="roleIdList" />
+          <div class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-block">
+              <input type="password" name="password" lay-verify="required|password" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-layer-btn-c">
+              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element-password">确定</button>
+              <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!--角色模板-->
+<script id="roleTpl" type="text/html">
+  {{#  layui.each(d, function(index, item){ }}
+  <input type="radio" name="roleIdList" value="{{ item.roleId }}" title="{{ item.roleName }}" lay-filter="roleIdList"/>
+  {{#  }); }}
+  {{#  if(d.length === 0){ }}
+  <!--无数据-->
+  {{#  } }}
+</script>
+
+<!--部门模板-->
+<!--<script id="deptTpl" type="text/html">
+  <option value=""></option>
+  {{#  layui.each(d, function(index, item){ }}
+  <option value="{{ item.deptId }}">{{ item.name }}</option>
+  {{#  }); }}
+  {{#  if(d.length === 0){ }}
+  &lt;!&ndash;无数据&ndash;&gt;
+  {{#  } }}
+</script>-->
+
+
+
+
+<!-- 部门选择弹窗 -->
+<script id="userDeptSelect" type="text/html">
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <!--<div class="layui-card-header">响应式组合</div>-->
+      <div class="layui-card-body">
+        <form class="layui-form" >
+          <div class="layui-col-md12">
+            <div id="user_dept_select_tree"  class="xtree_contianer"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','tree','perms'], function(){
+        var $1 = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,tree = layui.tree
+            ,perms = layui.perms
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,windowindex = 0
+            ,baseurl = setter.remoteServiceAddress + "/sys/user";
+
+        var tableName = "vw_account_password_export";
+        var criterias = {
+            table: tableName,
+            title: "用户账号与密码导出单"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        perms.doPerm();
+        var hasPermission = false
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:user:list') === -1)) hasPermission = true;
+        //
+        /* 自定义验证规则 */
+        form.verify({
+            username: function(value,item){
+                if(value.length > 50){
+                    return '不能超过50个字符！';
+                }
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            }
+            ,numSize:function (value,item) {
+                if(value.length > 50){
+                    return '不能超过50个字符！';
+                }
+            }
+            , password: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            , myphone: function(value,item){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+                if(value.length>0){
+                    var pattern=new RegExp("^((0\\d{2,3}-\\d{7,8})|(1[3584]\\d{9}))$");
+                    if(!pattern.test(value)){
+                        return "请输入正确的电话号码！"
+                    }
+                }
+            }
+            ,user:function (value,item) {
+                var pattern=new RegExp("[a-zA-Z]{2,}");
+                if(!pattern.test(value)){
+                    return "必须包含两个字母以上！";
+                }
+            }
+        });
+        table.render({//查询列表信息
+            elem: '#LAY-sysmgr-user'
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                ,{type: 'numbers', unresize: true, title: '序号',width:80}
+                // ,{field: 'userId', title: '用户id',unresize: true, minWidth: 120}
+                ,{field: 'username', title: '账号',unresize: true, minWidth: 120}
+                ,{field: 'nickName', title: '用户名',unresize: true, minWidth: 120}
+                ,{field: 'deptName', title: '部门',unresize: true, minWidth: 120}
+                ,{field: 'email', title: '邮箱地址',unresize: true, minWidth: 120}
+                ,{field: 'mobile', title: '电话',unresize: true, minWidth: 120}
+                // ,{field: 'userId', title: '用户id', minWidth: 300, templet: tplTitle}
+            ]]
+            ,skin: 'line'
+            ,height: 'full-370'
+        });
+
+        var active = {
+            userReload: function(){
+                var username = $1('#userReload').val();
+                //执行重载
+                table.reload('LAY-sysmgr-user', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        nickName:username
+                    }
+                });
+            }
+            ,reset:function () {
+                $('#userReload').val("");
+                $("#userReloadQuery").click();
+            }
+        };
+
+        $("#userReload").keypress(function(event){
+            if(event.keyCode==13){
+                $("#userReloadQuery").click();
+            }
+        });
+
+        $1('.layui-btn').on('click', function(){
+            var type = $1(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        global_obj.roleList = [];//创建角色对象数组
+        admin.req({//获取角色请求
+            url: setter.remoteServiceAddress + "/sys/role/select"
+            ,done: function(result){
+                global_obj.roleList = result.data;
+            }
+        });
+
+        // global_obj.deptList = [];//创建部门数组对象
+        // admin.req({//获取部门请求
+        //   url: setter.remoteServiceAddress + "/sys/dept/select"
+        //   ,done: function(result){
+        //     global_obj.deptList = result.data;
+        //   }
+        // });
+
+        global_obj.deptList = [];//创建部门数组对象
+        admin.req({//获取请求
+            url: setter.remoteServiceAddress + "/sys/dept/getDeptTreeList"
+            , done: function (result) {
+                global_obj.deptList = result.deptTree;
+            }
+        });
+
+        function setReadonly() {
+            $("#useredit [name='username']").attr("readonly","readonly");
+            $("#select_deptName").parent().parent().addClass("layui-hide");
+            $("#role [name='roleIdList']").attr("disabled","disabled");
+            $("#role [value='"+setter.companyRoleId+"']").removeAttr("disabled");
+        }
+
+        function setNoReadonly() {
+            $("#useredit [name='username']").removeAttr("readonly");
+            $("#select_deptName").parent().parent().removeClass("layui-hide");
+            $("#role [name='roleIdList']").removeAttr("disabled");
+            $("#role [value='"+setter.companyRoleId+"']").attr("disabled","disabled");
+        }
+
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '420px']
+                // offset: '120px',
+                ,content: edit.innerHTML
+            });
+
+            var getRoleTpl = roleTpl.innerHTML
+                ,role = document.getElementById('role');
+            laytpl(getRoleTpl).render(global_obj.roleList, function(html){
+                role.innerHTML = html;
+            });
+
+            $("#role [value='"+setter.companyRoleId+"']").attr("disabled","disabled");
+
+
+            //点击部门输入框，弹出部门选择树
+            $1("#select_deptName").bind('click', function () {
+                var deptindex = layer.open({
+                    type: 1
+                    , title: '部门选择'
+                    , area: admin.screen() < 2 ? ['30%', '300px'] : ["350px", '460px']
+                    // offset: '120px',
+                    , content: roleDeptSelect.innerHTML
+                });
+
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    }
+                    , callback: {
+                        onDblClick: function (event, treeId, treeNode) {
+                            onDblClick(event, treeId, treeNode, deptindex)
+                        }
+                    }
+                };
+                $.fn.zTree.init($1("#role_dept_select_tree"), setting, global_obj.deptList);
+            });
+
+            function onDblClick(event, treeId, treeNode, deptindex) {
+                $1("[name='deptId']").val(treeNode.id);
+                $1("#select_deptName").val(treeNode.name);
+                layer.close(deptindex);
+            }
+
+            form.render(null, 'component-form-element');
+
+            form.on('radio(roleIdList)', function (data) {
+                if(data.value==setter.companyRoleId){
+                    setReadonly();
+                }else {
+                    setNoReadonly();
+                }
+            });
+            $("#useredit [name='password']").attr("lay-verify","required|password").parent().parent().removeClass("layui-hide");
+
+            if(data != null){
+                $("#useredit [name='password']").removeAttr("lay-verify").parent().parent().addClass("layui-hide");
+                admin.req({//根据id获取该记录的详细信息
+                    url: baseurl + "/" + data[0].userId
+                    ,done: function(result){
+                        if(result.code == 0){//成功
+                            for(var id in result.user){
+                                if(id == "status"){//状态
+                                    $1("[name="+id+"][value="+result.user[id]+"]").prop('checked',true);
+                                }else if(id == "roleIdList"){//角色
+                                    for(var i = 0 ; i < result.user[id].length; i++){
+                                        if(result.user[id][i]==setter.companyRoleId){
+                                            setReadonly();
+                                        }else {
+                                            setNoReadonly();
+                                        }
+                                        $1("#role [value="+result.user[id][i]+"]").prop('checked',true);
+                                    }
+                                }else{//一般
+                                    $1("[name="+id+"]").val(result.user[id]);
+                                }
+                            }
+                            $1("#select_deptName").val(data[0].deptName);
+                            form.render(null, 'component-form-element');
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                });
+            }
+
+            if(title=="新增"){
+                $1("#role [name='roleIdList']:eq(1)").prop('checked',true);
+                form.render(null, 'component-form-element');
+            }
+        };
+
+        function updatePassword(data) {
+            layer.open({
+                type: 1
+                ,title: "重置密码"
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['500px', '260px']
+                // offset: '120px',
+                ,content: updatePasswordTpl.innerHTML
+            });
+
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].userId
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.user){
+                            if(id == "roleIdList"){//角色
+                                for(var i = 0 ; i < result.user[id].length; i++){
+                                    $1("#passwordUpdate [name="+id+"]").val(result.user[id][i]);
+                                }
+                            }else if(id=="userId"){//一般
+                                $1("#passwordUpdate [name="+id+"]").val(result.user[id]);
+                            }
+                        }
+                        form.render(null, 'component-form-element-password');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var userids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        userids.push(data[i].userId);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(userids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sysmgr-user"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,update:function (othis,data) {
+                updatePassword(data);
+            }
+        };
+
+        $1('.layui-btn').on('click', function(){
+            var othis = $1(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sysmgr-user")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del" || thisEvent=="update"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }else if(data.length > 1 && thisEvent == "update"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            var roleIdListnew = [];
+            var roleIdList=data.field.roleIdList;
+            for(var id in data.field){
+                if(!(id.indexOf("roleIdList") === -1)){
+                    roleIdListnew.push(data.field[id]);
+                }
+            }
+            // data.field.token = layui.data(setter.tableName).access_token;
+            data.field.roleIdList = roleIdListnew;
+            var loadindex = layer.load(1);
+            var type = "POST";
+            var url = baseurl + "/basesave";
+            if(data.field.userId){//修改
+                type = "PUT";
+                url = baseurl + "/baseupdate";
+            }
+            if(type=="POST"){
+                var b = new Base64();
+                data.field.password = b.encode(data.field.password);
+            }
+//            var mobile=data.field.mobile;
+//            if(mobile==''){
+//                mobile=null;
+//            }
+            function submitForm() {
+                admin.req({
+                    type: type,
+                    contentType:"application/json",
+                    url: url,
+                    data: JSON.stringify(data.field),
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            layer.close(windowindex);
+                            table.reload("LAY-sysmgr-user");
+                            layer.msg('操作成功！', {icon: 6,time:1000});
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+            function verifyPhoneTpl(data) {
+                admin.req({//根据id获取该记录的详细信息
+                    url: setter.remoteServiceAddress+"/market/cominfobaseinfo/verifyUser"
+                    ,data:data
+                    ,done: function(result){
+                        if(result.code == 0){//成功
+                            if(result.flag==true||result.status==true){
+                                layer.close(loadindex);
+                                if(result.flag==true){
+                                    layer.msg("手机号重复，请重新输入！");
+                                }
+                                if(result.status==true){
+                                    layer.msg("账号重复，请重新输入！");
+                                }
+                            }else{
+                                submitForm();
+                            }
+
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+            if(type=="PUT"){//type只有管委会、水环局角色新增用户,differType区分企业角色和管委会、水环局角色：（0：企业角色；1：管委会和水环局角色）
+              if(roleIdList==setter.companyRoleId){
+                  var result={"username":data.field.username,"phone":data.field.mobile,"pid":data.field.username,"differType":0,"type":type};
+                  verifyPhoneTpl(result);
+              }else {
+                  var result={"username":data.field.username,"phone":data.field.mobile,"pid":data.field.userId,"differType":1,"type":type};
+                  verifyPhoneTpl(result);
+              }
+            }else{
+                var result={"username":data.field.username,"phone":data.field.mobile,"differType":1,"type":type};
+                verifyPhoneTpl(result);
+            }
+            return false
+        });
+
+        form.on('submit(component-form-element-password)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            var roleIdListnew = [];
+            for(var id in data.field){
+                if(!(id.indexOf("roleIdList") === -1)){
+                    roleIdListnew.push(data.field[id]);
+                }
+            }
+            data.field.roleIdList = roleIdListnew;
+            var loadindex = layer.load(1);
+            var type = "PUT";
+            var url = baseurl + "/baseupdate";
+            var b = new Base64();
+            data.field.password = b.encode(data.field.password);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.closeAll();
+                        table.reload("LAY-sysmgr-user")
+                        layer.msg('操作成功！', {icon: 6,time:1000});
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+        //导出用户账号密码excel表
+        $("#exportAccount").bind("click", function () {
+
+            var loadindex = layer.load(1);
+            likeColumns=[];
+            equalColumns=[];
+
+            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel","filing_time");
+
+            if (likeColumns.length > 0) {
+                criterias.likeColumns = likeColumns;
+            } else {
+                delete criterias.likeColumns;
+            }
+            if (equalColumns.length > 0) {
+                criterias.equalColumns = equalColumns;
+            } else {
+                delete criterias.equalColumns;
+            }
+
+            var header = "账号,密码,名称,创建时间 ";
+            var headerfield = "username,password,nickname,createtime";
+
+            var limits=$("#exportTables .layui-table-page .layui-laypage-count").text();
+            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+            // var obj=document.getElementById("exportTable");
+            // var limits=obj.option[obj.selectedIndex].text;
+            //     $('#exportTable').val();
+            //     var limits=   $('#exportTable').find(".layui-laypage-count").text();
+            //     var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+            criterias.headers = header;
+            criterias.headerFields = headerfield;
+            criterias.page=1;
+            criterias.orderColumn="createtime desc";
+            criterias.limit=limit;
+            admin.req({
+                url: setter.remoteServiceAddress + "/common/exportExcel/export",
+                data: criterias
+                , done: function (result) {
+                    layer.close(loadindex);
+                    delete criterias.equalColumns;
+                    delete criterias.likeColumns;
+                    if (result.code == 0) {
+                        location.href = setter.remoteServiceAddress + result.data.src;
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+        });
+
+    });
+</script>

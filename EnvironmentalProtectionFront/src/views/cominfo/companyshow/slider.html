@@ -1,0 +1,1468 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="slider/js/slider.js"></script>
+    <link rel="stylesheet" href="slider/js/slider.css" type="text/css">
+    <script type="text/javascript" src="slider/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="showInfo.js"></script>
+    <link rel="stylesheet" href="slider/js/layui.css">
+    <link rel="stylesheet" href="slider/js/reporttable.css">
+    <link rel="stylesheet" href="../../../../start/TDTNJApi/css/downcheckbox.css">
+    <!--<link href="../../../../start/TDTNJApi/css/common.css" rel="stylesheet" type="text/css">-->
+    <link href="../../../../start/TDTNJApi/profile/css/inc-style.css" rel="stylesheet" type="text/css">
+    <style type="text/css">.BMap_cpyCtrl {display: none;}</style>
+    <style type="text/css">.anchorBL{display:none;}</style>
+    <!--<link href="../../../../start/TDTNJApi/profile/css/enterprise-style.css" rel="stylesheet" type="text/css">-->
+
+
+    <!--<script type="text/javascript" src="../../../../start/TDTNJApi/lib/OpenLayers/OpenLayers-debug.js"></script>
+    <script type="text/javascript" src="../../../../start/TDTNJApi/lib/GeoGlobeSDK/GeoGlobeJS.debug.js"></script>
+    <script type="text/javascript" src="../../../../start/TDTNJApi/lib/NewForSDK/OpenLayerMap.js"></script>
+    <script type="text/javascript"  src="../../../../start/TDTNJApi/profile/js/enterprise-script.js"></script>-->
+
+    <!--<script type="text/javascript" src="../../../../start/TDTNJNew/lib/OpenLayers/OpenLayers-min.js"></script>-->
+    <!--<script type="text/javascript" src="../../../../start/TDTNJNew/lib/GeoGlobeSDK/GeoGlobeJS.min.js"></script>-->
+    <!--<script type="text/javascript" src="../../../../start/TDTNJNew/lib/NewForSDK/OpenLayerMap.js"></script>-->
+
+    <!--<script type="text/javascript"  src="../../../../start/TDTNJNew/profile/js/enterprise-script.js"></script>-->
+    <!--<script type="text/javascript" src="../../../../start/TDTpluginNew/GeoGlobeJavaScriptSDK/common.js"></script>-->
+    <link href="../../../../start/BaiduMap/baiduMapDiy.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=9KHMWtfMw0G8IFa1V2Gq40mnYqIWh5n2"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/EventWrapper/1.2/src/EventWrapper.min.js"></script>
+    <script type="text/javascript" src="../../../../start/BaiduMap/map.js"></script>
+    <script type="text/javascript" src="../../../../start/BaiduMap/mapforadd.js"></script>
+    <script src="../../../../start/highcharts/highcharts.js"></script>
+    <script src="../../../../start/highcharts/highcharts-more.js"></script>
+    <script src="../../../../start/highcharts/exporting.js"></script>
+    <script src="../../../../start/highcharts/sunburst.js"></script>
+    <script src="../../../../start/highcharts/series-label.js"></script>
+    <script src="../../../../start/highcharts/oldie.js"></script>
+    <script src="../../../../start/highcharts/highcharts-zh_CN.js"></script>
+    <script src="../../../../start/highcharts/common.js"></script>
+    <script src="../../../../start/layui/layui.all.js"></script>
+    <script src="../../../../start/layui/lay/modules/laydate.js"></script>
+    <script src="../../../../start/layui/pdfobject.js"></script>
+    <!--<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>-->
+    <style type="text/css">
+
+        body{margin:0;}
+        .layui-table-body{
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        .companyTitle{
+            position:fixed;
+            width:94%;
+            padding-left: 3%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size:30px;
+            z-index: 1;
+            background-color: white;
+            text-align: center;
+        }
+        .backbutton{
+            background: #5CB601;
+            height:32px;
+            width: 100px;
+            float: right;
+            right: 2%;
+            position: absolute;
+            font-size:16px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .backbutton img{
+            margin-top: 8px;
+            margin-left: 20px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .backbutton label{
+            margin-top: 4px;
+            margin-right: 20px;
+            float: right;
+        }
+
+        .backbutton:HOVER{
+            color: white;
+            background-color: #5CD633;
+            cursor: pointer;
+        }
+        .backbutton label:HOVER{
+            color: white;
+            cursor: pointer;
+        }
+        .layui-table-view{
+            margin-top:0px;
+        }
+        .myscroll{ overflow-x: auto; overflow-y: auto; height: 171px; width:100%;}
+    </style>
+</head>
+<body>
+<div class="companyTitle">
+    <h2 id="companyTitle"></h2>
+    <a id="button1" onClick="javascript:history.back()" class="backbutton">
+        <img src="slider/images/back.png"/>
+        <label>返回</label>
+    </a>
+    <a id="button2" href="javascript:window.opener=null;window.open('','_self');window.close();" class="backbutton">
+        <img src="slider/images/close.png"/>
+        <label>关闭</label>
+    </a>
+</div>
+<div class="wrap">
+    <div class="content">
+        <h2 class="headline-1" power="wryqk">
+            <a class="anchor-1" name="1"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">污染源情况</span>
+        </h2>
+        <!--<div class="para">=
+            content1,content1
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>-->
+
+        <h2 class="headline-2" power="wryqk:jbxx">
+            <a class="anchor-2" name="1-1"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>基本信息</label></span>
+        </h2>
+        <div class="para" power="wryqk:jbxx">
+            <div id="LAY-market-cominfoBaseinfo0" class="page-panel">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="cominfoBaseinfoedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid"/>
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>污染源名称：</td>
+                                        <td>
+                                            <div data-name="companyName"></div>
+                                        </td>
+                                        <td colspan="2" rowspan="14">
+                                            <div class="wrapper">
+                                                <div class="newmap" id="simpleMap"></div>
+                                            </div>
+                                            <!--<div id="bamboo">
+                                                <div class="banni">
+                                                    <input type="text" id="queryText" value="" /> &nbsp;&nbsp;
+                                                    <input type="button" value="查询" style="width:120px;" onclick="TDTMap.query(1);"/>
+                                                </div>
+                                            </div>-->
+                                            <!--<div id="dialog" class="hadai">
+                                                <div class="hadu" id="dine">
+                                                    <img style="cursor:hand" class="kaji" onclick="TDTMap.slideDialog(this)" src="TDTNJApi/profile/images/openD.png">
+                                                </div>
+                                                <div id="resultDIV" class="juma"></div>
+                                            </div>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法定代表人：</td>
+                                        <td>
+                                            <div data-name="companyRepresentative"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法人联系电话：</td>
+                                        <td>
+                                            <div data-name="representativePhone"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环保联系人：</td>
+                                        <td>
+                                            <div data-name="environmentalProtectionName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环保联系人电话：</td>
+                                        <td>
+                                            <div data-name="environmentalProtectionPhone"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环保联系人手机：</td>
+                                        <td>
+                                            <div data-name="environmentalProtectionMobile"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>统一社会信用代码：</td>
+                                        <td>
+                                            <div data-name="unifiedSocialCreditCode"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>组织机构代码：</td>
+                                        <td>
+                                            <div data-name="organizationCode"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>营业执照代码：</td>
+                                        <td>
+                                            <div data-name="businessLicenseCode"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>企业类型：</td>
+                                        <td>
+                                            <div data-name="pollutionSourceCategoryText"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>所属行业：</td>
+                                        <td>
+                                            <div data-name="industry"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>所属街道/乡镇：</td>
+                                        <td>
+                                            <div data-name="streetOrTown"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>经度：</td>
+                                        <td>
+                                            <div data-name="longitude"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>纬度：</td>
+                                        <td>
+                                            <div data-name="latitude"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>污染源地址：</td>
+                                        <td colspan="3">
+                                            <div data-name="companyAddress"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>污染源介绍：</td>
+                                        <td colspan="3">
+                                            <div data-name="companyIntroduction"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>污染源简称：</td>
+                                        <td>
+                                            <div data-name="unitAbbreviation"></div>
+                                        </td>
+                                        <td>公司是否上市：</td>
+                                        <td>
+                                            <div data-name="quotedCompany"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有子公司：</td>
+                                        <td>
+                                            <div data-name="isSubsidiaryCompany"></div>
+                                        </td>
+                                        <td>子公司名称：</td>
+                                        <td>
+                                            <div data-name="subsidiaryCompanyname"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>隶属关系：</td>
+                                        <td>
+                                            <div data-name="affiliationName"></div>
+                                        </td>
+                                        <td>登记注册类型：</td>
+                                        <td>
+                                            <div data-name="registrationTypeName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>企业规模：</td>
+                                        <td>
+                                            <div data-name="enterpriseScaleName"></div>
+                                        </td>
+                                        <td>是否挂牌督办：</td>
+                                        <td>
+                                            <div data-name="superviseName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否在生态区：</td>
+                                        <td>
+                                            <div data-name="ecologicAreaName"></div>
+                                        </td>
+                                        <td>是否约谈企业：</td>
+                                        <td>
+                                            <div data-name="talkName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>排污强度：</td>
+                                        <td>
+                                            <div data-name="pollutionIntensity"></div>
+                                        </td>
+                                        <td>所在工业园区：</td>
+                                        <td>
+                                            <div data-name="industrialArea"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>电子邮箱：</td>
+                                        <td>
+                                            <div data-name="email"></div>
+                                        </td>
+                                        <td>传真号码：</td>
+                                        <td>
+                                            <div data-name="faxNumber"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>邮政编码：</td>
+                                        <td>
+                                            <div data-name="postalCode"></div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>网址：</td>
+                                        <td colspan="3">
+                                            <div data-name="website"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>总投资（万元）：</td>
+                                        <td>
+                                            <div data-name="totalInvestment"></div>
+                                        </td>
+                                        <td>环保投资（万元）：</td>
+                                        <td>
+                                            <div data-name="environmentalInvestment"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>工业产值（万元）：</td>
+                                        <td>
+                                            <div data-name="industryOutputValue"></div>
+                                        </td>
+                                        <td>工业增加值（万元）：</td>
+                                        <td>
+                                            <div data-name="industryValueAdded"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>开户银行：</td>
+                                        <td>
+                                            <div data-name="bankOfDeposit"></div>
+                                        </td>
+                                        <td>银行账号：</td>
+                                        <td>
+                                            <div data-name="bankAccount"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>员工人数（人）：</td>
+                                        <td>
+                                            <div data-name="numberOfEmployees"></div>
+                                        </td>
+                                        <td>生产状态：</td>
+                                        <td>
+                                            <div data-name="productionStateName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>开业时间：</td>
+                                        <td>
+                                            <div data-name="openingDate"></div>
+                                        </td>
+                                        <td>停业时间：</td>
+                                        <td>
+                                            <div data-name="stopDate"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>总占地面积（平方米）：</td>
+                                        <td>
+                                            <div data-name="totalArea"></div>
+                                        </td>
+                                        <td>厂区面积（平方米）：</td>
+                                        <td>
+                                            <div data-name="factoryArea"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>最新改扩建时间：</td>
+                                        <td>
+                                            <div data-name="latestDate"></div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>备注：</td>
+                                        <td colspan="3">
+                                            <div data-name="remarks"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="title">【污染源附件信息】</div>
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md2" id="attachmentDiv" style="background: #F2F2F2">
+                            </div>
+                            <div class="layui-col-md10" style="padding-top:0px;">
+                                <div id="cominfoBaseinfo">
+                                    <table  style="margin-top:0px;" id="LAY-market-cominfoBaseinfo1" lay-filter="LAY-market-cominfoBaseinfo1"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="wryqk:hjglsx">
+            <a class="anchor-2" name="1-2"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>环境管理属性</label></span>
+        </h2>
+        <div class="para" power="wryqk:hjglsx">
+            <div id="LAY-market-cominfoEnvironmentalAttributes1" class="page-panel">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="cominfoEnvironmentalManageedit" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>环保监管级别年份：</td>
+                                        <td>
+                                            <div style="float: left;width: 50%;border-right: 1px solid #e3e9ee;" data-name="regulatoryYearName"></div>
+                                            <!--<select style="float: left;width: 50%" id="regulatoryYear" name="regulatoryYear"></select>-->
+                                            <div data-name="regulatoryLevelName" style="width: 49%;float: right;"></div>
+                                        </td>
+                                        <td>是否重点源：</td>
+                                        <td>
+                                            <div data-name="keySourceName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否风险源：</td>
+                                        <td>
+                                            <div data-name="riskSourceName"></div>
+                                        </td>
+                                        <td>风险等级：</td>
+                                        <td>
+                                            <div data-name="riskRatingName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否污水处理厂：</td>
+                                        <td>
+                                            <div data-name="sewagePlantName"></div>
+                                        </td>
+                                        <td>是否废水排放企业：</td>
+                                        <td>
+                                            <div data-name="wasteWaterName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否废气排放企业：</td>
+                                        <td>
+                                            <div data-name="emissionEnterprisesName"></div>
+                                        </td>
+                                        <td>是否VOCs排放企业：</td>
+                                        <td>
+                                            <div data-name="vocEnterprisesName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否涉源单位：</td>
+                                        <td>
+                                            <div data-name="sourceUnitName"></div>
+                                        </td>
+                                        <td>是否涉重金属排放企业：</td>
+                                        <td>
+                                            <div data-name="heavyMetalName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否通过清洁生产审核：</td>
+                                        <td>
+                                            <div data-name="cleanerProductionName"></div>
+                                        </td>
+                                        <td>是否环境统计企业：</td>
+                                        <td>
+                                            <div data-name="environmentalStatisticsName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否开征排污费：</td>
+                                        <td>
+                                            <div data-name="dischargeFeeName"></div>
+                                        </td>
+                                        <td>是否排污申报企业：</td>
+                                        <td>
+                                            <div data-name="emissionDeclarationName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否固废经营单位：</td>
+                                        <td>
+                                            <div data-name="wasteManagementName"></div>
+                                        </td>
+                                        <td>是否固废产生单位：</td>
+                                        <td>
+                                            <div data-name="wasteGenerationName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否30万千瓦以上电力企业：</td>
+                                        <td>
+                                            <div data-name="thirtykwCompanyName"></div>
+                                        </td>
+                                        <td>电力企业装机容量（万千瓦）：</td>
+                                        <td>
+                                            <div data-name="powerEnterprises"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <tr>
+                                        <td>是否参与随机抽查：</td>
+                                        <td>
+                                            <div data-name="randomCheckName"></div>
+                                        </td>
+                                        <td>是否特殊源：</td>
+                                        <td>
+                                            <div data-name="specialSourceName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>污染源信用评价等级：</td>
+                                        <td>
+                                            <div data-name="creditEvaluationName"></div>
+                                        </td>
+                                        <td>污染源标签：</td>
+                                        <td>
+                                            <div data-name="sourceLabelName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否取消管理：</td>
+                                        <td>
+                                            <div data-name="cancelManagementName"></div>
+                                        </td>
+                                        <td>是否在线监测企业：</td>
+                                        <td>
+                                            <div data-name="onlineMonitoringName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否通过ISO14000：</td>
+                                        <td>
+                                            <div data-name="isisoName"></div>
+                                        </td>
+                                        <td>是否采用抽样测算法计算：</td>
+                                        <td>
+                                            <div data-name="isSamplingName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否从事海洋工程：</td>
+                                        <td>
+                                            <div data-name="isOceaneeringName"></div>
+                                        </td>
+                                        <td>城乡污水集中处理场所：</td>
+                                        <td>
+                                            <div data-name="isSewagetreatmentSites"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>生活垃圾集中处理场所：</td>
+                                        <td>
+                                            <div data-name="isDomesticwasteSites"></div>
+                                        </td>
+                                        <td>危险废物集中处理场所：</td>
+                                        <td>
+                                            <div data-name="isHazardousWasteSites"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有锅炉/燃气轮机：</td>
+                                        <td>
+                                            <div data-name="isBoilerOrGasTurbineName"></div>
+                                        </td>
+                                        <td>是否有工业炉窑：</td>
+                                        <td>
+                                            <div data-name="isIndustrialFurnaceName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有炼焦工序：</td>
+                                        <td>
+                                            <div data-name="isCokingProcessName"></div>
+                                        </td>
+                                        <td>是否有烧结/球团工序：</td>
+                                        <td>
+                                            <div data-name="isSinterOrpelletizProcessName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有炼铁工序：</td>
+                                        <td>
+                                            <div data-name="isIronmakingProcessName"></div>
+                                        </td>
+                                        <td>是否有炼钢工序：</td>
+                                        <td>
+                                            <div data-name="isSteelmakingProcessName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有熟料生产：</td>
+                                        <td>
+                                            <div data-name="isClinkerProductionName"></div>
+                                        </td>
+                                        <td>是否为石化企业：</td>
+                                        <td>
+                                            <div data-name="isPetrochemicalEnterprisesName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有有机液体储罐/装载：</td>
+                                        <td>
+                                            <div data-name="isOrganicLiquidTankOrLoadName"></div>
+                                        </td>
+                                        <td>是否含挥发性有机物原辅材料使用：</td>
+                                        <td>
+                                            <div data-name="isContainOrganicMaterialUseName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有工业固体物料堆存：</td>
+                                        <td>
+                                            <div data-name="isSolidMaterialStorageName"></div>
+                                        </td>
+                                        <td>是否有其他生产废气：</td>
+                                        <td>
+                                            <div data-name="isOtherWasteGasProductionName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否有一般工业固体废物：</td>
+                                        <td>
+                                            <div data-name="isGeneralIndustrialSolidWasteName"></div>
+                                        </td>
+                                        <td>是否涉及稀土等15类矿产：</td>
+                                        <td>
+                                            <div data-name="isInvolvingMineralsName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否发放排污许可证：</td>
+                                        <td>
+                                            <div data-name="isGrantDischargePermitName"></div>
+                                        </td>
+                                        <td>排污许可证编号：</td>
+                                        <td>
+                                            <div data-name="dischargePermitCode"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="LAY-market-cominfoEnvironmentalAttributes0" class="page-panel">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="cominfoEnvironmentalAttributesedit" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>流域：</td>
+                                        <td>
+                                            <div data-name="basin"></div>
+                                        </td>
+                                        <td>水域功能区级别：</td>
+                                        <td>
+                                            <div data-name="waterLevelName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>噪声功能区级别：</td>
+                                        <td>
+                                            <div data-name="noiseLevelName"></div>
+                                        </td>
+                                        <td>空气功能区级别：</td>
+                                        <td>
+                                            <div data-name="airLevelName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>海域功能区级别：</td>
+                                        <td>
+                                            <div data-name="seaLevelName"></div>
+                                        </td>
+                                        <td>是否水源区：</td>
+                                        <td>
+                                            <div data-name="waterSourceAreaName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否SO2控制区：</td>
+                                        <td>
+                                            <div data-name="sotwoAreaName"></div>
+                                        </td>
+                                        <td>是否酸雨控制区：</td>
+                                        <td>
+                                            <div data-name="acidRainAreaName"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>距最近河流：</td>
+                                        <td>
+                                            <div data-name="nearestRiver"></div>
+                                        </td>
+                                        <td>距最近河流距离（km）：</td>
+                                        <td>
+                                            <div data-name="nearestRiverDistance"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <h2 class="headline-1" power="scgyqk" for="LAY-market-cominfoProductionProcess">
+            <a class="anchor-1" name="2"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">生产工艺情况</span>
+        </h2>
+        <!--<div class="para">
+            content2,content2
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>-->
+
+        <h2 class="headline-2" power="scgyqk:scgy">
+            <a class="anchor-2" name="2-1"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>生产工艺</label></span>
+        </h2>
+        <div class="para" power="scgyqk:scgy">
+            <div id="LAY-market-cominfoProductionProcess1" class="page-panel "  style="padding-right: 26px;">
+                <table id="LAY-market-cominfoProductionProcess" lay-filter="LAY-market-cominfoProductionProcess"></table>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:scsb">
+            <a class="anchor-2" name="2-2"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>生产设备</label></span>
+        </h2>
+        <div class="para" power="scgyqk:scsb">
+            <div id="LAY-market-cominfoProductionProcess2" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:zyyfzcl">
+            <a class="anchor-2" name="2-3"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>主要原辅助材料</label></span>
+        </h2>
+        <div class="para" power="scgyqk:zyyfzcl">
+            <div id="LAY-market-cominfoProductionProcess3" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:ysqk">
+            <a class="anchor-2" name="2-4"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>用水情况</label></span>
+        </h2>
+        <div class="para" power="scgyqk:ysqk">
+            <div id="LAY-market-cominfoProductionProcess4" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:nyxh">
+            <a class="anchor-2" name="2-5"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>能源消耗</label></span>
+        </h2>
+        <div class="para" power="scgyqk:nyxh">
+            <div id="LAY-market-cominfoProductionProcess5" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:zycp">
+            <a class="anchor-2" name="2-6"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>主要产品</label></span>
+        </h2>
+        <div class="para" power="scgyqk:zycp">
+            <div id="LAY-market-cominfoProductionProcess6" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="scgyqk:ytcgxx">
+            <a class="anchor-2" name="2-7"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>液体储罐信息</label></span>
+        </h2>
+        <div class="para" power="scgyqk:ytcgxx">
+            <div id="LAY-market-cominfoProductionProcess7" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-1" power="pfyjc" for="Lay_measure_wasteInfo">
+            <a class="anchor-1" name="3"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">排放与监测</span>
+        </h2>
+        <!--                <div class="para3">
+                            content,content
+                            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        </div>-->
+
+        <h2 class="headline-2" power="pfyjc:spfqk">
+            <a class="anchor-2" name="3-1"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>水排放情况</label></span>
+        </h2>
+        <div class="para" power="pfyjc:spfqk">
+            <div class="page-panel" id="Lay_measure_wasteInfo0">
+                <div id="tableInfo1" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="measure-info0" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="measure-waste0">
+                    </div>
+                </div>
+                <div id="measure-online0" class="layui-card" style="margin-right: 20px">
+                </div>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="pfyjc:qpfqk">
+            <a class="anchor-2" name="3-2"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>气排放情况</label></span>
+        </h2>
+        <div class="para" power="pfyjc:qpfqk">
+            <div class="page-panel" id="Lay_measure_wasteInfo1">
+                <div id="tableInfo2" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="measure-info1" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="measure-waste1">
+                    </div>
+                </div>
+                <div id="measure-online1" class="layui-card" style="margin-right: 20px">
+                </div>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="pfyjc:vpfqk">
+            <a class="anchor-2" name="3-3"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>VOCs排放情况</label></span>
+        </h2>
+        <div class="para" power="pfyjc:vpfqk">
+            <div class="page-panel" id="Lay_measure_wasteInfo2">
+                <div id="tableInfo3" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="measure-info2" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="measure-waste2">
+                    </div>
+                </div>
+                <div id="measure-online2" class="layui-card" style="margin-right: 20px">
+                </div>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="pfyjc:zpfqk">
+            <a class="anchor-2" name="3-4"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>噪声排放情况</label></span>
+        </h2>
+        <div class="para" power="pfyjc:zpfqk">
+            <div class="page-panel" id="Lay_measure_wasteInfo5">
+                <div id="tableInfo4" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="measure-info5" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="measure-waste5">
+                    </div>
+                </div>
+                <div id="measure-online5" class="layui-card" style="margin-right: 20px">
+                </div>
+            </div>
+        </div>
+
+        <!--<h2 class="headline-2">
+            <a class="anchor-2" name="3-4"></a>
+            &lt;!&ndash;<span class="headline-2-index">2-1</span>&ndash;&gt;
+            <span class="headline-content page-panel-title"><label>噪音排放情况</label></span>
+        </h2>
+        <div class="para">
+            content2-1,content2-1
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>-->
+
+        <!--<h2 class="headline-2">
+            <a class="anchor-2" name="3-5"></a>
+            &lt;!&ndash;<span class="headline-2-index">2-1</span>&ndash;&gt;
+            <span class="headline-content page-panel-title" ><label>其他治理设施</label></span>
+        </h2>
+        <div class="para">
+            <div id="LAY-market-cominfoMeasureWastewater3" class="page-panel"></div>
+        </div>-->
+
+        <h2 class="headline-1" power="hjywxx" for="LAY-building-environmenttraffic">
+            <a class="anchor-1" name="4"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">环境业务信息</span>
+        </h2>
+        <!--<div class="para4">
+            content,content
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>-->
+
+        <h2 class="headline-2" power="hjywxx:jsxm">
+            <a class="anchor-2" name="4-1"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>建设项目</label></span>
+        </h2>
+        <div class="para" power="hjywxx:jsxm">
+            <div id="LAY-building-environmenttraffic1" class="page-panel"></div>
+        </div>
+
+        <h2 class="headline-2" power="hjywxx:pwxkz">
+            <a class="anchor-2" name="4-2"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>排污许可证</label></span>
+        </h2>
+        <div class="para" power="hjywxx:pwxkz">
+            <div id="LAY-building-environmenttraffic2" class="page-panel" style="padding-right: 26px;">
+                <table id="LAY-building-environmenttraffic" lay-filter="LAY-building-environmenttraffic"></table>
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="hjywxx:hjxf">
+            <a class="anchor-2" name="4-3"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>环境信访</label></span>
+        </h2>
+        <div class="para" power="hjywxx:hjxf">
+            <div id="LAY-building-environmenttraffic3" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjywxx:xcjc">
+            <a class="anchor-2" name="4-4"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>现场检查</label></span>
+        </h2>
+        <div class="para" power="hjywxx:xcjc">
+            <div id="LAY-building-environmenttraffic4" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjywxx:xzcf">
+            <a class="anchor-2" name="4-5"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>行政处罚</label></span>
+        </h2>
+        <div class="para" power="hjywxx:xzcf">
+            <div id="LAY-building-environmenttraffic5" class="page-panel"></div>
+        </div>
+
+        <h2 class="headline-2" power="hjywxx:ajjl">
+            <a class="anchor-2" name="4-6"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>案件记录</label></span>
+        </h2>
+        <div class="para" power="hjywxx:ajjl">
+            <div id="LAY-building-environmenttraffic6" class="page-panel"></div>
+        </div>
+
+        <h2 class="headline-1" power="hjyj" for="LAY-emergency-emergencysystem">
+            <a class="anchor-1" name="5"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">环境应急</span>
+        </h2>
+        <!--<div class="para">
+            content2,content2
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>-->
+
+        <h2 class="headline-2" power="hjyj:wxhxp">
+            <a class="anchor-2" name="5-1"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>危险化学品</label></span>
+        </h2>
+        <div class="para" power="hjyj:wxhxp">
+            <div id="LAY-emergency-emergencysystem1" class="page-panel " ></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:yjwz">
+            <a class="anchor-2" name="5-2"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>应急物资</label></span>
+        </h2>
+        <div class="para" power="hjyj:yjwz">
+            <div id="LAY-emergency-emergencysystem2" class="page-panel  " ></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:yjya">
+            <a class="anchor-2" name="5-3"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>应急预案</label></span>
+        </h2>
+        <div class="para" power="hjyj:yjya">
+            <div id="LAY-emergency-emergencysystem3" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:yjyl">
+            <a class="anchor-2" name="5-4"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>应急演练</label></span>
+        </h2>
+        <div class="para" power="hjyj:yjyl">
+            <div id="LAY-emergency-emergencysystem4" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:yjdw">
+            <a class="anchor-2" name="5-5"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>应急队伍</label></span>
+        </h2>
+        <div class="para" power="hjyj:yjdw">
+            <div id="LAY-emergency-emergencysystem5" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:zjxx">
+            <a class="anchor-2" name="5-6"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>专家信息</label></span>
+        </h2>
+        <div class="para" power="hjyj:zjxx">
+            <div id="LAY-emergency-emergencysystem6" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:hjyjsj">
+            <a class="anchor-2" name="5-7"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>应急事件</label></span>
+        </h2>
+        <div class="para" power="hjyj:hjyjsj">
+            <div id="LAY-emergency-emergencysystem7" class="page-panel "></div>
+        </div>
+
+        <h2 class="headline-2" power="hjyj:fxffcs">
+            <a class="anchor-2" name="5-8"></a>
+            <!--<span class="headline-2-index">2-1</span>-->
+            <span class="headline-content page-panel-title"><label>风险防范措施</label></span>
+        </h2>
+        <div class="para" power="hjyj:fxffcs">
+            <div id="LAY-emergency-emergencysystem8" class="page-panel "></div>
+        </div>
+
+
+        <h2 class="headline-1" power="fwclcs" for="LAY-wasteprocessplace">
+            <a class="anchor-1" name="6"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">废物产生与利用</span>
+        </h2>
+
+        <h2 class="headline-2" power="fwclcs:gfclcs">
+            <a class="anchor-2" name="6-1"></a>
+            <span class="headline-content page-panel-title"><label>固废处理场所</label></span>
+        </h2>
+        <div class="para" power="fwclcs:gfclcs">
+            <div class="page-panel" id="LAY-wasteProcessPlace0">
+                <div id="solidInfo0" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="solid-info0" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="solid-waste0">
+                    </div>
+                </div>
+                <!--<div id="solid-online0" class="layui-card" style="margin-right: 20px">-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="fwclcs:wfclcs">
+            <a class="anchor-2" name="6-2"></a>
+            <span class="headline-content page-panel-title"><label>危废处理场所</label></span>
+        </h2>
+        <div class="para" power="fwclcs:wfclcs">
+            <div class="page-panel" id="LAY-wasteProcessPlace1">
+                <div id="solidInfo1" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="solid-info1" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="solid-waste1">
+                    </div>
+                </div>
+            </div>
+            <!--<div id="LAY-wasteprocessplace2" class="page-panel" ></div>-->
+        </div>
+
+        <h2 class="headline-1" power="fsxjc" for="LAY-radioactiveore">
+            <a class="anchor-1" name="7"></a>
+            <span class="headline-1-index"></span>
+            <span class="headline-content">放射性检测</span>
+        </h2>
+
+        <h2 class="headline-2" power="fsxjc:gtwljfw">
+            <a class="anchor-2" name="7-1"></a>
+            <span class="headline-content page-panel-title"><label>固体物料及废物</label></span>
+        </h2>
+        <div class="para" power="fsxjc:gtwljfw">
+            <div id="LAY-radioactiveore1" class="page-panel" ></div>
+        </div>
+
+        <h2 class="headline-2" power="fsxjc:fsjc">
+            <a class="anchor-2" name="7-2"></a>
+            <span class="headline-content page-panel-title"><label>废水监测</label></span>
+        </h2>
+        <div class="para" power="fsxjc:fsjc">
+            <!--<div id="LAY-radioactiveore2" class="page-panel" ></div>-->
+            <div class="page-panel" id="LAY-radioactiveore2">
+                <div id="radioactiveOreInfo0" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="radioactiveOre-info0" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="radioactiveOre-waste0">
+                    </div>
+                </div>
+                <!--<div id="solid-online0" class="layui-card" style="margin-right: 20px">-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <h2 class="headline-2" power="fsxjc:gtwljfwjc">
+            <a class="anchor-2" name="7-3"></a>
+            <span class="headline-content page-panel-title"><label>固体物料及废物监测</label></span>
+        </h2>
+        <div class="para" power="fsxjc:gtwljfwjc">
+            <!--<div id="LAY-radioactiveore3" class="page-panel" ></div>-->
+            <div class="page-panel" id="LAY-radioactiveore3">
+                <div id="radioactiveOreInfo1" class="layui-tab layui-tab-card" style="margin-right: 20px">
+                    <ul class="layui-tab-title" id="radioactiveOre-info1" style="height:60px;overflow: auto">
+
+                    </ul>
+                    <div class="layui-tab-content" id="radioactiveOre-waste1">
+                    </div>
+                </div>
+                <!--<div id="solid-online0" class="layui-card" style="margin-right: 20px">-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <div style="height: 600px"></div>
+
+        <!--<h2 class="headline-1">-->
+        <!--<a class="anchor-1" name="7"></a>-->
+        <!--<span class="headline-1-index">7</span>-->
+        <!--<span class="headline-content">修改记录</span>-->
+        <!--</h2>-->
+        <!--<div class="para">-->
+        <!--content5,content5-->
+        <!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+        <!--</div>-->
+
+        <!--<h2 class="headline-1">-->
+        <!--<a class="anchor-1" name="6"></a>-->
+        <!--<span class="headline-1-index"></span>-->
+        <!--<span class="headline-content">在线监测</span>-->
+        <!--</h2>-->
+        <!--<div class="para">-->
+        <!--&lt;!&ndash;content6,content6&ndash;&gt;-->
+        <!--&lt;!&ndash;<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>&ndash;&gt;-->
+        <!--<div class="page-panel">-->
+        <!--<div>-->
+        <!--<label style="margin-left: 50px">排口：</label>-->
+        <!--<select id="searchStatus" class="show-select">-->
+        <!--</select>-->
+        <!--<label style="margin-left: 20px">开始时间：</label>-->
+        <!--<input class="show-input" id="startDate">-->
+        <!--<label style="margin-left: 20px">结束时间：</label>-->
+        <!--<input class="show-input" id="endDate">-->
+        <!--<button style="margin-left: 20px" class="layui-btn" data-type="comInfoReload" id="comInfoReload">-->
+        <!--搜索-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--<div id="pointFactor" style="margin-top: 5px">-->
+        <!--</div>-->
+        <!--<div class="layui-tab layui-tab-card" style="margin-right: 20px">-->
+        <!--<ul class="layui-tab-title" id="com-info">-->
+        <!--<li id="firstClick" value="0">时均</li>-->
+        <!--<li  value="1">日均</li>-->
+        <!--</ul>-->
+        <!--<div class="layui-tab-content">-->
+        <!--<div class="layui-tab-item layui-show">-->
+        <!--<div id="on-line-monitoring0" style="max-width:98%;height:400px"></div>-->
+        <!--</div>-->
+        <!--<div class="layui-tab-item">-->
+        <!--<div id="on-line-monitoring1" style="max-width:98%;height:400px"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<h2 class="headline-1">
+            <a class="anchor-1" name="15"></a>
+            <span class="headline-1-index">15</span>
+            <span class="headline-content">part15</span>
+        </h2>
+
+        <div class="para">
+            content15,content15
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            bottom
+        </div>-->
+    </div>
+    <div class="slide" style="">
+        <div id="sideToolbar" style="position: fixed; bottom: 0">
+            <div id="sideCatalog" class="sideCatalogBg" style="visibility: visible;">
+                <div id="sideCatalog-sidebar">
+                    <div class="sideCatalog-sidebar-top"></div>
+                    <div class="sideCatalog-sidebar-bottom"></div>
+                </div>
+                <!--<div id="sideCatalog-updown" style="visibility: visible;">-->
+                <!--<div id="sideCatalog-up" class="sideCatalog-up-disable" title="向上翻页"></div>-->
+                <!--<div id="sideCatalog-down" class="sideCatalog-down-enable" title="向下翻页"></div>-->
+                <!--</div>-->
+                <div id="sideCatalog-catalog">
+                    <dl style="width:175px;zoom:1">
+                        <!--
+                        <dd id="sideToolbar-item-0-1" class="sideCatalog-item2 heightlight">
+                          <span class="sideCatalog-index1">1</span>
+                          <a class="nslog:1026" onclick="return false;" title="part1" href="#1">part1</a>
+                          <span class="sideCatalog-dot"></span>
+                        </dd>
+                        <dd id="sideToolbar-item-0-2" class="sideCatalog-item1">
+                          <span class="sideCatalog-index1">2</span>
+                          <a class="nslog:1026" onclick="return false;" title="part2" href="#2">part2</a>
+                          <span class="sideCatalog-dot"></span>
+                        </dd>
+                        <dd id="sideToolbar-item-0-2-1" class="sideCatalog-item2">
+                          <span class="sideCatalog-index1">2-1</span>
+                          <a class="nslog:1026" onclick="return false;" title="part2" href="#2-1">part2-1</a>
+                          <span class="sideCatalog-dot"></span>
+                        </dd>
+                        -->
+                    </dl>
+                </div>
+            </div>
+            <a id="sideCatalogBtn" class="" style="visibility: visible;" href="javascript:void(0);"></a>
+            <a id="sideToolbar-up" style="visibility: visible;" title="返回顶部" href="javascript:void(0)"></a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    if(window.innerHeight < 650 ){
+        $(".slide").css({"width":"160px"});
+        $("#sideCatalog-catalog").css({"top":"108px"});
+    }
+
+    var userId = JSON.parse(localStorage["userId"]).userId;
+    var superAdminStore = JSON.parse(localStorage["superAdminStore"]).superAdminStore;
+
+    if(userId != superAdminStore){
+        loadDivByPower();
+    }
+
+    slider.func($);
+    //    $(function () {
+    //        // alert(slider.getParamByNameFromUrl("pid"));
+    //    });
+    var remoteServiceAddress = JSON.parse(localStorage["remoteServiceAddressStore"]).remoteServiceAddressStore;
+    var pid = "";
+    var pids=window.parent.document.location.hash;
+    if(pids){
+        pid=pids.substring(pids.lastIndexOf("=")+1,pids.length);
+        if(pids != pid){
+            $("#button1").css({"display":"block"});
+        }
+    }else{
+        var search = window.parent.document.location.search;
+        pid = search.substring(5);
+        $("#button2").css({"display":"block"});
+    }
+
+    var userRoles=JSON.parse(localStorage["userRoles"]);
+    var companyRoleIdStore = JSON.parse(localStorage["companyRoleIdStore"]).companyRoleIdStore;
+    if(userRoles.userRoles.indexOf(companyRoleIdStore) !== -1){
+        pid = JSON.parse(localStorage["userDeptId"]).userDeptId;
+    }
+
+    var tokens=JSON.parse(localStorage["layuiAdmin"]);
+    var token=tokens.access_token;
+    var loadindex = layer.load(0);
+
+    showInfo(pid,token,remoteServiceAddress);
+    layer.close(loadindex);
+    HighChartsUtil.reqGetMonitorInfo($,remoteServiceAddress, pid);
+
+    $("#comInfoReload").on("click",function () {
+        HighChartsUtil.comInfoReload($,pid,remoteServiceAddress);
+    });
+
+    layui.laydate.render({
+        elem: '#startDate' //或 elem: document.getElementById('test')、elem: lay('#test') 等
+        ,type: 'date'
+        ,value:new Date(new Date()-1000*60*60*24*7)
+        ,done: function(value, date){
+            var year=new Date(value).getFullYear();
+            var month=new Date(value).getMonth();
+            var day=new Date(value).getDate();
+            var date_value=Date.UTC(year, month, day, 0, 0, 0)+1000*60*60*24*7;
+            layui.laydate.render({
+                elem: '#endDate' //或 elem: document.getElementById('test')、elem: lay('#test') 等
+                ,type: 'date'
+                ,value:new Date(date_value)
+            });
+        }
+    });
+
+    layui.laydate.render({
+        elem: '#endDate' //或 elem: document.getElementById('test')、elem: lay('#test') 等
+        ,type: 'date'
+        ,value:new Date()
+        ,done: function(value, date){
+            var year=new Date(value).getFullYear();
+            var month=new Date(value).getMonth();
+            var day=new Date(value).getDate();
+            var date_value=Date.UTC(year, month, day, 0, 0, 0)-1000*60*60*24*7;
+            layui.laydate.render({
+                elem: '#startDate' //或 elem: document.getElementById('test')、elem: lay('#test') 等
+                ,type: 'date'
+                ,value:new Date(date_value)
+            });
+        }
+    });
+
+    function showFile() {
+        var hasPermission = false;
+        var ul = $("<ul>").attr("id","attachmenttree");
+        $("#attachmentDiv").append(ul);
+        $.ajax({//获取字典请求
+            type:'GET'
+            ,url: remoteServiceAddress + "/market/sysdict/dicts/attachment_type"
+            ,beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("access_token",token);
+            }
+            ,success:function (result) {
+                for(var i = 0 ; i < result.dicts.length;i++){
+                    result.dicts[i].name = result.dicts[i].value;
+                    result.dicts[i].key = result.dicts[i].key;
+                }
+                layui.tree({
+                    elem: '#attachmenttree'
+                    ,nodes: result.dicts
+                    ,click: function(node){
+                        //                  console.log(node); //node即为当前点击的节点数据
+                        layui.table.reload("LAY-market-cominfoBaseinfo1",{
+                            where: {
+                                fileType:node.key
+                            }
+                        }); //刷新表格
+
+                    }
+                });
+                $("body").on("mousedown",".layui-tree a",function(){
+                    if(!$(this).siblings('ul').length){
+                        $(".layui-tree a cite").css('color','#333');
+                        $(this).find('cite').css('color','blue');
+                    }
+                });
+            }
+        });
+
+        var url=remoteServiceAddress + "/cominfo/cominfobaseinfoattachment";
+        var cols=[[
+//                    {type: 'checkbox', unresize: true}
+            {field: 'fileName', title: '附件名', minWidth: 200,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+            ,{field: 'fileTypeValue', title: '附件类型', width: 150,unresize: true}
+            ,{field: 'attachmentFormat', title: '附件格式', width: 100,unresize: true}
+            ,{field: 'attachmentSize', title: '附件大小', width: 100,unresize: true}
+            ,{field: 'uploadPerson', title: '上传人', width: 100,unresize: true}
+            ,{field: 'uploadDate', title: '上传时间', width: 120,unresize: true}
+        ]];
+        layui.table.render({//查询列表信息
+            elem: '#LAY-market-cominfoBaseinfo1'
+            ,url: url
+            ,page: true
+            ,event:true
+            ,where: {
+                hasPermission: hasPermission
+                ,cid:pid
+            }
+            ,headers: {
+                access_token: token
+            }
+            ,cols: cols
+            ,skin: 'line'
+            ,limit:5
+            ,limits:[5,10,15,20,25,30,35,40,45,50]
+            ,done:function () {
+//                if(layui.data(setter.userRoles).userRoles.indexOf("60d73880895149289bc2f634b6ba39cc") !== -1){
+//                    $("#aCite").text("企业维护");
+//                    $("#aCite").attr("lay-href","cominfo/baseinfo/index");
+//                }
+            }
+        });
+        layui.table.on('tool(LAY-market-cominfoBaseinfo1)',function (obj) {
+            var data=obj.data;
+            if(obj.event=="setFileName"){
+                singleShowFile(data.pid);
+            }
+        });
+    }
+    function singleShowFile(id) {
+        $.ajax({//
+            type:"GET"
+            ,beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("access_token",token);
+            }
+            ,url: remoteServiceAddress + "/cominfo/cominfobaseinfoattachment/" +  id
+            ,success: function (result) {
+                if (result.code == 0 && result.cominfoBaseinfoAttachment!=null) {//成功
+                    showFileView(result.cominfoBaseinfoAttachment.attachmentUrl,remoteServiceAddress);
+                }else {
+                    return layer.msg('附件没有上传!');
+                }
+            }
+        });
+    }
+    showFile();
+</script>
+<!--附件查看-->
+<!--<script id="attachmentView" type="text/html">-->
+<!--<div class="layui-fluid">-->
+<!--<div class="layui-row layui-col-space15">-->
+<!--<div class="layui-card-body">-->
+<!--<div class="layui-col-md12">-->
+<!--&lt;!&ndash;火狐浏览器兼容&ndash;&gt;-->
+<!--<iframe id="pdf_frame"  name="pdf_frame" style="width:100%;height: 585px;display: none"></iframe>-->
+<!--<div id="attachment_file"></div>-->
+<!--</div>-->
+<!--<a id="common_download_btn" class="layui-btn layui-btn-sm" style="float: right;text-align: center;font-size:12px"><i class="layui-icon layui-icon-download-circle"></i>&nbsp;下载</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</script>-->
+</body>
+</html>

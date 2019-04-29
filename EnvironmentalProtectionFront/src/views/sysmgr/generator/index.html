@@ -1,0 +1,113 @@
+
+<title>mysql开发</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>mysql开发</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div class="layui-inline">
+                            <input class="layui-input" id="demoReload" autocomplete="off" placeholder="请输入关键字">
+                        </div>
+                        <button class="layui-btn" data-type="reload">搜索</button>
+                        <button class="layui-btn" data-events="generate">生成代码</button>
+                    </div>
+                    <table id="LAY-sysmgr-generator"  lay-filter="LAY-sysmgr-generator"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress2 + "/sys/generator";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:generator:list') === -1)) hasPermission = true;
+        //
+        table.render({//查询列表信息
+            elem: '#LAY-sysmgr-generator'
+            ,url: baseurl+'/list'
+            ,page: true
+            ,even: true
+            ,where: {
+                access_token: layui.data(setter.tableName).access_token
+                ,hasPermission: hasPermission
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'tableName', title: '表名',minWidth: 100}
+                ,{field: 'engine', title: 'Engine', minWidth: 100}
+                ,{field: 'tableComment', title: '表备注', minWidth: 100}
+            ]]
+            ,skin: 'line'
+        });
+
+        var active = {
+            reload: function(){
+                var tableName = $('#demoReload').val();
+                //执行重载
+                table.reload('LAY-sysmgr-generator', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        tableName:tableName
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //事件处理
+        var events = {
+            generate : function(othis,data){
+                var tableNames=[];
+                debugger;
+                for(var i = 0 ; i < data.length;i++){
+                    tableNames.push(data[i].tableName);
+                }
+                location.href = baseurl+"/code?tables=" + JSON.stringify(tableNames);
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sysmgr-generator")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "generate" ){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1){
+                    return layer.msg('只能选择一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+
+    });
+</script>

@@ -1,0 +1,123 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.wrapper{width:100%;position:relative;/*background:url(../images/map.png)*/}
+/*@media screen and (height){ .wrapper{width:100%;height:99.9%;position:relative;!*background:url(../images/map.png)*!} }*/
+
+
+.wrapper .newmap{width:100%;height:430px;position:relative}
+/*@media screen and (-webkit-min-device-pixel-ratio:0){ .wrapper .newmap{float:left;width:100%;height:99%;position:absolute} }*/
+.wrapper .newmapwhole{width:100%;height:600px;position:relative}
+
+.contentDiv{
+    width: 100%;
+}
+
+.contentDiv table{
+    width: 495px;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.contentDiv table tr{
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+.contentDiv table tr td{
+    border: 1px solid #ccc;
+}
+
+.contentDiv table tr th{
+    border: 1px solid #ccc;
+}
+
+.contentDiv a{
+    position: absolute;
+    float: right;
+    bottom: -1px;
+    right: 40px;
+    color: #0B61A4;
+}
+.contentDivTab{
+    height: 40px;
+    float: left;
+    cursor: pointer;
+    margin-top: 6px;
+}
+.contentDivTab label{
+    float: left;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.contentDivTab div{
+    background-color: #CCC;
+    /*height: 38px;*/
+    width: 98px;
+    float: left;
+    cursor: pointer;
+}
+
+.divTables{
+    position: absolute;
+    margin-top: 20px;
+}
+
+.divTablesNew{
+    position: absolute;
+    margin-top: 46px;
+}
+
+.divOnlineChart{
+    position: absolute;
+    margin-top: 50px;
+}
+
+.tdleft{
+    width: 20%;
+    text-align: right;
+}
+.tdleft1{
+    width: 20%;
+    text-align: right;
+}
+.tdleft2{
+    width: 40%;
+    text-align: right;
+}
+
+.tdleft3{
+    width: 20%;
+    text-align: right;
+}
+
+.tdleft4{
+    width: 20%;
+    text-align: right;
+}
+
+.tdCenter{
+    width: 20%;
+    text-align: center;
+}
+
+
+/*!*地图操作按钮Start*!*/
+.map-toolbar {
+    position: absolute;
+    float: right;
+    padding: 3px 0;
+    overflow: hidden;
+    z-index: 999;
+    top: 0px;
+    background: #F7F7F7;
+    border: 1px solid #808080;
+}
+
+.tangram-suggestion-main {z-index: 9999999999;}
+
+
+

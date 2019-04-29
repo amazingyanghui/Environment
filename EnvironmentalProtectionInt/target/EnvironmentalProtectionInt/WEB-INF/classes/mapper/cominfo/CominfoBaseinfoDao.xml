@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoBaseinfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" id="cominfoBaseinfoMap">
+        <result property="pid" column="pid"/>
+        <result property="companyName" column="company_name"/>
+        <result property="companyRepresentative" column="company_representative"/>
+        <result property="representativePhone" column="representative_phone"/>
+        <result property="environmentalProtectionName" column="environmental_protection_name"/>
+        <result property="environmentalProtectionPhone" column="environmental_protection_phone"/>
+        <result property="environmentalProtectionMobile" column="environmental_protection_mobile"/>
+        <result property="unifiedSocialCreditCode" column="unified_social_credit_code"/>
+        <result property="organizationCode" column="organization_code"/>
+        <result property="businessLicenseCode" column="business_license_code"/>
+        <result property="pollutionSourceCategory" column="pollution_source_category"/>
+        <result property="industry" column="industry"/>
+        <result property="localCity" column="local_city"/>
+        <result property="districtAndCounty" column="district_and_county"/>
+        <result property="streetOrTown" column="street_or_town"/>
+        <result property="companyAddress" column="company_address"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="supervise" column="supervise"/>
+        <result property="ecologicArea" column="ecologic_area"/>
+        <result property="talk" column="talk"/>
+        <result property="companyIntroduction" column="company_introduction"/>
+        <result property="affiliation" column="affiliation"/>
+        <result property="registrationType" column="registration_type"/>
+        <result property="enterpriseScale" column="enterprise_scale"/>
+        <result property="industrialArea" column="industrial_area"/>
+        <result property="email" column="email"/>
+        <result property="faxNumber" column="fax_number"/>
+        <result property="postalCode" column="postal_code"/>
+        <result property="website" column="website"/>
+        <result property="totalInvestment" column="total_investment"/>
+        <result property="environmentalInvestment" column="environmental_investment"/>
+        <result property="bankOfDeposit" column="bank_of_deposit"/>
+        <result property="bankAccount" column="bank_account"/>
+        <result property="numberOfEmployees" column="number_of_employees"/>
+        <result property="productionState" column="production_state"/>
+        <result property="openingDate" column="opening_date"/>
+        <result property="stopDate" column="stop_date"/>
+        <result property="totalArea" column="total_area"/>
+        <result property="factoryArea" column="factory_area"/>
+        <result property="latestDate" column="latest_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="unitAbbreviation" column="unit_abbreviation"/>
+        <result property="quotedCompany" column="quoted_company"/>
+        <result property="isSubsidiaryCompany" column="is_subsidiary_company"/>
+        <result property="subsidiaryCompanyname" column="subsidiary_companyname"/>
+
+    </resultMap>
+
+    <resultMap id="totalResult" type="HashMap">
+        <result column="name" property="name"/>
+        <result column="y" property="y" />
+    </resultMap>
+
+    <insert id="register" parameterType="CominfoBaseinfoEntity">
+        insert into cominfo_baseinfo(pid,company_name, company_representative, unified_social_credit_code, environmental_protection_phone)
+        values(#{pid,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR},#{companyRepresentative,jdbcType=VARCHAR},#{unifiedSocialCreditCode,jdbcType=VARCHAR},#{environmentalProtectionPhone,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="verifyCode" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.lang.String">
+        SELECT * FROM cominfo_baseinfo WHERE unified_social_credit_code=#{code}
+    </select>
+    <select id="VerifyCompanyName" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.util.Map">
+        SELECT * FROM cominfo_baseinfo WHERE 1=1
+        <if test="companyName != null and companyName != ''">
+           and  company_name = #{companyName}
+        </if>
+        <if test="unifiedSocialCreditCode != null and unifiedSocialCreditCode != ''">
+           and unified_social_credit_code = #{unifiedSocialCreditCode}
+        </if>
+        <if test="environmentalProtectionPhone != null and environmentalProtectionPhone != ''">
+           and  environmental_protection_phone = #{environmentalProtectionPhone}
+        </if>
+        <if test="phone!=null and phone!=''">
+            and  representative_phone = #{phone}
+        </if>
+
+    </select>
+	
+	   <select id="VerifyUserName" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.lang.String">
+        select username  from sys_user where username=#{_parameter}
+     </select>
+
+    <select id="verifyPhone" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysUserEntity" parameterType="java.util.Map">
+        SELECT * FROM sys_user
+        WHERE username!=#{pid}
+        AND mobile = #{phone}
+
+    </select>
+
+    <select id="verifyPhoneByUser" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysUserEntity" parameterType="java.util.Map">
+        SELECT * FROM sys_user WHERE mobile=#{phone}
+        <if test="pid!=null and pid!=''">
+           AND user_id!=#{pid}
+        </if>
+    </select>
+
+    <select id="verifyNameByUser" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysUserEntity" parameterType="java.util.Map">
+        SELECT * FROM sys_user WHERE username=#{username}
+        <if test="pid!=null and pid!=''">
+            AND user_id!=#{pid}
+        </if>
+    </select>
+
+    <select id="queryPage" parameterType="java.util.Map" resultType="CominfoBaseinfoEntity">
+        select c.*
+        ,(select d.`value` from sys_dict d where d.type = 'regulatory_level_type' and d.`key` = e.regulatory_level) as regulatoryLevel
+        ,(select d.`value` from sys_dict d where d.type = 'pollution_source_category_type' and d.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        ,(select d.`value` from sys_dict d where d.type = 'boolean_type' and d.`key` = e.key_source) as keySourceText
+        from  cominfo_baseinfo c
+        LEFT JOIN cominfo_environmental_manage e
+        ON e.cid = c.pid
+        where 1=1
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            and e.regulatory_level = #{regulatoryLevel}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="keySource != null and keySource != ''">
+            and e.key_source = #{keySource}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="onlineMonitoring != null and onlineMonitoring != ''">
+            and e.online_monitoring =1
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and e.waste_water = #{wasteWater}
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and e.emission_enterprises = #{emissionEnterprises}
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and e.voc_enterprises = #{vocEnterprises}
+        </if>
+        <if test="riskSource != null and riskSource != ''">
+            and e.risk_source = #{riskSource}
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND e.risk_rating=#{riskRating}
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+        order by c.createDate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        from  cominfo_baseinfo c
+        LEFT JOIN cominfo_environmental_manage e
+        ON e.cid = c.pid
+        where 1=1
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            and e.regulatory_level = #{regulatoryLevel}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="keySource != null and keySource != ''">
+            and e.key_source = #{keySource}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="onlineMonitoring != null and onlineMonitoring != ''">
+            and e.online_monitoring =1
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and e.waste_water = #{wasteWater}
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and e.emission_enterprises = #{emissionEnterprises}
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and e.voc_enterprises = #{vocEnterprises}
+        </if>
+        <if test="riskSource != null and riskSource != ''">
+            and e.risk_source = #{riskSource}
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND e.risk_rating=#{riskRating}
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+    </select>
+
+    <select id="queryList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.util.Map" >
+        select c.*
+        ,(select d.`value` from sys_dict d where d.type = 'pollution_source_category_type' and d.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            ,(select d.`value` from sys_dict d where d.type = 'regulatory_level_type'
+            and d.`key` = e.regulatory_level ) as regulatoryLevel
+        </if>
+        from cominfo_environmental_manage e ,cominfo_baseinfo c
+        where e.cid = c.pid
+        <if test="regulatoryLevel != null and regulatoryLevel != ''">
+            and e.regulatory_level = #{regulatoryLevel}
+        </if>
+        <if test="wasteType!=null and wasteType!=''">
+            <if test="wasteType==1">
+              AND e.waste_water=1
+            </if>
+            <if test="wasteType==2">
+                AND e.emission_enterprises=1
+            </if>
+            <if test="wasteType==3">
+                AND e.waste_generation=1
+            </if>
+            <if test="wasteType==4">
+                AND e.voc_enterprises=1
+            </if>
+            <if test="wasteType==5">
+                AND e.heavy_metal=1
+            </if>
+        </if>
+        <if test="creditEvaluation!=null and creditEvaluation!=''">
+            AND e.credit_evaluation=#{creditEvaluation}
+        </if>
+        <if test="otherCondition!=null and otherCondition!=''">
+            <if test="otherCondition==1">
+                AND e.sewage_plant=1
+            </if>
+            <if test="otherCondition==2">
+                AND e.thirtykw_company=1
+            </if>
+            <if test="otherCondition==3">
+                AND e.waste_management=1
+            </if>
+            <if test="otherCondition==4">
+                AND e.emission_declaration=1
+            </if>
+            <if test="otherCondition==5">
+                AND e.discharge_fee=1
+            </if>
+            <if test="otherCondition==6">
+                AND e.cleaner_production=1
+            </if>
+            <if test="otherCondition==7">
+                AND e.environmental_statistics=1
+            </if>
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        order by c.company_name
+    </select>
+
+    <select id="getRiskSourceList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.util.Map">
+        SELECT c.*
+        ,(select d.`value` from sys_dict d where d.type = 'risk_rating' and d.`key` = m.risk_rating ) as riskRatingName
+        ,(select y.`value` from sys_dict y where y.type = 'pollution_source_category_type' and y.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        FROM cominfo_baseinfo c
+        LEFT JOIN cominfo_environmental_manage m
+        on c.pid=m.cid
+        where m.risk_source = 1
+        <if test="riskRating != null and riskRating != ''">
+            and m.risk_rating = #{riskRating}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+    </select>
+
+    <select id="getDangerSourceList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.util.Map">
+        SELECT DISTINCT c.*
+        ,(select d.`value` from sys_dict d where d.type = 'risk_rating' and d.`key` = a.risk_rating ) as riskRatingName
+        ,(select y.`value` from sys_dict y where y.type = 'pollution_source_category_type' and y.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        FROM emergency_system_dangerous m
+        LEFT JOIN cominfo_environmental_manage a ON a.cid=m.cid
+        LEFT JOIN cominfo_baseinfo c on c.pid = m.cid
+        WHERE 1=1
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        GROUP BY c.company_name
+    </select>
+
+    <select id="getIsotopeSourceList" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity" parameterType="java.util.Map">
+        SELECT DISTINCT c.*
+        ,(select d.`value` from sys_dict d where d.type = 'risk_rating' and d.`key` = a.risk_rating ) as riskRatingName
+        ,(select y.`value` from sys_dict y where y.type = 'pollution_source_category_type' and y.`key` = c.pollution_source_category) as pollutionSourceCategoryText
+        FROM radioactive_isotope_info m
+        LEFT JOIN cominfo_environmental_manage a ON a.cid=m.cid
+        LEFT JOIN cominfo_baseinfo c on c.pid=m.cid
+        where 1=1
+        <if test="radioactiveCategory != null and radioactiveCategory != ''">
+            and m.radioactive_category = #{radioactiveCategory}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        GROUP BY c.company_name
+    </select>
+
+    <select id="totalCompanyLevel" resultMap="totalResult" parameterType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        select count(e.regulatory_level) y,
+        (select d.`value` from sys_dict d
+        where d.type = 'regulatory_level_type' and d.`key` = e.regulatory_level) as name
+        from cominfo_environmental_manage e ,cominfo_baseinfo c
+        where e.cid = c.pid
+        group by e.regulatory_level
+    </select>
+
+    <select id="riskSourceSel" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        SELECT a.*,b.risk_rating riskRating,y.`value` riskRatingName,z.`value` regulatoryYearName
+        FROM cominfo_baseinfo a,cominfo_environmental_manage b
+        LEFT JOIN sys_dict y ON y.`key`=b.risk_rating AND y.`type`='risk_rating'
+        LEFT JOIN sys_dict z ON z.`key`=b.regulatory_year AND z.`type`='regulatory_year_type'
+        WHERE a.pid=b.cid and b.risk_source=1
+        <if test="industryids!=null and industryids.size &gt; 0">
+            AND (
+            <foreach collection="industryids" item="item" separator="or">
+            FIND_IN_SET(#{item},a.industryids)
+            </foreach>
+            )
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND a.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND b.risk_rating=#{riskRating}
+        </if>
+        <if test="batchTime != null and batchTime!=''">
+            AND z.`value`=#{batchTime}
+        </if>
+        <if test="batchTime != null and batchTime!=''">
+            AND z.`value`=#{batchTime}
+        </if>
+        ORDER BY a.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="riskSourceSelsum" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM cominfo_baseinfo a
+        ,cominfo_environmental_manage b
+        LEFT JOIN sys_dict y ON y.`key`=b.risk_rating AND y.`type`='risk_rating'
+        LEFT JOIN sys_dict z ON z.`key`=b.regulatory_year AND z.`type`='regulatory_year_type'
+        WHERE a.pid=b.cid and b.risk_source=1
+        <if test="industryids!=null and industryids.size &gt; 0">
+            AND (
+            <foreach collection="industryids" item="item" separator="or">
+                FIND_IN_SET(#{item},a.industryids)
+            </foreach>
+            )
+        </if>
+        <if test="companyName!=null and companyName!=''">
+            AND a.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="riskRating!=null and riskRating!=''">
+            AND b.risk_rating=#{riskRating}
+        </if>
+        <if test="batchTime != null and batchTime!=''">
+            AND z.`value`=#{batchTime}
+        </if>
+        <if test="batchTime != null and batchTime!=''">
+            AND z.`value`=#{batchTime}
+        </if>
+    </select>
+    <!--列表(根据用户是企业还是管理员展示不同页面)-->
+    <select id="listByUser" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        select c.*
+        from  cominfo_baseinfo c
+        where 1=1
+        <if test="companyId != null and companyId != ''">
+            and c.pid =#{companyId}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="companyAddress != null and companyAddress != ''">
+            and c.company_address like CONCAT('%',#{companyAddress},'%')
+        </if>
+        <if test="industryids != null and  industryids != ''">
+            and c.industryids =#{industryids}
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+        order by c.createDate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="listByUserSum" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        from  cominfo_baseinfo c
+        where 1=1
+        <if test="companyId != null and companyId != ''">
+            and c.pid =#{companyId}
+        </if>
+        <if test="pollutionSourceCategory != null and pollutionSourceCategory != ''">
+            and c.pollution_source_category in
+            <foreach collection="pollutionSourceCategory" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="companyAddress != null and companyAddress != ''">
+            and c.company_address like CONCAT('%',#{companyAddress},'%')
+        </if>
+        <if test="industryids != null and  industryids != ''">
+            and c.industryids =#{industryids}
+        </if>
+        <if test="streetOrTown != null and streetOrTown != ''">
+            and c.street_or_town like CONCAT('%',#{streetOrTown},'%')
+        </if>
+        <if test="enterpriseScale!=null and enterpriseScale!=''">
+            AND c.enterprise_scale=#{enterpriseScale}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+
+<title>基本信息</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-layout layui-layout-admin">
+    <iframe id="diyframe" src="../src/views/cominfo/companyshow/slider.html?" frameborder="0" class="layadmin-iframe"  style="top:60px;bottom:60px;"></iframe>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'loadtab'], function(){
+        var $ = layui.$;
+        var loadtab = layui.loadtab;
+        loadtab.tab(-1);
+
+        var heighttemp = "90%";
+        if(window.innerHeight < 650 ){
+            heighttemp = "88%";
+        }
+        $("#diyframe").css({"height":heighttemp});
+
+        var router = layui.router();
+        var pid=router.search.pid;
+        var tabTitle=$("#tabTitle");
+        if(pid){
+           tabTitle.html("<a><cite>一张表</cite></a><span lay-separator>/</span>" +
+               "        <a id='backCominfoInfo' lay-href='parm:cominfo/index?type=0'><cite>一企一档</cite></a><span lay-separator>/</span>" +
+               "        <a><cite id='tabCompanyName'></cite></a>");
+        }else{
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>填报查看</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+        $("#tabTitle").attr("style","visibility: visible");
+
+    });
+</script>

@@ -1,0 +1,364 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>应急演练</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>应急演练</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入演练单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-emergency-systemDrill" lay-filter="LAY-emergency-systemDrill"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="drillTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">演练类型：</label>
+                            <div class="layui-input-block">
+                                <select id="drillType" name="drillType" lay-filter="drillType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">演练日期：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="searchTime" name="searchTime" placeholder="请选择">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showDrillInfoTpl" type="text/html">
+    <div class="layui-tab layui-tab-brief ">
+        <ul class="layui-tab-title" id="drill-info">
+            <li  id ="firstDrillClick" class="layui-this" value="0">应急演练</li>
+            <li value="1">演练文档</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="drillInfoShow" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>演练标题：</td>
+                                        <td>
+                                            <input type="text" name="drillTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>演练地点：</td>
+                                        <td>
+                                            <input type="text" name="drillPoint" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>演练类型：</td>
+                                        <td>
+                                            <input type="text" name="drillTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>演练日期：</td>
+                                        <td>
+                                            <input type="text" name="drillDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>发布日期：</td>
+                                        <td>
+                                            <input type="text" name="publishDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="drillSituation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案评估：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="planEvaluation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="systemDrill">
+                    <table id="LAY-emergency-systemDrillTpl" lay-filter="LAY-emergency-systemDrillTpl"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/emergency/emergencysystemdrill";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_emergency_system_drill',
+            title: "应急演练记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //物资类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/drill_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var drillType=$("#drillType");
+                var optiona=$("<option>").text("全部").val("");
+                drillType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    drillType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(drillType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='drillTypeName']").val(name);
+            }
+        });
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        var column = [[
+            {type: 'numbers', title: '序号',unresize: true}
+            ,{field: 'companyName', title: '演练单位', minWidth: 180,unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }}}
+            ,{field: 'drillTitle', title: '演练标题', event:'setName', style:'color:blue;cursor:pointer;',minWidth:150,unresize: true,templet: function(item, index){
+                    if(item.drillTitle!=""){
+                        return '<span title="'+item.drillTitle+'">'+item.drillTitle+'</span>';
+                    }}}
+            ,{field: 'drillTypeName', title: '演练类型', width: 100,unresize: true}
+            ,{field: 'drillPoint', title: '演练地点', width: 150,unresize: true}
+//            ,{field: 'drillSituation', title: '演练情况', minWidth: 150,unresize: true}
+            ,{field: 'drillDate', title: '演练日期 ', width: 120,unresize: true}
+            // ,{field: 'publishDate', title: '发布日期 ', width: 100,unresize: true}
+//            ,{field: 'drillDocument', title: '演练文档 ', minWidth: 100,unresize: true}
+        ]];
+
+        laydate.render({
+            elem: '#searchTime' //指定元素,根据实际定义字段
+            ,type:'date'
+            // ,format:"yyyy-MM-dd "
+            ,range: '~'
+        });
+
+        table.render({//查询列表信息
+            elem: "#LAY-emergency-systemDrill"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:column
+            ,skin: 'line'
+            ,height: 'full-280'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-emergency-systemDrill","onlineCompanyReloadButton","labelTip");
+
+        //监听单元格事件
+        table.on('tool(LAY-emergency-systemDrill)', function(obj){
+            if(obj.event === 'setName'){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['1100px', '450px']
+                    // offset: '120px',
+                    , content: showDrillInfoTpl.innerHTML
+                });
+
+                var differType=0;
+                $('#drill-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        for(var id in data){
+                            $("#drillInfoShow [name='"+id+"']").val(data[id]);
+                            $("#drillInfoShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-emergency-systemDrillTpl'
+                            ,height: 'full-500'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/emergency/emergencysystemdrillfile/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-emergency-systemDrillTpl",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+                $("#firstDrillClick").trigger('click');
+            }
+            table.on('tool(LAY-emergency-systemDrillTpl)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel","drill_date");
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "演练单位,演练标题,演练类型,演练地点,演练情况,演练日期,发布日期,演练文档";
+//            var headerfield = "companyName,drill_title,drillTypeName,drill_point,drill_situation,drill_date,publish_date,drill_document";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

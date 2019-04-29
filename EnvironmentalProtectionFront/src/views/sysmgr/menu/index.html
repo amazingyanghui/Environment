@@ -1,0 +1,309 @@
+
+<title>菜单管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>菜单管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <button class="layui-btn " data-events="add" perm ="sysmgr:menu:index:add">新增</button>
+                        <button class="layui-btn " data-events="mod" perm ="sysmgr:menu:index:mod">修改</button>
+                        <button class="layui-btn " data-events="del" perm ="sysmgr:menu:index:del">删除</button>
+                    </div>
+                    <table id="LAY-sysmgr-sysMenu" lay-filter="LAY-sysmgr-sysMenu" perm ="sysmgr:menu:index:query"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editMenu" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysMenuedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="menuId" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">上级菜单：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="parentId"  placeholder="一级菜单为0" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">菜单名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">URL地址：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="url"  placeholder="目录、菜单需要（格式：market/customer/或者market/customer/basicset）" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">授权标识：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="perms"  placeholder="多个用逗号分隔，如：sys:user:list,sys:user:create" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">菜单类型：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="type" lay-verify="required" placeholder="0：目录   1：菜单   2：按钮或下级菜单" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">菜单图标：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="icon"  placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">序号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orderNum"  placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','treeGrid','perms'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,setter = layui.setter
+            ,perms = layui.perms
+            ,form = layui.form
+            ,global_obj = {}
+            ,windowindex = 0
+            ,baseurl = setter.remoteServiceAddress + "/sys/menu"
+            ,treeGrid = layui.treeGrid; //很重要
+         var hasPermission = false ;
+          perms.doPerm();
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:menu:list') === -1)) hasPermission = true;
+        //
+        table.render({
+            elem: '#LAY-sysmgr-sysMenu'
+            ,url:baseurl
+            ,cellMinWidth: 100
+            ,even: true
+            ,treeId:'menuId'//树形id字段名称
+            ,treeUpId:'parentId'//树形父id字段名称
+            ,treeShowName:'title'//以树形式显示的字段
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                // ,{field: 'menuId', title: '菜单ID',minWidth: 100, key: true }
+                ,{field: 'orderNum', title: '序号', width: 80}
+                ,{field: 'title', title: '菜单名称', minWidth: 50}
+                ,{field: 'parentName', title: '上级菜单', minWidth: 50}
+                ,{field: 'icon', title: '菜单图标', minWidth: 100,templet: function(item, index){
+                    return item.icon == null ? '' : '<i class="layui-icon">'+item.icon+'</i>';
+                }}
+                ,{field: 'type', title: '类型', minWidth: 100,align:'center',templet: function(item, index){
+                    if(item.type === 0){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-blue">目录</span>';
+                    }
+                    if(item.type === 1){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-green">菜单</span>';
+                    }
+                    if(item.type === 2){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">按钮</span>';
+                    }
+                }}
+                ,{field: 'url', title: 'URL地址', minWidth: 100}
+                ,{field: 'perms', title: '权限标识', minWidth: 100}
+            ]]
+            ,page:false
+            ,skin: 'line'
+            /*,done:function (e) {
+                layui.data(setter.tableName, {
+                    key: setter.request.tokenName
+                    , value: e[setter.request.tokenName]
+                })
+            }*/
+        });
+
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '380px']
+                // offset: '120px',
+                ,content: editMenu.innerHTML
+            });
+
+            form.render(null, 'component-form-element');
+            if(title=="新增"){
+                $("[name=parentId]").val(data[0].menuId);
+            }else if(title=="修改") {
+                var loadindex = layer.load(1);
+                admin.req({//根据id获取该记录的详细信息
+                    url: baseurl + "/" + data[0].menuId
+                    , done: function (result) {
+                        layer.close(loadindex);
+                        if (result.code == 0) {//成功
+                            for (var id in result.menu) {
+                                $("[name=" + id + "]").val(result.menu[id]);
+                            }
+                            form.render(null, 'component-form-element');
+                        } else {
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",data);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var menuIds = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                        menuIds.push(data[i].menuId);
+                    }
+                    var loadindex = layer.load(1);
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(menuIds)
+                        ,done: function(result){
+                            layer.close(loadindex);
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sysmgr-sysMenu"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                        ,error:function (res) {
+                            layer.alert(res, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                        ,complete:function (res) {
+                            layer.close(loadindex);
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sysmgr-sysMenu")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            var type = "POST";
+            if(data.field.menuId){//修改
+                type = "PUT";
+            }
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+
+                        });
+                        layer.close(windowindex);
+                        table.reload("LAY-sysmgr-sysMenu")
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

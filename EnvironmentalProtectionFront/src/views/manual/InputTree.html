@@ -1,0 +1,158 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.exhide.js"></script>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>移动执法</cite></a>
+        <a><cite>案件记录</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div id="menuContent" class="menuContent" style="display:none; position: absolute;width:311px" >
+                            <div>关键字：<input type="text" id="key" style="width:60%;" value="" class="empty" /><label class="mydivclose"  id="shutDown">【关闭】</label></div>
+                            <ul id="treeIndustry" class="ztree" style="margin-left: 35px;" ></ul>
+                        </div>
+                        <input id="industrySel" type="text" readonly value="" style="width:100%;"  class="layui-input"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','tree','baseInfoAttachment','upload','layer', 'form','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,upload=layui.upload
+            ,form = layui.form
+            ,layer=layui.layer
+            ,formVerify=layui.formVerify
+            ,baseInfoAttachment=layui.baseInfoAttachment
+
+
+        function setFuzzySearch() {
+        var data=[];
+            var setting = {
+                check: {
+                    enable: true,
+                    chkboxType: {"Y":"", "N":""}
+                },
+                edit: {
+                    enable: false,
+                    editNameSelectAll: false
+                },
+                view: {
+                    dblClickExpand: false,
+                    nameIsHTML: true, //允许name支持html
+                    selectedMulti: false
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "biaoshi",
+                        pIdKey: "fujidaimabiaoshi",
+                        rootPId: 0
+                    }
+                    ,key: {
+                        name: "mingcheng"
+                        ,checked:"checked"
+                    }
+                },
+                callback: {
+                    beforeClick: beforeClick,
+                    onCheck: onCheck
+                }
+            };
+
+            var industryids=null;
+            if(data.industryids!='' & data.industryids!=undefined){
+                industryids=data.industryids;
+            }
+            admin.req({//根据id获取该记录的详细信息
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/getHangYeLieBiao/" + industryids
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        jQuery.fn.zTree.init(jQuery("#treeIndustry"), setting, result.data);
+                        // onCheck();
+                        fuzzySearch('treeIndustry','#key',null,true); //初始化模糊搜索方法
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+        };
+        function beforeClick(treeId, treeNode) {
+            var zTree = jQuery.fn.zTree.getZTreeObj("treeIndustry");
+            zTree.checkNode(treeNode, !treeNode.checked, null, true);
+            return false;
+        };
+        function onCheck(e, treeId, treeNode) {
+            var zTree = jQuery.fn.zTree.getZTreeObj("treeIndustry"),
+                nodes = zTree.getCheckedNodes(true),
+                v = "",
+                industrys = "";
+            for (var i=0, l=nodes.length; i<l; i++) {
+                var mingcheng=nodes[i].mingcheng;
+                if(nodes[i].oldname!=undefined&nodes[i].oldname!=null){
+                    mingcheng=nodes[i].oldname;
+                }
+                v += mingcheng + ",";
+                industrys +=  nodes[i].daimazhi + ",";
+            }
+            if (v.length > 0 ) v = v.substring(0, v.length-1);
+            jQuery("#industrySel").val(v);
+            if (industrys.length > 0 ) industrys = industrys.substring(0, industrys.length-1);
+            jQuery("[name='industryids']").val(industrys);
+        };
+        $("#industrySel").click(function(){
+                var cityObj = jQuery("#industrySel");
+                // var cityOffset = jQuery("#industrySel").offset();//获得当前偏移的位置
+                jQuery("#menuContent").css(
+                    {
+                        left:cityObj.left + "px",
+                        top:"57px",
+                        "background-color": "white",
+                        "z-index": "1",
+                        overflow:"auto"
+                    }).slideDown("fast");
+
+                jQuery("body").bind("mousedown", onBodyDown());
+            });
+        $("#shutDown").click(function(){
+            jQuery("#menuContent").fadeOut("fast");
+            jQuery("body").unbind("mousedown",onBodyDown());
+        });
+        function onBodyDown(event) {
+            // if (!(event.target.id == "menuBtn" || event.target.id == "industrySel" || event.target.id == "menuContent" || jQuery(event.target).parents("#menuContent").length>0)) {
+            //     baseInfo.hideMenu();
+            // }
+        };
+        setFuzzySearch();
+        // showMenu1();
+        // hideMenu1();
+        // beforeClick();
+        // onCheck();
+        // onBodyDown();
+    });
+</script>

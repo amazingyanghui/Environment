@@ -1,0 +1,92 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+
+<title>同位素登记</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>同位素登记</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" style="margin-top: 10px;">
+    <div class="layui-card">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element">
+                    <table class="designEnvironmentCss">
+                        <tr>
+                            <td rowspan="2">序号</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口大类</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口税源编号</td>
+                            <td rowspan="2">排放口编号</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口名称</td>
+                            <td rowspan="2"><span class="starClass">*</span>污染物名称</td>
+                            <td rowspan="2">许可排放浓度限值(毫克/升或毫克/标立方米)</td>
+                            <td colspan="2">标准排放限值</td>
+                            <td rowspan="2"><span class="starClass">*</span>污染物排放量计算方法</td>
+                        </tr>
+                        <tr>
+                            <td>执行标准</td>
+                            <td>标准浓度值(毫克/升或毫克/标立方米)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/radioactive/radioactiveisotopeinfo";
+        var hasPermission = false;
+
+
+    });
+</script>

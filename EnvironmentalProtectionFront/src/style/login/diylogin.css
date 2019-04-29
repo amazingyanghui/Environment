@@ -1,0 +1,110 @@
+.layui-banner{
+    height: 100px;
+    width: 100%;
+}
+
+.layui-banner-area{
+    font-family:'Arial Normal', 'Arial';
+    font-weight:700;
+    font-style:normal;
+    color:#000000;
+}
+.layui-banner-area1{
+    font-size:26px;
+    padding-left:100px;
+    padding-top:30px;
+}
+.layui-banner-area2{
+    padding-left:100px;
+    font-size:18px;
+}
+#LAY-user-login{
+    position: relative;
+    height:100%;
+    background-image: url("background.png") ;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size:100% 100%
+}
+
+#LAY-user-login-form{
+    position: absolute;
+    top:4.4%;
+    right:2.8%;
+    background: #ffffff;
+    border:0px solid;
+    border-radius:4px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.349019607843137) ;
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.349019607843137);
+    width: 24.4%;
+
+    bottom:4.1%;
+    -moz-border-radius:4px; /* Old Firefox */
+}
+
+.layui-diy-earth{
+    position: absolute;
+    top:69%;
+    right:40%;
+    font-family:'Arial Normal', 'Arial';
+    font-weight:700;
+    font-style:normal;
+    font-size: 20px;
+    /*width:700px;*/
+}
+.logoimg{
+    position: relative;
+    float: left;
+    top:10px;
+    left:36px;
+    width: 58px;
+    height: 58px;
+    background-image: url("log.png") ;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size:100% 100%
+}
+
+.layui-diy-earth-text1{
+    font-size:36px;
+    padding-left:110px;
+    padding-top:12px;
+    color: #ffffff;
+    /*text-align:right;*/
+}
+.layui-diy-earth-text2{
+    font-size:14px;
+    padding-left:110px;
+    color: #ffffff;
+    /*text-align:right;*/
+}
+
+.layadmin-user-login-footer{
+    padding-bottom: 0.1%;
+    color: #ffffff;
+}
+
+.welcome{
+    /*margin-top:39%;*/
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom:50px;
+}
+
+.welcome div{
+    width: 50px;
+}
+
+.myinput{
+    border:0 solid;
+}
+.loginbutton{
+    background-color:#44CB33;
+    font-size: 18px;
+    height:58px;
+    box-shadow: 0px 5px 15px 1px #3c9a2b;
+}
+
+.diyline{
+    background-color: #44CB33;
+}

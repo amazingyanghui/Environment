@@ -1,0 +1,813 @@
+<!--<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>-->
+<title>项目建设</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>数据统计</cite></a>
+        <a><cite>项目建设</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid"  >
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm6 layui-col-md3 enterpriseType " data-type="OnlineMonitoringEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #49A9EE;border: 1px solid #49A9EE;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">本年度审批项目</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="construction1"></span><span>个</span>
+                    </p>
+                    <!--<p style="margin-top:5%;">-->
+                    <!--<span style="font-size:14px;">( 报告书:</span><span id=" " style="margin-left: 10px;font-size:14px;">1200个 &nbsp;&nbsp;</span>-->
+                    <!--<span style="font-size:14px;">报告表:</span><span id=""style="margin-left: 10px;font-size:14px;">2000个 )</span>-->
+                    <!--</p>-->
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                        <i class="iconfont total-font">&#xe662;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">本年度项目建设投资</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="construction2"></span><span>万元</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #99CC00;border: 1px solid #99CC00;">
+                        <i class="iconfont total-font">&#xe761;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">本年度项目环保投资</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="construction3"></span><span>万元</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF6633;border: 1px solid #FF6633;">
+                        <i class="iconfont total-font">&#xe7a9;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">与去年相比，项目建设投资总额增加</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="construction4"></span><span>%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-body total-title-top" style="height: 40px">
+                    <div class="layui-col-md12 ">
+                        <div style="display: inline-block">年份</div>
+                        <div id="year">
+                            <!--<span>2018</span>-->
+                            <!--<span>2017</span>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>各月投资统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="monthlyInvestmentStatistics" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span> 本年投资总额与去年对比</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="yearAndLastyearContrastByInvestment" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span> 本年度各行业投资总额统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="totalIndustryInvestment" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span> 本年度行业投资占比</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="statisticalProblemType" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="editqualityWasteTestShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id ="firstClick" class="layui-this" value="0">项目情况</li>
+            <li value="1">审批资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>项目名称：</td>
+                                        <td>
+                                            <input type="text" name="projectName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>建设单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目地址：</td>
+                                        <td colspan="3">
+                                            <input type="text" name="projectAddress" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>受理时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="admissibilityTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目类别：</td>
+                                        <td>
+                                            <input type="text" readonly name="projectType" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法人代表：</td>
+                                        <td>
+                                            <input type="text" readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>法人电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="legalPersonPhone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>联系人：</td>
+                                        <td>
+                                            <input type="text" readonly name="linkman" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>审批文号：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalNumbe" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>经办人员：</td>
+                                        <td>
+                                            <input type="text" readonly name="operator" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    <tr>
+
+                                        <td>审批单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalUnitName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="batchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>文件类型：</td>
+                                        <td>
+                                            <input type="text" name="fileTypeName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目性质：</td>
+                                        <td>
+                                            <input type="text" name="projectNatureName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                            <!--<select id="projectNature" name="projectNature"></select>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>环评审批机关：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaApprovalAuthority" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目总投资（万元）：</td>
+                                        <td>
+                                            <input type="text" name="totalInvestment" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目环保投资（万元）：</td>
+                                        <td>
+                                            <input type="text" readonly name="environmentalProtectionInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收申请时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceRequestTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>验收批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceBatchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>建设内容：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="constructionContent"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>审批意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="approvalOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="acceptanceOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>后评价：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="postAssessment"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评补充意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentAddopinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script>
+    layui.use(['admin', 'laytpl', 'element', 'table', 'attachment','upload','laydate','wasteProduceAndUse','statisticalBounced','baseInfoAttachment'], function () {
+        var start,end,end1;
+        start = new Date().getTime();
+        console.log(" == =====  " + start);
+        var $ = layui.$
+            , admin = layui.admin
+            , laytpl = layui.laytpl
+            , table = layui.table
+            ,laydate = layui.laydate
+            , element = layui.element
+            , setter = layui.setter
+            , wasteProduceAndUse = layui.wasteProduceAndUse
+            , statisticalBounced = layui.statisticalBounced
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,upload = layui.upload
+            ,attachment = layui.attachment
+            ,global_obj = {}
+            ,form = layui.form
+            , baseurl = setter.remoteServiceAddress + "/building/buildingprojectapproval"
+            , baseurl5 = setter.remoteServiceAddress + "/building/buildingprojectapproval";
+        var hasPermission = false;
+        var loadindex = layer.load(0);
+
+        //默认年份点击事件
+        admin.req({//
+            url: setter.remoteServiceAddress + "/common/exportExcel/getDate"
+            , done: function (result) {
+                var mills = new Date(Date.parse(result.date.replace(/-/g,"/"))).getTime();//获得毫秒数
+                var date = new Date(mills);
+                var myyear=date.getFullYear();
+                for(var i=myyear;i >= 2017;i--){
+                    $("#year").append("<span >"+i+"</span>")
+                }
+                $("#year span").on("click",function () {
+                    $("#year span").attr("style","background-color:#CCCCCC");
+                    $(this).attr("style","background-color:#0099FF");
+                    var year=$(this).text();
+                    defaultClick(year);
+                });
+                //默认年份点击事件
+                $("#year span:first-child").trigger("click");
+            }
+        });
+
+        function monthlyInvestmentStatistics(data1,data2) {
+            var chart = Highcharts.chart('monthlyInvestmentStatistics', {
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: [{
+                    categories: ['一月', '二月', '三月', '四月', '五月', '六月',
+                        '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    crosshair: true
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: '投资总额（万元）',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: '投资总额（万元）',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '{value} ',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    // layout: 'vertical',
+                    // align: 'left',
+                    // x: 120,
+                    // verticalAlign: 'top',
+                    // y: 100,
+                    // floating: true,
+                    // backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    enabled: false
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '今年投资额（万元）',
+                    type: 'column',
+                    yAxis: 1,
+                    data: data1,
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }, {
+                    name: '去年同期（万元）',
+                    type: 'spline',
+                    data:data2,
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }]
+            });
+        }
+        function yearAndLastyearContrastByInvestment(data) {
+            var chart = Highcharts.chart('yearAndLastyearContrastByInvestment',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                legend: {
+                    enabled: false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '今年','去年'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '投资总额（万元）'
+                    }
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} 万元</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '投资总额',
+                    data: data,
+                }]
+            });
+        }
+        function totalIndustryInvestment(data1,data2){
+            var chart = Highcharts.chart('totalIndustryInvestment',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                legend: {
+                    enabled: false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: data1,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '投资总额（万元）'
+                    }
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f}万元 </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '投资总额',
+                    data: data2
+                }]
+            });
+        }
+        function statisticalProblemType (data){
+            var colors=['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] ,
+                sum,
+                browserData = [],
+                versionsData = [],
+                dataLen = data.length,
+                drillDataLen,
+                brightness;
+// Build the data arrays
+            if(data[0]!=null ){
+                sum=data[0].sum;
+            }
+            for (var i = 0; i < dataLen; i += 1) {
+                // add browser data
+                browserData.push({
+                    name: data[i].name,
+                    y: Math.round(((data[i].y)/sum) * 100),
+                    color: colors[i]
+                });
+                // add version data
+                drillDataLen = data[i].drilldown.data.length;
+                for ( var j = 0; j < drillDataLen; j += 1) {
+                    brightness = 0.2 - (j / drillDataLen) / 5;
+                    versionsData.push({
+                        name: data[i].drilldown.categories[j],
+                        y: Math.round(((data[i].drilldown.data[j])/sum) * 100),
+                        color: Highcharts.Color(colors[i]).brighten(brightness).get()
+                    });
+                }
+            }
+// Create the chart
+            Highcharts.chart('statisticalProblemType', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total percent market share'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        shadow: false,
+                        center: ['50%', '50%']
+                    }
+                },
+                tooltip: {
+                    valueSuffix: '%'
+                },
+                series: [{
+                    name: '占比',
+                    data: browserData,
+                    size: '60%',
+                    dataLabels: {
+                        formatter: function () {
+                            return this.y > 5 ? this.point.name : null;
+                        },
+                        color: '#ffffff',
+                        distance: -30
+                    }
+                }, {
+                    name: '占比',
+                    data: versionsData,
+                    size: '60%',
+                    innerSize: '50%',
+                    dataLabels: {
+                        formatter: function () {
+                            // display only if larger than 1
+                            return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
+                                this.y + '%' : null;
+                        }
+                    },
+                    id: 'versions'
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 400
+                        },
+                        chartOptions: {
+                            series: [{
+                                id: 'versions',
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            }]
+                        }
+                    }]
+                }
+            });
+        }
+        function defaultClick(year){
+            admin.req({
+                url: setter.remoteServiceAddress + "/building/buildingprojectapproval/iconStatistics/"+year
+                , done: function (result) {
+                    if(result.code == 0){
+                        end1 =  new Date().getTime() ;
+                        console.log(" end1 ======="+end1);
+                        console.log(" 请求了 ======="+(end1-start)/1000+"s");
+                        $("#construction1").html(result.construction1);
+                        $("#construction2").html(result.construction2);
+                        $("#construction3").html(result.construction3);
+                        $("#construction4").html(result.construction4);
+                        monthlyInvestmentStatistics(result.monthContainerByYear,result.monthContainerByLastyear);
+                        yearAndLastyearContrastByInvestment(result.contrast);
+                        totalIndustryInvestment(result.industryName,result.industryTotal);
+                    }
+                }
+            });
+            admin.req({
+                url: setter.remoteServiceAddress + "/building/buildingprojectapproval/industryInvestmentProportion/"+year
+                , done: function (result) {
+                    if(result.code == 0){
+                        layer.close(loadindex);
+                        end =  new Date().getTime() ;
+                        console.log(" end ======="+end);
+                        console.log(" 请求了 ======="+(end-start)/1000+"s");
+                        statisticalProblemType(result.industryInvestmentProportion);
+                    }
+                }
+            });
+        }
+        var editwin = function(title,data){
+            var element="LAY-online-onlineMonitorCompany";
+            var colstemp= [[
+                {type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '建设单位', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }
+                }}
+                ,{field: 'projectName', title: '项目名称', width: 300,unresize: true,event:'preview',style:'color:blue;cursor:pointer;',templet: function(item, index){
+                    if(item.projectName!=""){
+                        return '<span title="'+item.projectName+'">'+item.projectName+'</span>';
+                    }}}
+                ,{field: 'projectAddress', title: '项目地址', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.projectAddress!=""){
+                        return '<span title="'+item.projectAddress+'">'+item.projectAddress+'</span>';
+                    }
+                }}
+                ,{field: 'fileTypeName', title: '文件类型', width: 100,unresize: true}
+                ,{field: 'approvalUnitName', title: '审批单位', width: 130,unresize: true}
+                ,{field: 'batchTime', title: '批复时间', width: 120,unresize: true}
+            ]];
+            var year=$("#year span:first-child").text();
+            var whereConditions={
+                hasPermission: hasPermission
+                //本年度审批项目
+                ,examinationApproval:data.examinationApproval ? data.examinationApproval:null
+                ,batchTime:year
+            };
+            statisticalBounced.bounced(element,colstemp,whereConditions,baseurl5,title);
+
+            // $("#test").animate({height:'0px'},"fast");
+            // $("#test").addClass("layui-hide");
+
+            //表格点击监听事件
+            table.on("tool(LAY-online-onlineMonitorCompany)",function (obj){
+                if(obj.event=="preview"){
+                    pid = obj.data.pid;
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        , area:['1100px', '660px']
+                        // offset: '120px',
+                        , content: editqualityWasteTestShowInfo.innerHTML
+                    });
+                    var differType=0;
+                    $('#com-info li').on('click', function(){
+                        var data = obj.data;
+                        differType = $(this).attr("value");
+                        if(differType==0){
+                            for (var attr in data) {
+                                $("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                            }
+                        }
+                        if(differType==1){
+                            table.render({//查询列表信息
+                                elem: '#LAY-online-onlineMonitorPortinfo0'
+                                ,height: 'full-300'
+                                ,cols: [[
+                                    {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                    ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                    ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                    ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                                ]]
+                                ,skin: 'line'
+                                ,even: true //开启隔行背景
+                            });
+
+                            admin.req({//
+                                url: setter.remoteServiceAddress + "/market/buildingprojectattachment/dataByFile/" + data.pid
+                                , done: function (result) {
+                                    if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                        table.reload("LAY-online-onlineMonitorPortinfo0",{//查询列表信息
+                                            data: result.fileAttachment
+                                        });
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+                    $("#firstClick").trigger('click');
+                }
+                table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                    var data=obj.data;
+                    if (obj.event == 'setFileName') {
+                        baseInfoAttachment.view(data.attachmentUrl);
+                    }
+                });
+            });
+            $("#sousuo").click(function(){
+                var onlineCompanyReload=$("#onlineCompanyReload").val();
+                table.reload('LAY-online-onlineMonitorCompany', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        companyName:onlineCompanyReload
+                    }
+                });
+            });
+            $("#chongzhi").click(function(){
+                $("#onlineCompanyReload").val("")
+                $("#sousuo").click();
+            })
+
+        };
+        var active = {
+            OnlineMonitoringEnterprise : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"examinationApproval":"1"};
+                editwin("本年度审批项目",data);
+            }
+        };
+
+        $('.enterpriseType').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+

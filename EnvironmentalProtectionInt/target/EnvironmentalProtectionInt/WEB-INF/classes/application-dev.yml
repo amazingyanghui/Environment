@@ -1,0 +1,48 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+#        driverClassName: com.mysql.jdbc.Driver
+        druid:
+            first:  #数据源1
+                driverClassName: com.mysql.cj.jdbc.Driver
+                url: jdbc:mysql://192.168.31.209:3306/huanjing?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+                username: root
+                password:
+#            second:  #数据源2
+#                url: jdbc:mysql://localhost/mytest?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+#                username: root
+#                password: root
+            second:
+                driverClassName: com.mysql.cj.jdbc.Driver
+                url: jdbc:mysql://192.168.31.209:3306/huanjing?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+                username: root
+                password:
+#                driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#                url: jdbc:sqlserver://10.32.1.65:1433;database=hello
+#                username: sa
+#                password: sa
+            initial-size: 10
+            max-active: 1000
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+#                login-username: admin
+#                login-password: admin
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true

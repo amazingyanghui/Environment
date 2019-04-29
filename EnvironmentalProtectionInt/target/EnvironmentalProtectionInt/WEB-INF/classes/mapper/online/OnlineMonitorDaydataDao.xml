@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineMonitorDaydataDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity" id="onlineMonitorDaydataMap">
+        <result property="pid" column="pid"/>
+        <result property="createdate" column="createdate"/>
+        <result property="cid" column="cid"/>
+        <result property="mid" column="mid"/>
+        <result property="fid" column="fid"/>
+        <result property="testData" column="test_data"/>
+        <result property="dataType" column="data_type"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity">
+        SELECT pid,createdate,cid,mid,fid,test_data,data_type,avg_value,cou_value,max_value,min_value,zsavg_value,zscou_value,zsmax_value FROM ${tableName}
+        <where>
+            <if test="mid!=null and mid!=''">
+                AND mid=#{mid}
+            </if>
+            <if test="fid!=null and fid!=''">
+                AND fid=#{fid}
+            </if>
+            <if test="dataType!=null and dataType!=''">
+                AND data_type=#{dataType}
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                AND substring_index(createdate,' ',1) &gt;= #{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                AND substring_index(createdate,' ',1) &lt;= #{endDate}
+            </if>
+            <if test="month!=null and month!=''">
+                AND MONTH(createdate)=#{month}
+            </if>
+        </where>
+        ORDER BY createdate ASC
+    </select>
+
+    <select id="dictList" parameterType="java.lang.String" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysDictEntity">
+        SELECT * FROM sys_dict WHERE `type`=#{type} ORDER BY sort DESC
+    </select>
+
+    <!--在线监控统计-查询监控企业、重点监控、水监控、气监控、voc监控企业数-->
+    <select id="onlineMonitoring"  resultType="java.util.Map">
+ select count(*) count,b.onlineBusinesses,c.keyPollution,d.wasteWater,e.wasteGas,f.VOC,g.sewagePlant from  cominfo_baseinfo a,
+(select count(*) onlineBusinesses from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b on  a.pid=b.cid where b.online_monitoring=1)b,
+(select count(*) keyPollution from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b on  a.pid=b.cid  where b.key_source=1 and  b.online_monitoring=1)c,
+(select count(*) wasteWater from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b  on  a.pid=b.cid   where b.online_monitoring=1 and b.waste_water=1)d,
+(select count(*) wasteGas from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b  on  a.pid=b.cid   where b.online_monitoring=1 and b.emission_enterprises=1)e,
+(select count(*) VOC from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b  on  a.pid=b.cid   where b.online_monitoring=1 and b.voc_enterprises=1)f,
+(select count(*) sewagePlant from  cominfo_baseinfo a LEFT JOIN cominfo_environmental_manage b on  a.pid=b.cid   where b.online_monitoring=1 and b.sewage_plant=1 )g
+    </select>
+    <!--在线监控统计-根据统计类型联动获取该类型的污染因子-->
+    <select id="selFactorByStatisticalType" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorFactorEntity">
+       SELECT * FROM online_monitor_factor
+       where  factor_type =#{type} and is_environment_factor=1 and factor_name  &lt;&gt; &apos;pH&apos;
+    </select>
+    <!--获取所有在线监控企业日数据表-->
+    <select id="selDailyData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity">
+      SELECT * FROM  ${tableName}  where createdate like CONCAT('%',#{year},'%') and fid=#{fid}
+    </select>
+    <select id="selDailyDatalastYear" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity">
+      SELECT * FROM  ${tableName}  where createdate like CONCAT('%',#{lastYear},'%') and fid=#{fid}
+    </select>
+    <!--查询某年每个月某因子的日数据表信息-->
+    <select id="selDailyDataByfactorGroupMonth" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity" >
+        SELECT * FROM ${tableNames}
+        where createdate like CONCAT(#{newyear},'%')  and fid=#{fid}
+        ORDER BY createdate ASC
+    </select>
+    <!--查询表是否存在-->
+    <select id="selTbaleName" parameterType="java.util.Map" resultType="java.lang.Integer">
+     select count(*) from information_schema.TABLES where table_name = #{tableNames}
+    </select>
+    <!--查询某年日数据表信息-->
+    <select id="selDailyDataByfactorGroupYear" parameterType="java.util.Map" resultType="java.util.Map">
+         SELECT  year(createdate) year,sum(cou_value) count
+        FROM ${tableNames}
+         where  fid=#{type} and  (year(createdate)=#{year} or year(createdate)=#{lastYear})
+         group by  year(createdate)
+         ORDER BY  year(createdate) ASC
+    </select>
+    <!--获取表名检索表内所有企业-->
+    <select id="enterprise" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT b.company_name companyName
+        ,ifnull(a.cou_value,0) AS valueSum
+        FROM ${tableName}  a LEFT JOIN cominfo_baseinfo b  on a.cid=b.pid
+        where fid=#{fid} and a.createdate=#{year}
+        ORDER BY CAST(a.cou_value as SIGNED) desc
+        limit 5
+    </select>
+    <!--根据企业获取表名检索表内企业的日数据表-->
+    <select id="dailyDataTable" parameterType="java.lang.String" resultType="java.util.Map">
+      select b.company_name companyName,a.mid
+      from online_table_retrieve a RIGHT JOIN cominfo_baseinfo  b on a.cid=b.pid where a.cid =#{cidName}
+    </select>
+    <!--根据表和年、污染因子 获取日数据和-->
+    <!--<select id="rankingSum" resultType="" parameterType="">-->
+
+    <!--</select>-->
+    <!--在线监控统计-废水实时排放情况-本年度累计工业废水排放量-->
+    <select id="wasteWaterDischargeForYear" parameterType="java.util.Map" resultType="java.util.Map">
+       select fid,sum(cou_value) couValue from  online_monitor_companydaydata
+       where (fid=#{fid1} or fid=#{fid2} or fid=#{fid3})  and createdate=#{year} GROUP BY fid
+    </select>
+    <!--在线监控统计-废水实时排放情况-工业废水排放量-->
+    <select id="wasteWaterDischarge"  parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorDaydataEntity" >
+        select createdate,cou_value couValue from online_monitor_daydata
+        where (createdate=#{currentmonth} or createdate=#{currentlastmonth})  and fid=#{fid}
+    </select>
+    <!--查询在线监控企业列表-->
+    <select id="onlineMonitoringEnterpriseList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        select a.pid,a.company_name,a.unified_social_credit_code,a.company_address,a.company_representative,a.industryids,a.environmental_protection_name,
+        (select d.value from sys_dict d where d.type = 'pollution_source_category_type' and d.key = a.pollution_source_category) as pollutionSourceCategoryText
+        from cominfo_baseinfo a
+        LEFT JOIN cominfo_environmental_manage b on a.pid=b.cid
+        where b.online_monitoring=1
+        <if test="keySource != null and keySource != ''">
+            and b.key_source = #{keySource}
+        </if>
+        <if test="cominfoBaseinfoName != null and cominfoBaseinfoName != ''">
+            and a.company_name like CONCAT('%',#{cominfoBaseinfoName},'%')
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and b.waste_water =1
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and b.emission_enterprises =1
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and b.voc_enterprises =1
+        </if>
+        <if test="sewagePlant != null and sewagePlant != ''">
+            and b.sewage_plant =1
+        </if>
+        order by a.createDate desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <!--查询在线监控企业列表总数-->
+    <select id="onlineMonitoringEnterpriseListCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from cominfo_baseinfo a
+        LEFT JOIN cominfo_environmental_manage b on a.pid=b.cid
+        where b.online_monitoring=1
+        <if test="keySource != null and keySource != ''">
+            and b.key_source = #{keySource}
+        </if>
+        <if test="cominfoBaseinfoName != null and cominfoBaseinfoName != ''">
+            and a.company_name like CONCAT('%',#{cominfoBaseinfoName},'%')
+        </if>
+        <if test="wasteWater != null and wasteWater != ''">
+            and b.waste_water =1
+        </if>
+        <if test="emissionEnterprises != null and emissionEnterprises != ''">
+            and b.emission_enterprises =1
+        </if>
+        <if test="vocEnterprises != null and vocEnterprises != ''">
+            and b.voc_enterprises =1
+        </if>
+        <if test="sewagePlant != null and sewagePlant != ''">
+            and b.sewage_plant =1
+        </if>
+    </select>
+</mapper>

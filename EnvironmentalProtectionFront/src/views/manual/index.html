@@ -1,0 +1,211 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+
+<title>环保手册</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环保手册</cite></a>
+    </div>
+</div>
+<style  type="text/css">
+    .layui-table-body {
+        overflow-x: hidden;
+    }
+</style>
+<div class="layui-fluid" style="overflow-y: hidden" >
+    <div class="layui-row  layui-col-space1">
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show" id="LAY-cominfoBaseinfo-f">
+                            <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                                <div class="layui-input-inline"  id="searchdiv">
+                                    <input class="layui-input" style="width: 600px;" id="cominfoBaseinfoReload" autocomplete="off" lay-filter="cominfoBaseinfoReload"  lay-search placeholder="请输入要搜索的关键字">
+                                </div>
+                                <button class="layui-btn" id="cominfoBaseinfoReloadButton">搜索</button>
+                                <button class="layui-btn" id="reset">重置</button>
+                                <label id="labelTip" class="labelTipHidden"></label>
+                            </div>
+                            <table id="LAY-cominfoBaseinfo" lay-filter="LAY-cominfoBaseinfo"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space1">
+                <div class="layui-col-sm2"  >
+                    <div class="layui-card"id="bodySize">
+                        <div class="layui-card-body" >
+                            <div class="layui-card-body layui-row ">
+                                <ul id="dept_select_tree" class="ztree" style="border:none;background:none;overflow-y:auto;overflow-x:auto"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm10"  >
+                    <div class="layui-card" id="bodySize2" >
+                        <div class="layui-card-body" >
+                            <div id="exportTable" >
+                                <table id="LAY-production-productionWasteBurnregister" lay-filter="LAY-production-productionWasteBurnregister"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .demo{
+        margin-left: -300px;
+        margin-top:2px;
+        border: 1px solid #cccccc;
+        width: 800px;
+        position: absolute;
+        z-index: 1;
+        background-color: #ffffff;
+    }
+</style>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-green" lay-event="fujian">预览</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-blue" lay-event="showDetial">下载</a>
+</script>
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','tree','laydate','attachment','perms','upload'], function(){
+        var $1 = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,laydate=layui.laydate
+            ,attachment = layui.attachment
+            ,upload = layui.upload
+            ,perms = layui.perms
+            ,setter = layui.setter
+            ,form = layui.form
+            ,baseurl = setter.remoteServiceAddress + "/manual/environmentalprotectionmanual"
+        // ,treeGrid = layui.treeGrid; //很重要
+        var hasPermission = false
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:dept:list') === -1)) hasPermission = true;
+        debugger
+        var heightfalg=600;
+        var heighttemp =window.innerHeight;
+        if(window.innerHeight > 930 ){
+            heighttemp = window.innerHeight - 265
+        }else if(window.innerHeight > 760){
+            heighttemp = window.innerHeight -280
+            heightfalg=490;
+        }else if(window.innerHeight > 600){
+            heighttemp = window.innerHeight - 280
+            heightfalg=350;
+        }
+        $1("#bodySize").height(heighttemp);
+        $1("#bodySize2").height(heighttemp);
+
+        var colstemp= [[
+            {type: 'checkbox', fixed: 'left',width:"3%"}
+            ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'fileName', title: '文件名称', minWidth: 500,unresize: true}
+            ,{field: 'fileSize', title: '文档大小',width: 120,unresize: true}
+            ,{field: 'heir', title: '上传人', width:120,unresize: true}
+            ,{field: 'createTimeStr', title: '上传时间', width: 120,unresize: true}
+            ,{field: 'remark', title: '操作', width: 140,unresize: true,toolbar: '#barDemo1'}
+        ]];
+        table.render({//查询列表信息
+            elem: '#LAY-production-productionWasteBurnregister'
+            ,url: baseurl
+            ,page: true
+            ,height: heightfalg
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:colstemp
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+//            ,size: 'sm' //小尺寸的表格
+//             ,done:function () {
+//             }
+        });
+
+        admin.req({//获取部门请求
+            url: baseurl + "/getLawTree"
+            ,done: function(result){
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    }
+                    ,callback: {
+                        onClick: onClick
+                    }
+                };
+                $.fn.zTree.init($("#dept_select_tree"), setting, result.lawTree);
+                var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+                var nodes = treeObj.getNodesByParam("name", "环保手册", null);
+                if (nodes.length>0) {
+                    treeObj.expandNode(nodes[0], true, false, true);
+                }
+            }
+        });
+        function onClick(event, treeId, treeNode, clickFlag) {
+            table.reload('LAY-production-productionWasteBurnregister', {
+                where: {
+                    hasPermission: hasPermission
+                    ,storecode:treeNode.storecode
+                    ,content:""
+                }
+            });
+        }
+        table.on('tool(LAY-production-productionWasteBurnregister)',function (obj) {
+            var data=obj.data;
+            if (obj.event == 'fujian') {
+                attachment.view(data.path);
+            }
+            if(obj.event == 'showDetial'){
+                location.href = setter.remoteServiceAddress  + "/sys/file/download?file=" + encodeURI(data.path);
+            }
+        });
+        //搜索栏查询
+        $1("#cominfoBaseinfoReloadButton").click(function(){
+            var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+            var selectnodes = treeObj.getSelectedNodes();
+            var storecode=null;
+            if(selectnodes.length>0){
+                storecode=selectnodes[0].storecode;
+            }
+            var content=$1('#cominfoBaseinfoReload').val();
+            if(content.length<=0 || content==null || content==""){
+                return  false;
+            }
+            table.reload('LAY-production-productionWasteBurnregister', {
+                where: {
+                    hasPermission: hasPermission
+                    ,storecode:storecode
+                    ,content:content
+                }
+            });
+
+        });
+        //搜索栏重置
+        $1("#reset").click(function(){
+            $1('#cominfoBaseinfoReload').val("");
+            table.reload('LAY-production-productionWasteBurnregister', {
+                where: {
+                    hasPermission: hasPermission
+                    ,storecode:""
+                    ,content:""
+                }
+            });
+            var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+            treeObj.refresh();
+        });
+    });
+</script>

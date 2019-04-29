@@ -1,0 +1,617 @@
+<script type="text/javascript" src="common/zoneinfo/sewagediversion.js"></script>
+
+<title>清污分流</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="processing-place">
+                <li value="0">清水系统</li>
+                <li value="1">污水系统</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+            </div>
+            <div class="layui-tab-content" id="centralized">
+                <div class="layui-tab-item layui-show">
+                    <div id="centralized0">
+                        <table id="LAY-comInfo-centralized0" lay-filter="LAY-comInfo-centralized0"></table>
+                    </div>
+                    <div id="comInfocentralized0"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="centralized1">
+                        <table id="LAY-comInfo-centralized1" lay-filter="LAY-comInfo-centralized1"></table>
+                    </div>
+                    <div id="comInfocentralized1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="editcentralized0" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="centralizedEdit0" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="zid" value="{{d.zid}}"/>
+                    <table class="reporttable">
+
+                        <tr>
+                            <td><span class="starClass">*</span>受纳水体名称：</td>
+                            <td>
+                                {{# if(d.receivingBodyName!=null){ }}
+                                <input type="text" name="receivingBodyName" lay-verify="required|strSize|strSpecialCharacter" value="{{d.receivingBodyName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="receivingBodyName" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>受纳水体代码：</td>
+                            <td>
+                                {{# if(d.receivingBodyCode!=null){ }}
+                                <input type="text" name="receivingBodyCode" lay-verify="strSize|strSpecialCharacter" value="{{d.receivingBodyCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="receivingBodyCode" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>排水去向类型：</td>
+                            <td>
+                                <select id="drainageDirection0" name="drainageDirection"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                {{# if(d.remarks!=null){ }}
+                                <textarea style="resize: none;" name="remarks" lay-verify="bigSize|strSpecialCharacter"  placeholder="" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea style="resize: none;" name="remarks"  lay-verify="bigSize|strSpecialCharacter" placeholder="" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="centralized">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </script>
+
+<script id="editcentralized1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="centralizedEdit1" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="zid" value="{{d.zid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span> 受纳水体名称：</td>
+                            <td>
+                                {{# if(d.receivingBodyName!=null){ }}
+                                <input type="text" name="receivingBodyName" lay-verify="required|strSize|strSpecialCharacter" value="{{d.receivingBodyName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="receivingBodyName" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>受纳水体代码：</td>
+                            <td>
+                                {{# if(d.receivingBodyCode!=null){ }}
+                                <input type="text" name="receivingBodyCode" lay-verify="strSize|strSpecialCharacter" value="{{d.receivingBodyCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="receivingBodyCode" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排水去向类型：</td>
+                            <td>
+                                <!--{{# if(d.drainageDirection!=null){ }}-->
+                                <!--<input type="text" name="drainageDirection" lay-verify="strSize|strSpecialCharacter" value="{{d.drainageDirection}}" placeholder="" autocomplete="off" class="layui-input">-->
+                                <!--{{# }else{ }}-->
+                                <!--<input type="text" name="drainageDirection" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                <!--{{# } }}-->
+                                <select id="drainageDirection1" name="drainageDirection"></select>
+                            </td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                {{# if(d.remarks!=null){ }}
+                                <textarea style="resize: none;" name="remarks" lay-verify="bigSize|strSpecialCharacter"  placeholder="" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea style="resize: none;" name="remarks"  lay-verify="bigSize|strSpecialCharacter" placeholder="" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="centralized">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="centralizedShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showcentralizedInfo0" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>受纳水体名称：</td>
+                            <td>
+                                <input type="text" name="receivingBodyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>受纳水体代码：</td>
+                            <td>
+                                <input type="text" name="receivingBodyCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排水去向类型：</td>
+                            <td>
+                                <input type="text" name="drainageDirection" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td  colspan="3">
+                                <textarea type="text" name="remarks" value="" placeholder="" autocomplete="off" class="layui-textarea">
+                                </textarea>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="centralizedShowInfo1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showcentralizedInfo1" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>受纳水体名称：</td>
+                            <td>
+                                <input type="text" name="receivingBodyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>受纳水体代码：</td>
+                            <td>
+                                <input type="text" name="receivingBodyCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--<td>使用类型：</td>-->
+                            <!--<td>-->
+                            <!--<input type="text" name="type"  value="" placeholder="" autocomplete="off" class="layui-input">-->
+                            <!--</td>-->
+                            <td>排水去向类型：</td>
+                            <td>
+                                <input type="text" name="drainageDirection" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td  colspan="3">
+                                <textarea type="text" name="remaks" value="" placeholder="" autocomplete="off" class="layui-textarea">
+                                </textarea>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="mutl" type="text/html" lay-done="layui.load_success(d.params)">
+    <seclet name="" xm-select-show-count xm-select="selectId">
+        <option value=""></option>
+        {{#  layui.each(d, function(index, item){ }}
+        <option value="{{ item.id }}">{{ item.name }}</option>
+        {{#  }); }}
+        {{#  if(d.length === 0){ }}
+        <!--无数据-->
+        {{#  } }}
+    </seclet>
+
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form','upload','formVerify','formSelects'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            , layer = layui.layer
+            ,form = layui.form
+            ,upload=layui.upload
+            ,formVerify=layui.formVerify
+            ,formSelects = layui.formSelects
+            ,global_obj = {}
+            ,baseurl1 = setter.remoteServiceAddress + "/zoneinfo/zoneinfosewagediversion";
+            // ,baseurl2 = setter.remoteServiceAddress + "/comInfo/cominfocentralizeddomestic"
+            // ,baseurl3 = setter.remoteServiceAddress + "/comInfo/cominfocentralizedhazardouswaste";
+//        loadtab.power("com-info","centralized");
+
+        var router = layui.router();
+        var cid=router.search.pid;
+
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>园区信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabZoneName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>清污分流</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            cid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>清污分流</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(cid!=null&cid!="undefined"){
+            loadtab.zonetab('sewagediversion');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#centralized0").removeClass("layui-hide"); //table父级div
+            $("#centralized1").removeClass("layui-hide");
+            $("#centralized2").removeClass("layui-hide");
+            $("#comInfocentralized0").addClass("layui-hide");//table 父级div相邻的下一个div
+            $("#comInfocentralized1").addClass("layui-hide");
+            $("#comInfocentralized2").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#centralized0").addClass("layui-hide");
+            $("#centralized1").addClass("layui-hide");
+            $("#centralized2").addClass("layui-hide");
+            $("#comInfocentralized0").removeClass("layui-hide");
+            $("#comInfocentralized1").removeClass("layui-hide");
+            $("#comInfocentralized2").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+        };
+        // formSelects.render('comprehensiveUtilizationMode');
+
+        formSelects.value('select', [1]);
+        var differType=0;
+        $('#processing-place li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-comInfo-centralized'+differType;
+            showAndHide();
+
+            if(differType==0){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseurl1
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,type:'0'
+                        ,zid:cid
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'drainageDirectionStr', title: '排水去向类型', minWidth: 100,unresize: true}
+                        ,{field: 'receivingBodyName', title: '受纳水体名称', minWidth: 100,unresize: true}
+                        ,{field: 'receivingBodyCode', title: '受纳水体代码', minWidth: 100,unresize: true}
+                        ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+            }else if(differType==1){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseurl1
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,type:'1'
+                        ,zid:cid
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'drainageDirectionStr', title: '排水去向类型', minWidth: 100,unresize: true}
+                        ,{field: 'receivingBodyName', title: '受纳水体名称', minWidth: 100,unresize: true}
+                        ,{field: 'receivingBodyCode', title: '受纳水体代码', minWidth: 100,unresize: true}
+                        ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+            }
+        });
+        $("#processing-place li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+
+        table.on("tool(LAY-comInfo-centralized0)",function (obj) {
+            debugger
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(0,data,centralizedShowInfo.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-comInfo-centralized1)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(1,data,centralizedShowInfo.innerHTML)
+            }
+        });
+
+        function showInfo(differType,data,html) {
+            var values = [] ;
+            var showstr = [] ;
+            if(differType==0){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['800px', '350px']
+                    // offset: '120px',
+                    , content: html
+                });
+            }else{
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['800px', '350px']
+                    // offset: '120px',
+                    , content: html
+                });
+            }
+            for(var elem in data){
+                debugger
+                if(differType==0){
+                    $("#showcentralizedInfo0 [name='"+elem+"']").val(data[elem]);
+                    $("#showcentralizedInfo0 [name='"+elem+"']").attr("readonly","readonly");
+                }else if(differType==1){
+                    $("#showcentralizedInfo1 [name='"+elem+"']").val(data[elem]);
+                    $("#showcentralizedInfo1 [name='"+elem+"']").attr("readonly","readonly");
+                }else {
+
+                    if(elem=='comprehensiveUtilizationMode'){
+                        var  showStr = null ;
+                        if(data.comprehensiveUtilizationMode.indexOf(",")!=-1){
+                            values =  data.comprehensiveUtilizationMode.split(",")
+                            //  console.log(" ==== "+values);
+                            $("#showcentralizedInfo2 [name='comprehensiveUtilizationMode']").val(showStr);
+                            $("#showcentralizedInfo2 [name='comprehensiveUtilizationMode']").attr("readonly","readonly");
+                        }else {
+                            values.push(data.comprehensiveUtilizationMode)
+                        }
+                        showStr =  change(values);
+                        $("#showcentralizedInfo2 [name='comprehensiveUtilizationMode']").val(showStr);
+                        $("#showcentralizedInfo2 [name='comprehensiveUtilizationMode']").attr("readonly","readonly");
+                    }else{
+                        $("#showcentralizedInfo2 [name='"+elem+"']").val(data[elem]);
+                        $("#showcentralizedInfo2 [name='"+elem+"']").attr("readonly","readonly");
+
+                    }
+                }
+            }
+            function change (values){
+                for (var index in values){
+                    // console.log(values[index]);
+                    //console.log(index);
+                    if(values[index]=='07d497be0004f0860ed6c270ac1'){
+                        showstr.push('金属材料回收');
+                    }else if(values[index]=='07d937b0e4f0860ed6c2708ac2'){
+                        showstr.push('非金属材料回收');
+                    }else if(values[index]=='07d937b0e4f0860ed6c2870ac3'){
+                        showstr.push('能量回收');
+                    }else if(values[index]=='07d974be4f0860ed6c2780ac4'){
+                        showstr.push('其他方式');
+                    }
+                }
+
+                return showstr ;
+            }
+
+
+        }
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            var baseurl="" , getBaseInfo="";
+            if(differType==0){
+                baseurl  = baseurl1 ;
+                getBaseInfo =  editcentralized0.innerHTML;
+            }else if(differType==1){
+                baseurl = baseurl1 ;
+                getBaseInfo =  editcentralized1.innerHTML;
+            }
+            //var getBaseInfo=editcentralized0.innerHTML;     // editcentralized: 模板的id
+            sewagediversion.editWin(admin,setter,$,table,form,baseurl,laytpl,laydate,element,differType,global_obj,pid,cid,getBaseInfo,formSelects);
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+                debugger
+            }
+            ,mod: function(othis,data){
+                debugger
+                editwin("修改",data);
+                // var shuzuStr=data.comprehensiveUtilizationMode.split(",");
+                // formSelects.value('test',['07d497be0004f0860ed6c270ac1','07d937b0e4f0860ed6c2870ac3']);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    if(differType==0){
+                        baseurl  = baseurl1 ;
+                    }else if(differType==1){
+                        baseurl = baseurl1 ;
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-comInfo-centralized"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-comInfo-centralized"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent == "link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var baseUrl="" ;
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+
+            if(differType==0){
+                baseUrl  = baseurl1 ;
+            }else if(differType==1){
+                baseUrl = baseurl1 ;
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            data.field.zid=cid;
+            data.field.type= differType;
+            data.field.comprehensiveUtilizationMode=formSelects.value('test', 'valStr');
+            //console.log(" ===== " + JSON.stringify(layui.formSelects.value('comprehensiveUtilizationMode', 'name')));
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseUrl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-comInfo-centralized"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

@@ -1,0 +1,266 @@
+.searchInput{
+    float: right;
+}
+.searchInput div input{
+    /*margin-right: 35px;*/
+}
+.searchInput button{
+    /*margin-right: 35px;*/
+}
+
+
+input::-webkit-input-placeholder{
+ color: #C6C1CC;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#C6C1CC;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#C6C1CC;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+    color:#C6C1CC;
+}
+
+.mylabel{
+    float: left;
+    display: block;
+    padding: 6px 15px;
+    width: 90px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+}
+
+.myinput{
+    width: 150px;
+}
+
+.queryInput,.querySelect{
+    width: 195px;
+}
+
+.mydateinput{
+    width: 300px;
+}
+
+.mybottom{
+    margin-bottom: 10px;
+}
+
+.layui-unselect dl { max-height:230px; }
+
+/*.layui-table-body{*/
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
+/*}*/
+
+/*.myhighlight{*/
+    /*background-color: #0B61A4;*/
+/*}*/
+
+
+.reporttable{
+    width: 100%;
+}
+
+.reporttable tr td{
+    border:1px solid #e3e9ee;
+    text-align: right;
+    font-size:14px;
+    width: 25%;
+    color: #353535;
+    overflow: visible;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.reporttable tr td:nth-child(odd){
+    background: #f1f4f6;
+}
+
+.reporttable tr td input{
+    width:100%;
+    height: 100%;
+}
+
+.reporttable tr td .layui-form-select{
+    width:100%;
+    height: 100%;
+    text-align: left;
+}
+
+.reporttable tr td .layui-form-select .layui-select-title{
+    width:100%;
+    height: 100%;
+}
+
+
+.reporttable tr td .layui-form-select input{
+    width:100%;
+    height: 100%;
+}
+
+.divbutton{
+    text-align: center;
+    margin-top: 15px;
+}
+
+.reporttableshow{
+    width: 100%;
+}
+
+.reporttableshow tr td{
+    border:1px solid #e3e9ee;
+    text-align: right;
+    font-size:14px;
+    width: 25%;
+    color: #353535;
+    overflow: visible;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.reporttableshow tr td:nth-child(odd){
+    background: #f1f4f6;
+}
+
+.reporttableshow tr td input{
+    border: 0;
+    width:100%;
+    height: 100%;
+}
+
+.reporttableshow tr td textarea{
+    border: 0;
+    resize:none;
+    margin-bottom: 0px;
+}
+
+
+.reporttableshow tr td .layui-form-select{
+    width:100%;
+    height: 100%;
+    text-align: left;
+}
+
+.reporttableshow tr td .layui-form-select .layui-select-title{
+    width:100%;
+    height: 100%;
+}
+
+
+.reporttableshow tr td .layui-form-select input{
+    width:100%;
+    height: 100%;
+}
+
+.divPanel{
+    margin-top:2px;
+    border: 1px solid #cccccc;
+    width: 744px;
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
+}
+
+.demo{
+    margin-left: -300px;
+    margin-top:2px;
+    border: 1px solid #cccccc;
+    width: 800px;
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
+}
+
+.labelTipHidden{
+    position: absolute;
+    margin-left: 20px;
+    margin-top:6px;
+    z-index: 1;
+    width:100px;/*要显示文字的宽度*/
+    overflow:hidden; /*超出的部分隐藏起来。*/
+    white-space:nowrap;/*不显示的地方用省略号...代替*/
+    text-overflow:ellipsis;/* 支持 IE */
+}
+.selectTipHidden{
+    width: 100%;
+    height: 200px;
+    background-color: #ffffff;
+    left: 300px;
+}
+
+.starClass{
+    color: red;
+    font-weight: 900;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.designEnvironmentCss{
+    width: 100%;
+}
+
+.designEnvironmentCss tr td{
+    border:1px solid grey;
+    font-size:14px;
+    text-align: center;
+    color: #353535;
+    overflow: auto;
+    height: 30px;
+    vertical-align: middle;
+}
+
+/*.designEnvironmentCss tr td:nth-child(odd){*/
+    /*background: #f1f4f6;*/
+/*}*/
+
+.designEnvironmentCss tr td input{
+    border: 0;
+    width:100%;
+    height: 100%;
+}
+
+.designEnvironmentCss tr td textarea{
+    border: 0;
+    resize:none;
+    margin-bottom: 0;
+}
+
+.designEnvironmentCss tr td select{
+    border: 0;
+    width:100%;
+    height: 100%;
+}
+
+.designEnvironmentCss tr td .layui-form-select{
+    width:100%;
+    height: 100%;
+    text-align: left;
+}
+
+.designEnvironmentCss tr td .layui-form-select .layui-select-title{
+    width:100%;
+    height: 100%;
+}
+
+
+.designEnvironmentCss tr td .layui-form-select input{
+    width:100%;
+    height: 100%;
+}
+.designEnvironmentInputCss{
+    -webkit-box-shadow: 0 0 5px;
+    background-color: #B7E2F3;
+}
+
+.designEnvironmentInputCss input{
+    background-color: #B7E2F3;
+}
+.designEnvironmentInputCss textarea{
+    background-color: #B7E2F3;
+}
+.designEnvironmentInputCss select{
+    background-color: #B7E2F3;
+}

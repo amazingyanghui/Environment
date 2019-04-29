@@ -1,0 +1,213 @@
+body{
+    background-color: white;
+    width: auto;
+}
+
+.reporttable{
+    width: 100%;
+}
+
+.reporttable tr td{
+    border:1px solid #e3e9ee;
+    font-size:15px;
+    color: #353535;
+    overflow: hidden;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+/*.reporttable tr td div{*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+    /*vertical-align: middle;*/
+/*}*/
+
+.reporttable tr td:nth-child(odd){
+    text-align: right;
+    background: #f1f4f6;
+    width: 25%;
+}
+
+.reporttable tr td:nth-child(even){
+    text-align: left;
+    width: 25%;
+    background: white;
+}
+
+.reporttable tr td .selectText{
+    height: 26px;
+    line-height: 26px;
+    vertical-align: middle;
+}
+
+
+.reporttableshow{
+    width: 100%;
+}
+
+.reporttableshow tr td{
+    border:1px solid #e3e9ee;
+    text-align: right;
+    font-size:14px;
+    width: 25%;
+    color: #353535;
+    overflow: visible;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.reporttableshow tr td:nth-child(odd){
+    background: #f1f4f6;
+}
+
+.reporttableshow tr td input{
+    border: 0;
+    width:100%;
+    height: 100%;
+}
+
+.reporttableshow tr td textarea{
+    border: 0;
+    resize:none;
+    margin-bottom: 0px;
+}
+
+
+.reporttableshow tr td .layui-form-select{
+    width:100%;
+    height: 100%;
+    text-align: left;
+}
+
+.reporttableshow tr td .layui-form-select .layui-select-title{
+    width:100%;
+    height: 100%;
+}
+
+
+.reporttableshow tr td .layui-form-select input{
+    width:100%;
+    height: 100%;
+}
+
+
+.processtable{
+    width: 98%;
+}
+
+.processtable tr td{
+    border:1px solid #e3e9ee;
+    font-size:15px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    width: 30%;
+}
+
+.processtable tr:first-child{
+    background: #DBE8F8;
+    color:#4D77A3;
+}
+
+.equipmenttable{
+    width: 98%;
+}
+
+.equipmenttable  tr td{
+    border:1px solid #e3e9ee;
+    font-size:15px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    /*width: 15%;*/
+}
+
+.equipmenttable tr:first-child{
+    background: #DBE8F8;
+    color:#4D77A3;
+}
+
+.energytable{
+    width: 98%;
+}
+
+.energytable tr td{
+    border:1px solid #e3e9ee;
+    font-size:15px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    width: 18%;
+}
+
+.energytable tr:first-child{
+    background: #DBE8F8;
+    color:#4D77A3;
+}
+
+.page-panel{
+    /*position: relative;*/
+    border:1px solid #e3e9ee;
+    background-color: #fff;
+    margin: 0 0 20px;
+    padding: 20px 0 20px 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+.page-panel .title{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0;
+}
+.page-panel-title{
+    background-color: #f5f5f5;
+    color: #333;
+    border-bottom: 1px solid #e3e9ee;
+    font-size: 16px;
+    width: 100%;
+    display: inline-block;
+    height:30px;
+    padding-top:10px;
+}
+.page-panel-title label{
+    margin-left: 20px;
+}
+.show-input{
+    width: 150px;
+    padding-left: 10px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #fff;
+    border-radius: 2px;
+    border-color: #e6e6e6;
+    cursor: pointer;
+}
+.show-select{
+    width: 150px;
+    height: 32px;
+    border-color:#e6e6e6;
+    cursor: pointer;
+}
+
+
+.emergencytable{
+    width: 98%;
+}
+
+.emergencytable tr td{
+    border:1px solid #e3e9ee;
+    font-size:15px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.emergencytable tr:first-child{
+    background: #DBE8F8;
+    color:#4D77A3;
+}

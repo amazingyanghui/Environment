@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>关键字查询</title>
+       	<link href="../../css/demoComm.css" rel="stylesheet" type="text/css"/>  
+        <script type="text/javascript" src="../../js/OpenLayers/OpenLayers-min.js"></script>
+        <script type="text/javascript" src="../../js/GeoGlobeJS.min.js"></script>
+		<script type="text/javascript" src="../../js/demoComm.js"></script>
+    </head>
+    <body>
+	       	<!-- 示例页面的地图容器div对象 -->
+	        <div id="simpleMap"></div>
+	        <!-- 示例页面的窗口容器div对象 -->
+			<div id="dialog" style="height:auto;width:350px;overflow:auto;max-height:500px;">
+				 <div class="dtitle" >
+				 	<TABLE cellSpacing=0 cellPadding=0 width="100%">
+				 		<TR>
+				 			<TD style="color: #ffffff;font-weight: bold">关键字查询</TD>
+				 			<TD style="text-align: right"> <img style="cursor:hand" onclick="slideToggleDialog('dialog')" src="../../images/closeD.png"/> </TD>
+				 		</TR>
+				 	</TABLE>
+				 </div>
+				 <div style="text-align: left; width: 100%; ">
+					  <TABLE align="center" cellSpacing="0" cellPadding="1" width="90%" style="line-height:1.5">
+					 		</br>
+					 		<TR>
+					 			<TD align="center">
+                                     	查询关键字：“<span id='currentKeyword'></span>”，<button onclick="queryByKeyword(keyword)">查询</button>
+							    </TD>
+					 		</TR>
+					 		<TR>
+					 			<TD>
+					 				<p>
+	                                 	说明：queryByKeyword方法查询返回结果内容与关联地图的级别相关，
+									 	当前地图级别对应于金字塔0-8级时会返回查询结果的统计信息，
+									 	9-20级返回实际的兴趣点数据集。
+	                                 </p>
+									<div id="result" style="max-height:300px;"></div>
+								</TD>
+					 		</TR>
+					  </TABLE>
+			  </div>
+			</div>
+        <!-- 脚本 -->
+        <script type="text/javascript">
+		/******************************** 参数定义开始 ********************************/        
+	        //定义配置对象
+	        var Cfg = {};
+	        //定位的中心点
+	        Cfg.lonLat = "112.939,31.377";
+	        //定位的缩放级别
+	        Cfg.zoom = "4";
+			//每英寸对应的像素值
+			Cfg.DOTS_PER_INCH = 96;
+			//设置dpi
+			Geo.setDPI(Cfg.DOTS_PER_INCH); 	
+			//系统主机IP地址 
+            Cfg.host = window.location.host;
+            //项目名称 
+            Cfg.projectName = window.location.pathname.split("/")[1];
+            //代理服务地址
+            Cfg.proxyHostUrl = 'http://' + Cfg.host + '/'+Cfg.projectName+'/proxy?url=';
+            //设置代理
+            if(Cfg.host){
+                Geo.Request.setProxyHost(Cfg.proxyHostUrl); 
+            }
+			//服务名称
+			Cfg.mapWMTSLayer_Name = "1-18级WMTS矢量底图";
+			//服务地址
+			Cfg.mapWMTSLayer_Url = "http://t0.tianditu.com/vec_c/wmts";
+			//服务版本
+			Cfg.mapWMTSLayer_Version = "1.0.0";
+			//图层标识
+			Cfg.mapWMTSLayer_LayerIdentifier = "vec";
+			//样式标识
+			Cfg.mapWMTSLayer_StyleIdentifier = "default";
+			//矩阵集名称
+			Cfg.mapWMTSLayer_MatrixSet= "c";
+			//比例尺
+			Cfg.mapWMTSLayer_Scales = "2.958293554545656E8,1.479146777272828E8,7.39573388636414E7,3.69786694318207E7,1.848933471591035E7,9244667.357955175,4622333.678977588,2311166.839488794,1155583.419744397,577791.7098721985,288895.85493609926,144447.92746804963,72223.96373402482,36111.98186701241,18055.990933506204,9027.995466753102,4513.997733376551,2256.998866688275";
+			//数据格式
+			Cfg.mapWMTSLayer_Format = "tiles";
+			//图层范围
+			Cfg.mapWMTSLayer_TileFullExtent = "-180.0,-90.0,180.0,90.0";
+			//地图级别偏移量
+			Cfg.mapWMTSLayer_ZoomOffset = 1;
+			//服务名称
+			Cfg.mapWMTSAnno_Name = "1-18级WMTS矢量注记底图";
+			//服务地址
+			Cfg.mapWMTSAnno_Url = "http://t0.tianditu.com/cva_c/wmts";
+			//服务版本
+			Cfg.mapWMTSAnno_Version = "1.0.0";
+			//图层标识
+			Cfg.mapWMTSAnno_LayerIdentifier = "cva";
+			//样式标识
+			Cfg.mapWMTSAnno_StyleIdentifier = "default";
+			//矩阵集名称
+			Cfg.mapWMTSAnno_MatrixSet = "c";
+			//比例尺
+			Cfg.mapWMTSAnno_Scales = "2.958293554545656E8,1.479146777272828E8,7.39573388636414E7,3.69786694318207E7,1.848933471591035E7,9244667.357955175,4622333.678977588,2311166.839488794,1155583.419744397,577791.7098721985,288895.85493609926,144447.92746804963,72223.96373402482,36111.98186701241,18055.990933506204,9027.995466753102,4513.997733376551,2256.998866688275";
+			//数据格式
+			Cfg.mapWMTSAnno_Format = "tiles";
+			//图层范围
+			Cfg.mapWMTSAnno_TileFullExtent = "-180.0,-90.0,180.0,90.0";
+			//地图级别偏移量
+			Cfg.mapWMTSAnno_ZoomOffset = 1;
+        	/******************************** 参数定义结束 ********************************/			
+			//构造地图对象实例,并添加到id为simpleMap的div容器中
+            var map = new Geo.View2D.Map("simpleMap");
+			//比例尺转分辨率
+			function getRes(scales) {
+				var res = [];
+				var scaleStr = scales.split(",");
+				for(var i = 0, j = scaleStr.length; i < j;i++) {
+					res.push(map.pyramid.getResolutionForScale(parseFloat(scaleStr[i])));
+				}
+				return res;
+			}
+			var wmtsLayer_Res = getRes(Cfg.mapWMTSLayer_Scales);
+			//创建WMTS底图图层
+			var wmtsLayer = new Geo.View2D.Layer.WMTS({
+				name : Cfg.mapWMTSLayer_Name,
+				url :  Cfg.mapWMTSLayer_Url,
+				matrixSet : Cfg.mapWMTSLayer_MatrixSet,
+				style : Cfg.mapWMTSLayer_StyleIdentifier,
+				layer : Cfg.mapWMTSLayer_LayerIdentifier,
+				resolutions: wmtsLayer_Res,
+				format : Cfg.mapWMTSLayer_Format,
+				zoomOffset: Cfg.mapWMTSLayer_ZoomOffset,
+				maxResolution :wmtsLayer_Res[0],//最大分辨率
+            	minResolution :wmtsLayer_Res[wmtsLayer_Res.length - 1],//最小分辨率
+				tileFullExtent:Geo.Bounds.fromString(Cfg.mapWMTSLayer_TileFullExtent)
+			}); 
+			var wmtsAnnoLayer_Res = getRes(Cfg.mapWMTSAnno_Scales);
+			//创建WMTS注记图层
+			var wmtsAnnoLayer = new Geo.View2D.Layer.WMTS({
+				transitionEffect:null,
+				name : Cfg.mapWMTSAnno_Name,
+				url :  Cfg.mapWMTSAnno_Url,
+				matrixSet : Cfg.mapWMTSAnno_MatrixSet,
+				style : Cfg.mapWMTSAnno_StyleIdentifier,
+				layer : Cfg.mapWMTSAnno_LayerIdentifier,
+				resolutions: wmtsAnnoLayer_Res,
+				format : Cfg.mapWMTSAnno_Format,
+				zoomOffset: Cfg.mapWMTSAnno_ZoomOffset,
+				maxResolution :wmtsAnnoLayer_Res[0],//最大分辨率
+            	minResolution :wmtsAnnoLayer_Res[wmtsAnnoLayer_Res.length - 1],//最小分辨率
+				tileFullExtent:Geo.Bounds.fromString(Cfg.mapWMTSAnno_TileFullExtent)
+			}); 
+            //添加图层
+            map.addLayers([wmtsLayer,wmtsAnnoLayer]);
+			map.setCenter(new Geo.LonLat(Cfg.lonLat.split(",")[0],Cfg.lonLat.split(",")[1]), Cfg.zoom);
+			var keyword = "超市";
+            //定义要素的样式       
+            var styleMap = new Geo.StyleMap({      
+                 "default": new Geo.Style({      
+                     pointRadius: 4,      
+                     strokeColor: "red",
+                     fillColor: "#e9a003",       
+                     strokeWidth: 4,      
+                     graphicZIndex: 1,      
+                     fillOpacity: 0.3      
+                 })    
+            });
+			//初始化矢量图层
+            var vectorLayer = new Geo.View2D.Layer.Vector("place name layer",{
+            	styleMap : styleMap   
+            }); 
+            map.addLayers([vectorLayer]);
+            showKeyword();
+            var queryObj = new Geo.Tdt.PlaceQuery({
+                onStatistics: showStatistics,
+                onPois: showPois,
+                map: map,
+                zoomOffset: 1
+            });
+            function showKeyword(){
+                document.getElementById("currentKeyword").innerHTML = keyword;
+            }
+            function drawFeaturesToMap(features){
+                vectorLayer.removeAllFeatures();
+                vectorLayer.addFeatures(features);
+                map.zoomToExtent(vectorLayer.getDataExtent());
+            }
+            function queryByKeyword(keyword){
+                queryObj.queryByKeyword(keyword);
+            }
+            function queryByAdminCode(keyword, adminCode){
+                queryObj.queryByAdminCode(keyword, adminCode);
+            }
+            function queryByBounds(keyword){
+                queryObj.queryByBounds(keyword);
+            }
+            function queryByNear(keyword){
+                var lonlat = map.getCenter();
+                queryObj.queryByNear(keyword, lonlat);
+            }
+            function showStatistics(result){
+                var outstr = "";
+                var resumeTemplat = "<p>当前查询关键词：${keyWord},结果总数：${count}</p>";
+                outstr += Geo.String.format(resumeTemplat, result);
+                outstr += showAdmins(result["allAdmins"]);
+                document.getElementById("result").innerHTML = outstr;
+            }
+            function showAdmins(allAdmins){
+                if (!allAdmins) {
+                    return;
+                }
+                var cityTemplat = "<li><a href='javascript:queryByAdminCode(keyword,\"${adminCode}\");'>" +
+                "${name}[${count}] ${adminCode}</a></li>";
+                var outstr = "<ul>";
+                for (var i = 0; i < allAdmins.length; i++) {
+                    outstr += Geo.String.format(cityTemplat, allAdmins[i]);
+                    if (allAdmins[i]["childAdmins"]) {
+                        outstr += showAdmins(allAdmins[i]["childAdmins"]);
+                    }
+                }
+                outstr += "</ul>";
+                return outstr;
+            }
+            function showPois(result){
+                var outstr = "";
+                var resumeTemplat = "<p>当前查询关键词：${keyWord},结果总数：${totalCount}</p>";
+                outstr += Geo.String.format(resumeTemplat, result);
+                if (result.features) {
+                    var poisItemTemplat = "<li style='line-height:5px;'><h4>${name}</h4>${address}</li>";
+                    var pois = result["features"];
+                    outstr += "<ul>";
+                    for (var i = 0; i < pois.length; i++) {
+                        outstr += Geo.String.format(poisItemTemplat, pois[i]["attributes"]);
+                    }
+                    outstr += "</ul>";
+	                outstr += getPagingNav(result);
+	                document.getElementById("result").innerHTML = outstr;
+	                drawFeaturesToMap(result.features);
+                }else{
+                	document.getElementById("result").innerHTML = outstr;
+                }
+            }
+            function failureFn(){
+                alert("查询失败");
+            }
+            function getPagingNav(resultPois){
+                var outstr = "<p>" +
+                "共：" +
+                resultPois.totalCount +
+                "条记录，" +
+                "每页" +
+                resultPois.perPage +
+                "条记录，" +
+                "当前是第" +
+                resultPois.pageNo +
+                "页 <br/>" +
+                " <a href='javascript:queryObj.firstPage();'>首页</a> ";
+                outstr += "<a href='javascript:queryObj.prePage();'>上页</a> ";
+                for (var i = 1; i < resultPois.totalPage; i++) {
+                    outstr += "<a href='javascript:queryObj.toPage(" + i + ");'>" + i + "</a> ";
+                }
+                outstr += "<a href='javascript:queryObj.nextPage();'>下页</a> ";
+                outstr += " <a href='javascript:queryObj.lastPage();'>尾页</a></p>";
+                return outstr;
+            }
+		</script>
+    </body>
+</html>

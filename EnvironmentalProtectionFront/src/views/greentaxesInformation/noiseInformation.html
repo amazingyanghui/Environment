@@ -1,0 +1,155 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<title>噪声基础信息采集</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>环保税基础信息采集</cite></a>
+        <a><cite>噪声基础信息采集</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element_noise">
+                    <div style="margin-bottom: 10px;">
+                        <button class="layui-btn " data-events="add">保存</button>
+                    </div>
+
+                    <div style="height: 50px;text-align: center;">
+                        <p style="font-size: 20pt;color: black" id="applyTitleText">噪声基础信息采集表</p>
+                    </div>
+                    <div style="margin-left: 30px">
+                        <div style="height: 35px;font-size: 16px;">
+                            <div class="layui-col-md8">
+                                <div style="margin-left: 20px;">
+                                    <label>纳税人名称：</label>
+                                    <label style="margin-left: 5px;" id="taxpayerName"></label>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <label>统一社会信用代码(纳税人识别号)：</label>
+                                <label style="margin-left: 5px;" id="taxpayerNumber"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="designEnvironmentCss" id="LAY-market-noiseInformation"
+                           lay-filter="LAY-market-noiseInformation">
+                        <tr>
+                            <td rowspan="2">序号</td>
+                            <td rowspan="2">噪声源税源编号</td>
+                            <td rowspan="2"><span class="starClass">*</span>噪声源名称</td>
+                            <td rowspan="2"><span class="starClass">*</span>噪声源位置</td>
+                            <td rowspan="2">功能区类型</td>
+                            <td rowspan="2"><span class="starClass">*</span>是否昼夜生产</td>
+                            <td rowspan="2">执行标准</td>
+                            <td colspan="2"><span class="starClass">*</span>标准限值(分贝)</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1">昼间(6-22时)</td>
+                            <td rowspan="1">夜间(22-次日6时)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl', 'laydate', 'upload', 'attachment', 'dictComponent', 'bizComponent', 'tree', 'treeComponent', 'pageScaffolding'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , pageScaffolding = layui.pageScaffolding
+            , global_obj = {}
+            , baseurl = setter.remoteServiceAddress + "/market/noiseinformation";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false
+
+        //  elem: '#LAY-market-noiseInformation'
+
+        var tableobj = pageScaffolding.createTable("LAY-market-noiseInformation", {
+            // url: baseurl,
+            cols: [{}]
+            , form: {
+                dlgSet: {width: "50%", height: "50%"},
+                customVerify: {},
+                elements: [{}]
+                , queryCriteria: [{}]
+            }
+
+        });
+
+        pageScaffolding.getQueryForm("LAY-market-noiseInformation", true)//生成表单搜索
+
+
+        //事件处理
+        var events = {
+            add: function (othis, data) {
+
+            }
+            , mod: function (othis, data) {
+
+            }
+            , del: function (othis, data) {
+
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var othis = $(this)
+                , thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-noiseInformation")
+                , data = checkStatus.data; //获得选中的数据
+
+            if (thisEvent == "mod" || thisEvent == "del") {
+                if (data.length === 0) {
+                    return layer.msg('未选中行!');
+                } else if (data.length > 1 && thisEvent == "mod") {
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis, data);
+        });
+
+
+    });
+</script>

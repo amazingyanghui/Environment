@@ -1,0 +1,310 @@
+
+<title>在线企业</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <!--<a><cite>在线监测</cite></a>-->
+        <a><cite>在线企业</cite></a>
+    </div>
+</div>
+
+<style type="text/css">
+    .companyClass{
+        margin-left: -37px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .qyda {
+        margin-left: 119px;
+        color: #0099FF;
+    }
+
+</style>
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="pollutionSourceCategoryText"/>
+                    <input type="hidden" name="regulatoryLevelText"/>
+                    <input type="hidden" name="keySourceText"/>
+                    <input type="hidden" name="monitorTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">企业类型：</label>
+                            <div class="layui-input-block">
+                                <select id="select_pollutionSourceCategory" name="pollutionSourceCategory" lay-filter="select_pollutionSourceCategory"  lay-search></select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">监管级别：</label>
+                            <div class="layui-input-block">
+                                <select id="select_regulatoryLevel" name="regulatoryLevel" lay-filter="select_regulatoryLevel"  lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">监测类型：</label>
+                            <div class="layui-input-block">
+                                <select id="select_monitorType" name="monitorType" lay-filter="select_monitorType" lay-search>
+                                    <option value="">请选择</option>
+                                    <option value="0">水</option>
+                                    <option value="1">气</option>
+                                    <option value="2">VOCs</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">是否重点：</label>
+                            <div class="layui-input-block">
+                                <select id="select_keySource" name="keySource" lay-filter="select_keySource" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input type="hidden" id="onlineMonitoringNameReload" value="1"/>
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入企业名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <table id="LAY-online-onlineMonitorCompany" lay-filter="LAY-online-onlineMonitorCompany"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="delDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="map">地图</a>
+</script>
+
+<script type="text/html" id="showMap">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td colspan="4">
+                                <div class="wrapper">
+                                    <div class="newmap" id="simpleMap" style="height: 520px"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','wasteProduceAndUse','static'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,statics = layui.static
+            ,wasteProduceAndUse = layui.wasteProduceAndUse
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo"
+            ,baseurl1 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor"
+            ,baseurl2 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor/selFactorByStatisticalType"
+            ,baseurl3 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        table.render({//查询列表信息
+            elem: "#LAY-online-onlineMonitorCompany"
+            ,url: baseurl
+            ,page: true
+            ,event:true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission,
+                onlineMonitoring:1
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '公司名称', minWidth: 240,event:"showStatic",style:'color:blue;cursor:pointer;',unresize: true}
+                ,{field: 'unifiedSocialCreditCode', title: '统一社会信用代码', minWidth: 160,unresize: true}
+                // ,{field: 'districtAndCounty', title: '所属区县', minWidth: 100,unresize: true}
+                ,{field: 'companyAddress', title: '单位地址', minWidth: 220,unresize: true}
+                ,{field: 'companyRepresentative', title: '法人代表', width: 120,unresize: true}
+                ,{field: 'industry', title: '行业类型', width: 180,unresize: true}
+                // ,{field: 'pollutionSourceCategoryText', title: '单位类型', width: 100,unresize: true}
+                ,{field: 'opts', title: '地图', width: 100,align:'center', toolbar: '#delDemo',unresize: true}
+            ]]
+            ,skin: 'line'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-online-onlineMonitorCompany","onlineCompanyReloadButton","labelTip");
+
+        var pollutionTpl=function () {
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/market/sysdict/dicts/pollution_source_category_type"
+                , done: function (result) {
+                    var getDictTpl = SelectDictTpl.innerHTML
+                        ,pollutionSourceCategory = document.getElementById('select_pollutionSourceCategory');
+                    laytpl(getDictTpl).render(result.dicts, function(html){
+                        pollutionSourceCategory.innerHTML = html;
+                    });
+                    form.render(null, 'component-form-element');
+                }
+            });
+            form.on('select(select_pollutionSourceCategory)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='pollutionSourceCategoryText']").val(name);
+                }else{
+                    $("[name='pollutionSourceCategoryText']").val("");
+                }
+            });
+        };
+
+
+        form.on('select(select_monitorType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='monitorTypeName']").val(name);
+            }else{
+                $("[name='monitorTypeName']").val("");
+            }
+        });
+
+        //隶属关系下拉框
+        var regulatoryTpl=function () {
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/market/sysdict/dicts/regulatory_level_type"
+                , done: function (result) {
+                    var getDictTpl = SelectDictTpl.innerHTML
+                        ,pollutionSourceCategory = document.getElementById('select_regulatoryLevel');
+                    laytpl(getDictTpl).render(result.dicts, function(html){
+                        pollutionSourceCategory.innerHTML = html;
+                    });
+                    form.render(null, 'component-form-element');
+                }
+            });
+
+            form.on('select(select_regulatoryLevel)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='regulatoryLevelText']").val(name);
+                }else {
+                    $("[name='regulatoryLevelText']").val("");
+                }
+            });
+        };
+
+        var booleanTpl=function () {
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/market/sysdict/dicts/boolean_type"
+                , done: function (result) {
+                    var getDictTpl = SelectDictTpl.innerHTML
+                        ,select_keySource = document.getElementById('select_keySource');
+                    laytpl(getDictTpl).render(result.dicts, function(html){
+                        select_keySource.innerHTML = html;
+                    });
+                    form.render(null, 'component-form-element');
+                }
+            });
+            form.on('select(select_keySource)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='keySourceText']").val(name);
+                }else{
+                    $("[name='keySourceText']").val("");
+                }
+            });
+        };
+
+        pollutionTpl();
+        regulatoryTpl();
+        booleanTpl();
+
+        //地图
+        table.on("tool(LAY-online-onlineMonitorCompany)",function (obj) {
+            if(obj.event=="map"){
+                layer.open({
+                    type: 1
+                    ,title: "查看地图"
+                    ,area: ["800px","600px"]
+                    // offset: '120px',
+                    ,content: showMap.innerHTML
+                });
+                var data=obj.data;
+                TDTMap.init(1,null,setter,null,data);
+            }
+            if(obj.event=="showStatic"){
+                if (!obj.data == "") {
+                    pid = obj.data.pid;
+                    statics.init(admin,setter,pid);
+
+                }
+
+            }
+
+
+        });
+
+
+
+
+    });
+</script>

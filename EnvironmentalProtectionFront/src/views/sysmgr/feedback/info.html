@@ -1,0 +1,583 @@
+
+<title>反馈回复</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>反馈回复</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <!--<div class="layui-inline">-->
+                            <!--<input class="layui-input" id="sysFeedbackInfoReload" autocomplete="off" placeholder="请输入关键字">-->
+                        <!--</div>-->
+                        <!--<button class="layui-btn" data-type="sysFeedbackInfoReload">搜索</button>-->
+                        <button class="layui-btn " data-events="add">新增</button>
+                        <button class="layui-btn " data-events="mod">回复</button>
+                        <button class="layui-btn " data-events="del">删除</button>
+                    </div>
+                    <table id="LAY-sys-sysFeedbackInfo" lay-filter="LAY-sys-sysFeedbackInfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editsysFeedbackInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysFeedbackInfoedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">姓名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userName" lay-verify="required|stringSize|username" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">电话：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userPhone" lay-verify="required|stringSize|phoneVerify" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">邮箱：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="userMail" lay-verify="required|stringSize|emailVerify" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">问题类型：</label>
+                            <div class="layui-input-block">
+                                <select id="questionType" name="questionType" lay-verify="required"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">反馈类型：</label>
+                            <div class="layui-input-block">
+                                <select id="feedbackType" name="feedbackType" lay-verify="required"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md12">
+                            <label class="layui-form-label">反馈内容：</label>
+                            <div class="layui-input-block">
+                                <textarea type="text" name="feedbackContent" lay-verify="required|centerStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script id="feedBackInfoShow" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <table id="LAY-sys-sysFeedbackRecord" lay-filter="LAY-sys-sysFeedbackRecord"></table>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="feedBackEditShow" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <div style="margin-bottom: 10px">
+                    <button class="layui-btn " id="add">新增</button>
+                    <button class="layui-btn " id="reply">回复</button>
+                </div>
+                <div id="feedbackRecordEdit">
+                    <table id="LAY-sys-sysFeedbackRecordEdit" lay-filter="LAY-sys-sysFeedbackRecordEdit"></table>
+                </div>
+                <div id="sysFeedbackRecordEdit"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="editFeedBack" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="feedBackEdit" action="" lay-filter="component-form-element-feedBack">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="oid" value="{{d.oid}}"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md12">
+                            <label class="layui-form-label">反馈内容：</label>
+                            <div class="layui-input-block">
+                                <textarea type="text" name="feedbackContent" style="resize: none;" lay-verify="required|centerStrSize|strSpecialCharacter" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md12">
+                            <label class="layui-form-label">回复内容：</label>
+                            <div class="layui-input-block">
+                                {{# if(d.replyContent!=null){ }}
+                                <textarea name="replyContent" placeholder="" lay-verify="required|centerStrSize|strSpecialCharacter" style="resize: none;min-height: 80px;" class="layui-textarea">{{d.replyContent}}</textarea>
+                                {{# }else{ }}
+                                <textarea name="replyContent" placeholder="" lay-verify="required|centerStrSize|strSpecialCharacter" style="resize: none;min-height: 80px;" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element-feedBack">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" id="replyHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,formVerify=layui.formVerify
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/sys/sysfeedbackinfo"
+            ,baseurl1 = setter.remoteServiceAddress + "/sys/sysfeedbackrecord";
+//        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('sys:sysfeedbackinfo:list') === -1)) hasPermission = true;
+        //
+
+        formVerify.verifyForm();
+        table.render({//查询列表信息
+            elem: '#LAY-sys-sysFeedbackInfo'
+            ,url: baseurl+"/list"
+            ,page: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox',unresize: true}
+                ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '登录用户', minWidth: 100,unresize: true,event:"setName",style:"color:blue;cursor:pointer;",templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }
+                }}
+                ,{field: 'userName', title: '姓名', minWidth: 100,unresize: true}
+                ,{field: 'userPhone', title: '电话', minWidth: 100,unresize: true}
+                ,{field: 'userMail', title: '邮箱', minWidth: 100,unresize: true}
+                ,{field: 'questionTypeName', title: '问题类型', width: 110,unresize: true}
+                ,{field: 'feedbackTypeName', title: '反馈类型', width: 110,unresize: true}
+                ,{field: 'replyStatusName', title: '响应状态', width: 110,unresize: true}
+                ,{field: 'createDate', title: '创建时间', width: 180,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,event:true
+        });
+
+//        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+//        var active = {
+//            sysFeedbackInfoReload: function(){
+//                var sysFeedbackInfoName = $('#sysFeedbackInfoReload').val();
+//                //执行重载
+//                table.reload('LAY-sys-sysFeedbackInfo', {
+//                    page: {
+//                        curr: 1 //重新从第 1 页开始
+//                    }
+//                    ,where: {
+//                        sysFeedbackInfoName:sysFeedbackInfoName
+//                    }
+//                });
+//            }
+//        };
+//
+//        $('.layui-btn').on('click', function(){
+//            var type = $(this).data('type');
+//            active[type] ? active[type].call(this) : '';
+//        });
+
+        function feedBackInfo(data) {
+            layer.open({
+                type: 1
+                ,title: "查看"
+                ,area: ['1100px', '400px']
+                // offset: '120px',
+                ,content: feedBackInfoShow.innerHTML
+            });
+
+            table.render({//查询列表信息
+                elem: '#LAY-sys-sysFeedbackRecord'
+                ,url: baseurl1+"/list/"+data.pid
+                ,page: true
+                ,where: {
+                    hasPermission: hasPermission
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: [[
+                    {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                    ,{field: 'feedbackContent', title: '反馈内容', minWidth: 100,unresize: true}
+                    ,{field: 'feedbackDate', title: '反馈时间', width: 180,unresize: true}
+                    ,{field: 'replyContent', title: '回复内容', minWidth: 100,unresize: true}
+                    ,{field: 'replyDate', title: '回复时间', width: 180,unresize: true}
+                ]]
+                ,skin: 'line'
+                ,event:true
+                ,limit:5
+                ,limits:[5,10,15,20,25,30,35,40,45,50]
+            });
+        }
+
+        table.on("tool(LAY-sys-sysFeedbackInfo)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+               feedBackInfo(data);
+            }
+        });
+
+        global_obj.questionTypeList=[];
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/question_type_type"
+            , done: function (result) {
+                global_obj.questionTypeList=result.dicts;
+            }
+        });
+
+        global_obj.feedbackTypeList=[];
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/feedback_type_type"
+            , done: function (result) {
+                global_obj.feedbackTypeList=result.dicts;
+            }
+        });
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: ['800px', '350px']
+                // offset: '120px',
+                ,content: editsysFeedbackInfo.innerHTML
+            });
+
+            var getDictTpl = SelectDictTpl.innerHTML;
+            var questionType = document.getElementById('questionType');
+            laytpl(getDictTpl).render(global_obj.questionTypeList, function(html){
+                questionType.innerHTML = html;
+            });
+
+            form.render(null, 'component-form-element');
+
+            var feedbackType = document.getElementById('feedbackType');
+            laytpl(getDictTpl).render(global_obj.feedbackTypeList, function(html){
+                feedbackType.innerHTML = html;
+            });
+
+            form.render(null, 'component-form-element');
+
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].pid
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.sysFeedbackInfo){
+                            $("[name="+id+"]").val(result.sysFeedbackInfo[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                feedBackEditInfo("反馈回复",data[0]);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sys-sysFeedbackInfo"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sys-sysFeedbackInfo")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能操作一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid){//修改
+                type = "PUT";
+            }
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.closeAll();
+                        table.reload("LAY-sys-sysFeedbackInfo");
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+        function hide() {
+            $("#add").removeClass("layui-hide");
+            $("#reply").removeClass("layui-hide");
+            $("#feedbackRecordEdit").removeClass("layui-hide");
+            $("#sysFeedbackRecordEdit").addClass("layui-hide");
+        }
+        function show() {
+            $("#add").addClass("layui-hide");
+            $("#reply").addClass("layui-hide");
+            $("#feedbackRecordEdit").addClass("layui-hide");
+            $("#sysFeedbackRecordEdit").removeClass("layui-hide");
+        }
+
+        function feedBackRecordEdit(data) {
+            show();
+            var getEditFeedBack = editFeedBack.innerHTML
+                ,sysFeedbackRecordEdit = document.getElementById('sysFeedbackRecordEdit');
+            laytpl(getEditFeedBack).render(data, function(html){
+                sysFeedbackRecordEdit.innerHTML = html;
+                form.render(null, 'component-form-element-feedBack');
+                replyHomeTpl();
+                feedBackForm();
+                var flag=true;
+                for(var id in data){
+                    if(id=="oid"){
+                        flag=false;
+                    }
+                }
+                if(flag==true){
+                    $("#feedBackEdit [name='feedbackContent']").parent().parent().parent().removeClass("layui-hide");
+                    $("#feedBackEdit [name='feedbackContent']").attr("lay-verify","required|centerStrSize|strSpecialCharacter");
+                    $("#feedBackEdit [name='replyContent']").parent().parent().parent().addClass("layui-hide");
+                    $("#feedBackEdit [name='replyContent']").attr("lay-verify","");
+                    $("#feedBackEdit [name='pid']").val("");
+                    $("#feedBackEdit [name='oid']").val(data.pid);
+                }
+                if(flag==false){
+                    $("#feedBackEdit [name='feedbackContent']").parent().parent().parent().addClass("layui-hide");
+                    $("#feedBackEdit [name='feedbackContent']").attr("lay-verify","");
+                    $("#feedBackEdit [name='replyContent']").parent().parent().parent().removeClass("layui-hide");
+                    $("#feedBackEdit [name='replyContent']").attr("lay-verify","required|centerStrSize|strSpecialCharacter");
+                }
+            });
+
+            form.render(null, 'component-form-element-feedBack');
+
+        }
+
+        function replyHomeTpl() {
+            $("#replyHome").on("click",function () {
+                hide();
+                table.reload('LAY-sys-sysFeedbackRecordEdit', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+            });
+        }
+
+        function feedBackEditInfo(title,data) {
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: ['1100px', '400px']
+                // offset: '120px',
+                ,content: feedBackEditShow.innerHTML
+            });
+
+            hide();
+
+            table.render({//查询列表信息
+                elem: '#LAY-sys-sysFeedbackRecordEdit'
+                ,url: baseurl1+"/list/"+data.pid
+                ,page: true
+                ,where: {
+                    hasPermission: hasPermission
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: [[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                    ,{field: 'feedbackContent', title: '反馈内容', minWidth: 100,unresize: true}
+                    ,{field: 'feedbackDate', title: '反馈时间', width: 180,unresize: true}
+                    ,{field: 'replyContent', title: '回复内容', minWidth: 100,unresize: true}
+                    ,{field: 'replyDate', title: '回复时间', width: 180,unresize: true}
+                ]]
+                ,skin: 'line'
+                ,event:true
+                ,limit:5
+                ,limits:[5,10,15,20,25,30,35,40,45,50]
+            });
+
+            $("#add").on("click",function () {
+                feedBackRecordEdit(data);
+            });
+
+            $("#reply").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-sys-sysFeedbackRecordEdit")
+                    ,data = checkStatus.data; //获得选中的数据
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1){
+                    return layer.msg('只能操作一条数据！');
+                }else {
+                    feedBackRecordEdit(data[0]);
+                }
+            });
+        }
+
+        function feedBackForm() {
+            //修改和增加
+            form.on('submit(component-form-element-feedBack)', function(data){
+                data.field.token = layui.data(setter.tableName).access_token;
+                var type = "POST";
+                if(data.field.pid){//修改
+                    type = "PUT";
+                }
+                var loadindex = layer.load(1);
+                admin.req({
+                    type: type,
+                    contentType:"application/json",
+                    url: baseurl1,
+                    data: JSON.stringify(data.field),
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+//                            layer.closeAll();
+                            hide();
+                            table.reload("LAY-sys-sysFeedbackRecordEdit");
+                            table.reload("LAY-sys-sysFeedbackInfo");
+                            layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            });
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false
+            });
+
+        }
+
+    });
+</script>

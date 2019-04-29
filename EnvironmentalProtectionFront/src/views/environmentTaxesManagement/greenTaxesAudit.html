@@ -1,0 +1,838 @@
+<script type="text/javascript" src="common/numberMath.js"></script>
+<title>基本信息</title>
+<style>
+    #queryform_waste_type .layui-col-md12{
+        width: 580px;
+    }
+
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>企业档案</cite></a>
+        <a><cite>环保税管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <!--<div style="margin-bottom: 10px;">-->
+                    <!--<div id="queryform_cominfo_baseinfo" class="layui-inline"></div>-->
+                    <!--</div>-->
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                        <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div style="margin-bottom: 10px;"></div>
+                    <table id="table_cominfo_baseinfo" lay-filter="table_cominfo_baseinfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="editlePaperUser" type="text/html">
+    <div class="layui-fluid" id="">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title" id="com-info">
+                    <li value="0" power="pf:yjc:xxwh:fs:pfqk">大气、水</li>
+                    <li value="1" power="pf:yjc:xxwh:fq:pfqk">固体废物</li>
+                    <li value="2" power="pf:yjc:xxwh:vo:cspfqk">噪声</li>
+                </ul>
+                <div style="margin-bottom: 10px;" id="test1">
+                    <div id="queryform_waste_type" class="layui-inline"></div>
+                </div>
+                <div style="margin: 10px 0 0 10px">
+                    <button class="layui-btn"  id="del" data-events="aud">审核</button>
+                </div>
+                <div class="layui-tab-content"  id="com-table">
+                    <div class="layui-tab-item layui-show" power="pf:yjc:xxwh:fs:pfqk">
+                        <div id="monitorPortinfo0">
+                            <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                        </div>
+                        <div id="onlineMonitorPortinfo0"></div>
+                    </div>
+                    <div class="layui-tab-item" power="pf:yjc:xxwh:fq:pfqk">
+                        <div id="monitorPortinfo1">
+                            <table id="LAY-online-onlineMonitorPortinfo1" lay-filter="LAY-online-onlineMonitorPortinfo1"></table>
+                        </div>
+                        <div id="onlineMonitorPortinfo1"></div>
+                    </div>
+                    <div class="layui-tab-item" power="pf:yjc:xxwh:vo:cspfqk">
+                        <div id="monitorPortinfo2">
+                            <table id="LAY-online-onlineMonitorPortinfo2" lay-filter="LAY-online-onlineMonitorPortinfo2"></table>
+                        </div>
+                        <div id="onlineMonitorPortinfo2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="riskRatingName"/>
+                    <input type="hidden" name="firstGradeName"/>
+                    <input type="hidden" name="secondGradeName"/>
+                    <input type="hidden" name="thirdGradeName"/>
+                    <input type="hidden" name="fourGradeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">所属行业：</label>
+                            <!--<div class="layui-input-block">-->
+                            <!--<input type="hidden" name="industryids" id="industryids"/>-->
+                            <!--<div id="menuContent" class="menuContent" style="display:none; position: absolute;">-->
+                            <!--<div>关键字：<input type="text" id="key" style="width:60%;" value="" class="empty" /><label class="mydivclose" onclick="baseInfo.hideMenu();">【关闭】</label></div>-->
+                            <!--<ul id="treeIndustry" class="ztree" style="margin-top:0; width:380px; height: 230px;"></ul>-->
+                            <!--</div>-->
+                            <!--<input id="industrySel" name="industrySel" type="text" readonly value="" class="layui-input"/>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6" id="firstGradeSel">
+                            <label class="layui-form-label">一級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="firstGrade" name="firstGrade" lay-filter="firstGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" id="secondGradeSel">
+                            <label class="layui-form-label">二級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="secondGrade" name="secondGrade" lay-filter="secondGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6" id="thirdGradeSel">
+                            <label class="layui-form-label">三級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="thirdGrade" name="thirdGrade" lay-filter="thirdGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" id="fourGradeSel">
+                            <label class="layui-form-label">四級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="fourGrade" name="fourGrade" lay-filter="fourGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                    <!--<div class="  layui-col-md6">-->
+                    <!--<label class="layui-form-label">风险等级：</label>-->
+                    <!--<div class="layui-input-block">-->
+                    <!--<select id="riskRating" name="riskRating" lay-filter="riskRating" lay-search>-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="  layui-col-md6">-->
+                    <!--<label class="layui-form-label">评估年份：</label>-->
+                    <!--<div class="layui-input-block">-->
+                    <!--<input class="layui-input" id="batchTime" name="batchTime" placeholder="请选择" type="text">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','upload','attachment', 'dictComponent', 'bizComponent', 'quarterlyCycle','tree', 'treeComponent','pageScaffoldingObj','form'], function(){
+        var $1 = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,util = layui.util
+            ,setter = layui.setter
+            ,laytpl = layui.laytpl
+            ,bizComponent = layui.bizComponent
+            ,quarterlyCycle = layui.quarterlyCycle
+            ,form = layui.form
+            ,global_obj = {}
+            , pageScaffoldingObj = layui.pageScaffoldingObj
+            //企业table列表查询
+            , baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo/listByUser"
+            //查询用户角色
+            , baseurl3 = setter.remoteServiceAddress + "/market/cominfobaseinfo/userEstimate"
+            //table列表查询、新增、修改提交
+            , baseurl4 = setter.remoteServiceAddress + "/market/epatmospheretax"
+            , baseurl5 = setter.remoteServiceAddress + "/market/epsolidwastetax"
+            , baseurl6 = setter.remoteServiceAddress + "/market/epnoisetax"
+            //企业名称模糊查询
+            ,baseurl7 = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+        var hasPermission = false
+        var userflag=1;
+        var differType=0;
+        var pageScaffolding2 = new pageScaffoldingObj();
+        commonReload.firstInReload($1,"divPanel",searchWin.innerHTML,"test");
+        //获取用户角色
+        admin.req({//根据
+            url: baseurl3
+            ,async: false
+            , done: function (result) {
+                if (result.code == 0) {//成功
+                    userflag=result.userType;
+                } else {
+                    layer.alert(result.msg, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            }
+        });
+        //列表
+        pageScaffolding2.createTable("table_cominfo_baseinfo",{
+            url: baseurl,
+            where:{
+                userflag:userflag
+            }
+            // 表格列配置，默认是有多选框
+            ,cols: [[
+                {type: 'numbers', fixed: 'left'}
+                ,{field: 'companyName', title: '企业名称', minWidth: 100,unresize: true,}
+                ,{field: 'companyAddress', title: '地址', minWidth: 100,unresize: true,}
+                ,{field: 'companyRepresentative', title: '法人代表', minWidth: 100,unresize: true,}
+                ,{field: 'industry', title: '所属行业', minWidth: 100,unresize: true,}
+                ,{field: '', title: '操作',unresize: true, width: 200, event: 'guanli',templet: function (item, index) {
+                        return '<span  style="color: #1da1f2">管理</span>';
+                    }}
+            ]]
+            ,form:{
+                // 表单外观设置
+                dlgSet: {width: "50%", height: "50%"},
+                // 表单验证配置
+                customVerify: {
+                },
+                elements: [
+                    {name: 'companyName', label: '企业名称',type:'input',verify: "", row: true,config:{}},
+                    {name: 'companyAddress', label: '地址',type:'input',verify: "", row: true,config:{}},
+                    {name: 'companyRepresentative', label: '法人代表',type:'input',verify: "", row: true,config:{}},
+                    {name: 'industryids', label: '所属行业', type: 'select', verify: "", row: true, config: {
+                            source:{url: "/sys/syshangyedaima/selectGetHangYeLieBiao/"+1, data: "list"},
+                            onSelect: function (data,formId) {//回调
+                            }
+                        }
+                    },
+                ],
+                //查询条件
+                queryCriteria: [0,1,3]
+            }
+        });
+        //列表监听事件
+        table.on('tool(table_cominfo_baseinfo)',function(obj){
+            if(obj.event=="guanli"){
+                var pageScaffolding3 = new pageScaffoldingObj();
+                var  data=obj.data;
+                var mypid=data.pid;
+                var mycompany=data.companyName;
+                var myindustryids=data.industryids;
+                var myPaiKouId=null;
+                layer.open({
+                    type: 1
+                    , title: mycompany
+                    , area: ['85%', '80%']
+                    // offset: '120px',
+                    , content: editlePaperUser.innerHTML
+                });
+                var cols=null;
+                var elements=null;
+                var queryCriteria=null;
+                var myurl=baseurl4;
+                $1('#com-info li').on('click', function(){
+                    $1("#queryform_waste_type").empty();
+                    differType = $1(this).attr("value");
+                    if(differType==0){
+                        myurl=baseurl4;
+                        cols=[[
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field: 'reportSection', title: '上报时间', minWidth: 123,sort: true}
+                            ,{field: 'dischargeType', title: '排放口大类', width:100}
+                            ,{field: 'taxSourceCode', title: '排放口税源编号', minWidth: 130}
+                            ,{field: 'monitorCode',   title: '排口编号', minWidth: 100}
+                            ,{field: 'monitorName',   title: '排口名称', minWidth: 86}
+                            ,{field: 'pollutantStr',     title: '应税污染物', minWidth: 100}
+                            ,{field: 'emissions',     title: '排放量', minWidth: 80}
+                            ,{field: 'pollutionEquivalent', title: '污染当量数', minWidth: 100}
+                            ,{field: 'calcMethod',     title: '计算方法', minWidth: 86}
+                            ,{field: 'status',        title: '状态',minWidth: 100,templet: function (item, index) {
+                                    if (item.status === "0") {
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-gray">未提交</span>';
+                                    }
+                                    if(item.status === "1"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">已提交，待审核</span>';
+                                    }
+                                    if(item.status === "2"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-green">已审核</span>';
+                                    }
+
+                                }}
+                        ]];
+                        elements=[
+                            {label: '上报时间',name: 'reportSection',type: 'custom',row: true,verify: 'required',divClass: "layui-col-md12 checkTaskEditCycle",
+                                config:{
+                                    getValue:function (formId) {
+                                        return quarterlyCycle.getComponentValue(formId);
+                                    },
+                                    setValue:function(){
+                                    },
+                                    create:function (formId) {
+                                        quarterlyCycle.createComponent(formId,$1(".checkTaskEditCycle"));
+                                    },
+                                }
+                            },
+                            {name: 'dischargeId', label: '排口',type:'select',verify: "", row: true,config:{
+                                    source:{url: "/online/onlinemonitorportinfo/selectList/"+data.pid, data: "list"} //异步，返回格式为 id,name
+                                    ,onSelect: function (data,formId) {//回调
+                                        var params = {};
+                                        admin.req({
+                                            url: setter.remoteServiceAddress + "/online/onlinemonitorportinfo/"+data.value,
+                                            data: params
+                                            ,async: false
+                                            ,done: function (result) {
+                                                //获取因子时需要的排口
+                                                myPaiKouId =data.value;
+                                                //根据排口返回信息赋值元素对象的值
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form [name='taxSourceCode']").val(result.onlineMonitorPortinfo.taxSourceCode).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form [name='monitorCode']").val(result.onlineMonitorPortinfo.monitorCode).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form [name='monitorName']").val(result.onlineMonitorPortinfo.monitorName).attr("disabled","");
+                                                //排口污染物需要根据排口动态查询，所以随机选中一个触发应税污染物查询事件
+                                                $1('#LAY-online-onlineMonitorPortinfo0_form select[name="pollutant"]').next().find('.layui-anim').children("dd:eq(0)").click();
+                                                //根据排口信息默认选择计算方法触发点击事件
+                                                // if(result.onlineMonitorPortinfo.calcMethod!=null){
+                                                //     $1('#LAY-online-onlineMonitorPortinfo0_form select[name="calcMethod"]').next().find('.layui-anim').children('dd[lay-value="' +result.onlineMonitorPortinfo.calcMethod+ '"]').click();
+                                                //     // $1('select[name="calcMethod"]').val(result.onlineMonitorPortinfo.calcMethod);
+                                                // }else{
+                                                //      $1('#LAY-online-onlineMonitorPortinfo0_form select[name="calcMethod"]').next().find('.layui-anim').children("dd:eq(0)").click();
+                                                // }
+                                                form.render();
+                                            }
+                                        });
+                                    }
+                                }},
+                            {name: 'dischargeType', label: '排放口大类',type:'select',verify: "", row: true,config:{
+                                    // source:{url: "/epTaxManagement/epsolidwastemeasures/getSolidWaste/"+data.pid, data: "list"} //异步，返回格式为 id,name
+                                    source: [{id: "", name: "请选择"},{id: "气", name: "气"}, {id: "水", name: "水"}]
+                                    ,onSelect: function (data,formId) {//回调
+                                    }
+                                }},
+                            {name: 'taxSourceCode', label: '排放口税源编号',type:'input',verify: "", row: true,config:{}},
+                            {name: 'monitorCode', label: '排口编号',type:'input',verify: "", row: true,config:{}},
+                            {name: 'monitorName', label: '排口名称',type:'input',verify: "", row: true,config:{}},
+                            {name: 'pollutant', label: '应税污染物',type:'select',verify: "", row: true,config:{
+                                    // source:{url: setter.remoteServiceAddress + "/online/onlinemonitorpointfactor/selectWasteWaterAndGasList/"+myPaiKouId, data: "list"}
+                                    source: [{id: "", name: "请选择"}]
+                                    ,onSelect: function (data,formId) {//回调
+                                        if(data.value==""){
+                                            var params = {};
+                                            admin.req({
+                                                url: setter.remoteServiceAddress + "/online/onlinemonitorpointfactor/selectWasteWaterAndGasList/"+myPaiKouId,
+                                                data: params,
+                                                async: false,
+                                                done: function (result) {
+                                                    var $1select = $1("#" + "LAY-online-onlineMonitorPortinfo0_form" + ' [name="' + "pollutant" + '"]');
+                                                    var selectTemplete = SelectTpl.innerHTML
+                                                    laytpl(selectTemplete).render(result.data, function (html) {
+                                                        $1select.html(html);
+                                                    });
+                                                    if(result.data.length>0){
+                                                        $1('select[name="pollutant"]').val(result.data[0].id);
+                                                    }
+                                                    form.render();
+                                                }
+                                            });
+                                        }else{
+                                            $1('select[name="pollutant"]').val(data.value);
+                                            form.render();
+                                        }
+                                    }
+                                }},
+                            {name: 'calcMethod', label: '计算方法',type:'select',verify: "",divClass: "layui-col-md6",config:{
+                                    // source:{url: "/online/onlinemonitorportinfo/getPaiKou/"+data.pid, data: "list"} //异步，返回格式为 id,name
+                                    source: [{id: "", name: "请选择"},{id: "1", name: "物料衡算"}, {id: "2", name: "机构监测"}]
+                                    ,onSelect: function (data,formId) {
+                                        var myyinzival=$1("#LAY-online-onlineMonitorPortinfo0_form select[name='calcMethod']  option:selected").val();
+                                        if(myyinzival==""){
+                                            if(document.getElementById("jisuan")){
+                                                $1("#jisuan").remove();
+                                            }
+                                            $1("#LAY-online-onlineMonitorPortinfo0_form [name='emissions']").val("").attr("disabled","");
+                                            $1("#LAY-online-onlineMonitorPortinfo0_form [name='pollutionEquivalent']").val("").attr("disabled","");
+                                        }else if(myyinzival=="1"){
+                                            if(!document.getElementById("jisuan")){
+                                                var explain = '<button class="layui-btn " id="jisuan" data-events="jisuan">计算</button>'
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form select[name='calcMethod']").parent().parent().parent().append(explain);
+                                                $1("#jisuan").click(function(){
+                                                    var myyinzi=$1("#LAY-online-onlineMonitorPortinfo0_form select[name='pollutant']  option:selected").text();
+                                                    calcEmission(myindustryids,myyinzi,function(obj){
+                                                        $1("#LAY-online-onlineMonitorPortinfo0_form [name='emissions']").val(obj.emissions);
+                                                        $1("#LAY-online-onlineMonitorPortinfo0_form [name='pollutionEquivalent']").val(obj.pollutionEquivalent);
+                                                    });
+                                                });
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form [name='emissions']").val("").attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo0_form [name='pollutionEquivalent']").val("").attr("disabled","");
+                                            }
+                                        }else if (myyinzival=="2"){
+                                            if(document.getElementById("jisuan")){
+                                                $1("#jisuan").remove();
+                                            }
+                                            $1("#LAY-online-onlineMonitorPortinfo0_form [name='emissions']").removeAttr("disabled","");
+                                            $1("#LAY-online-onlineMonitorPortinfo0_form [name='pollutionEquivalent']").removeAttr("disabled","");
+                                        }
+                                        form.render();
+                                    }
+                                }},
+                            {name: 'emissions',  verify:"required",label: '排放量',type:'input',verify: "", row: true,config:{}},
+                            {name: 'pollutionEquivalent', label: '污染当量数',type:'input',verify: "", row: true,config:{}},
+
+                        ];
+                        queryCriteria=[0,5];
+                    }
+                    if(differType==1){
+                        myurl=baseurl5;
+                        cols=[[
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field: 'reportSection', title: '上报时间', minWidth: 123}
+                            ,{field: 'solidWasteId', title: '设施编号', minWidth: 100}
+                            ,{field: 'measuresName', title: '设施名称', minWidth: 100}
+                            ,{field: 'waste', title: '危废名称', minWidth: 100}
+                            ,{field: 'eightCode', title: '八位码', minWidth: 80}
+                            ,{field: 'mode', title: '处置方式', minWidth: 80}
+                            ,{field: 'quantity', title: '产生量', minWidth: 80}
+                            ,{field: 'comprehensiveUtilization', title: '综合利用量', minWidth: 100}
+                            ,{field: 'disposalCapacity', title: '处置量', minWidth: 100}
+                            ,{field: 'status', title: '状态',minWidth: 100,templet: function (item, index) {
+                                    if (item.status === "0") {
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-gray">未提交</span>';
+                                    }
+                                    if(item.status === "1"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">已提交，待审核</span>';
+                                    }
+                                    if(item.status === "2"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-green">已审核</span>';
+                                    }
+
+                                }}
+                        ]];
+                        elements=[
+                            {name: 'reportSection',label: '上报时间',type: 'custom',row: true,verify: 'required',divClass: "layui-col-md12 checkTaskEditCycle",
+                                config:{
+                                    getValue:function (formId) {
+                                        // return bizComponent.getCycleComponent(formId);
+                                    },
+                                    setValue:function(){
+                                    },
+                                    create:function (formId) {
+                                        quarterlyCycle.createComponent(formId,$1(".checkTaskEditCycle"));
+                                        form.render();
+                                        // bizComponent.createCycleComponent(formId,$1(".checkTaskEditCycle"));
+                                        // $1('#'+formId+' select[name="cycle_type"]').next().find('.layui-anim').children("dd:eq(2)").click();
+                                        // $1('#'+formId+' select[name="cycle_type"]').attr("disabled","disabled");
+                                    }
+                                }
+                            },
+                            {name: 'solidWasteId', label: '设施编号',type:'select',verify: "", row: true,config:{
+                                    source:{url: "/epTaxManagement/epsolidwastemeasures/getSolidWaste/"+data.pid, data: "list"} //异步，返回格式为 id,name
+                                    // source: [{id: "1", name: "排口1"}, {id: "2", name: "排口2"}]
+                                    ,onSelect: function (data,formId) {//回调
+
+                                        var params = {};
+                                        admin.req({
+                                            url: setter.remoteServiceAddress + "/epTaxManagement/epsolidwastemeasures/"+data.value,
+                                            data: params,
+                                            done: function (result) {
+
+                                                $1("#LAY-online-onlineMonitorPortinfo1_form [name='measuresName']").val(result.epSolidWasteMeasures.measuresName).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo1_form [name='waste']").val(result.epSolidWasteMeasures.waste).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo1_form [name='eightCode']").val(result.epSolidWasteMeasures.eightCode).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo1_form [name='mode']").val(result.epSolidWasteMeasures.mode).attr("disabled","");
+                                                form.render();
+                                            }
+                                        });
+                                    }
+                                }},
+                            {name: 'measuresName', label: '设施名称',type:'input',verify: "", row: true,config:{}},
+                            {name: 'waste', label: '危废名称',type:'input',verify: "", row: true,config:{}},
+                            {name: 'eightCode', label: '八位码',type:'input',verify: "", row: true,config:{}},
+                            {name: 'mode', label: '处置方式',type:'input',verify: "", row: true,config:{}},
+                            {name: 'quantity', label: '产生量',type:'input',verify: "", row: true,config:{}},
+                            {name: 'comprehensiveUtilization', label: '综合利用量',type:'input',verify: "", row: true,config:{}},
+                            {name: 'disposalCapacity', label: '处置量',type:'input',verify: "", row: true,config:{}},
+                        ];
+                        queryCriteria=[0,2,3];
+                    }
+                    if(differType==2){
+                        myurl=baseurl6;
+                        cols=[[
+                            {type: 'checkbox', fixed: 'left'}
+                            ,{field: 'reportSection', title: '上报时间', minWidth: 123}
+                            ,{field: 'taxSourceCode', title: '噪声税源编号', minWidth: 130}
+                            // ,{field: 'monitorType', title: '噪声类别', minWidth: 100}
+                            ,{field: 'monitorName', title: '噪声源名称', minWidth: 100}
+                            ,{field: 'monitorPosition', title: '噪声源位置', minWidth: 100}
+                            ,{field: 'domainTypeStr', title: '功能区类型', minWidth: 100}
+                            ,{field: 'dayAndNightStr', title: '是否昼夜产生', minWidth: 100}
+                            ,{field: 'decibelNumber', title: '分贝数', minWidth: 100}
+                            ,{field: 'overDecibel', title: '超标分贝', minWidth: 100}
+                            ,{field: 'overDays', title: '超标天数', minWidth: 100}
+                            ,{field: 'status', title: '状态',minWidth: 100,templet: function (item, index) {
+                                    if (item.status === "0") {
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-gray">未提交</span>';
+                                    }
+                                    if(item.status === "1"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">已提交，待审核</span>';
+                                    }
+                                    if(item.status === "2"){
+                                        return '<span class="layui-btn layui-btn-xs layui-bg-green">已审核</span>';
+                                    }
+
+                                }}
+                        ]];
+                        elements=[
+                            {label: '上报时间',name: 'reportSection',type: 'custom',row: true,verify: 'required',divClass: "layui-col-md12 checkTaskEditCycle",
+                                config:{
+                                    getValue:function (formId) {
+                                        return bizComponent.getCycleComponent(formId);
+                                    },
+                                    setValue:function(){
+                                    },
+                                    create:function (formId) {
+                                        quarterlyCycle.createComponent(formId,$1(".checkTaskEditCycle"));
+                                        form.render();
+                                        // bizComponent.createCycleComponent(formId,$1(".checkTaskEditCycle"));
+                                        // $1('#'+formId+' select[name="cycle_type"]').next().find('.layui-anim').children("dd:eq(2)").click();
+                                        // $1('#'+formId+' select[name="cycle_type"]').attr("disabled","disabled");
+                                    }
+                                }
+                            },
+                            {name: 'dischargeId', label: '排口',type:'select',verify: "", row: true,config:{
+                                    source:{url: "/online/onlinemonitorportinfo/selectList/"+data.pid, data: "list"} //异步，返回格式为 id,name
+                                    // source: [{id: "1", name: "排口1"}, {id: "2", name: "排口2"}]
+                                    ,onSelect: function (data,formId) {//回调
+                                        var params = {};
+                                        admin.req({
+                                            url: setter.remoteServiceAddress + "/online/onlinemonitorportinfo/"+data.value,
+                                            data: params,
+                                            done: function (result) {
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='taxSourceCode']").val(result.onlineMonitorPortinfo.taxSourceCode).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='monitorType']").val(result.onlineMonitorPortinfo.monitorType).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='monitorName']").val(result.onlineMonitorPortinfo.monitorName).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='monitorPosition']").val(result.onlineMonitorPortinfo.monitorPosition).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='domainType']").val(result.onlineMonitorPortinfo.domainType).attr("disabled","");
+                                                $1("#LAY-online-onlineMonitorPortinfo2_form [name='dayAndNight']").val(result.onlineMonitorPortinfo.dayAndNight).attr("disabled","");
+                                                form.render(null, "LAY-online-onlineMonitorPortinfo2_form");
+                                            }
+                                        });
+                                    }
+                                }},
+                            {name: 'taxSourceCode', label: '噪声税源编号',type:'input',verify: "", row: true,config:{}},
+                            // {name: 'monitorType', label: '噪声类别',type:'input',verify: "", row: true,config:{}},
+                            {name: 'monitorName', label: '噪声源名称',type:'input',verify: "", row: true,config:{}},
+                            {name: 'monitorPosition', label: '噪声源位置',type:'input',verify: "", row: true,config:{}},
+                            {name: 'domainType', label: '功能区类型',type:'select',verify: "", row: true,config:{
+                                    source:{url:"/market/epnoisetax/communalSelectForDict/"+"domain_type" , data: "list"}
+                                    ,onSelect: function (data,formId) {}
+                                }},
+                            {name: 'dayAndNight', label: '是否昼夜产生',type:'select',verify: "", row: true,config:{
+                                    source:{url: "/market/epnoisetax/communalSelectForDict/"+"boolean_type", data: "list"}
+                                    ,onSelect: function (data,formId) {}
+                                }},
+                            {name: 'decibelNumber', label: '分贝数',type:'input',verify: "", row: true,config:{}},
+                            {name: 'overDecibel', label: '超标分贝',type:'input',verify: "", row: true,config:{}},
+                            {name: 'overDays', label: '超标天数',type:'input',verify: "", row: true,config:{}},
+                        ];
+                        queryCriteria=[0,3,5];
+                    }
+                    var table1=pageScaffolding3.createTable("LAY-online-onlineMonitorPortinfo"+differType,{
+                        url: myurl
+                        ,where:{
+                            companyId:mypid
+                            ,reviewStatus:"0"
+                        }
+                        // 表格列配置，默认是有多选框
+                        ,cols:cols
+                        ,form:{
+                            // 表单外观设置
+                            dlgSet: {width: "50%", height: "55%"},
+                            // 表单验证配置
+                            customVerify: {
+                            },
+                            elements:elements,
+                            //查询条件
+                            queryCriteria:queryCriteria
+                        }
+                    });
+                    pageScaffolding3.getQueryForm("queryform_waste_type", true)//生成表单搜索
+                });
+                $1('#com-info li:first').trigger("click");
+                $1('.layui-btn').on('click', function(){
+                    var othis =  $1(this)
+                        ,thisEvent = othis.data('events');
+                    var checkStatus = table.checkStatus("LAY-online-onlineMonitorPortinfo"+differType)
+                        ,data = checkStatus.data; //获得选中的数据
+                    if(thisEvent == "sub" || thisEvent == "aud"){
+                        if(data.length === 0){
+                            return layer.msg('未选中行!');
+                        }else if(data.length > 1 && (thisEvent == "sub"|| thisEvent == "aud")){
+                            return layer.msg('只能修改一条数据！');
+                        }
+                    }
+                    events[thisEvent] && events[thisEvent].call(this, othis,data);
+                });
+                var events = {
+                    aud: function(othis,data){
+                        var  auddata=data[0];
+                        if(auddata.status=="0"){
+                            layer.msg('请提交该数据后再发起审核！', {icon: 2,time:1000});
+                            return false;
+                        }
+                        if(auddata.status=="2"){
+                            layer.msg('该条数据已审核，请勿重复提交！', {icon: 2,time:1000});
+                            return false;
+                        }
+                        layer.confirm('确定提交选中的数据吗？', function(){
+                            var audurl=""
+                            if(differType==0){
+                                audurl=baseurl4;
+                            }
+                            if(differType==1){
+                                audurl=baseurl5;
+                            }
+                            if(differType==2){
+                                audurl=baseurl6;
+                            }
+                            var param = {id:auddata.id,status:"2"};
+                            // var sorts = [];
+                            // sorts.push(data[i].sort);
+                            // for(var i = 0 ; i < data.length;i++){
+                            //     sorts.push(data[i].sort);
+                            // }
+                            admin.req({//根据
+                                url: audurl+"/submitAndAudit"
+                                ,contentType:"application/json"
+                                ,type: "POST"
+                                ,data: JSON.stringify(param)
+                                ,done: function(result){
+                                    if(result.code == 0){//成功
+                                        layer.msg('审核成功', {
+                                            icon: 1,
+                                            time:1000
+                                        });
+                                        table.reload("LAY-online-onlineMonitorPortinfo"+differType); //刷新表格
+                                    }else{
+                                        layer.alert(result.msg, {
+                                            skin: 'layui-layer-lan',
+                                            offset: 't',
+                                            anim: 6
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    }
+                };
+            }
+        });
+
+
+        //风险级别
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/risk_rating"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var riskRating=$("#riskRating");
+                var optiona=$("<option>").text("请选择").val("");
+                riskRating.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    riskRating.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(riskRating)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='riskRatingName']").val(name);
+            }else {
+                $("[name='riskRatingName']").val("");
+            }
+        });
+
+        function gradeTpl($dom,data) {
+            $("#"+$dom).html("");
+            var secondGrade=$("#"+$dom);
+            var optiona=$("<option>").text("请选择").val("").attr("data-name","");
+            secondGrade.append(optiona);
+            for(var i=0;i<data.length;i++){
+                var optionb=$("<option>").text(data[i].mingcheng).val(data[i].daimazhi).attr("data-name",data[i].hangbiaoshi);
+                secondGrade.append(optionb);
+            }
+            form.render(null, "component-form-element-search");
+        }
+
+        //所属行业一级
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+            ,data:{"firstGrade":-1}
+            , done: function (result) {
+                gradeTpl("firstGrade",result.data);
+            }
+        });
+
+
+        form.on('select(firstGrade)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='firstGradeName']").val(name);
+                $("[name='secondGradeName']").val("");
+                $("[name='thirdGradeName']").val("");
+                $("[name='fourGradeName']").val("");
+                gradeTpl("secondGrade",1);
+                gradeTpl("thirdGrade",1);
+                gradeTpl("fourGrade",1);
+                secondGradeTpl(data.value);
+            }else {
+                $("[name='firstGradeName']").val("");
+                $("[name='secondGradeName']").val("");
+                $("[name='thirdGradeName']").val("");
+                $("[name='fourGradeName']").val("");
+                gradeTpl("secondGrade",1);
+                gradeTpl("thirdGrade",1);
+                gradeTpl("fourGrade",1);
+            }
+        });
+
+        //所属行业二级
+        function secondGradeTpl(value) {
+            var gradeValue=$("#firstGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"secondGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("secondGrade",result.data);
+                }
+            });
+
+
+            form.on('select(secondGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='secondGradeName']").val(name);
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("thirdGrade",1);
+                    gradeTpl("fourGrade",1);
+                    thirdGradeTpl(data.value);
+                }else {
+                    $("[name='secondGradeName']").val("");
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("thirdGrade",1);
+                    gradeTpl("fourGrade",1);
+                }
+            });
+        }
+
+        //所属行业三级
+        function thirdGradeTpl(value) {
+            var gradeValue=$("#secondGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"thirdGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("thirdGrade",result.data);
+                }
+            });
+
+
+            form.on('select(thirdGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='thirdGradeName']").val(name);
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("fourGrade",1);
+                    fourGradeTpl(data.value);
+                }else {
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("fourGrade",1);
+                }
+            });
+        }
+
+        //所属行业四级
+        function fourGradeTpl(value) {
+            var gradeValue=$("#thirdGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"fourGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("fourGrade",result.data);
+                }
+            });
+
+
+            form.on('select(fourGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='fourGradeName']").val(name);
+                }else {
+                    $("[name='fourGradeName']").val("");
+                }
+            });
+        }
+
+        form.render(null, "component-form-element-search");
+
+        commonReload.companyNameReload($,admin,baseurl7+"/managementDutiesCompanyName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","table_cominfo_baseinfo","onlineCompanyReloadButton","labelTip",true);
+    });
+</script>

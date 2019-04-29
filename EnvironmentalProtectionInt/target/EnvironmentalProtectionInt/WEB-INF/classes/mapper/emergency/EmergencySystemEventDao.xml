@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.EmergencySystemEventDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemEventEntity" id="emergencySystemEventMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="eventTitle" column="event_title"/>
+        <result property="occurrenceDate" column="occurrence_date"/>
+        <result property="occurrencePoint" column="occurrence_point"/>
+        <result property="eventSketch" column="event_sketch"/>
+        <result property="eventLevel" column="event_level"/>
+        <result property="propertyLoss" column="property_loss"/>
+        <result property="transferMasses" column="transfer_masses"/>
+        <result property="companyName" column="company_name"/>
+        <result property="createdate" column="createdate"/>
+        <result property="disposalstatus" column="disposalstatus"/>
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemEventEntity">
+        SELECT a.*,c.company_name companyName,y.value eventLevelName,z.value disposalStatusName,x.value pollutionLevelName
+        FROM emergency_system_event a
+        LEFT JOIN sys_dict y ON y.key=a.event_level AND y.type='event_level_type'
+        LEFT JOIN sys_dict z ON z.key=a.disposalstatus AND z.type='disposal_status_type'
+        LEFT JOIN sys_dict x ON x.key=a.pollutionlevel AND x.type='pollution_level_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="eventTitle != null and eventTitle != ''">
+            AND a.event_title like CONCAT('%',#{eventTitle},'%')
+        </if>
+        <if test="eventLevel != null and eventLevel != ''">
+            AND a.event_level = #{eventLevel}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.occurrence_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.occurrence_date &lt; #{endTime}
+        </if>
+        order by c.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemEventEntity">
+        SELECT a.*,c.company_name companyName,y.value eventLevelName,z.value disposalStatusName,x.value pollutionLevelName
+        FROM emergency_system_event a
+        LEFT JOIN sys_dict y ON y.key=a.event_level AND y.type='event_level_type'
+        LEFT JOIN sys_dict z ON z.key=a.disposalstatus AND z.type='disposal_status_type'
+        LEFT JOIN sys_dict x ON x.key=a.pollutionlevel AND x.type='pollution_level_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        AND a.pid=#{pid}
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemEventEntity">
+        SELECT a.*,c.company_name companyName,y.value eventLevelName,z.value disposalStatusName,x.value pollutionLevelName
+        FROM emergency_system_event a
+        LEFT JOIN sys_dict y ON y.key=a.event_level AND y.type='event_level_type'
+        LEFT JOIN sys_dict z ON z.key=a.disposalstatus AND z.type='disposal_status_type'
+        LEFT JOIN sys_dict x ON x.key=a.pollutionlevel AND x.type='pollution_level_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        AND a.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemEventEntity">
+        SELECT a.*,c.company_name companyName,y.value eventLevelName,z.value disposalStatusName,x.value pollutionLevelName
+        FROM emergency_system_event a
+        LEFT JOIN sys_dict y ON y.key=a.event_level AND y.type='event_level_type'
+        LEFT JOIN sys_dict z ON z.key=a.disposalstatus AND z.type='disposal_status_type'
+        LEFT JOIN sys_dict x ON x.key=a.pollutionlevel AND x.type='pollution_level_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="eventTitle != null and eventTitle != ''">
+            AND a.event_title like CONCAT('%',#{eventTitle},'%')
+        </if>
+        <if test="eventLevel != null and eventLevel != ''">
+            AND a.event_level = #{eventLevel}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.occurrence_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.occurrence_date &lt; #{endTime}
+        </if>
+        GROUP BY a.cid
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM emergency_system_event a
+        LEFT JOIN sys_dict y ON y.key=a.event_level AND y.type='event_level_type'
+        LEFT JOIN sys_dict z ON z.key=a.disposalstatus AND z.type='disposal_status_type'
+        LEFT JOIN sys_dict x ON x.key=a.pollutionlevel AND x.type='pollution_level_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="eventTitle != null and eventTitle != ''">
+            AND a.event_title like CONCAT('%',#{eventTitle},'%')
+        </if>
+        <if test="eventLevel != null and eventLevel != ''">
+            AND a.event_level = #{eventLevel}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.occurrence_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.occurrence_date &lt; #{endTime}
+        </if>
+    </select>
+</mapper>

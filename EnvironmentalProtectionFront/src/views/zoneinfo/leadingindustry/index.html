@@ -1,0 +1,402 @@
+<script type="text/javascript" src="common/cominfo/portinfo.js"></script>
+
+<title>主导行业及占比</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <!--<ul class="layui-tab-title" id="com-info">-->
+            <!--<li id="firstClick" value="0">应急物资</li>-->
+            <!--<li value="1">应急预案</li>-->
+            <!--<li value="2">应急演练</li>-->
+            <!--<li value="3">应急队伍</li>-->
+            <!--<li value="4">专家信息</li>-->
+            <!--<li value="5">环境应急事件</li>-->
+            <!--</ul>-->
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+            </div>
+            <div class="layui-tab-content"  id="com-table">
+                <div class="layui-tab-item layui-show" power="tw:sdj:xxwh">
+                    <div id="emergencysystem0">
+                        <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                    </div>
+                    <div id="emergencyEmergencysystem0" class="layui-hide">
+                        <div class="layui-fluid">
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-card-body">
+                                    <form class="layui-form" id="emergencysystemsuppliesedit" action="" lay-filter="component-form-element">
+                                        <input type="hidden" name="pid" value="undefined">
+                                        <input type="hidden" name="cid" value="undefined">
+                                        <table class="reporttable">
+                                            <tr>
+                                                <td><span class="starClass">*</span>主导行业名称：</td>
+                                                <td>
+                                                    <input type="text" name="industryName"  lay-verify="required|stringSize|specialCharacter" placeholder="" autocomplete="off" class="layui-input">
+                                                </td>
+                                                <td>主导行业代码：</td>
+                                                <td>
+                                                    <input type="text" name="industryCode" lay-verify="stringSize|specialCharacter"  placeholder="" autocomplete="off" class="layui-input">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>主导行业占比(%)：</td>
+                                                <td>
+                                                    <input type="text" name="industryPercent" lay-verify="stringSize|proportion"  placeholder="" autocomplete="off" class="layui-input">
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>备注：</td>
+                                                <td colspan="3">
+                                                    <textarea type="text" name="remarks"  lay-verify="stringSize|specialCharacter" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div class="layui-form-item divbutton">
+                                            <div>
+                                                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                                                <button class="layui-btn layui-btn-normal" type="button"  data-events="return" name="emergencyHome0">返回</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="radicactiveShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="showInforadicactive" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="undefined">
+                    <input type="hidden" name="cid" value="undefined">
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>主导行业名称：</td>
+                            <td>
+                                <input type="text" name="industryName"  lay-verify="stringSize|specialCharacter" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>主导行业代码：</td>
+                            <td>
+                                <input type="text" name="industryCode" lay-verify="stringSize|specialCharacter"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主导行业占比(%)：</td>
+                            <td>
+                                <input type="text" name="industryPercent"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks"  lay-verify="stringSize|specialCharacter" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,layer=layui.layer
+            ,formVerify=layui.formVerify
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/zoneinfo/zoneinfoleadingindustry";
+        debugger;
+        loadtab.power(null,"com-table");
+        var hasPermission = false;
+        var router = layui.router();
+        var pid=router.search.pid;
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>园区信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabZoneName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>主导行业及占比</cite></a>");
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+        }
+
+        //企业信息目录列表光标跟随
+        if(pid!=null&pid!="undefined"){
+            loadtab.zonetab('leadingindustry');
+        }
+
+        //序列化form表单
+        var serializeObject = function (form) {
+            var o = {};
+            var a = $("#" + form).serializeArray();
+            $.each(a, function () {
+                // 区划组件的值要排除
+                if (this.name.indexOf('region_') < 0) {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                }
+            });
+            return o;
+        };
+
+        var showAndHide=function () {
+            $("#emergencysystem0").removeClass("layui-hide");
+            $("#emergencyEmergencysystem0").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#emergencysystem0").addClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+        };
+        var show=function () {
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+            $("#emergencysystem0").addClass("layui-hide");
+            $("#emergencyEmergencysystem0").removeClass("layui-hide");
+        };
+
+        var hide=function () {
+            //隐藏列表
+            $("#emergencyEmergencysystem0").addClass("layui-hide");
+        };
+        //同位素列表查询
+        table.render({//查询列表信息
+            elem: '#LAY-online-onlineMonitorPortinfo0'
+            ,url: baseurl
+            ,page: true
+//            ,height: 'full-400'
+            ,where: {
+                hasPermission: hasPermission
+                ,zid:pid
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', unresize: true}
+                ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'industryName', title: '主导行业名称', minWidth: 100,event:'preview',style:'color:blue;cursor:pointer;',unresize: true}
+                ,{field: 'industryCode', title: '主导行业代码',minWidth: 100,unresize: true}
+                ,{field: 'industryPercent', title: '主导行业占比(%)', minWidth:100,unresize: true}
+                ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                // ,{field: 'manufactureFactory', title: '生产厂家', minWidth: 100,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+        });
+        hide();
+
+        table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+            if (obj.event == 'preview') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '320px']
+                    // offset: '120px',
+                    ,content: radicactiveShowInfo.innerHTML
+                });
+                for(var id in data){
+                    $("#showInforadicactive [name='"+id+"']").val(data[id]);
+                    $("#showInforadicactive [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+        });
+
+        //放射性类别下拉框
+        global_obj.radioactiveCategoryList=[];
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/radioactive_category_type"
+            , done: function (result) {
+                global_obj.radioactiveCategoryList=result.dicts
+            }
+        });
+
+        //目前状态下拉框
+        global_obj.curstatusList=[];
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/curstatus_type"
+            , done: function (result) {
+                global_obj.curstatusList=result.dicts;
+            }
+        });
+
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            show();
+            //清空表单属性初始化默认值
+            $("#emergencysystemsuppliesedit")[0].reset();
+            $("[name='pid']").val("");
+            $("[name='cid']").val("");
+
+            laydate.render({
+                elem: '#productionDate' //或 elem: document.getElementById('test')、elem: lay('#test') 等
+                ,type: 'date'
+//                ,value:new Date()
+            });
+
+            form.render(null, 'component-form-element');
+            if(data!=null){
+                var formdata = serializeObject("emergencysystemsuppliesedit");
+                for (var attr in formdata) {
+                    $("[name=" + attr + "]").val(data[0][attr]);
+                }
+//                layer.msg(JSON.stringify(formdata));
+            }
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-online-onlineMonitorPortinfo0"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,return:function (othis,data) {
+                showAndHide();
+                table.reload("LAY-online-onlineMonitorPortinfo0");
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-online-onlineMonitorPortinfo0")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent=="link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }else if(data.length > 1 && thisEvent == "link"){
+                    return layer.msg('只能操作一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            debugger
+            var loadindex = layer.load(1);
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }else{
+                data.field.cid=pid;
+            }
+            data.field.zid=pid;
+            data.field.token = layui.data(setter.tableName).access_token;
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-online-onlineMonitorPortinfo0");
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

@@ -1,0 +1,77 @@
+.layui-banner{
+    height: 100px;
+    width: 100%;
+    background-image: url("background.jpg") ;
+    background-repeat: no-repeat;
+    background-size: 100% 100px;
+    -moz-background-size:100% 100px
+}
+.layui-banner img{
+    position: relative;
+    float: left;
+    top:10px;
+    left:10px;
+    width: 80px;
+    height: 80px;
+    background-image: url("log.png") ;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size:100% 100%
+}
+.layui-banner-area{
+    font-family:'Arial Normal', 'Arial';
+    font-weight:700;
+    font-style:normal;
+    color:#ffffff;
+}
+.layui-banner-area1{
+    font-size:26px;
+    padding-left:100px;
+    padding-top:30px;
+}
+.layui-banner-area2{
+    padding-left:100px;
+    font-size:18px;
+}
+.layui-banner-center{
+    position: relative;
+    float: right;
+    width: 100%;
+    text-align: center;
+    font-family:'Arial Normal', 'Arial';
+    font-style:normal;
+    color:#ffffff;
+    font-size: 20px;
+    bottom: 50px;
+}
+
+.layui-center-forlgn{
+    position: relative;
+    float: right;
+    right: 10%;
+}
+
+.layui-center-forlgn a{
+    cursor: pointer;
+}
+.layui-center-forlgn a:hover{
+    color: red;
+}
+
+#LAY-user-reg{
+    position: relative;
+    top:35px;
+    height:768px;
+
+}
+#LAY-user-reg-form{
+    position: absolute;
+    background: #ffffff;
+    border:0px solid;
+    border-radius:4px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.349019607843137) ;
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.349019607843137);
+    width: 340px;
+    height: 260px;
+    -moz-border-radius:4px; /* Old Firefox */
+}

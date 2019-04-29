@@ -1,0 +1,379 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="common/cominfo/emergencysystem.js"></script>
+
+
+
+<style type="text/css">
+    #LAY-app-message .layui-table-body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+
+<title>危险化学品</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>危险化学品</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入存放单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden" >
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-environmental-riskOfMaterial" lay-filter="LAY-environmental-riskOfMaterial"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="dangerousTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">品名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="dangerousName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">别名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="dangerousAnotherName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">CAS号：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="casNumber" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">活动属性：</label>
+                            <div class="layui-input-block">
+                                <select id="dangerousType" name="dangerousType" lay-filter="dangerousType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--危险化学品信息-->
+<script id="editproductionWasteBurnregister" type="text/html">
+    <div class="layui-tab layui-tab-brief">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>品名：</td>
+                                        <td>
+                                            <input type="text" name="dangerousName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>别名：</td>
+                                        <td>
+                                            <input type="text" name="dangerousAnotherName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CAS号：</td>
+                                        <td>
+                                            <input type="text" name="casNumber" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>UN号：</td>
+                                        <td>
+                                            <input type="text" name="unNumer" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>活动属性：</td>
+                                        <td>
+                                            <input type="text" name="dangerousTypeName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>数量（吨）：</td>
+                                        <td>
+                                            <input type="text" name="amount" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>化学品属性：</td>
+                                        <td>
+                                            <input type="text" name="dangerousAttribute" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>用途：</td>
+                                        <td>
+                                            <input type="text" name="purpose" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>限制的用途：</td>
+                                        <td>
+                                            <input type="text" name="restrictedUses" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>应用的行业领域：</td>
+                                        <td>
+                                            <input type="text" name="industryArea" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>防范说明：</td>
+                                        <td colspan="3">
+                                            <textarea name="precautionaryNote"    placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>应急处置：</td>
+                                        <td colspan="3">
+                                            <textarea name="emergencyDisposal"    placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="delDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $1 = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/emergency/emergencysystemdangerous";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var hasPermission = false;
+
+        var criterias = {
+            table: 'vw_emergency_system_dangerous',
+            title: "危险化学品记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //活动属性
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/dangerous_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var dangerousType=$("#dangerousType");
+                var optiona=$("<option>").text("请选择").val("");
+                dangerousType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    dangerousType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(dangerousType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='dangerousTypeName']").val(name);
+            }else {
+                $("[name='dangerousTypeName']").val("");
+            }
+        });
+
+        var serializeObject = function (form) {
+            var o = {};
+            var a = $("#" + form).serializeArray();
+            $.each(a, function () {
+                // 区划组件的值要排除
+                if (this.name.indexOf('region_') < 0) {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                }
+            });
+            return o;
+        };
+
+        //查询列表信息
+        table.render({
+            elem: '#LAY-environmental-riskOfMaterial'
+            ,url: baseurl
+            ,page: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '存放单位', minWidth: 220,unresize: true}
+                ,{field: 'dangerousName', title: '品名', minWidth: 100,event:'showDetail',style:'color:blue;cursor:pointer;',unresize: true}
+                ,{field: 'dangerousAnotherName', title: '别名', minWidth: 100,unresize: true}
+                ,{field: 'casNumber', title: 'CAS号', minWidth: 100,unresize: true}
+                ,{field: 'unNumer', title: 'UN号', minWidth: 100,unresize: true}
+                ,{field: 'amount', title: '数量（吨）', minWidth: 50}
+                ,{field: 'dangerousTypeName', title: '活动属性', minWidth: 600,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+        });
+
+        table.on('tool(LAY-environmental-riskOfMaterial)',function (obj) {
+            if (obj.event == 'showDetail') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '500px']
+                    // offset: '120px',
+                    ,content: editproductionWasteBurnregister.innerHTML
+                });
+                $(function(){
+                    var formdata = serializeObject("administrativePenaltyedit");
+                    console.log(formdata);
+                    for (var attr in formdata) {
+                        $1("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                        $1("#administrativePenaltyedit [name=" + attr + "]").attr("readonly","readonly");
+                    }
+                });
+
+            }
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-environmental-riskOfMaterial","onlineCompanyReloadButton","labelTip");
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "存放单位,品名,别名,CAS号,数量（吨）,活动属性";
+//            var headerfield = "companyName,dangerousName,dangerousAnotherName,casNumber,amount,dangerousTypeName";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

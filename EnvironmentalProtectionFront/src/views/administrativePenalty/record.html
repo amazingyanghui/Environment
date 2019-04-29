@@ -1,0 +1,447 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>行政处罚</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>行政处罚</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入被处罚单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-administrative-penaltyrecord" lay-filter="LAY-administrative-penaltyrecord"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="illegalTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">违法类型：</label>
+                            <div class="layui-input-block">
+                                <select id="illegalType" name="illegalType" lay-filter="illegalType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">检查时间：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" id="searchTime" name="searchTime" placeholder="请选择" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id ="firstClick" class="layui-this" value="0">处罚情况</li>
+            <li value="1">处罚资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>立案时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="filingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>处罚主体：</td>
+                                        <td>
+                                            <input type="text" readonly name="punishSubject" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被处罚单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>被处罚单位地址：</td>
+                                        <td >
+                                            <input type="text" readonly name="companyaddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="illegalTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>结案时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="closingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚编号：</td>
+                                        <td>
+                                            <input type="text" readonly name="penaltyNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>营业执照注册号（公民身份证号）：</td>
+                                        <td>
+                                            <input type="text" readonly name="business" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法定代表人：</td>
+                                        <td>
+                                            <input type="text" readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>邮政编码：</td>
+                                        <td>
+                                            <input type="text" readonly name="postcode" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>处罚决定文号：：</td>
+                                        <td>
+                                            <input type="text" readonly name="penaltySign" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>调查人员：</td>
+                                        <td>
+                                            <input type="text" readonly name="researcher" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法行为：</td>
+                                        <td colspan="3">
+                                            <input type="text" readonly name="illegalActivities" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚执行情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentExecution" value="" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>案情概述：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="caseOverview" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚依据：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentBasis" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚结果：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentResult" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>复议情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="reconsideration" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>申诉情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="appealSituation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var tableName = "vw_administrative_penalty_info";
+        var criterias = {
+            table: tableName,
+            title: "行政处罚记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        var router = layui.router();
+        var pid=router.search.pid;
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+        }
+
+        //违法类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/illegal_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var illegalType=$("#illegalType");
+                var optiona=$("<option>").text("请选择").val("");
+                illegalType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    illegalType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(illegalType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='illegalTypeName']").val(name);
+            }else {
+                $("[name='illegalTypeName']").val("");
+            }
+        });
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        var column = [[
+            {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'companyName', title: '被处罚单位', minWidth: 130,event:"showDetial",style:'color:blue;cursor:pointer;',unresize: true}
+            ,{field: 'companyaddress', title: '被处罚单位地址', unresize: true, minWidth: 100}
+            ,{field: 'illegalTypeName', title: '违法类型',  width: 120,unresize: true}
+            ,{field: 'illegalActivities', title: '违法行为',  minWidth: 110,unresize: true}
+            ,{field: 'filingTime', title: '立案时间',  minWidth: 110,unresize: true,templet:function (item, index) {
+                if(item.filingTime != undefined&&item.filingTime!==null){
+                    var fillingTime_ = item.filingTime.substring(0,19);
+                    return fillingTime_;
+                }else{
+                    return '';
+                }
+             }}
+        ]];
+
+        laydate.render({
+            elem: '#searchTime'
+            ,type:'date'
+            // ,format:"yyyy-MM-dd "
+            ,range: '~'
+        });
+
+        table.render({//查询列表信息
+            elem: "#LAY-administrative-penaltyrecord"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:column
+            ,skin: 'line'
+            ,height: 'full-280'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-administrative-penaltyrecord","onlineCompanyReloadButton","labelTip");
+
+        //监听单元格事件
+        table.on('tool(LAY-administrative-penaltyrecord)', function(obj){
+            if(obj.event === 'showDetial'){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:['1100px', '600px']
+                    // offset: '120px',
+                    , content: recordShowInfo.innerHTML
+                });
+
+                var differType=0;
+                $('#com-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        debugger
+                        for (var attr in data) {
+                            if(attr=="filingTime"){
+                                $("#administrativePenaltyedit [name='filingTime']").val(data[attr].substring(0,19));
+                            }else{
+                                $("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                            }
+
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-online-onlineMonitorPortinfo0'
+                            ,height: 'full-500'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/penalty/administrativepenaltyfile/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-online-onlineMonitorPortinfo0",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                });
+                $("#firstClick").trigger('click');
+            }
+            table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel","filing_time");
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "被处罚单位,被处罚单位地址,违法类型,违法行为,处罚时间";
+//            var headerfield = "companyName,companyaddress,illegalTypeName,illegal_activities,filing_time";
+//
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            // var obj=document.getElementById("exportTable");
+//            // var limits=obj.option[obj.selectedIndex].text;
+//            //     $('#exportTable').val();
+//            //     var limits=   $('#exportTable').find(".layui-laypage-count").text();
+//            //     var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export",
+//                data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

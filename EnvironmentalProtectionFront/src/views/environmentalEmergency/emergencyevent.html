@@ -1,0 +1,335 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>应急事件</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>应急事件</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-emergency-systemEvent" lay-filter="LAY-emergency-systemEvent"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="eventLevelName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">事件标题：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="eventTitle" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">事件等级：</label>
+                            <div class="layui-input-block">
+                                <select id="eventLevel" name="eventLevel" lay-filter="eventLevel" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">发生日期：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="searchTime" name="searchTime" placeholder="请选择">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="emergencysystemeventedit" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>事件标题：</td>
+                            <td>
+                                <input type="text" name="eventTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单位名称：</td>
+                            <td>
+                                <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发生日期：</td>
+                            <td>
+                                <input type="text" name="occurrenceDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>事件等级：</td>
+                            <td>
+                                <input type="text" name="eventLevelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>财产损失（万元）：</td>
+                            <td>
+                                <input type="text" name="propertyLoss" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>发生地点：</td>
+                            <td>
+                                <input type="text" name="occurrencePoint" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>转移群众：</td>
+                            <td>
+                                <input type="text" name="transferMasses" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处置状态：</td>
+                            <td>
+                                <input type="text" name="disposalStatusName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染范围：</td>
+                            <td>
+                                <input type="text" name="pollutionrange" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染程度：</td>
+                            <td>
+                                <input type="text" name="pollutionLevelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物：</td>
+                            <td>
+                                <input type="text" name="pollutant" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>伤亡人数：</td>
+                            <td>
+                                <input type="text" name="casualties" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>事件简述：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="eventSketch"  placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/emergency/emergencysystemevent";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_emergency_system_event',
+            title: "应急事件记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //事件等级
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/event_level_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var eventLevel=$("#eventLevel");
+                var optiona=$("<option>").text("全部").val("");
+                eventLevel.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    eventLevel.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(eventLevel)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='eventLevelName']").val(name);
+            }
+        });
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        var column = [[
+            {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'companyName', title: '单位名称', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }}}
+            ,{field: 'eventTitle', title: '事件标题', minWidth: 100,unresize: true,event:'showDetail', style:'color:blue;cursor:pointer;',}
+            ,{field: 'occurrenceDate', title: '发生日期', minWidth: 100,unresize: true}
+            ,{field: 'occurrencePoint', title: '发生地点', minWidth: 100,unresize: true}
+            ,{field: 'eventLevelName', title: '事件等级', minWidth: 100,unresize: true}
+        ]];
+
+        laydate.render({
+            elem: '#searchTime' //指定元素,根据实际定义字段
+            ,type:'date'
+            // ,format:"yyyy-MM-dd "
+            ,range: '~'
+        });
+
+        table.render({//查询列表信息
+            elem: "#LAY-emergency-systemEvent"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:column
+            ,skin: 'line'
+            ,height: 'full-280'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-emergency-systemEvent","onlineCompanyReloadButton","labelTip");
+
+        //监听单元格事件
+        table.on('tool(LAY-emergency-systemEvent)', function(obj){
+            if(obj.event === 'showDetail'){
+                var data = obj.data;
+
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['1100px', '400px']
+                    // offset: '120px',
+                    , content: recordShowInfo.innerHTML
+                });
+                for(var id in data){
+                    $("#emergencysystemeventedit [name='"+id+"']").val(data[id]);
+                    $("#emergencysystemeventedit [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel","occurrence_date");
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "单位名称,事件标题,事件等级,处置状态,发生日期,发生地点";
+//            var headerfield = "companyName,eventTitle,eventLevelName,disposalStatusName,occurrence_date,occurrence_point";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+    });
+</script>

@@ -1,0 +1,1059 @@
+<script type="text/javascript" src="common/cominfo/processingPlace.js"></script>
+
+<title>放射性监测</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="processing-place">
+                <li value="0">含放射性固体物料及废物</li>
+                <li value="1">废水监测取样</li>
+                <li value="2">固体物料及废物监测取样</li>
+                <li value="3">废水检测项目</li>
+                <li value="4">固体物料及废物检测项目</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+            </div>
+            <div class="layui-tab-content" id="radioactiveore">
+                <div class="layui-tab-item layui-show">
+                    <div id="processingPlace0">
+                        <table id="LAY-comInfo-processingPlace0" lay-filter="LAY-comInfo-processingPlace0"></table>
+                    </div>
+                    <div id="comInfoProcessingPlace0"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="processingPlace1">
+                        <table id="LAY-comInfo-processingPlace1" lay-filter="LAY-comInfo-processingPlace1"></table>
+                    </div>
+                    <div id="comInfoProcessingPlace1"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="processingPlace2">
+                        <table id="LAY-comInfo-processingPlace2" lay-filter="LAY-comInfo-processingPlace2"></table>
+                    </div>
+                    <div id="comInfoProcessingPlace2"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="processingPlace3">
+                        <table id="LAY-comInfo-processingPlace3" lay-filter="LAY-comInfo-processingPlace3"></table>
+                    </div>
+                    <div id="comInfoProcessingPlace3"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="processingPlace4">
+                        <table id="LAY-comInfo-processingPlace4" lay-filter="LAY-comInfo-processingPlace4"></table>
+                    </div>
+                    <div id="comInfoProcessingPlace4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--含放射性固体物料及废物-->
+<script id="editProcessingPlace" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="processingPlaceEdit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr >
+                            <td><span class="starClass">*</span>年度：</td>
+                            <td colspan="3">
+                                {{# if(d.year!=null){ }}
+                                <input type="text"  id ="year0" name="year" value="{{d.year}}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id ="year0" name="year" value="" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td></td>
+                            <td></td>
+
+                    </tr>
+                        <tr>
+                        <td><span class="starClass">*</span>原矿：</td>
+                        <td>
+                            <select id="rawOre" name="rawOre" lay-verify="required|strSize"></select>
+                        </td>
+                            <td><span class="starClass">*</span>原矿产生量：</td>
+                            <td>
+                                {{# if(d.rawOreQuantity!=null){ }}
+                                <input type="text" name="rawOreQuantity" lay-verify="required|ShistringSize" value="{{d.rawOreQuantity}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="rawOreQuantity" lay-verify="required|ShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>精矿：</td>
+                            <!-- <td colspan="3">-->
+                            <td>
+                                <select id="concentrate" name="concentrate" lay-verify="required|strSize"></select>
+                            </td>
+                            <td><span class="starClass">*</span>精矿产生量：</td>
+                            <td>
+                                {{# if(d.concentrateQuantity!=null){ }}
+                                <input type="text" name="concentrateQuantity" lay-verify="required|ShistringSize" value="{{d.concentrateQuantity}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="concentrateQuantity" lay-verify="required|ShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>固体废物：</td>
+                            <td>
+                                <select id="solidWaste" name="solidWaste" lay-verify="required|strSize"></select>
+                            </td>
+                            <td><span class="starClass">*</span>固体废物产生量：</td>
+                            <td>
+                                {{# if(d.solidWasteQuantity!=null){ }}
+                                <input type="text" name="solidWasteQuantity" lay-verify="required|strSize" value="{{d.solidWasteQuantity}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteQuantity" lay-verify="required|strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>固体废物综合利用量：</td>
+                            <td>
+                                {{# if(d.solidWasteUtilize!=null){ }}
+                                <input type="text" name="solidWasteUtilize" lay-verify="erShistringSize" value="{{d.solidWasteUtilize}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteUtilize" lay-verify="erShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>内部综合利用量：</td>
+                            <td>
+                                {{# if(d.solidWasteInnerUtilize!=null){ }}
+                                <input type="text" name="solidWasteInnerUtilize" lay-verify="erShistringSize" value="{{d.solidWasteInnerUtilize}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteInnerUtilize" lay-verify="erShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>送外部综合利用量：</td>
+                            <td>
+                                {{# if(d.solidWasteReceiveUtilize!=null){ }}
+                                <input type="text" name="solidWasteReceiveUtilize" lay-verify="erShistringSize" value="{{d.solidWasteReceiveUtilize}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteReceiveUtilize" lay-verify="erShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>固体废物处理处置量：</td>
+                            <td>
+                                {{# if(d.solidWasteDeal!=null){ }}
+                                <input type="text" name="solidWasteDeal" lay-verify="SanShiLiuSize" value="{{d.solidWasteDeal}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteDeal" lay-verify="SanShiLiuSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>固体废物内部处理处置量：</td>
+                            <td>
+                                {{# if(d.solidWasteInnerDeal!=null){ }}
+                                <input type="text" name="solidWasteInnerDeal" lay-verify="smallStrSize" value="{{d.solidWasteInnerDeal}}" lay-verify="phoneVerify" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteInnerDeal" lay-verify="smallStrSize" value="" lay-verify="phoneVerify" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>固体废物送外部处理处置量：</td>
+                            <td>
+                                {{# if(d.solidWasteOuterDeal!=null){ }}
+                                <input type="text" name="solidWasteOuterDeal" lay-verify="strSize" value="{{d.solidWasteOuterDeal}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteOuterDeal" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>接收外来固体废物处理处置量：</td>
+                            <td>
+                                {{# if(d.solidWasteReceiveDeal!=null){ }}
+                                <input type="text" name="solidWasteReceiveDeal" lay-verify="strSize" value="{{d.solidWasteReceiveDeal}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteReceiveDeal" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>固体废物累计贮存量：</td>
+                            <td>
+                                {{# if(d.solidWasteStorage!=null){ }}
+                                <input type="text" name="solidWasteStorage" lay-verify="strSize" value="{{d.solidWasteStorage}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="solidWasteStorage" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                {{# if(d.remarks!=null){ }}
+                                <textarea style="resize: none;" name="remarks" lay-verify="wuBaiSize" placeholder="" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea style="resize: none;" name="remarks" lay-verify="wuBaiSize" placeholder="" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <!--<div>-->
+                    <!--<p style="text-align: center;cursor: pointer" id="showAttachment" class="layui-hide">附件上传</p>-->
+                    <!--</div>-->
+                    <!--<div class="layui-hide" id="showAttachmentInfo" style="margin-top: 10px">-->
+                    <!--<div class="layui-col-md12" id="attachment_div">-->
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                    <!--<p class="layui-hide" style="text-align: center;cursor: pointer" id="hideAttachment">隐藏附件</p>-->
+                    <!--</div>-->
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="processingPlace">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!--废水监测取样/固体物料及废物监测取样-->
+<script id="editProcessingPlace1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="processingPlaceEdit1" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>年度：</td>
+                            <td>
+                                {{# if(d.category == 0 ){ }}
+                                {{# if(d.year !=null){ }}
+                                <input type="text" id="year1" name="year" lay-verify="required|ShistringSize" value="{{d.year}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="year1" name="year" lay-verify="required|ShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.year !=null){ }}
+                                <input type="text" id="year2" name="year" lay-verify="required|ShistringSize" value="{{d.year}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="year2" name="year" lay-verify="required|ShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>检测类型：</td>
+                            <td>
+                                {{# if(d.category == 0 ){ }}
+                                <select id="monitorType1" name="monitorType" lay-verify="required|ShistringSize"></select>
+                                {{# }else{ }}
+                                <select id="monitorType2" name="monitorType" lay-verify="required|ShistringSize"></select>
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>取样时间：</td>
+                            <td>
+                                {{# if(d.category == 0 ){ }}
+                                {{# if(d.samplingDate !=null){ }}
+                                <input type="text" id="samplingDate1" name="samplingDate" lay-verify="required|strSize" value="{{d.samplingDate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="samplingDate1" name="samplingDate" lay-verify="required|strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.samplingDate !=null){ }}
+                                <input type="text" id="samplingDate2" name="samplingDate" lay-verify="required|strSize" value="{{d.samplingDate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="samplingDate2" name="samplingDate" lay-verify="required|strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>取样的名称：</td>
+                            <td>
+                                {{# if(d.monitorName!=null){ }}
+                                <input type="text" name="monitorName" lay-verify="required|smallStrSize" value="{{d.monitorName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorName" lay-verify="required|smallStrSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>取样的编号：</td>
+                            <td>
+                                {{# if(d.monitorCode!=null){ }}
+                                <input type="text" name="monitorCode" lay-verify="required|strSize" value="{{d.monitorCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorCode" lay-verify="required|strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>经度：</td>
+                            <td>
+                                {{# if(d.longitude!=null){ }}
+                                <input type="text" name="longitude" lay-verify="required|erShistringSize" value="{{d.longitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="longitude" lay-verify="required|erShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>纬度：</td>
+                            <td>
+                                {{# if(d.latitude!=null){ }}
+                                <input type="text" name="latitude" lay-verify="required|erShistringSize" value="{{d.latitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="latitude" lay-verify="required|erShistringSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                {{# if(d.remarks!=null){ }}
+                                <input type="text" name="remarks" lay-verify="wuBaiSize" value="{{d.remarks}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="remarks" lay-verify="wuBaiSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="processingPlace">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!--废水检测项目/固体物料及废物检测项目-->
+<script id="radioactiveDetectionProject" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="processingPlaceEdit2" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>取样检测口：</td>
+                            <td>
+                                {{# if(d.useType == 3 ){ }}
+                                <select id="mid3" name="mid" lay-verify="required|SanShiLiuSize"></select>
+                                {{# }else { }}
+                                <select id="mid4" name="mid" lay-verify="required|SanShiLiuSize"></select>
+                                {{# } }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>放射性检测项目名称：</td>
+                            <td>
+                                {{# if(d.useType == 3 ){ }}
+                                {{# if(d.pollutantName !=null){ }}
+                                <input type="text" id="pollutantName3" name="pollutantName" lay-verify="required|smallStrSize" value="{{d.pollutantName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantName3" name="pollutantName" lay-verify="required|smallStrSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.pollutantName !=null){ }}
+                                <input type="text" id="pollutantName4" name="pollutantName" lay-verify="required|smallStrSize" value="{{d.pollutantName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantName4" name="pollutantName" lay-verify="required|smallStrSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>射性检测项目代码：</td>
+                            <td>
+                                {{# if(d.useType == 3 ){ }}
+                                {{# if(d.pollutantCode !=null){ }}
+                                <input type="text" id="pollutantCode3" name="pollutantCode" lay-verify="required|smallStrSize" value="{{d.pollutantCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantCode3" name="pollutantCode" lay-verify="required|smallStrSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.pollutantCode !=null){ }}
+                                <input type="text" id="pollutantCode4" name="pollutantCode" lay-verify="required|smallStrSize" value="{{d.pollutantCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantCode4" name="pollutantCode" lay-verify="required|smallStrSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>计量单位：</td>
+                            <td>
+                                {{# if(d.useType == 3 ){ }}
+                                {{# if(d.pollutantUnit !=null){ }}
+                                <input type="text" id="pollutantUnit3" name="pollutantUnit" lay-verify="strSize" value="{{d.pollutantUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantUnit3" name="pollutantUnit" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.pollutantUnit !=null){ }}
+                                <input type="text" id="pollutantUnit4" name="pollutantUnit" lay-verify="strSize" value="{{d.pollutantUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pollutantUnit4" name="pollutantUnit" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+                            <td>指标值：</td>
+                            <td>
+                                {{# if(d.useType == 3 ){ }}
+                                {{# if(d.desiredValue !=null){ }}
+                                <input type="text" id="desiredValue3" name="desiredValue" lay-verify="strSize" value="{{d.desiredValue}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="desiredValue3" name="desiredValue" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# }else{ }}
+                                {{# if(d.desiredValue !=null){ }}
+                                <input type="text" id="desiredValue4" name="desiredValue" lay-verify="strSize" value="{{d.desiredValue}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="desiredValue4" name="desiredValue" lay-verify="strSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="processingPlace">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<!--预览-->
+<script id="processingPlaceShowInfo0" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showProcessingPlaceInfo" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr >
+                            <td><span class="starClass">*</span>年度：</td>
+                            <td colspan="3">
+                                <input type="text" name="year" value="" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>原矿：</td>
+                            <td>
+                                <input type="text" name="rawOreStr" value="" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>原矿产生量：</td>
+                            <td>
+                                <input type="text" name="rawOreQuantity" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>精矿：</td>
+                            <td>
+                                <input type="text" name="concentrateStr" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>精矿产生量：</td>
+                            <td>
+                                <input type="text" name="concentrateQuantity" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>固体废物：</td>
+                            <td>
+                                <input type="text" name="solidWasteStr" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>固体废物产生量：</td>
+                            <td>
+                                <input type="text" name="solidWasteQuantity" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>固体废物综合利用量：</td>
+                            <td>
+                                <input type="text" name="solidWasteUtilize" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>内部综合利用量：</td>
+                            <td>
+                                <input type="text" name="solidWasteInnerUtilize" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>送外部综合利用量：</td>
+                            <td>
+                                <input type="text" name="solidWasteReceiveUtilize" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>固体废物处理处置量：</td>
+                            <td>
+                                <input type="text" name="solidWasteDeal" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>固体废物内部处理处置量：</td>
+                            <td>
+                                <input type="text" name="solidWasteInnerDeal" lay-verify="" value="" lay-verify="phoneVerify" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>固体废物送外部处理处置量：</td>
+                            <td>
+                                <input type="text" name="solidWasteOuterDeal" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>接收外来固体废物处理处置量：</td>
+                            <td>
+                                <input type="text" name="solidWasteReceiveDeal" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>固体废物累计贮存量：</td>
+                            <td>
+                                <input type="text" name="solidWasteStorage" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="remarks" lay-verify="" placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="processingPlaceShowInfo1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showProcessingPlaceInfo" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>年度：</td>
+                            <td>
+                                <input type="text"  name="year" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>检测类型：</td>
+                            <td>
+                                <input type="text" name="monitorTypeStr" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>取样时间：</td>
+                            <td>
+                                <input type="text" name="samplingDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>取样的名称：</td>
+                            <td>
+                                <input type="text" name="monitorName" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>取样的编号：</td>
+                            <td>
+                                <input type="text" name="monitorCode" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>经度：</td>
+                            <td>
+                                <input type="text" name="longitude" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>纬度：</td>
+                            <td>
+                                <input type="text" name="latitude" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <input type="text" name="remarks" lay-verify="" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="processingPlaceShowInfo2" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showProcessingPlaceInfo" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>取样检测口：</td>
+                            <td>
+                                <input type="text"  name="monitorName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>放射性检测项目名称：</td>
+                            <td>
+                                <input type="text"  name="pollutantName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>射性检测项目代码：</td>
+                            <td>
+                                <input type="text"  name="pollutantCode" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>计量单位：</td>
+                            <td>
+                                <input type="text"  name="pollutantUnit" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>指标值：</td>
+                            <td>
+                                <input type="text" name="desiredValue" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form','upload','formVerify','wasteProduceAndUse'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            , layer = layui.layer
+            ,form = layui.form
+            ,upload=layui.upload
+            , wasteProduceAndUse = layui.wasteProduceAndUse
+            ,formVerify=layui.formVerify
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominforadioactiveore"
+            ,baseurl1 = setter.remoteServiceAddress + "/market/cominforadioactiveoremonitor"
+            ,baseurl2 = setter.remoteServiceAddress + "/market/cominforadioactiveoremonitor/getpollutantList"
+            ,baseurl3 = setter.remoteServiceAddress + "/online/onlinemonitorWasteinfo"
+            ,baseurl4 = setter.remoteServiceAddress + "/market/cominforadioactiveoremonitor/predeletionJudgment";
+//        loadtab.power("com-info","radioactiveore");
+
+        var router = layui.router();
+        var cid=router.search.pid;
+
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>放射性监测</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            cid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>放射性监测</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(cid!=null&cid!="undefined"){
+            loadtab.tab('radioactiveore');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#processingPlace0").removeClass("layui-hide");
+            $("#processingPlace1").removeClass("layui-hide");
+            $("#processingPlace2").removeClass("layui-hide");
+            $("#processingPlace3").removeClass("layui-hide");
+            $("#processingPlace4").removeClass("layui-hide");
+            $("#comInfoProcessingPlace0").addClass("layui-hide");
+            $("#comInfoProcessingPlace1").addClass("layui-hide");
+            $("#comInfoProcessingPlace2").addClass("layui-hide");
+            $("#comInfoProcessingPlace3").addClass("layui-hide");
+            $("#comInfoProcessingPlace4").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#processingPlace0").addClass("layui-hide");
+            $("#processingPlace1").addClass("layui-hide");
+            $("#processingPlace2").addClass("layui-hide");
+            $("#processingPlace3").addClass("layui-hide");
+            $("#processingPlace4").addClass("layui-hide");
+            $("#comInfoProcessingPlace0").removeClass("layui-hide");
+            $("#comInfoProcessingPlace1").removeClass("layui-hide");
+            $("#comInfoProcessingPlace2").removeClass("layui-hide");
+            $("#comInfoProcessingPlace3").removeClass("layui-hide");
+            $("#comInfoProcessingPlace4").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+        };
+
+        var differType=0;
+        $('#processing-place li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-comInfo-processingPlace'+differType;
+            var cols=null;
+            var url=baseurl;
+            showAndHide();
+            if(differType==0){
+                url=baseurl;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'year', title: '年度', minWidth: 100}
+                    ,{field: 'rawOreStr', title: '原矿', minWidth: 100,style: 'color:blue;cursor:pointer;',event:'setName'}
+                    ,{field: 'rawOreQuantity', title: '原矿产生量', minWidth: 100}
+                    ,{field: 'concentrateStr', title: '精矿', minWidth: 100}
+                    ,{field: 'concentrateQuantity', title: '精矿产生量', minWidth: 100}
+                    ,{field: 'solidWasteStr', title: '固体废物', minWidth: 100}
+                    ,{field: 'solidWasteQuantity', title: '固体废物产生量', minWidth: 100}
+                    // ,{field: 'solidWasteUtilize', title: '固体废物综合利用量', minWidth: 100}
+                    // ,{field: 'solidWasteInnerUtilize', title: '内部综合利用量', minWidth: 100}
+                    // ,{field: 'solidWasteOuterUtilize', title: '送外部综合利用量', minWidth: 100}
+                    // ,{field: 'solidWasteReceiveUtilize', title: '接收外来固体废物综合利用量', minWidth: 100}
+                    // ,{field: 'solidWasteDeal', title: '固体废物处理处置量', minWidth: 100}
+                    // ,{field: 'solidWasteInnerDeal', title: '固体废物内部处理处置量', minWidth: 100}
+                    // ,{field: 'solidWasteOuterDeal', title: '固体废物送外部处理处置量', minWidth: 100}
+                    // ,{field: 'solidWasteReceiveDeal', title: '接收外来固体废物处理处置量', minWidth: 100}
+                    // ,{field: 'solidWasteStorage', title: '固体废物累计贮存量', minWidth: 100}
+                    ,{field: 'remarks', title: '备注', minWidth: 100}
+                    // ,{field: 'createdate', title: '创建时间', minWidth: 100}
+                    // ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+                    // ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+                ]]
+            }
+            if(differType==1){
+                url=baseurl1;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'year', title: '年度', width: 80}
+                    ,{field: 'category', title: '类型', width: 80,templet: function(item, index){
+                            return '<span >废水</span>';
+                        }}//（0：废水；1：固体物料及废物）
+                    ,{field: 'monitorTypeStr', title: '检测类型', width: 120}//（0：取样的总排口；1：取样的治理设施；2：含放射性固体物料；3：含放射性固体废物；）
+                    ,{field: 'monitorName', title: '取样的总排放口/治理设施名称',style: 'color:blue;cursor:pointer;',event:'setName',width: 250}
+                    ,{field: 'monitorCode', title: '取样的总排放口/治理设施编号', width: 250}
+                    ,{field: 'longitude', title: '经度', width: 100}
+                    ,{field: 'latitude', title: '纬度', width: 100}
+                    ,{field: 'samplingDate', title: '取样时间', width: 120}
+                    ,{field: 'remarks', title: '备注', minWidth: 50}
+                    // ,{field: 'createdate', title: '创建时间', minWidth: 100}
+                    // ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+                    // ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+                ]]
+            }
+            if(differType==2){
+                url=baseurl1;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'year', title: '年度', minWidth: 100}
+                    ,{field: 'category', title: '类型', minWidth: 100,templet: function(item, index){
+                        return '<span >固体物料及废物</span>';
+                        }}//（0：废水；1：固体物料及废物）
+                    ,{field: 'monitorTypeStr', title: '检测类型', minWidth: 100}//（0：取样的总排口；1：取样的治理设施；2：含放射性固体物料；3：含放射性固体废物；）
+                    ,{field: 'monitorName', title: '取样监测对象名称',style: 'color:blue;cursor:pointer;',event:'setName', minWidth: 100}
+                    ,{field: 'monitorCode', title: '取样监测对象编号', minWidth: 100}
+                    ,{field: 'longitude', title: '经度', minWidth: 100}
+                    ,{field: 'latitude', title: '纬度', minWidth: 100}
+                    ,{field: 'samplingDate', title: '取样时间', minWidth: 100}
+                    ,{field: 'remarks', title: '备注', minWidth: 100}
+                    // ,{field: 'createdate', title: '创建时间', minWidth: 100}
+                    // ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+                    // ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+                ]]
+            }
+            if(differType==3){
+                url=baseurl2;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'pollutantName', title: '废水放射性检测项目名称',style: 'color:blue;cursor:pointer;',event:'setName', minWidth: 100}//（0：取样的总排口；1：取样的治理设施；2：含放射性固体物料；3：含放射性固体废物；）
+                    ,{field: 'pollutantCode', title: '废水放射性检测项目代码',minWidth: 100}
+                    ,{field: 'monitorName', title: '废水取样检测口', minWidth: 100}
+                    ,{field: 'pollutantUnit', title: '计量单位', minWidth: 100}
+                    ,{field: 'desiredValue', title: '指标值', minWidth: 100}
+                ]]
+            }
+            if(differType==4){
+                url=baseurl2;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field: 'pollutantName', title: '固体物料及废物放射性检测项目名称',style: 'color:blue;cursor:pointer;',event:'setName', minWidth: 100}//（0：取样的总排口；1：取样的治理设施；2：含放射性固体物料；3：含放射性固体废物；）
+                    ,{field: 'pollutantCode', title: '固体物料及废物放射性检测项目代码',minWidth: 100}
+                    ,{field: 'monitorName', title: '固体物料及废物取样检测口', minWidth: 100}
+                    ,{field: 'pollutantUnit', title: '计量单位', minWidth: 100}
+                    ,{field: 'desiredValue', title: '指标值', minWidth: 100}
+                ]]
+            }
+            table.render({//查询列表信息
+                elem: elem
+                ,url: url
+                ,page: true
+                ,event:true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,cid:cid
+                    ,category:differType-1
+                    ,useType:differType
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: cols
+                ,skin: 'line'
+            });
+            table.on("tool(LAY-comInfo-processingPlace"+differType+")",function (obj) {
+                debugger
+                var data=obj.data;
+                if(obj.event=="setName"){
+                    if(differType==0){
+                        showInfo(differType,data,processingPlaceShowInfo0.innerHTML)
+                    }
+                    if(differType==1||differType==2){
+                        showInfo(differType,data,processingPlaceShowInfo1.innerHTML)
+                    }
+                    if(differType==3||differType==4){
+                        showInfo(differType,data,processingPlaceShowInfo2.innerHTML)
+                    }
+                }
+            });
+        });
+
+        $("#processing-place li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+
+        function showInfo(differType,data,html) {
+            debugger
+            layer.open({
+                type: 1
+                , title: "查看"
+                ,area:  differType ==0 ? ['1100px', '450px']: differType==1||differType==2 ? ['1100px', '250px']:['1100px', '180px']
+                // offset: '120px',
+                , content: html
+            });
+            for(var id in data){
+                $("#showProcessingPlaceInfo [name='"+id+"']").val(data[id]);
+                $("#showProcessingPlaceInfo [name='"+id+"']").attr("readonly","readonly");
+            }
+        }
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            var getBaseInfo=null;
+            var addurl=null;
+            if(differType==0){
+                addurl=baseurl;
+                 getBaseInfo=editProcessingPlace.innerHTML;
+            }
+            if(differType==1||differType==2){
+                addurl=baseurl1;
+                 getBaseInfo=editProcessingPlace1.innerHTML;
+            }
+            if(differType==3||differType==4){
+                addurl=baseurl3;
+                getBaseInfo=radioactiveDetectionProject.innerHTML;
+            }
+            wasteProduceAndUse.editWin(admin,setter,$,table,form,addurl,laytpl,laydate,element,differType,global_obj,pid,cid,getBaseInfo);
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    var delurl=null;
+                    if(differType==0){
+                        delurl=baseurl;
+                    }else if(differType==1||differType==2){
+                        delurl=baseurl4;
+                        admin.req({//根据
+                            url: delurl
+                            ,contentType:"application/json"
+                            ,type: "GET"
+                            ,data: {"datas":pids}
+                            ,done: function(result){
+                                if(result.code == 0){//成功
+                                    layer.msg('删除成功', {
+                                        icon: 1,
+                                        time:1000
+                                    });
+                                    table.reload("LAY-comInfo-processingPlace"+differType); //刷新表格
+                                }else{
+                                    layer.alert(result.msg, {
+                                        skin: 'layui-layer-lan',
+                                        offset: '300px',
+                                        anim: 6
+                                    });
+                                }
+                            }
+                        });
+                    }else if(differType==3||differType==4){
+                        delurl=baseurl3;
+                        admin.req({//根据
+                            url: delurl
+                            ,contentType:"application/json"
+                            ,type: "DELETE"
+                            ,data: JSON.stringify(pids)
+                            ,done: function(result){
+                                if(result.code == 0){//成功
+                                    layer.msg('删除成功', {
+                                        icon: 1,
+                                        time:1000
+                                    });
+                                    table.reload("LAY-comInfo-processingPlace"+differType); //刷新表格
+                                }else{
+                                    layer.alert(result.msg, {
+                                        skin: 'layui-layer-lan',
+                                        offset: 't',
+                                        anim: 6
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-comInfo-processingPlace"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent == "link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            debugger
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            var url=null;
+            if(differType==0){
+                url=baseurl;
+            }
+            if(differType==1){
+                url=baseurl1;
+                data.field.category="0";
+            }
+            if(differType==2){
+                url=baseurl1;
+                data.field.category="1";
+            }
+            if(differType==3){
+                url=baseurl3;
+                data.field.useType=differType;
+            }
+            if(differType==4){
+                url=baseurl3;
+                data.field.useType=differType;
+            }
+            data.field.cid=cid;
+            data.field.wasteCategoryType=differType;
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-comInfo-processingPlace"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

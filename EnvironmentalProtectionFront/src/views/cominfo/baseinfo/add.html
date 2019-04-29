@@ -1,0 +1,167 @@
+
+<script type="text/javascript" src="common/cominfo/baseinfo.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.exhide.js"></script>
+<script type="text/javascript" src="zTree_v3/demo/js/fuzzysearch.js"></script>
+
+<title>基本信息</title>
+
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>数据维护</cite></a>
+        <!--<a lay-href="cominfo/"><cite>信息管理</cite></a>-->
+        <a lay-href="cominfo/"><cite>企业信息</cite></a>
+        <!--<a><cite id="tabCompanyName"></cite></a>-->
+        <a><cite>基本信息</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li id="firstClick" value="0">基本信息</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div id="LAY-market-cominfoBaseinfo0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,layer=layui.layer
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfobaseinfo:list') === -1)) hasPermission = true;
+        //
+//        debugger
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            if(differType==0){
+                baseInfo.editWin(admin,setter,$,form,baseurl,laytpl,laydate,element,differType,global_obj,null);
+                verifyCode();
+            }
+        });
+
+        $("#firstClick").trigger('click');
+        global_obj.unifiedSocialCreditCode = false;
+        function verifyCode() {
+            $("#unifiedSocialCreditCode").blur(function () {
+                var unifiedSocialCreditCode = $(this).val();
+                if (unifiedSocialCreditCode.length<6) {
+                    layer.msg('统一社会信用代码必须是大于6位!');
+                }
+                if (unifiedSocialCreditCode != '' && unifiedSocialCreditCode != "undefined") {
+                    admin.req({
+                        url: baseurl + "/verifySocialCreditCode/" + $(this).val(),
+                        done: function (result) {
+                            if (result.data.length > 0) {//成功
+                                layer.msg('该统一社会信用代码已存在,请检查!');
+                                global_obj.unifiedSocialCreditCode = true
+                            } else {
+                                global_obj.unifiedSocialCreditCode = false;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if (data.field.unifiedSocialCreditCode.length<6) {
+                layer.msg('统一社会信用代码必须是大于6位!');
+                return false;
+            }
+            if (global_obj.unifiedSocialCreditCode == true) {
+                layer.msg('该统一社会信用代码已存在,请检查!');
+                return false;
+            }
+            // layer.load(1);
+            var loadindex = layer.load(1);
+            var type = "POST";
+
+
+            function submitForm() {
+                admin.req({
+                    type: type,
+                    contentType:"application/json",
+                    url: baseurl,
+                    data: JSON.stringify(data.field),
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            });
+                            baseInfo.editWin(admin,setter,$,form,baseurl,laytpl,laydate,element,differType,global_obj,null);
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+            submitForm();
+//            admin.req({//新增企业时验证手机号和账号是否重复
+//                url: setter.remoteServiceAddress+"/market/cominfobaseinfo/verifyPhoneByUser"
+//                ,data:{"phone":data.field.environmentalProtectionPhone,"username":data.field.unifiedSocialCreditCode}
+//                ,done: function(result){
+//                    if(result.code == 0){//成功
+//                        if(result.flag==true||result.status==true){
+//                            layer.close(loadindex);
+//                            if(result.flag==true){
+//                                layer.msg("手机号重复，请重新输入！");
+//                            }
+//                            if(result.status==true){
+//                                layer.msg("账号重复，请重新输入！");
+//                            }
+//                        }else{
+//                            submitForm();
+//                        }
+//                    }else{
+//                        layer.alert(result.msg, {
+//                            skin: 'layui-layer-lan',
+//                            offset: 't',
+//                            anim: 6
+//                        });
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+
+            return false
+        });
+
+    });
+</script>

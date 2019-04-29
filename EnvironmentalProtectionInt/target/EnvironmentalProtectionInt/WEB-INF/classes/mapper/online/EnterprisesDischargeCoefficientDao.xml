@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.EnterprisesDischargeCoefficientDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.EnterprisesDischargeCoefficientEntity" id="enterprisesDischargeCoefficientMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="censusCode" column="census_code"/>
+        <result property="mid" column="mid"/>
+        <result property="monitorName" column="monitor_name"/>
+        <result property="accountingLink" column="accounting_link"/>
+        <result property="materialName" column="material_name"/>
+        <result property="productName" column="product_name"/>
+        <result property="processName" column="process_name"/>
+        <result property="productionGrade" column="production_grade"/>
+        <result property="productOutput" column="product_output"/>
+        <result property="productOutputUnit" column="product_output_unit"/>
+        <result property="rawMaterialConsumption" column="raw_material_consumption"/>
+        <result property="rawMaterialConsumptionUnit" column="raw_material_consumption_unit"/>
+        <result property="pollutantName" column="pollutant_name"/>
+        <result property="pollutantsCoefficient" column="pollutants_coefficient"/>
+        <result property="pollutantUnit" column="pollutant_unit"/>
+        <result property="pollutantsCoefficientParamValue" column="pollutants_coefficient_param_value"/>
+        <result property="pollutantProduction" column="pollutant_production"/>
+        <result property="pollutantProductionUnit" column="pollutant_production_unit"/>
+        <result property="pollutantTreatmentProcess" column="pollutant_treatment_process"/>
+        <result property="pollutantsRemovalEfficiency" column="pollutants_removal_efficiency"/>
+        <result property="pollutantsRemovalEfficiencyUnit" column="pollutants_removal_efficiency_unit"/>
+        <result property="actualOperatingParametersName1" column="actual_operating_parameters_name1"/>
+        <result property="actualOperatingParametersValue1" column="actual_operating_parameters_value1"/>
+        <result property="actualOperatingParametersUnit1" column="actual_operating_parameters_unit1"/>
+        <result property="actualOperatingParametersName2" column="actual_operating_parameters_name2"/>
+        <result property="actualOperatingParametersValue2" column="actual_operating_parameters_value2"/>
+        <result property="actualOperatingParametersUnit2" column="actual_operating_parameters_unit2"/>
+        <result property="actualOperatingParametersName3" column="actual_operating_parameters_name3"/>
+        <result property="actualOperatingParametersValue3" column="actual_operating_parameters_value3"/>
+        <result property="actualOperatingParametersUnit3" column="actual_operating_parameters_unit3"/>
+        <result property="pollutantDischargeCounts" column="pollutant_discharge_counts"/>
+        <result property="pollutantDischargeCountsUnit" column="pollutant_discharge_counts_unit"/>
+        <result property="permitExecutionReporCounts" column="permit_execution_repor_counts"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.EnterprisesDischargeCoefficientEntity">
+        SELECT a.*,b.monitor_name monitorName
+        FROM enterprises_discharge_coefficient a
+        LEFT JOIN online_monitor_portinfo b ON b.pid=a.mid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        ORDER BY a.createdate DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM enterprises_discharge_coefficient a
+        LEFT JOIN online_monitor_portinfo b ON b.pid=a.mid
+        WHERE 1=1
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+    </select>
+
+    <select id="queryList" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.util.Map">
+        select * from enterprises_discharge_coefficient
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="equal"
+                         separator=" and ">
+                    ${equal.column} = #{equal.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" groupColumn != null and groupColumn != ''">
+                and ${groupColumn} != ''
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="orderColumn!= null">
+            ORDER BY ${orderColumn}
+        </if>
+        limit ${pagenumber}, ${pagesize}
+    </select>
+
+    <select id="queryListCount" parameterType="com.tengdi.core.utils.QueryCriterias" resultType="java.lang.Integer">
+        select count(1) from enterprises_discharge_coefficient
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="item"
+                         separator=" and ">
+                    ${item.column} = #{item.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,758 @@
+
+<title>全区统计</title>
+
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="cominfo/"><cite>数据统计</cite></a>
+        <a><cite>企业统计</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2 enterpriseType" data-type="OnlineMonitoringEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #49A9EE;border: 1px solid #49A9EE;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">全区污染源企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalCompany"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="KeyMonitoringEnterprises" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                        <i class="iconfont total-font">&#xe662;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">重点污染源</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalEmphasis"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="WasteDischargeEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #99CC00;border: 1px solid #99CC00;">
+                        <i class="iconfont total-font">&#xe761;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">废水产生源</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalWater"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="emissionEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #993366;border: 1px solid #993366;">
+                        <i class="iconfont total-font">&#xe639;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">废气产生源</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalAir"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="VOCsEmissionEnterprises" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF66FF;border: 1px solid #FF66FF;">
+                        <i class="iconfont total-font">&#xe76f;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">VOCs产生源</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalVOCs"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="sewageTreatmentWorks" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF6633;border: 1px solid #FF6633;">
+                        <i class="iconfont total-font">&#xe7a9;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">风险源</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalWasteWater"></span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span> 企业所属行业类型统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container1" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>企业所属污染源类别统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container2" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>企业风险等级统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container3" class="total-chart">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>企业规模分布统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container4" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','statisticalBounced'], function() {
+        var start,end;
+        start = new Date().getTime();
+        //console.log(" == =====  " + start);
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , statisticalBounced = layui.statisticalBounced
+            , global_obj = {}
+            , baseurl = setter.remoteServiceAddress + "/market/cominfoenvironmentalmanage"
+            , baseurl5 = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+        var loadindex = layer.load(0);
+        function container1(data) {
+            Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+
+
+            Highcharts.chart('container1', {
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45
+                    }
+                },
+                chart: {
+                    height: '400px'
+                },
+
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    type: "sunburst",
+                    data: data,
+                    allowDrillToNode: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        /**
+                         * A custom formatter that returns the name only if the inner arc
+                         * is longer than a certain pixel size, so the shape has place for
+                         * the label.
+                         */
+                        formatter: function () {
+                            var shape = this.point.node.shapeArgs;
+
+                            var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+                            var perimeter = 2 * Math.PI * shape.innerR;
+
+                            var innerArcPixels = innerArcFraction * perimeter;
+
+                            if (innerArcPixels > 16) {
+                                return this.point.name;
+                            }
+                        }
+                    },
+                    levels: [{
+                        level: 2,
+                        colorByPoint: true,
+                        dataLabels: {
+                            rotationMode: 'parallel'
+                        }
+                    },
+                        {
+                            level: 3,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: -0.5
+                            }
+                        }, {
+                            level: 4,
+                            colorVariation: {
+                                key: 'brightness',
+                                to: 0.5
+                            }
+                        }]
+
+                }],
+                tooltip: {
+                    headerFormat: "",
+                    pointFormat: '<b>{point.name}</b>的企业数量是：<b>{point.value}家</b>'
+                }
+            });
+        }
+        function container2(data) {
+
+            Highcharts.chart('container2', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting:{
+                    enabled:false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                admin.req({
+                                    url:setter.remoteServiceAddress+"/market/cominfobaseinfo/getDict"
+                                    ,data:{"value":e.point.name,"type":"pollution_source_category_type"}
+                                    ,done:function (result) {
+                                        var whereConditions={
+                                            hasPermission: hasPermission
+                                            ,pollutionSourceCategory:result.data[0].key
+                                        };
+                                        editwin(e.point.name,whereConditions);
+                                    }
+                                });
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '所占比例',
+                    colorByPoint: true,
+                    data:data
+
+                }]
+            });
+        }
+        function container3(data){
+            var static_data_x = [],
+            static_data_y = [];
+            if(!data==""){
+                for(var i=0;i<data.length;i++){
+                    static_data_x[i] = data[i].riskLevel  ;
+                    static_data_y[i] = data[i].riskCount ;
+                }
+            }
+            var chart = Highcharts.chart('container3', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting:{
+                    enabled:false
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: static_data_x,
+                    title: {
+                        text: "等级"
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: "数量（个）"
+                    },
+                    allowDecimals:false
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    valueSuffix: '家'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+//                            enabled: true,
+                            allowOverlap: true // 允许数据标签重叠
+                        }
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                admin.req({
+                                    url:setter.remoteServiceAddress+"/market/cominfobaseinfo/getDict"
+                                    ,data:{"value":e.point.category,"type":"risk_rating"}
+                                    ,done:function (result) {
+                                        var whereConditions={
+                                            hasPermission: hasPermission
+                                            ,riskRating:result.data[0].key
+                                        };
+                                        editwin(e.point.category,whereConditions);
+                                    }
+                                });
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '企业数量',
+                    data: static_data_y
+                }]
+            });
+        }
+        function container4(data){
+            var static_data_x = [],
+                static_data_y = [];
+            if(data!=""){
+                for(var i=0;i<data.length;i++){
+
+                    static_data_x[i] = data[i].enterpriSecale  ;
+                    static_data_y[i] = data[i].enterpriCount ;
+                }
+            }
+
+            var chart = Highcharts.chart('container4',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                xAxis: {
+                    categories: static_data_x,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    // tickInterval:2,
+                    // max:10,
+                    title: {
+                        text: '数量(家)'
+                    }
+                    ,labels:{
+                        style:{
+                            "cursor":"pointer"
+                        }
+                    },
+                    allowDecimals:false
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f}家 </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                if(e.point.category=="未知"){
+                                    var enterpriseScale=7;
+                                    var whereConditions={
+                                        hasPermission: hasPermission
+                                        ,enterpriseScale:enterpriseScale
+                                    };
+                                    editwin(e.point.category,whereConditions);
+                                }else {
+                                    admin.req({
+                                        url:setter.remoteServiceAddress+"/market/cominfobaseinfo/getDict"
+                                        ,data:{"value":e.point.category,"type":"enterprise_scale_type"}
+                                        ,done:function (result) {
+                                            var enterpriseScale=result.data[0].key;
+                                            var whereConditions={
+                                                hasPermission: hasPermission
+                                                ,enterpriseScale:enterpriseScale
+                                            };
+                                            editwin(e.point.category,whereConditions);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '企业数量',
+                    data: static_data_y
+                }]
+            });
+        }
+        //container1();
+       // container_();
+        function container_(result){
+
+            function sortId(a,b){
+                return b.y-a.y;
+            }
+            result.data1.sort(sortId);
+            //console.log(result.data1);
+            for(var i=0;i<result.data2.length;i++){
+                result.data2[i].data.sort(sortId);
+            }
+
+            //console.log(result.data2);
+            Highcharts.chart('container1', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting:{
+                    enabled:false
+                },
+                legend: {
+                    enabled: false
+                },
+                yAxis: {
+                    title: {
+                        text: '数量（个）'
+                    }
+                },
+                tooltip: {
+                    // valueSuffix: '家'
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                // plotOptions: {
+                //     pie: {
+                //         allowPointSelect: true,
+                //         cursor: 'pointer',
+                //         dataLabels: {
+                //             enabled: true,
+                //             // 通过 format 或 formatter 来格式化数据标签显示
+                //             //format: '值: {point.y} 占比 {point.percentage} %',
+                //             formatter: function() {
+                //                 //this 为当前的点（扇区）对象，可以通过  console.log(this) 来查看详细信息
+                //                 return '<span style="color: ' + this.point.color + '"> 值：' + this.y + '家</span>';
+                //             }
+                //         },
+                //         showInLegend: true  // 显示在图例中
+                //     }
+                // },
+                series: [
+                    {
+                        name: '企业数量',
+                        type: 'pie',
+                        colorByPoint: true,
+                        data:result.data1
+                    }
+                ]
+                ,
+                drilldown: {
+                    series:result.data2
+
+                }
+            });
+        }
+        function defaultClick(){
+            admin.req({
+                url: baseurl+"/baseInfoStatic"
+                , done: function (result) {
+                    if(result.code == 0){
+
+                        var data=result.data;
+                        if(!data==""&&data.length>0){
+                            $("#totalCompany").html(data[0].source);
+                            $("#totalEmphasis").html(data[0].keySource);
+                            $("#totalWater").html(data[0].waterSource);
+                            $("#totalAir").html(data[0].airSource);
+                            $("#totalVOCs").html(data[0].VOCsource);
+                            $("#totalWasteWater").html(data[0].riskSource);
+                        }
+
+                        // $("#LawEnforcementNumber").html(data[0].LawEnforcementNumber);
+                    }
+                }
+            });
+
+           admin.req({
+               url: baseurl+ "/industryStatic"
+               , done: function (result) {
+                   layer.close(loadindex);
+                   end =  new Date().getTime() ;
+                   //console.log(" end ======="+end);
+                   //console.log(" 请求了 ======="+(end-start)/1000+"s");
+
+                       var data=result.data;
+                       //container1(data);
+                       container_(result);
+
+                   admin.req({ //污染源类别
+                       url: baseurl+"/sourceCategoryStatic"
+                       , done: function (result) {
+                           if(result.code == 0){
+                               var datatemp=result.data;
+                               container2(datatemp)
+                               // $("#LawEnforcementNumber").html(data[0].LawEnforcementNumber);
+                           }
+                       }
+                   });
+                   admin.req({ //风险等级
+                       url: baseurl+"/riskLevelStatic"
+                       , done: function (result) {
+                           if(result.code == 0){
+                               var datatemp=result.data;
+                               container3(datatemp);
+                           }
+                       }
+                   });
+
+                   admin.req({ //企业规模
+                       url: baseurl+ "/enterpriSecaleStatic"
+                       , done: function (result) {
+                           if(result.code == 0){
+                               var datatemp=result.data;
+                               container4(datatemp);
+                           }
+                       }
+                   });
+
+               }
+               ,error: function(){
+                   layer.close(loadindex);
+               }
+           });
+
+        }
+        var chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
+        var chnUnitSection = ["","万","亿","万亿","亿亿"];
+        var chnUnitChar = ["","十","百","千"];
+        function SectionToChinese(section){
+            var strIns = '', chnStr = '';
+            var unitPos = 0;
+            var zero = true;
+            while(section > 0){
+                var v = section % 10;
+                if(v === 0){
+                    if(!zero){
+                        zero = true;
+                        chnStr = chnNumChar[v] + chnStr;
+                    }
+                }else{
+                    zero = false;
+                    strIns = chnNumChar[v];
+                    strIns += chnUnitChar[unitPos];
+                    chnStr = strIns + chnStr;
+                }
+                unitPos++;
+                section = Math.floor(section / 10);
+            }
+            return chnStr+"级风险源";
+        }
+        defaultClick();
+        var editwin = function(title,whereConditions){
+            var element="LAY-online-onlineMonitorCompany";
+            var cols= [[
+                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '污染源名称（公司名称）', minWidth: 100,style:'color:blue;cursor:pointer;',templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<a class="tabCompanyName" href="../src/views/cominfo/companyshow/slider.html?pid='+item.pid +'" target="_blank" rel="_blank" style="color:blue;cursor:pointer;" title="'+item.companyName+'">'+ item.companyName +'</a>';
+                        }}}
+                ,{field: 'companyAddress', title: '地址', minWidth: 60,unresize: true}
+                ,{field: 'companyRepresentative', title: '法人代表', minWidth: 60,unresize: true}
+                ,{field: 'representativePhone', title: '电话', minWidth: 60,unresize: true}
+                ,{field: 'organizationCode', title: '组织机构代码', minWidth: 60,unresize: true}
+            ]];
+            statisticalBounced.bounced(element,cols,whereConditions,baseurl5,title);
+
+            // $("#test").animate({height:'0px'},"fast");
+            // $("#test").addClass("layui-hide");
+
+            $("#sousuo").click(function(){
+                var onlineCompanyReload=$("#onlineCompanyReload").val();
+                table.reload('LAY-online-onlineMonitorCompany', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        companyName:onlineCompanyReload
+                    }
+                });
+            });
+            $("#chongzhi").click(function(){
+                $("#onlineCompanyReload").val("")
+                $("#sousuo").click();
+            })
+
+        };
+        var active = {
+            OnlineMonitoringEnterprise : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                };
+                editwin("全区污染源企业",whereConditions);
+            }
+            ,KeyMonitoringEnterprises : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //是否重点企业
+                    ,keySource:1
+                };
+                editwin("重点污染源",whereConditions);
+            }
+            ,WasteDischargeEnterprise : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //是否为废水排放企业
+                    ,wasteWater:1
+                };
+                editwin("废水产生源",whereConditions);
+            }
+            ,emissionEnterprise : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //是否为废气排放企业
+                    ,emissionEnterprises:1
+                };
+                editwin("废气产生源",whereConditions);
+            }
+            ,VOCsEmissionEnterprises : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //是否为VOCs排放企业
+                    ,vocEnterprises:1
+                };
+                editwin("VOCs产生源",whereConditions);
+            }
+            ,sewageTreatmentWorks : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //是否为风险源
+                    ,riskSource:1
+                };
+                editwin("风险源",whereConditions);
+            }
+        };
+        $('.enterpriseType').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    })
+</script>

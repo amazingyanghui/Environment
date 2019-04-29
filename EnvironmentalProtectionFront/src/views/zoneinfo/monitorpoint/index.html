@@ -1,0 +1,1099 @@
+<script type="text/javascript" src="common/zoneinfo/portinfo.js"></script>
+<script type="text/javascript" src="common/cominfo/factor.js"></script>
+
+<title>监测站点</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="monitorpoint-station">
+                <li value="0">水环境检测站点</li>
+                <li value="1">大气环境检测站点</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+                <button class="layui-btn" id="link" data-events="link">监测项目</button>
+            </div>
+            <div class="layui-tab-content" id="monitorpoint">
+                <div class="layui-tab-item layui-show">
+                    <div id="monitorpoint0">
+                        <table id="LAY-zoneInfo-monitorpoint0" lay-filter="LAY-zoneInfo-monitorpoint0"></table>
+                    </div>
+                    <div id="zoneInfomonitorpoint0"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <div id="monitorpoint1">
+                        <table id="LAY-zoneInfo-monitorpoint1" lay-filter="LAY-zoneInfo-monitorpoint1"></table>
+                    </div>
+                    <div id="zoneInfomonitorpoint1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="editmonitorpoint0" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorPortinfoedit0" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="zid" value="{{d.zid}}"/>
+                    <input type="hidden" name="photoPath" value="{{d.photoPath}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>监测站名称：</td>
+                            <td>
+                                {{# if(d.pointName){ }}
+                                <input type="text" id="pointName0" name="pointName" lay-verify="required|stringSize|specialCharacter" value="{{d.pointName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pointName0" name="pointName" lay-verify="required|stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2" rowspan="12">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>站点照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap0" style="height: 300px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 300px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="container0">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:0px;margin-left:70px;top: 0px;">
+                                                                <div style="float: left; width: 380px;">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName0" style="height: 35px;width:300px;" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanel0" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 300px">
+                                                    <button class="layui-btn layui-btn-normal" type="button" id="uploadPicture0">上传</button>
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 13px;">
+                                                        <img id="photoPath0" style="height: 270px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>监控点编号：</td>
+                            <td>
+                                {{# if(d.monitorCode){ }}
+                                <input type="text" name="monitorCode" lay-verify="required|stringSize|specialCharacter" value="{{d.monitorCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorCode" lay-verify="required|stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>监控点是否使用：</td>
+                            <td>
+                                <select id="monitorUseflag0" name="monitorUseflag" lay-verify="required"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                {{# if(d.linkmen){ }}
+                                <input type="text" name="linkmen" lay-verify="stringSize|specialCharacter" value="{{d.linkmen}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="linkmen" lay-verify="stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                {{# if(d.linkphone){ }}
+                                <input type="text" name="linkphone" lay-verify="stringSize|phoneVerify" value="{{d.linkphone}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="linkphone" lay-verify="stringSize|phoneVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                {{# if(d.pointArea){ }}
+                                <input type="text" name="pointArea" lay-verify="numberSize|strSpecialCharacter" value="{{d.pointArea}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pointArea" lay-verify="numberSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点位置：</td>
+                            <td>
+                                {{# if(d.monitorPosition){ }}
+                                <input type="text" name="monitorPosition" lay-verify="stringSize|specialCharacter" value="{{d.monitorPosition}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorPosition" lay-verify="stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                {{# if(d.longitude){ }}
+                                <input type="text" id="longitude0" name="longitude" lay-verify="stringSize|longitudeVerify" value="{{d.longitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="longitude0" name="longitude" lay-verify="stringSize|longitudeVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>纬度：</td>
+                            <td>
+                                {{# if(d.latitude){ }}
+                                <input type="text" id="latitude0" name="latitude" lay-verify="stringSize|latitudeVerify" value="{{d.latitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="latitude0" name="latitude" lay-verify="stringSize|latitudeVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>是否联网：</td>
+                            <td>
+                                <select id="isInternet0" name="isInternet" lay-verify="required"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                {{# if(d.networkingDate){ }}
+                                <input type="text" id="networkingDate0" name="networkingDate" value="{{d.networkingDate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="networkingDate0" name="networkingDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="portInfoHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--</script>
+
+<script id="editmonitorpoint1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorPortinfoedit1" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="zid" value="{{d.zid}}"/>
+                    <input type="hidden" name="photoPath" value="{{d.photoPath}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>监测站名称：</td>
+                            <td>
+                                {{# if(d.pointName){ }}
+                                <input type="text" id="pointName1" name="pointName" lay-verify="required|stringSize|specialCharacter" value="{{d.pointName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="pointName1" name="pointName" lay-verify="required|stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2" rowspan="12">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>站点照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap1" style="height: 300px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 300px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="container1">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:0px;margin-left:70px;top: 0px;">
+                                                                <div style="float: left; width: 380px;">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName1" style="height: 35px;width:300px;" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanel1" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 300px">
+                                                    <button class="layui-btn layui-btn-normal" type="button" id="uploadPicture1">上传</button>
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 13px;">
+                                                        <img id="photoPath1" style="height: 270px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>监控点编号：</td>
+                            <td>
+                                {{# if(d.monitorCode){ }}
+                                <input type="text" name="monitorCode" lay-verify="required|stringSize|specialCharacter" value="{{d.monitorCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorCode" lay-verify="required|stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>监控点是否使用：</td>
+                            <td>
+                                <select id="monitorUseflag1" name="monitorUseflag" lay-verify="required"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                {{# if(d.linkmen){ }}
+                                <input type="text" name="linkmen" lay-verify="stringSize|specialCharacter" value="{{d.linkmen}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="linkmen" lay-verify="stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                {{# if(d.linkphone){ }}
+                                <input type="text" name="linkphone" lay-verify="stringSize|phoneVerify" value="{{d.linkphone}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="linkphone" lay-verify="stringSize|phoneVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                {{# if(d.pointArea){ }}
+                                <input type="text" name="pointArea" lay-verify="numberSize|strSpecialCharacter" value="{{d.pointArea}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pointArea" lay-verify="numberSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点位置：</td>
+                            <td>
+                                {{# if(d.monitorPosition){ }}
+                                <input type="text" name="monitorPosition" lay-verify="stringSize|specialCharacter" value="{{d.monitorPosition}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="monitorPosition" lay-verify="stringSize|specialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                {{# if(d.longitude){ }}
+                                <input type="text" id="longitude1" name="longitude" lay-verify="stringSize|longitudeVerify" value="{{d.longitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="longitude1" name="longitude" lay-verify="stringSize|longitudeVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>纬度：</td>
+                            <td>
+                                {{# if(d.latitude){ }}
+                                <input type="text" id="latitude1" name="latitude" lay-verify="stringSize|latitudeVerify" value="{{d.latitude}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="latitude1" name="latitude" lay-verify="stringSize|latitudeVerify" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>是否联网：</td>
+                            <td>
+                                <select id="isInternet1" name="isInternet" lay-verify="required"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                {{# if(d.networkingDate){ }}
+                                <input type="text" id="networkingDate1" name="networkingDate" value="{{d.networkingDate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="networkingDate1" name="networkingDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="portInfoHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--</script>
+
+<script id="monitorpointShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showmonitorpointInfo0" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>监测站名称：</td>
+                            <td>
+                                <input type="text" id="pointName0" name="pointName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2" rowspan="12">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>站点照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap0" style="height: 300px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 300px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="containershow0">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:0px;margin-left:70px;top: 0px;">
+                                                                <div style="float: left; width: 380px;">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName0" style="height: 35px;width:300px;" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanel0" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 310px">
+                                                    <!--<button class="layui-btn layui-btn-normal" type="button" id="uploadPicture0">上传</button>-->
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 13px;">
+                                                        <img id="photoPath0" style="height: 275px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点编号：</td>
+                            <td>
+                                <input type="text" name="monitorCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>监控点是否使用：</td>
+                            <td>
+                                <input type="text" name="monitorUseflag" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                <input type="text" name="pointArea" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点位置：</td>
+                            <td>
+                                <input type="text" name="monitorPosition" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                <input type="text" id="longitude0" name="longitude" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>纬度：</td>
+                            <td>
+                                <input type="text" id="latitude0" name="latitude" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>是否联网：</td>
+                            <td>
+                                <input type="text" name="isInternet" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                <input type="text" id="networkingDate0" name="networkingDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="monitorpointShowInfo1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="showmonitorpointInfo1" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>监测站名称：</td>
+                            <td>
+                                <input type="text" id="pointName1" name="pointName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2" rowspan="12">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>站点照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap1" style="height: 300px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 300px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="containershow1">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:0px;margin-left:70px;top: 0px;">
+                                                                <div style="float: left; width: 380px;">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName1" style="height: 35px;width:300px;" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanel1" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 310px">
+                                                    <!--<button class="layui-btn layui-btn-normal" type="button" id="uploadPicture1">上传</button>-->
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 13px;">
+                                                        <img id="photoPath1" style="height: 275px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点编号：</td>
+                            <td>
+                                <input type="text" name="monitorCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>监控点是否使用：</td>
+                            <td>
+                                <input type="text" name="monitorUseflag" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                <input type="text" name="pointArea" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点位置：</td>
+                            <td>
+                                <input type="text" name="monitorPosition" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                <input type="text" id="longitude1" name="longitude" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>纬度：</td>
+                            <td>
+                                <input type="text" id="latitude1" name="latitude" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>是否联网：</td>
+                            <td>
+                                <input type="text" name="isInternet" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                <input type="text" name="networkingDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="monitorUseflagTpl">
+    {{# if(d.monitorUseflag == 1){ }}
+    <button class="layui-btn layui-btn-sm">是</button>
+    {{# }else{ }}
+    <button class="layui-btn layui-btn-danger layui-btn-sm">否</button>
+    {{# } }}
+</script>
+
+<script type="text/html" id="isInternetTpl">
+    {{# if(d.isInternet == 1){ }}
+    <button class="layui-btn layui-btn-sm">是</button>
+    {{# }else{ }}
+    <button class="layui-btn layui-btn-danger layui-btn-sm">否</button>
+    {{# } }}
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form','upload','formVerify','formSelects'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            , layer = layui.layer
+            ,form = layui.form
+            ,upload=layui.upload
+            ,formVerify=layui.formVerify
+            ,formSelects = layui.formSelects
+            ,global_obj = {}
+            ,baseurl1 = setter.remoteServiceAddress + "/zoneinfo/zoneinfomonitorpoint"
+            ,baseurl2 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor";
+
+        var router = layui.router();
+        var zid=router.search.pid;
+
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='zoneinfo/'><cite>园区信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabZoneName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>监测站点</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            zid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>园区维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>监测站点</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabZoneName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(zid!=null&zid!="undefined"){
+            loadtab.zonetab('monitorpoint');
+        }
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#monitorpoint0").removeClass("layui-hide"); //table父级div
+            $("#monitorpoint1").removeClass("layui-hide");
+            $("#zoneInfomonitorpoint0").addClass("layui-hide");//table 父级div相邻的下一个div
+            $("#zoneInfomonitorpoint1").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+            $("#link").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#monitorpoint0").addClass("layui-hide");
+            $("#monitorpoint1").addClass("layui-hide");
+            $("#zoneInfomonitorpoint0").removeClass("layui-hide");
+            $("#zoneInfomonitorpoint1").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+            $("#link").addClass("layui-hide");
+        };
+        // formSelects.render('comprehensiveUtilizationMode');
+
+        formSelects.value('select', [1]);
+        var differType=0;
+        $('#monitorpoint-station li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-zoneInfo-monitorpoint'+differType;
+            showAndHide();
+            table.render({//查询列表信息
+                elem: elem
+                ,url: baseurl1
+                ,page: true
+                ,event:true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,zid:zid
+                    ,type: differType
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: [[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'pointName', title: '监测站名称', minWidth: 100,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                    ,{field: 'monitorCode', title: '监控点编号', minWidth: 100,unresize: true}
+                    ,{field: 'isInternet', title: '是否联网', minWidth: 100, templet: '#isInternetTpl',unresize: true}
+                    ,{field: 'monitorUseflag', title: '是否使用', minWidth: 100, templet: '#monitorUseflagTpl',unresize: true}
+                ]]
+                ,skin: 'line'
+            });
+        });
+        $("#monitorpoint-station li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+
+        table.on("tool(LAY-zoneInfo-monitorpoint0)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(0,data,monitorpointShowInfo.innerHTML)
+            }
+        });
+
+        table.on("tool(LAY-zoneInfo-monitorpoint1)",function (obj) {
+            var data=obj.data;
+            if(obj.event=="setName"){
+                showInfo(1,data,monitorpointShowInfo1.innerHTML)
+            }
+        });
+
+        function showInfo(differType,data,html) {
+            layer.open({
+                type: 1
+                , title: "查看"
+                , area: ['1100px', '500px']
+                // offset: '120px',
+                , content: html
+            });
+            for(var elem in data){
+                $("#showmonitorpointInfo"+differType+" [name='"+elem+"']").val(data[elem]);
+                $("#showmonitorpointInfo"+differType+" [name='"+elem+"']").attr("readonly","readonly");
+                if(elem == "monitorUseflag"){
+                    if(data[elem] == 0){
+                        $("[name='monitorUseflag']").val("否");
+                    }else{
+                        $("[name='monitorUseflag']").val("是");
+                    }
+                }
+                if(elem == "isInternet"){
+                    if(data[elem] == 0){
+                        $("[name='isInternet']").val("否");
+                    }else{
+                        $("[name='isInternet']").val("是");
+                    }
+                }
+            }
+            if(data.photoPath!=null && data.photoPath!="" && data.photoPath!="undefined"){
+                $("#photoPath"+differType).attr("src",setter.remoteServiceAddress+data.photoPath);
+            }
+            BaiduMap.map_level = 11;
+            initMapForAdd('containershow'+differType,$("#pointName"+differType).val(),'txtMonitorName'+differType,'searchResultPanel'+differType,true,$("#longitude"+differType).val(),$("#latitude"+differType).val());
+        }
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            var getBaseInfo="";
+            if(differType==0){
+                getBaseInfo =  editmonitorpoint0.innerHTML;
+            }else if(differType==1){
+                getBaseInfo =  editmonitorpoint1.innerHTML;
+            }
+            portInfo.editWin(admin,setter,$,table,form,baseurl1,laytpl,laydate,element,differType,global_obj,pid,zid,getBaseInfo,formSelects);
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl1
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-zoneInfo-monitorpoint"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,link:function (othis,data) {
+                linkData(data);
+            }
+        };
+
+
+        var show=function () {
+            $("#factorAdd").addClass("layui-hide");
+            $("#factorMod").addClass("layui-hide");
+            $("#factorDel").addClass("layui-hide");
+            $("#monitorPointFactor").addClass("layui-hide");
+            $("#onlineMonitorPointFactor").removeClass("layui-hide");
+        };
+
+        var hide=function () {
+            $("#factorAdd").removeClass("layui-hide");
+            $("#factorMod").removeClass("layui-hide");
+            $("#factorDel").removeClass("layui-hide");
+            $("#monitorPointFactor").removeClass("layui-hide");
+            $("#onlineMonitorPointFactor").addClass("layui-hide");
+        };
+
+        var factorEditWin=function (mid) {
+
+            $("#factorAdd").on("click",function () {
+                show();
+                factor.editWin(admin,setter,$,table,form,baseurl2,laytpl,laydate,element,differType,global_obj,null,mid);
+            });
+            $("#factorMod").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-online-onlineMonitorPointFactor")
+                    ,data = checkStatus.data; //获得选中的数据
+                if(data.length==0){
+                    return layer.msg('未选中行!');
+                }else if(data.length>1){
+                    return layer.msg('只能修改一条数据！');
+                }else{
+                    show();
+                    var pid=null;
+                    if(data!=null){
+                        pid=data[0].pid;
+                    }
+                    factor.editWin(admin,setter,$,table,form,baseurl2,laytpl,laydate,element,differType,global_obj,pid,mid);
+                }
+            });
+            $("#factorDel").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-online-onlineMonitorPointFactor")
+                    ,data = checkStatus.data; //获得选中的数据
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl2
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-online-onlineMonitorPointFactor"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+
+            //修改和增加
+            form.on('submit(factor-form-element)', function(data){
+                var loadindex = layer.load(1);
+                // layer.msg(JSON.stringify(data.field));
+                data.field.token = layui.data(setter.tableName).access_token;
+                if(data.field.pid=="undefined"){
+                    data.field.pid="";
+                }
+                // layer.load(1);
+                var type = "POST";
+                if(data.field.pid!=null&data.field.pid!=""){//修改
+                    type = "PUT";
+                }
+                data.field.mid=mid;
+                admin.req({
+                    url: baseurl2+"/dataByFid/"+data.field.fid+"/"+mid,
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.onlineMonitorPointFactor!=null&type!="PUT"){
+                            layer.msg('该因子已经关联了！请进行修改');
+                        }else {
+                            admin.req({
+                                type: type,
+                                contentType:"application/json",
+                                url: baseurl2,
+                                data: JSON.stringify(data.field),
+                                done: function(result){
+                                    if(result.code == 0){//成功
+                                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                        });
+                                        hide();
+                                        table.reload("LAY-online-onlineMonitorPointFactor");
+                                    }else{
+                                        layer.alert(result.msg, {
+                                            skin: 'layui-layer-lan',
+                                            offset: 't',
+                                            anim: 6
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false
+            });
+        };
+
+        function linkData(data) {
+            layer.open({
+                type: 1
+                , title: "监测项目"
+                , area: admin.screen() < 2 ? ['80%', '300px'] :['1050px', '400px']
+                // offset: '120px',
+                , content: onlineMonitorPointFactorEdit.innerHTML
+            });
+
+            hide();
+            table.render({//查询列表信息
+                elem: '#LAY-online-onlineMonitorPointFactor'
+                , url: baseurl2
+                , page: true
+                , event: true
+                , where: {
+                    hasPermission: hasPermission
+                    ,mid:data[0].pid
+                }
+                , headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                , cols: [[
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'fid', title: '因子编码', width: 90, unresize: true}
+                    , {field: 'factorName', title: '因子名称', width: 100, unresize: true}
+                    , {field: 'useFlagName', title: '使用否', width: 80, unresize: true}
+                    , {field: 'testCompany', title: '检测单位', width: 100, unresize: true}
+                    , {field: 'maximumValue', title: '最大检测值', width: 100, unresize: true}
+                    , {field: 'minimumValue', title: '最小检测值', width: 100, unresize: true}
+                    , {field: 'executiveStandard', title: '执行标准', width: 100, unresize: true}
+                    , {field: 'standardValue', title: '标准浓度值', width: 100, unresize: true}
+                    , {field: 'permissionDischargeValue', title: '许可排放浓度限值', minWidth: 100, unresize: true}
+                ]]
+                , skin: 'line'
+                ,limit:5
+                ,limits:[5,10,15,20,25,30,35,40,45,50]
+            });
+            factorEditWin(data[0].pid);
+        }
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-zoneInfo-monitorpoint"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent == "link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            var sz = JSON.stringify(formSelects.value('test', 'valStr'));//值为2,4（选中为上海，深圳）
+            data.field.zid=zid;
+            data.field.type=differType;
+            data.field.comprehensiveUtilizationMode=formSelects.value('test', 'valStr');
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl1,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-zoneInfo-monitorpoint"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

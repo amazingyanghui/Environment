@@ -1,0 +1,229 @@
+
+<title>test</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>test</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div class="layui-inline">
+                            <input class="layui-input" id="testReload" autocomplete="off" placeholder="请输入关键字">
+                        </div>
+                        <button class="layui-btn" data-type="testReload">搜索</button>
+                        <button class="layui-btn " data-events="add">新增</button>
+                        <button class="layui-btn " data-events="mod">修改</button>
+                        <button class="layui-btn " data-events="del">删除</button>
+                    </div>
+                    <table id="LAY-sysmgr-test" lay-filter="LAY-sysmgr-test"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="edittest" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="testedit" action="" lay-filter="component-form-element">
+                                                        <input type="hidden" name="id" />
+                                                                                <div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">name：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                                                        <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl'], function(){
+        var $ = layui.$
+                ,admin = layui.admin
+                ,table = layui.table
+                ,element = layui.element
+                ,laytpl = layui.laytpl
+                ,setter = layui.setter
+                ,form = layui.form
+                ,global_obj = {}
+                ,baseurl = setter.remoteServiceAddress3+ "/sys/test";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:test:list') === -1)) hasPermission = true;
+        //
+        table.render({//查询列表信息
+            elem: '#LAY-sysmgr-test'
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                access_token: layui.data(setter.tableName).access_token
+                ,hasPermission: hasPermission
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'id', title: 'id',minWidth: 100, key: true }
+                ,{field: 'name', title: 'name', minWidth: 100}
+            ]]
+            ,skin: 'line'
+        });
+
+        var active = {
+                testReload: function(){
+                var testName = $('#testReload').val();
+                //执行重载
+                table.reload('LAY-sysmgr-test', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                            testName:testName
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        var editwin = function(title,data){
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['50%', '60%']
+                // offset: '120px',
+                ,content: edittest.innerHTML
+            });
+
+            form.render(null, 'component-form-element');
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].id
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.test){
+                                $("[name="+id+"]").val(result.test[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var ids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                            ids.push(data[i].id);
+                    }
+                    $.ajax({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(ids)
+                        ,success: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sysmgr-test"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                    ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sysmgr-test")
+                    ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.id){//修改
+                type = "PUT";
+            }
+            $.ajax({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                success: function(result){
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            layer.closeAll();
+                            table.reload("LAY-sysmgr-test")
+                        });
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+            return false
+        });
+
+    });
+</script>

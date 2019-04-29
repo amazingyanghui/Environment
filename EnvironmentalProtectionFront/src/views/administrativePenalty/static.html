@@ -1,0 +1,1378 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<title>行政处罚</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>数据统计</cite></a>
+        <a><cite>行政处罚</cite></a>
+    </div>
+</div>
+
+
+<style type="text/css">
+    .total-top{
+        margin: 15px 0 0 20px;
+    }
+    .total-center{
+        margin: 25px 0 0 20px;
+    }
+    .total-title{
+        height: 150px;
+        width: 14%;
+        border: 1px solid grey;
+        padding: 10px;
+        display:inline-block;
+        margin-right: 0.7%;
+    }
+    .total-title-top{
+        width: 350px;
+        margin-right: 20px;
+        display:inline-block;
+    }
+    .total-margin-top{
+        margin-top: 15px
+    }
+    .total-div-top{
+        margin-top: 25px
+    }
+    .total-container {
+        height: 160px;
+        border: 1px solid grey;
+    }
+    .total-left-content{
+        float: left;
+        height: 400px;
+        width: 59%;
+        border: 1px solid grey;
+        display:inline-block;
+    }
+    .total-right-content{
+        float: right;
+        height: 400px;
+        width: 40%;
+        border: 1px solid grey;
+        display:inline-block;
+    }
+    .total-left-content-top{
+        height: 50px;
+        width: 100%;
+        display:inline-block;
+    }
+    .total-left-content-top,.total-right-content-top span{
+        font-size: 14px;
+        line-height: 50px;
+        margin-left: 15px;
+        font-family: 黑体;
+    }
+    .total-left-content-down{
+        height: 350px;
+        width: 100%;
+        border-top: 1px solid grey;
+        display:inline-block;
+    }
+    .total-right-content-top{
+        height: 50px;
+        width: 100%;
+        display:inline-block;
+    }
+    .total-right-content-down{
+        height: 350px;
+        width: 100%;
+        border-top: 1px solid grey;
+        display:inline-block;
+    }
+    .total-box-radio{
+        width:65px;
+        height:65px;
+        margin: 10px auto;
+        border: 1px solid;
+        text-align: center;
+        line-height: 65px;
+        font-weight: bold;
+        border-radius: 50%;//圆角百分比
+    }
+    .total-content-div{
+        margin:40px 0 0 15px;
+    }
+    .total-content-div div:first-child span{
+        font-size: 13px;
+    }
+    .total-content-span{
+        font-size: 26px;
+        font-family: 黑体;
+        margin-top: 15px;
+    }
+    .total-font{
+        font-size: 40px;
+        color: #F2F2F2;
+    }
+    #year{
+        display: inline-block;
+        margin-left: 45px;
+    }
+    #year span{
+        padding:6px 23px;
+        border: 1px solid #CCCCCC;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+        background-color: #CCCCCC;
+        border-radius: 6%;//圆角百分比
+    }
+    #year span:not(:first-child){
+        margin-left: 25px;
+    }
+    #totalType{
+        display: inline-block;
+        margin-left: 5px;
+    }
+    #totalType span{
+        padding:6px 31px;
+        border: 1px solid #CCCCCC;
+        text-align: center;
+        color: #CCCCCC;
+        cursor: pointer;
+        background-color: #FFFFFF;
+        border-radius: 6%;//圆角百分比
+    }
+    #totalType span:not(:first-child){
+        margin-left: 25px;
+    }
+    #monitorProject{
+        display: inline-block;
+        margin-left: 12px;
+    }
+    #monitorProject input:not(:first-child){
+        margin-left: 40px;
+    }
+    #monitorProject input{
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    #portType{
+        width: 150px;
+        height: 32px;
+        border-color:#e6e6e6;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+</style>
+
+<div class="layui-fluid"  >
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm6 layui-col-md3 enterpriseType " data-type="OnlineMonitoringEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #49A9EE;border: 1px solid #49A9EE;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">本年度处罚案件</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="cutcasescount"></span><span>个</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">本年度处罚金额</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="curmonerycount"></span><span>万元</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #99CC00;border: 1px solid #99CC00;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">与去年相比，处罚金额增加</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="growthRate"></span><span>%</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF6633;border: 1px solid #FF6633;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">与去年相比，处罚金额</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="changeMoneys"></span><span>万元</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-sm12">-->
+        <!--<div class="layui-card">-->
+        <!--<div class="layui-card-header">-->
+        <!--<span class="layuiadmin-span-color" style="margin:0px 30px 0px 0px">年份</span>-->
+        <!--<button class="layui-btn layui-btn-radius layui-bg-blue">2018年</button>-->
+        <!--<button class="layui-btn layui-btn-radius layui-bg-blue">2017年</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="layui-col-sm12">-->
+        <!--<div class="layui-card">-->
+        <!--<div class="layui-card-header">-->
+        <!--<span class="layuiadmin-span-color" style="margin:0px 30px 0px 0px">统计类型</span>-->
+        <!--<button class="layui-btn layui-btn-radius layui-bg-blue">处罚金额</button>-->
+        <!--<button class="layui-btn layui-btn-radius layui-bg-blue">案件数量</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div class="layui-col-md12 ">
+            <div class="layui-card ">
+                <div class="layui-card-body">
+                    <div style="display: inline-block;margin-left: 12px;">年份</div>
+                    <div id="year">
+                        <!--<span class="layui-btn-sm">2018</span>-->
+                        <!--<span class="layui-btn-sm">2017</span>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-md12 ">
+            <div class="layui-card">
+                <div class="layui-card-body total-title-top" style="margin-top: -11px;
+    margin-bottom:-30px;">
+                    <div style="display: inline-block ; margin-left: 12px;
+    margin-right: 12px;">统计类型</div>
+                    <div id="totalType">
+                        <span class="layui-btn-sm">金额</span>
+                        <span class="layui-btn-sm">数量</span>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span class="layuiadmin-span-color" >月处罚情况<i class="layui-inline layui-icon layui-icon-flag"></i></span>
+                            <div class="layui-inline" style="    float: right">
+                                <span class="layui-btn" id="tb" style="background-color: #0099FF;">图表</span>
+                                <span class="layui-btn" id = "lb" style="background-color: #CCCCCC;">列表</span>
+
+                            </div>
+
+                        </div>
+                        <div class="layui-card-body">
+
+
+                            <div class="total-left-content-down">
+                                <div id="monthTotal" style="height: 99%;width: 100%"></div>
+
+
+                                <div id="lbtable" >
+                                    <!-- 显示后台数据的表格 -->
+                                    <table id="mainTable" class="display hover" border="1" width="100%" >
+                                        <thead>
+                                        <tr>
+                                            <th>月份</th>
+                                            <th id="Number">数量</th><!--
+                                <th>用户密码</th>
+                                <th>手机号码</th>
+                                <th>部门名称</th>
+                                <th width="10%">操作</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                        <tr id="content" class="example">
+                                            <td id="UserCode">2</td>
+                                            <td id="UserName">2</td>
+                                            <!-- <td id="UserPwd">2</td>
+                                             <td id="Bmmc">2</td>
+                                             <td id="Phone">2</td>-->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="layui-col-sm4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span class="layuiadmin-span-color" >本年度与去年对比<i class="layui-inline layui-icon layui-icon-flag"></i></span>
+                        </div>
+                        <div class="layui-card-body">
+                            <!--<div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagetwo" lay-anim="fade" style="width: 100%; height: 280px;">-->
+                            <!--&lt;!&ndash;<div carousel-item="" id="LAY-index-pagetwo2">&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--</div>--><div class="total-right-content-down">
+                            <div id="compareTotal" style="height: 99%;width: 100%"></div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-sm8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">违法类型统计</div>
+                        <div class="layui-card-body">
+                            <!--<div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagetwo" lay-anim="fade" style="width: 100%; height: 280px;">
+
+                            </div>-->
+                            <div class="total-left-content-down">
+                                <div id="typeStatic" style="height: 99%;width: 100%">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="layui-col-sm4">
+                     <div class="layui-card">
+                         <div class="layui-card-header">
+                             <span class="layuiadmin-span-color" style="margin:0px 80px 0px 0px">问题类型</span>
+                             <button class="layui-btn layui-btn-radius layui-bg-blue">2018年</button>
+                             <button class="layui-btn layui-btn-radius layui-bg-blue">2017年</button>
+                         </div>
+                         <div class="layui-card-body">
+                             <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagetwo" lay-anim="fade" style="width: 100%; height: 280px;">
+
+                             </div>
+                         </div>
+                     </div>
+                 </div>-->
+                <div class="layui-col-sm4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span class="layuiadmin-span-color" style="margin:0px 80px 0px 0px">处罚排行榜</span>
+                            <!--<button class="layui-btn layui-btn-radius layui-bg-blue">2018年</button>
+                            <button class="layui-btn layui-btn-radius layui-bg-blue">2017年</button>-->
+                        </div>
+                        <div class="layui-card-body">
+                            <!--<div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagetwo" lay-anim="fade" style="width: 100%; height: 280px;">
+
+                            </div>-->
+                            <div class="total-right-content-down">
+                                <div id="rank" style="height: 99%;width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-row layui-col-space15">
+
+                <!--   <div class="layui-col-sm8">
+                       <div class="layui-card">
+                           <div class="layui-card-header">
+
+                           </div>
+                           <div class="layui-card-body">
+                               <div class="total-right-content-down">
+                                   <div id="yyy" style="height: 99%;width: 100%"></div>
+                                     <div id="chartPro" style="width: 80%"></div>
+                                      <div id="container" style="width:700px;hight:70px"></div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<script id="detail_chats_dlg" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div id="LAY-disposed_chart2" style="height: 600px;width: 800px;">
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id ="firstClick" class="layui-this" value="0">处罚情况</li>
+            <li value="1">处罚资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>立案时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="filingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>处罚主体：</td>
+                                        <td>
+                                            <input type="text" readonly name="punishSubject" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被处罚单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>被处罚单位地址：</td>
+                                        <td >
+                                            <input type="text" readonly name="companyaddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="illegalTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>结案时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="closingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚编号：</td>
+                                        <td>
+                                            <input type="text" readonly name="penaltyNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>营业执照注册号（公民身份证号）：</td>
+                                        <td>
+                                            <input type="text" readonly name="business" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法定代表人：</td>
+                                        <td>
+                                            <input type="text" readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>邮政编码：</td>
+                                        <td>
+                                            <input type="text" readonly name="postcode" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>处罚决定文号：：</td>
+                                        <td>
+                                            <input type="text" readonly name="penaltySign" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>调查人员：</td>
+                                        <td>
+                                            <input type="text" readonly name="researcher" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法行为：</td>
+                                        <td colspan="3">
+                                            <input type="text" readonly name="illegalActivities" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚执行情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentExecution" value="" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>案情概述：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="caseOverview" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚依据：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentBasis" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚结果：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="punishmentResult" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>复议情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="reconsideration" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>申诉情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="appealSituation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','echarts','loadtab','layer','wasteProduceAndUse','statisticalBounced','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            , wasteProduceAndUse = layui.wasteProduceAndUse
+            , statisticalBounced = layui.statisticalBounced
+            ,loadtab = layui.loadtab
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,form = layui.form
+            ,echarts = layui.echarts
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfoenvironmentalattributes"
+            ,baseurl1 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo/basestatic"
+            ,baseurl2 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo/monthsstatic"
+            ,baseurl3 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo/yearstatic"
+            ,baseurl4 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo/typestatic"
+            ,baseurl5 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo/rankingstatic"
+            ,baseurl6 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo";
+
+        var router = layui.router();
+        var pid=router.search.pid;
+        $('#lbtable').hide();
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        var year = '2018' ;
+        var type = '1';
+        var statictitle = "" ;
+        var staticname = "" ;
+        var showname = "" ;
+        var unitname = "" ;
+        var  Decimal=false;
+        var valueSuffix ='';
+        var  tip_val = '' ;
+        $('#Number').text('数量');
+        if(type=='1'){
+            statictitle ='处罚金额(万元)';
+            staticname = '处罚金额' ;
+            showname = "金额";
+            Decimal=true;
+            valueSuffix = '万元' ;
+            tip_val= '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.2f}万元</b></td></tr>';
+        }else if (type=='2'){
+            statictitle = '处罚案件数量(个)';
+            showname = "数量";
+            staticname = '处罚案件数量' ;
+            Decimal=false;
+            valueSuffix = '个' ;
+            tip_val= '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f}个</b></td></tr>';
+        }
+
+        //默认年份点击事件
+        admin.req({//
+            url: setter.remoteServiceAddress + "/common/exportExcel/getDate"
+            , done: function (result) {
+                var mills = new Date(Date.parse(result.date.replace(/-/g,"/"))).getTime();//获得毫秒数
+                var date = new Date(mills);
+                var myyear=date.getFullYear();
+                for(var i=myyear;i >= 2017;i--){
+                    $("#year").append("<span >"+i+"</span>")
+                }
+                getAdministrativePenltyTpl(myyear);
+                queryInfoTpl(myyear);
+            }
+        });
+
+        function monthTotal(data,year) {
+            var month=[];
+            var monthcount=[];
+            var yearmonths = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+            var yearmonthscounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for(var i = 0; i < data.length; i++){
+                if(type=='1'){
+                    yearmonthscounts[(data[i].month-1)] = data[i].monthmonery;
+                }else if(type=='2'){
+                    yearmonthscounts[(data[i].month-1)] = data[i].monthcases;
+                }
+            }
+
+
+            var chart = Highcharts.chart('monthTotal', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories:yearmonths,
+
+                    crosshair: true
+                },
+                yAxis: {
+                    title: {
+                        text: statictitle
+                    },
+                    allowDecimals:Decimal
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    enabled: false
+                },
+                tooltip: {
+                    valueSuffix: valueSuffix,
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: tip_val,
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                        ,events: {
+                            click: function (e) {
+                                if(type=="2"){
+                                    var yearMonth=year+"-"+changeDateTpl(admin,setter,e.point.category);
+                                    var whereConditions={
+                                        hasPermission: hasPermission
+                                        ,yearMonth:yearMonth
+                                        ,differ:1
+                                    };
+                                    editwin(e.point.category,whereConditions);
+                                }
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: showname,
+                    data: yearmonthscounts , // [43934, 52503, 57177, 69658, 77031, 119931, 137133, 154175, 194175, 214175, 254175, 304175]
+                    zones: [{
+                        color: '#E63F00 '
+                    }]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+        function compareTotal(data,year) {
+
+            var counts = [] ;
+            if(!data==""){
+                counts.push(data[0].currentYearcount);
+                counts.push(data[0].lastYearcount);
+            }
+
+            var chart = Highcharts.chart('compareTotal',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                legend: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: [
+                        '今年','去年'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: statictitle
+                    },
+                    allowDecimals:Decimal
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: tip_val,
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true,
+                    valueSuffix: valueSuffix
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                if(type=="2"){
+                                    var yearType=changeDateTpl(admin,setter,e.point.category);
+                                    var whereConditions={
+                                        hasPermission: hasPermission
+                                        ,yearType:yearType
+                                        ,year:year
+                                        ,differ:1
+                                    };
+                                    editwin(e.point.category,whereConditions);
+                                }
+
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: showname,
+                    data: counts
+
+                    /*,
+                    zones: [{
+                        color: '#5599FF'
+                    }]*/
+                }]
+            });
+        }
+        function rank(data,year) {
+
+            var companyname =[] ;
+            var rankcount = [] ;
+            if(data.length>5){
+                for (var i= 0; i<5;i++){
+                    companyname[i] = data[i].punishedCompanyName ;
+                    rankcount[i] = data[i].companyrankcount ;
+
+                }
+            }else {
+                for (var i= 0; i<data.length;i++){
+                    companyname[i] = data[i].punishedCompanyName ;
+                    rankcount[i] = data[i].companyrankcount ;
+
+                }
+            }
+
+
+
+            var chart = Highcharts.chart('rank', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                legend: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: companyname,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: statictitle,
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    },
+                    allowDecimals:Decimal
+                },
+                tooltip: {
+                    valueSuffix: unitname
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            allowOverlap: true // 允许数据标签重叠
+                        }
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                if(type=="2"){
+                                    var whereConditions={
+                                        hasPermission: hasPermission
+                                        ,totalCompanyName:e.point.category
+                                        ,year:year
+                                        ,differ:1
+                                    };
+                                    editwin(e.point.category,whereConditions);
+                                }
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name:staticname,
+                    data: rankcount,
+                    zones: [{
+                        color: '#FF7744 '
+                    }]
+                }]
+            });
+        }
+        function typeStatic(data,year){
+
+            /* var  _data =JSON.stringify(data)  ;
+              function kk(jsonString) {
+                  var json = JSON.parse(jsonString);
+                  for(var i = 0; i < json.length; i++) {
+                      json[i]["text"] = json[i]["proportion"];   //'text'是需要的字段
+                      delete json[i][key];  //key是要替换为'text'的字段
+                  }
+                  return json;
+              }
+             kk(_data);*/
+            Highcharts.chart('typeStatic', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                }
+                ,credits: {
+                    enabled: false
+                },
+                subtitle: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                lang: {
+                    noData: "没有数据哦!"
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                    ,series:{
+                        events: {
+                            click: function (e) {
+                                if(type=="2"){
+                                    if(e.point.name!="未知类型"){
+                                        admin.req({
+                                            url:setter.remoteServiceAddress+"/market/cominfobaseinfo/getDict"
+                                            ,data:{"value":e.point.name,"type":"illegal_type_type"}
+                                            ,done:function (result) {
+                                                var whereConditions={
+                                                    hasPermission: hasPermission
+                                                    ,illegalType:result.data[0].key
+                                                    ,year:year
+                                                    ,differ:1
+                                                };
+                                                editwin(e.point.name,whereConditions);
+                                            }
+                                        });
+                                    }else {
+                                        var whereConditions={
+                                            hasPermission: hasPermission
+                                            ,unknownType:1
+                                            ,year:year
+                                            ,differ:1
+                                        };
+                                        editwin(e.point.name,whereConditions);
+                                    }
+                                }
+                            }
+                        }
+                        ,dataLabels:{
+//                            enabled: true,
+                            style:{
+                                "cursor":"pointer"
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '所占比',
+                    colorByPoint: true,
+                    data: data //typeStatic
+                }]
+            });
+        }
+
+        function getAdministrativePenltyTpl(year) {
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl1 + "/" + year
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        //datatemp = result.data;
+                        $("#changeMoneys").html(result.data[0].changeMoneys);
+                        $("#curmonerycount").html(result.data[0].curmonerycount);
+                        $("#cutcasescount").html(result.data[0].cutcasescount);
+
+                        if(result.data[0].growthRate!="上一年度金额为零"){
+                            $("#growthRate").html(result.data[0].growthRate);
+                        }
+
+                        //form.render(null, 'component-form-element');
+
+                    }else{
+
+                    }
+                }
+            });
+        }
+
+        function query(year,type){
+
+
+            admin.req({ //月份查询案件金额/数量查询
+                url: baseurl2 + "/" + year+"/"+type
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        var  datatemp = result.data;
+                        monthTotal(datatemp,year);
+                        HighchartsToTable(datatemp);
+
+                    }
+                }
+            });
+
+            admin.req({ //今年与去年 案件金额/数量比较
+                url: baseurl3 + "/" + year+"/"+type
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        var datatemp = result.data;
+                        compareTotal(datatemp,year);
+                    }else{
+
+                    }
+                }
+            });
+
+            admin.req({ //违法类型饼状图
+                url: baseurl4 + "/" + year+"/"+type
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        var  datatemp = result.data;
+                        if(datatemp.length>0&&datatemp[0].typecount!=0){
+                            typeStatic(datatemp,year);
+                        }
+                    }
+                }
+            });
+            admin.req({//公司排行榜
+                url: baseurl5 + "/" + year+"/"+type
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        var   datatemp = result.data;
+                        rank(datatemp,year);
+                    }else{
+
+                    }
+                }
+            });
+
+        }
+
+        /**
+         * 将Highcharts图表数据生成Table表格
+         * @param div  统计图表的div的Id
+         * @param table  要生成表格的div的Id
+         * @param unitName  各个统计图的单位信息
+         */
+        function HighchartsToTable(data) {
+            /*var table = $("#chartPro");
+            //获取图表对象
+           // var chart = div.highcharts();
+            //var chart =  $('#typeStatic').Highcharts();
+            //lert(chart);
+                //获取X轴集合对象
+               // var categories = chart.xAxis[0].categories;
+                //获取series集合
+               // var seriesList = chart.series;
+                //获取标题
+               var title = "标题";
+               var unitName = "数量"
+                //先清空原表格内容
+                table.html("");
+                //获取表格div对象
+                var tableObj = table;
+                //定义行元素<tr></tr>
+                var tr;
+                //定义表格体<table></table>
+                var tab;
+                var td;
+                tab = $("<table cellspacing='1' cellpadding='1'  width='100%' style=\"border:solid #add9c0; border-width:1px 0px 0px 1px;text-align:center;margin: 2px;\" ></table>")
+                tab.appendTo(tableObj);
+                //第一行，放置标题
+                tr = $("<tr></tr>");
+                tr.appendTo(tab);
+                var td = $("<td colspan='" + data.length + 1 + "' style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;\" >" + title +"<b style=\"font-size:14px;font-family:'Times New Roman','Microsoft YaHei';float:right\">"+unitName+"</b>"+ "</td>");
+                td.appendTo(tr);
+                //下一行，放置数据
+                tr = $("<tr ></tr>")
+                tr.appendTo(tab);
+               /!* td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;\">222</td>");
+                td.appendTo(tr);*!/
+                var names = ["月份","数量"] ;
+                for ( var i = 0; i < names.length; i++) {
+
+                    td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;\">" + names[i] +i +"</td>");
+                    td.appendTo(tr);
+                }
+                //分批插入数据
+                for ( var i = 0; i < data.length; i++) {
+                    tr = $("<tr></tr>");
+                    tr.appendTo(tab);
+                    //先加入一个序列名称
+                   // td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;\">" + i + "</td>");
+                  //  td.appendTo(tr);
+                    //遍历数据点追加数据值
+                    for ( var j = 0; j < data.length; j++) {
+                        td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;align:center\">" + data[j].name +j+ "</td>");
+
+                        /!*if(j%3==0){
+                            td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;align:center\">" + data[j].name +j+ "</td>");
+                        }else if(j%3==1){
+                            td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;align:center\">" + data[j].typecount +j+ "</td>");
+                        }else if(j%3==2){
+                            td = $("<td style=\"border:solid #add9c0; border-width:0px 1px 1px 0px; padding:5px 0px;align:center\">" + data[j].y +j+ "</td>");
+
+                        }*!/
+
+                        td.appendTo(tr);
+                    }
+                }
+*/
+
+            var yearmonthscounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for(var i = 0; i < data.length; i++){
+                if(type=='1'){
+                    yearmonthscounts[(data[i].month-1)] = data[i].monthmonery;
+                }else if(type=='2'){
+                    yearmonthscounts[(data[i].month-1)] = data[i].monthcases;
+                }
+            }
+
+            var trStr = '';
+            for (var i = 0; i < yearmonthscounts.length; i++) {//循环遍历出json对象中的每一个数据并显示在对应的td中
+                trStr += '<tr class="example">';//拼接处规范的表格形式
+                trStr += '<td width="30%" style="display:none" id="user">' + (i+1) + '</td>';//数据表的主键值
+                trStr += '<td width="30%"  align="center" >' + (i+1) + '月</td>';
+                if(type=='1'){
+                    trStr += '<td width="30%"  align="center" >' + yearmonthscounts[i] + '</td>';
+                }else if(type=='2'){
+
+                    trStr += '<td width="30%" align="center">' + yearmonthscounts[i]+ '</td>';
+                }
+                trStr += '</tr>';
+            }
+            $("#tbody").html(trStr);
+
+        }
+        function queryInfoTpl(year) {
+            query(year,type);
+            //绘制表格
+            HighchartsToTable($("#chartPro"),$("#container"),("（单位：立方米）"));
+            $("#year span").on("click",function () {
+
+                $("#year span").attr("style","background-color:#CCCCCC");
+                $(this).attr("style","background-color:#0099FF");
+                year=$(this).text();
+                query(year,type);
+                //alert(year);
+            });
+            $("#year span:first-child").trigger("click");
+
+            $("#totalType span").on("click",function () {
+
+                $("#totalType span").attr("style","color:#CCCCCC;"); //border: 1px solid #CCCCCC;
+                $(this).attr("style","background-color:#0099FF;"); //border: 1px solid #0099FF;
+                totalType=$(this).text();
+                if(totalType=="金额"){
+                    type = '1';
+                    statictitle ='处罚金额(万元)';
+                    staticname = '处罚金额' ;
+                    showname = "金额";
+                    unitname = "万元" ;
+                    Decimal=true ;
+                    valueSuffix= '万元';
+                    tip_val= '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.2f}万元</b></td></tr>';
+                    $('#Number').text(statictitle);
+                }else if(totalType=="数量"){
+                    type = '2';
+                    statictitle = '处罚案件数量(个)';
+                    staticname = '处罚案件数量' ;
+                    showname = "数量";
+                    unitname = "个" ;
+                    Decimal=false ;
+                    valueSuffix = '个';
+                    tip_val= '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.0f}个</b></td></tr>';
+                    $('#Number').text(statictitle);
+                }
+
+                query(year,type);
+                //alert(totalType);
+            });
+            $("#totalType span:first-child").trigger("click");
+        }
+
+        $("#lb ").on("click",function () {
+            $('#monthTotal').hide();
+            $('#lbtable').show();
+            $('#Number').text(statictitle);
+            $(this).attr("style","background-color:#0099FF;");
+            $("#tb").attr("style","background-color:#CCCCCC");
+        });
+        $("#tb ").on("click",function () {
+            $(this).attr("style","background-color:#0099FF;");
+            $("#lb").attr("style","background-color:#CCCCCC");
+            $('#monthTotal').show();
+            $('#lbtable').hide();
+        });
+        var editwin = function(title,whereConditions){
+            var element="LAY-online-onlineMonitorCompany";
+            var colstemp=[[
+                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '被处罚单位', minWidth: 130,event:"showDetial",style:'color:blue;cursor:pointer;',unresize: true}
+                ,{field: 'companyaddress', title: '被处罚单位地址', unresize: true, minWidth: 100}
+                ,{field: 'illegalTypeName', title: '违法类型',  width: 120,unresize: true}
+                ,{field: 'illegalActivities', title: '违法行为',  minWidth: 110,unresize: true}
+                ,{field: 'filingTime', title: '立案时间',  minWidth: 110,unresize: true,templet:function (item, index) {
+                    if(item.filingTime != undefined&&item.filingTime!==null){
+                        var fillingTime_ = item.filingTime.substring(0,19);
+                        return fillingTime_;
+                    }else{
+                        return '';
+                    }
+                }}
+            ]];
+            statisticalBounced.bounced(element,colstemp,whereConditions,baseurl6,title);
+
+            // $("#test").animate({height:'0px'},"fast");
+            // $("#test").addClass("layui-hide");
+
+            //表格点击监听事件
+            table.on("tool(LAY-online-onlineMonitorCompany)",function (obj){
+                if(obj.event=="showDetial"){
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        , area:['1100px', '660px']
+                        // offset: '120px',
+                        , content: recordShowInfo.innerHTML
+                    });
+
+                    var differType=0;
+                    $('#com-info li').on('click', function(){
+                        var data = obj.data;
+                        differType = $(this).attr("value");
+                        if(differType==0){
+                            debugger
+                            for (var attr in data) {
+                                if(attr=="filingTime"){
+                                    $("#administrativePenaltyedit [name='filingTime']").val(data[attr].substring(0,19));
+                                }else{
+                                    $("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                                }
+
+                            }
+                        }
+                        if(differType==1){
+                            table.render({//查询列表信息
+                                elem: '#LAY-online-onlineMonitorPortinfo0'
+                                ,height: 'full-300'
+                                ,cols: [[
+                                    {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                    ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                    ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                    ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                                ]]
+                                ,skin: 'line'
+                                ,even: true //开启隔行背景
+                            });
+
+                            admin.req({//
+                                url: setter.remoteServiceAddress + "/penalty/administrativepenaltyfile/dataByFile/" + data.pid
+                                , done: function (result) {
+                                    if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                        table.reload("LAY-online-onlineMonitorPortinfo0",{//查询列表信息
+                                            data: result.fileAttachment
+                                        });
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+                    $("#firstClick").trigger('click');
+                }
+                table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                    var data=obj.data;
+                    if (obj.event == 'setFileName') {
+                        baseInfoAttachment.view(data.attachmentUrl);
+                    }
+                });
+            });
+            $("#sousuo").click(function(){
+                var onlineCompanyReload=$("#onlineCompanyReload").val();
+                table.reload('LAY-online-onlineMonitorCompany', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        companyName:onlineCompanyReload
+                    }
+                });
+            });
+            $("#chongzhi").click(function(){
+                $("#onlineCompanyReload").val("")
+                $("#sousuo").click();
+            })
+
+        };
+        var active = {
+            OnlineMonitoringEnterprise : function(othis,data){
+                var whereConditions={
+                    hasPermission: hasPermission
+                    //本年度处罚案件
+                    ,punishmentCases:"1"
+                    ,differ:0
+                };
+                editwin("本年度处罚案件",whereConditions);
+            }
+        };
+
+        $('.enterpriseType').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>

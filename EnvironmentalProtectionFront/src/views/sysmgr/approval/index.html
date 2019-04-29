@@ -1,0 +1,269 @@
+
+<title>审批单位</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>审批单位</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div class="layui-inline">
+                            <input class="layui-input" id="sysApprovalUnitReload" autocomplete="off" placeholder="请输入关键字">
+                        </div>
+                        <button class="layui-btn" data-type="sysApprovalUnitReload">搜索</button>
+                        <button class="layui-btn " data-events="add">新增</button>
+                        <button class="layui-btn " data-events="mod">修改</button>
+                        <button class="layui-btn " data-events="del">删除</button>
+                    </div>
+                    <table id="LAY-sys-sysApprovalUnit" lay-filter="LAY-sys-sysApprovalUnit"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editsysApprovalUnit" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysApprovalUnitedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">审批单位代码：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="companyCode" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">审批单位名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="companyName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">序号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                        <!--<label class="layui-form-label">创建时间：</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" name="createDate" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                        <!--<label class="layui-form-label">修改时间：</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" name="updateDate" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                        <!--<label class="layui-form-label">删除时间：</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" name="deleteDate" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/sys/sysapprovalunit";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('sys:sysapprovalunit:list') === -1)) hasPermission = true;
+        //
+        table.render({//查询列表信息
+            elem: '#LAY-sys-sysApprovalUnit'
+            ,url: baseurl
+            ,page: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'sort', title: '序号', width:80, unresize: true}
+//                ,{field: 'pid', title: 'uuid',minWidth: 100, key: true }
+                ,{field: 'companyCode', title: '审批单位代码', minWidth: 100, unresize: true}
+                ,{field: 'companyName', title: '审批单位名称', minWidth: 100, unresize: true}
+
+            ]]
+            ,skin: 'line'
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+            sysApprovalUnitReload: function(){
+                var sysApprovalUnitName = $('#sysApprovalUnitReload').val();
+                //执行重载
+                table.reload('LAY-sys-sysApprovalUnit', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        sysApprovalUnitName:sysApprovalUnitName
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['600px', '300px']
+                // offset: '120px',
+                ,content: editsysApprovalUnit.innerHTML
+            });
+
+
+            form.render(null, 'component-form-element');
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].pid
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.sysApprovalUnit){
+                            $("[name="+id+"]").val(result.sysApprovalUnit[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sys-sysApprovalUnit"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sys-sysApprovalUnit")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid){//修改
+                type = "PUT";
+            }
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            layer.closeAll();
+                            table.reload("LAY-sys-sysApprovalUnit")
+                        });
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+            return false
+        });
+
+    });
+</script>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.greentax.dao.EpSolidWasteMainDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.greentax.entity.EpSolidWasteMainEntity" id="epSolidWasteMainMap">
+        <result property="id" column="id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="competentDepartment" column="competent_department"/>
+        <result property="competentTax" column="competent_tax"/>
+        <result property="wasteIds" column="waste_ids"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="com.tengdi.environmentalprotectionint.modules.common.entity.QueryCriterias" resultType="java.util.Map">
+        select * from ep_solid_waste_main
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="equal"
+                         separator=" and ">
+                    ${equal.column} = #{equal.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" groupColumn != null and groupColumn != ''">
+                and ${groupColumn} != ''
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="orderColumn!= null">
+            ORDER BY ${orderColumn}
+        </if>
+        limit ${pagenumber}, ${pagesize}
+    </select>
+
+    <select id="queryListCount" parameterType="com.tengdi.environmentalprotectionint.modules.common.entity.QueryCriterias" resultType="java.lang.Integer">
+        select count(1) from ep_solid_waste_main
+        <where>
+            <if test="equalColumns != null and equalColumns.size &gt; 0">
+                <foreach collection="equalColumns" index="index" item="item"
+                         separator=" and ">
+                    ${item.column} = #{item.value}
+                </foreach>
+            </if>
+            <if test=" likeColumns != null and likeColumns.size &gt; 0">
+                and (
+                <foreach collection="likeColumns" index="index" item="like"
+                         separator=" or ">
+                    ${like.column} like CONCAT('%',#{like.value},'%')
+                </foreach>
+                )
+            </if>
+            <if test=" dateColumn != null and dateColumn != '' " >
+                and ${dateColumn} BETWEEN #{startDate} and #{endDate}
+            </if>
+            <if test=" status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

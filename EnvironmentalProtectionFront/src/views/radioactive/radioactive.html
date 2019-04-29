@@ -1,0 +1,319 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+
+<title>同位素登记</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>同位素登记</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入存放单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-radioactive-radioactiveisotopeinfo" lay-filter="LAY-radioactive-radioactiveisotopeinfo"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="radioactiveCategoryName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">核素名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="isotopeName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">放射性类别：</label>
+                            <div class="layui-input-block">
+                                <select id="radioactiveCategory" name="radioactiveCategory" lay-filter="radioactiveCategory" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">生产厂家：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="manufactureFactory" placeholder="" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="editproductionWasteBurnregister" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="emergencysystemsuppliesedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="undefined">
+                    <input type="hidden" name="cid" value="undefined">
+                    <table class="reporttable">
+                        <tr>
+                            <td>核素名称：</td>
+                            <td>
+                                <input type="text" name="isotopeName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>核素编码：</td>
+                            <td>
+                                <input type="text" name="radioactiveCoding" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>存放单位：</td>
+                            <td>
+                                <input type="text" name="companyName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>出厂日期：</td>
+                            <td>
+                                <input type="text" id="productionDate" name="productionDate"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出厂活度：</td>
+                            <td>
+                                <input type="text" name="factoryActivity"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>生产厂家：</td>
+                            <td>
+                                <input type="text" name="manufactureFactory"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>放射性类别：</td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>安装/存储位置：</td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>最大等效年操作量：</td>
+                            <td>
+                                <input type="text" name="maximumOperation" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>数量：</td>
+                            <td>
+                                <input type="text" name="amount" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主要应用用途：</td>
+                            <td>
+                                <input type="text" name="mainPurpose" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>目前状况：</td>
+                            <td>
+                                <input type="text" name="curstatusName" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/radioactive/radioactiveisotopeinfo";
+        var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_radioactive_isotope_info',
+            title: "同位素登记表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //执法类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/radioactive_category_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var radioactiveCategory=$("#radioactiveCategory");
+                var optiona=$("<option>").text("请选择").val("");
+                radioactiveCategory.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    radioactiveCategory.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(radioactiveCategory)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='radioactiveCategoryName']").val(name);
+            }else {
+                $("[name='radioactiveCategoryName']").val("");
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-radioactive-radioactiveisotopeinfo'
+            ,url: baseurl
+            ,page: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '存放单位', minWidth: 100,unresize: true}
+                ,{field: 'isotopeName', title: '核素名称',minWidth: 100,unresize: true,event:'preview',style:'color:blue;cursor:pointer;'}
+                ,{field: 'amount', title: '数量', minWidth:100,unresize: true}
+                ,{field: 'radioactiveCategoryName', title: '放射性类别', minWidth: 100,unresize: true}
+                ,{field: 'manufactureFactory', title: '生产厂家', minWidth: 100,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+        });
+        table.on('tool(LAY-radioactive-radioactiveisotopeinfo)',function (obj) {
+            if (obj.event == 'preview') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '320px']
+                    // offset: '120px',
+                    ,content: editproductionWasteBurnregister.innerHTML
+                });
+                for(var id in data){
+                    $("#emergencysystemsuppliesedit [name='"+id+"']").val(data[id]);
+                    $("#emergencysystemsuppliesedit [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-radioactive-radioactiveisotopeinfo","onlineCompanyReloadButton","labelTip");
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "存放单位,核素名称,数量,放射性类别,生产厂家";
+//            var headerfield = "companyName,isotopeName,amount,radioactiveCategoryName,manufactureFactory";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

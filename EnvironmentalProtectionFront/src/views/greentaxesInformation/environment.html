@@ -1,0 +1,185 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+
+<title>同位素登记</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>同位素登记</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" style="margin-top: 10px;">
+    <div class="layui-card">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element">
+                    <table class="designEnvironmentCss">
+                        <tr>
+                            <td rowspan="2"><span class="starClass">*</span>纳税人名称：</td>
+                            <td colspan="2" rowspan="2">
+                                <input type="text" name="isotopeName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2" rowspan="2"><span class="starClass">*</span>统一社会信用代码(纳税人识别号)</td>
+                            <td colspan="2" rowspan="2">
+                                <input type="text" name="isotopeName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="4"><span class="starClass">*</span>是否采用抽样测算法计算</td>
+                            <td colspan="2">
+                                <select lay-ignore id="isSampleCount">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </td>
+                            <td colspan="2">城乡污水集中处理场所</td>
+                            <td colspan="2">
+                                <input type="text" name="isotopeName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><span class="starClass">*</span>是否从事海洋工程</td>
+                            <td colspan="2">
+                                <select lay-ignore id="isWorkOnSeaProject">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </td>
+                            <td colspan="2">生活垃圾集中处理场所</td>
+                            <td colspan="2">
+                                <input type="text" name="isotopeName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="starClass">*</span>是否取得排污许可证：</td>
+                            <td>
+                                <select lay-ignore id="isGetSewageDischargePermission">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </td>
+                            <td colspan="2">纳税人环保联系人：</td>
+                            <td colspan="2">
+                                <input type="text" name="productionDate"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="3">纳税人环保联系人电话</td>
+                            <td colspan="2">
+                                <input type="text" name="productionDate"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="3"><span class="starClass">*</span>主要污染物类别</td>
+                            <td colspan="2">
+                                <input type="text" name="productionDate"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">排污许可证副本编号</td>
+                            <td rowspan="2"><span class="starClass">*</span>生产经营场所地址</td>
+                            <td rowspan="2"><span class="starClass">*</span>有效期起止</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口大类</td>
+                            <td rowspan="2"><span class="starClass">*</span>税源编号</td>
+                            <td rowspan="2">排放口或噪声源编号</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口名称或噪声源名称</td>
+                            <td rowspan="2"><span class="starClass">*</span>所在区划</td>
+                            <td rowspan="2"><span class="starClass">*</span>所在街乡</td>
+                            <td rowspan="2"><span class="starClass">*</span>排放口位置或噪声源位置</td>
+                            <td colspan="2">排放口地理坐标</td>
+                            <td rowspan="2">排放方式</td>
+                            <td rowspan="2">排放去向</td>
+                            <td rowspan="2">许可证管控要求</td>
+                            <td rowspan="2">大气污染物排放口类别</td>
+                            <td rowspan="2"><span class="starClass">*</span>环境保护主管部门</td>
+                        </tr>
+                        <tr>
+                            <td>经度</td>
+                            <td>纬度</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="storageLocation"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>
+                                <input type="text" name="radioactiveCategoryName"  placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="starClass">*</span>经办人</td>
+                            <td colspan="7">
+                                <input type="text" name="maximumOperation" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2"><span class="starClass">*</span>填报日期</td>
+                            <td colspan="6">
+                                <input type="text" name="amount" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/radioactive/radioactiveisotopeinfo";
+        var hasPermission = false;
+
+
+    });
+</script>

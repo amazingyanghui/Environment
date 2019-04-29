@@ -1,0 +1,1647 @@
+<script type="text/javascript" src="common/cominfo/baseinfo.js"></script>
+<link href="../cominfo/companyshow/slider/js/reporttable.css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.exhide.js"></script>
+<script type="text/javascript" src="zTree_v3/demo/js/fuzzysearch.js"></script>
+
+<style type="text/css">
+    #LAY-app-message .layui-table-body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .reporttable tr td:nth-child(odd){
+        text-align: right;
+    }
+    .reporttable tr td:nth-child(even){
+        text-align: left;
+    }
+</style>
+
+<title>风险源</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>风险源</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-environmental-environmentalEmergencyRisk" lay-filter="LAY-environmental-environmentalEmergencyRisk"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="riskRatingName"/>
+                    <input type="hidden" name="firstGradeName"/>
+                    <input type="hidden" name="secondGradeName"/>
+                    <input type="hidden" name="thirdGradeName"/>
+                    <input type="hidden" name="fourGradeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">所属行业：</label>
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="hidden" name="industryids" id="industryids"/>-->
+                                <!--<div id="menuContent" class="menuContent" style="display:none; position: absolute;">-->
+                                    <!--<div>关键字：<input type="text" id="key" style="width:60%;" value="" class="empty" /><label class="mydivclose" onclick="baseInfo.hideMenu();">【关闭】</label></div>-->
+                                    <!--<ul id="treeIndustry" class="ztree" style="margin-top:0; width:380px; height: 230px;"></ul>-->
+                                <!--</div>-->
+                                <!--<input id="industrySel" name="industrySel" type="text" readonly value="" class="layui-input"/>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6" id="firstGradeSel">
+                            <label class="layui-form-label">一級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="firstGrade" name="firstGrade" lay-filter="firstGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" id="secondGradeSel">
+                            <label class="layui-form-label">二級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="secondGrade" name="secondGrade" lay-filter="secondGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6" id="thirdGradeSel">
+                            <label class="layui-form-label">三級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="thirdGrade" name="thirdGrade" lay-filter="thirdGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" id="fourGradeSel">
+                            <label class="layui-form-label">四級类别：</label>
+                            <div class="layui-input-block">
+                                <select id="fourGrade" name="fourGrade" lay-filter="fourGrade" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">风险等级：</label>
+                            <div class="layui-input-block">
+                                <select id="riskRating" name="riskRating" lay-filter="riskRating" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">评估年份：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" id="batchTime" name="batchTime" placeholder="请选择" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 编辑弹窗 -->
+<script id="editproductionWasteBurnregister" type="text/html">
+    <a target="_blank" id="hrefInfo" style="position:absolute;right:0;cursor: pointer;color: #169BD5;float: right;margin-right: 10px;z-index:1">查看企业档案>></a>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id="com-info1" class="layui-this" value="0">基础信息</li>
+            <li value="1">危险化学品</li>
+            <li value="2">应急物资</li>
+            <li value="3">应急预案</li>
+            <li value="4">应急演练</li>
+            <li value="5">应急事件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div id="LAY-market-cominfoBaseinfo0">
+                    <div class="layui-fluid">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-card-body">
+                                <form class="layui-form" id="cominfoBaseinfoedit" action="" lay-filter="component-form-element">
+                                    <input type="hidden" name="pid"/>
+                                    <table class="reporttable">
+                                        <tr>
+                                            <td>污染源名称：</td>
+                                            <td>
+                                                <div data-name="companyName"></div>
+                                            </td>
+                                            <td colspan="2" rowspan="14" id="mapContent">
+                                                <!--<div class="wrapper">-->
+                                                    <!--<div class="newmap" id="simpleMap"></div>-->
+                                                <!--</div>-->
+                                                <!--<div id="bamboo">
+                                                    <div class="banni">
+                                                        <input type="text" id="queryText" value="" /> &nbsp;&nbsp;
+                                                        <input type="button" value="查询" style="width:120px;" onclick="TDTMap.query(1);"/>
+                                                    </div>
+                                                </div>-->
+                                                <!--<div id="dialog" class="hadai">
+                                                    <div class="hadu" id="dine">
+                                                        <img style="cursor:hand" class="kaji" onclick="TDTMap.slideDialog(this)" src="TDTNJApi/profile/images/openD.png">
+                                                    </div>
+                                                    <div id="resultDIV" class="juma"></div>
+                                                </div>-->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>法定代表人：</td>
+                                            <td>
+                                                <div data-name="companyRepresentative"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>法人联系电话：</td>
+                                            <td>
+                                                <div data-name="representativePhone"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>环保联系人：</td>
+                                            <td>
+                                                <div data-name="environmentalProtectionName"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>环保联系人电话：</td>
+                                            <td>
+                                                <div data-name="environmentalProtectionPhone"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>环保联系人手机：</td>
+                                            <td>
+                                                <div data-name="environmentalProtectionMobile"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>统一社会信用代码：</td>
+                                            <td>
+                                                <div data-name="unifiedSocialCreditCode"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>组织机构代码：</td>
+                                            <td>
+                                                <div data-name="organizationCode"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>营业执照代码：</td>
+                                            <td>
+                                                <div data-name="businessLicenseCode"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>企业类型：</td>
+                                            <td>
+                                                <div data-name="pollutionSourceCategoryText"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>所属行业：</td>
+                                            <td>
+                                                <div data-name="industry"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>所属街道/乡镇：</td>
+                                            <td>
+                                                <div data-name="streetOrTown"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>经度：</td>
+                                            <td>
+                                                <div data-name="longitude"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>纬度：</td>
+                                            <td>
+                                                <div data-name="latitude"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>污染源地址：</td>
+                                            <td colspan="3">
+                                                <div data-name="companyAddress"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>污染源介绍：</td>
+                                            <td colspan="3">
+                                                <div data-name="companyIntroduction"></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>污染源简称：</td>
+                                            <td>
+                                                <div data-name="unitAbbreviation"></div>
+                                            </td>
+                                            <td>公司是否上市：</td>
+                                            <td>
+                                                <div data-name="quotedCompany"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>是否有子公司：</td>
+                                            <td>
+                                                <div data-name="isSubsidiaryCompany"></div>
+                                            </td>
+                                            <td>子公司名称：</td>
+                                            <td>
+                                                <div data-name="subsidiaryCompanyname"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>隶属关系：</td>
+                                            <td>
+                                                <div data-name="affiliationName"></div>
+                                            </td>
+                                            <td>登记注册类型：</td>
+                                            <td>
+                                                <div data-name="registrationTypeName"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>企业规模：</td>
+                                            <td>
+                                                <div data-name="enterpriseScaleName"></div>
+                                            </td>
+                                            <td>是否挂牌督办：</td>
+                                            <td>
+                                                <div data-name="superviseName"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>是否在生态区：</td>
+                                            <td>
+                                                <div data-name="ecologicAreaName"></div>
+                                            </td>
+                                            <td>是否约谈企业：</td>
+                                            <td>
+                                                <div data-name="talkName"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>排污强度：</td>
+                                            <td>
+                                                <div data-name="pollutionIntensity"></div>
+                                            </td>
+                                            <td>所在工业园区：</td>
+                                            <td>
+                                                <div data-name="industrialArea"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>电子邮箱：</td>
+                                            <td>
+                                                <div data-name="email"></div>
+                                            </td>
+                                            <td>传真号码：</td>
+                                            <td>
+                                                <div data-name="faxNumber"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>邮政编码：</td>
+                                            <td>
+                                                <div data-name="postalCode"></div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>网址：</td>
+                                            <td colspan="3">
+                                                <div data-name="website"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>总投资（万元）：</td>
+                                            <td>
+                                                <div data-name="totalInvestment"></div>
+                                            </td>
+                                            <td>环保投资（万元）：</td>
+                                            <td>
+                                                <div data-name="environmentalInvestment"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>工业产值（万元）：</td>
+                                            <td>
+                                                <div data-name="industryOutputValue"></div>
+                                            </td>
+                                            <td>工业增加值（万元）：</td>
+                                            <td>
+                                                <div data-name="industryValueAdded"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>开户银行：</td>
+                                            <td>
+                                                <div data-name="bankOfDeposit"></div>
+                                            </td>
+                                            <td>银行账号：</td>
+                                            <td>
+                                                <div data-name="bankAccount"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>员工人数（人）：</td>
+                                            <td>
+                                                <div data-name="numberOfEmployees"></div>
+                                            </td>
+                                            <td>生产状态：</td>
+                                            <td>
+                                                <div data-name="productionStateName"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>开业时间：</td>
+                                            <td>
+                                                <div data-name="openingDate"></div>
+                                            </td>
+                                            <td>停业时间：</td>
+                                            <td>
+                                                <div data-name="stopDate"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>总占地面积（平方米）：</td>
+                                            <td>
+                                                <div data-name="totalArea"></div>
+                                            </td>
+                                            <td>厂区面积（平方米）：</td>
+                                            <td>
+                                                <div data-name="factoryArea"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>最新改扩建时间：</td>
+                                            <td>
+                                                <div data-name="latestDate"></div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>备注：</td>
+                                            <td colspan="3">
+                                                <div data-name="remarks"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                            <!--<div class="title">【污染源附件信息】</div>-->
+                            <!--<div class="layui-row layui-col-space15">-->
+                                <!--<div class="layui-col-md2" id="attachmentDiv" style="background: #F2F2F2">-->
+                                <!--</div>-->
+                                <!--<div class="layui-col-md10" style="padding-top:0px;">-->
+                                    <!--<div id="cominfoBaseinfo">-->
+                                        <!--<table  style="margin-top:0px;" id="LAY-market-cominfoBaseinfo1" lay-filter="LAY-market-cominfoBaseinfo1"></table>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo1">
+                    <table id="LAY-market-cominfoBaseinfo1" lay-filter="LAY-market-cominfoBaseinfo1"></table>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo2">
+                    <table id="LAY-market-cominfoBaseinfo2" lay-filter="LAY-market-cominfoBaseinfo2"></table>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo3">
+                    <table id="LAY-market-cominfoBaseinfo3" lay-filter="LAY-market-cominfoBaseinfo3"></table>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo4">
+                    <table id="LAY-market-cominfoBaseinfo4" lay-filter="LAY-market-cominfoBaseinfo4"></table>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo5">
+                    <table id="LAY-market-cominfoBaseinfo5" lay-filter="LAY-market-cominfoBaseinfo5"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfo1" type="text/html">
+    <div class="layui-tab layui-tab-brief">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="" value="undefined">
+                                <input type="hidden" name="" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>品名：</td>
+                                        <td>
+                                            <input type="text" name="dangerousName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>别名：</td>
+                                        <td>
+                                            <input type="text" name="dangerousAnotherName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CAS号：</td>
+                                        <td>
+                                            <input type="text" name="casNumber" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>UN号：</td>
+                                        <td>
+                                            <input type="text" name="unNumer" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>活动属性：</td>
+                                        <td>
+                                            <input type="text" name="dangerousTypeName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>数量：</td>
+                                        <td>
+                                            <input type="text" name="amount" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>化学品属性：</td>
+                                        <td>
+                                            <input type="text" name="dangerousAttribute" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>用途：</td>
+                                        <td>
+                                            <input type="text" name="purpose" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>限制的用途：</td>
+                                        <td>
+                                            <input type="text" name="restrictedUses" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>应用的行业领域：</td>
+                                        <td>
+                                            <input type="text" name="industryArea" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>防范说明：</td>
+                                        <td colspan="3">
+                                            <textarea name="precautionaryNote"    placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>应急处置：</td>
+                                        <td colspan="3">
+                                            <textarea name="emergencyDisposal"    placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfo2" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="emergencysystemsuppliesedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>物资名称：</td>
+                            <td>
+                                <input type="text" name="suppliesName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物资数量：</td>
+                            <td>
+                                <input type="text" name="suppliesNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物资单位：</td>
+                            <td>
+                                <input type="text" name="suppliesUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物资类型：</td>
+                            <td>
+                                <input type="text" name="suppliesTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--<td>存放单位（企业）：</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" name="storeCompany" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                            <!--</td>-->
+                            <td>存放地址：</td>
+                            <td>
+                                <input type="text" name="storeAddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>联系人电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfo3" type="text/html">
+    <div class="layui-tab layui-tab-brief ">
+        <ul class="layui-tab-title" id="plan-info">
+            <li  id ="firstPlanClick" class="layui-this" value="0">应急预案</li>
+            <li value="1">预案文档</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="planInfoShow" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>预案标题：</td>
+                                        <td>
+                                            <input type="text" name="planTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>预案单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>企业环境风险等级划定年份：</td>
+                                        <td>
+                                            <input type="text" name="year" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>是否编制突发环境事件应急预案：</td>
+                                        <td>
+                                            <input type="text" name="isOrganization" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>是否进行突发环境事件应急预案备案：</td>
+                                        <td>
+                                            <input type="text" name="isFiling" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>企业环境风险等级：</td>
+                                        <td>
+                                            <input type="text" name="riskLevel" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案类型：</td>
+                                        <td>
+                                            <input type="text" name="planTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>备案日期：</td>
+                                        <td>
+                                            <input type="text" name="recordDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>批复单位：</td>
+                                        <td>
+                                            <input type="text" name="batchCompany" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>批复时间：</td>
+                                        <td>
+                                            <input type="text" name="batchDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>状态：</td>
+                                        <td>
+                                            <input type="text" name="statusName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>实施时间：</td>
+                                        <td>
+                                            <input type="text" name="implementationTime" value=""placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>备案部门：</td>
+                                        <td>
+                                            <input type="text" name="recordDepartment"  value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案评估：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;" name="planEvaluation"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="systemPlan">
+                    <table id="LAY-emergency-systemPlanTpl" lay-filter="LAY-emergency-systemPlanTpl"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfo4" type="text/html">
+    <div class="layui-tab layui-tab-brief ">
+        <ul class="layui-tab-title" id="drill-info">
+            <li  id ="firstDrillClick" class="layui-this" value="0">应急演练</li>
+            <li value="1">演练文档</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="drillInfoShow" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>演练标题：</td>
+                                        <td>
+                                            <input type="text" name="drillTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>演练地点：</td>
+                                        <td>
+                                            <input type="text" name="drillPoint" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>演练类型：</td>
+                                        <td>
+                                            <input type="text" name="drillTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>演练日期：</td>
+                                        <td>
+                                            <input type="text" name="drillDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>发布日期：</td>
+                                        <td>
+                                            <input type="text" name="publishDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练情况：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="drillSituation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案评估：</td>
+                                        <td colspan="3">
+                                            <textarea type="text" readonly name="planEvaluation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="systemDrill">
+                    <table id="LAY-emergency-systemDrillTpl" lay-filter="LAY-emergency-systemDrillTpl"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showComInfo5" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="emergencysystemeventedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>事件标题：</td>
+                            <td>
+                                <input type="text" name="eventTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单位名称：</td>
+                            <td>
+                                <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发生日期：</td>
+                            <td>
+                                <input type="text" name="occurrenceDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>事件等级：</td>
+                            <td>
+                                <input type="text" name="eventLevelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>财产损失（万元）：</td>
+                            <td>
+                                <input type="text" name="propertyLoss" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>发生地点：</td>
+                            <td>
+                                <input type="text" name="occurrencePoint" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>转移群众：</td>
+                            <td>
+                                <input type="text" name="transferMasses" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处置状态：</td>
+                            <td>
+                                <input type="text" name="disposalStatusName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染范围：</td>
+                            <td>
+                                <input type="text" name="pollutionrange" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染程度：</td>
+                            <td>
+                                <input type="text" name="pollutionLevelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物：</td>
+                            <td>
+                                <input type="text" name="pollutant" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>伤亡人数：</td>
+                            <td>
+                                <input type="text" name="casualties" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>事件简述：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="eventSketch"  placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $1 = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo"
+            ,baseurl1 = setter.remoteServiceAddress + "/emergency/emergencysystemdangerous"
+            ,baseurl2 =setter.remoteServiceAddress + "/emergency/emergencysystemsupplies"
+            ,baseurl3 =setter.remoteServiceAddress + "/emergency/emergencysystemplan"
+            ,baseurl4 =setter.remoteServiceAddress + "/emergency/emergencysystemdrill"
+            ,baseurl5 =setter.remoteServiceAddress + "/emergency/emergencysystemevent";
+            var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_cominfo_baseinfoandenvironmentalmanage',
+            title: "风险源记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+//        function showMenu() {
+//            $1("#industrySel").on("click",function () {
+//                var cityObj = jQuery("#industrySel");
+//                var cityOffset = jQuery("#industrySel").offset();
+//                jQuery("#menuContent").css({left:"-90px", top:"33px","background-color": "white","z-index": "1",overflow:"auto"}).slideDown("fast");
+//
+//                jQuery("body").bind("mousedown", baseInfo.onBodyDown);
+//            })
+//        }
+
+//        global_obj.industryList=[];
+//
+//        var setting = {
+//            check: {
+//                enable: true,
+//                chkboxType: {"Y":"s", "N":"s"}
+//            },
+//            edit: {
+//                enable: false,
+//                editNameSelectAll: false
+//            },
+//            view: {
+//                dblClickExpand: false,
+//                nameIsHTML: true, //允许name支持html
+//                selectedMulti: false
+//            },
+//            data: {
+//                simpleData: {
+//                    enable: true,
+//                    idKey: "biaoshi",
+//                    pIdKey: "fujidaimabiaoshi",
+//                    rootPId: 0
+//                }
+//                ,key: {
+//                    name: "mingcheng"
+//                    ,checked:"checked"
+//                }
+//            },
+//            callback: {
+//                beforeClick: beforeClick,
+//                onCheck: onCheck
+//            }
+//        };
+
+//        function setFuzzySearch(data) {
+//            var industryids=null;
+//            if(data.industryids!='' & data.industryids!=undefined){
+//                industryids=data.industryids;
+//            }
+//            admin.req({//根据id获取该记录的详细信息
+//                url: setter.remoteServiceAddress + "/sys/syshangyedaima/getHangYeLieBiao/" + industryids
+//                ,done: function(result){
+//                    if(result.code == 0){//成功
+//                        var data= result.data;
+//                        layui.each(data, function(index, item){
+//                            item.nocheck=false;
+//                        });
+//                        global_obj.industryList=data;
+//                        jQuery.fn.zTree.init(jQuery("#treeIndustry"), setting, data);
+//                        fuzzySearch('treeIndustry','#key',null,true); //初始化模糊搜索方法
+//                    }else{
+//                        layer.alert(result.msg, {
+//                            skin: 'layui-layer-lan',
+//                            offset: 't',
+//                            anim: 6
+//                        });
+//                    }
+//                }
+//            });
+//        }
+
+//        function beforeClick(treeId, treeNode) {
+//            var zTree = jQuery.fn.zTree.getZTreeObj("treeIndustry");
+//            zTree.checkNode(treeNode, !treeNode.checked, null, true);
+//            return false;
+//        }
+//
+//        function onCheck(e, treeId, treeNode) {
+//            var zTree = jQuery.fn.zTree.getZTreeObj("treeIndustry"),
+//                nodes = zTree.getCheckedNodes(true),
+//                v = "",
+//                industrys = "";
+//            for (var i=0, l=nodes.length; i<l; i++) {
+//                var mingcheng=nodes[i].mingcheng;
+//                if(nodes[i].oldname!=undefined&nodes[i].oldname!=null){
+//                    mingcheng=nodes[i].oldname;
+//                }
+//                v += mingcheng + ",";
+//                industrys +=  nodes[i].daimazhi + ",";
+//            }
+//            if (v.length > 0 ) v = v.substring(0, v.length-1);
+//            jQuery("#industrySel").val(v);
+//            if (industrys.length > 0 ) industrys = industrys.substring(0, industrys.length-1);
+//            jQuery("[name='industryids']").val(industrys);
+//        }
+//        setFuzzySearch(1);
+//        showMenu();
+
+        //风险级别
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/risk_rating"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var riskRating=$("#riskRating");
+                var optiona=$("<option>").text("请选择").val("");
+                riskRating.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    riskRating.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(riskRating)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='riskRatingName']").val(name);
+            }else {
+                $("[name='riskRatingName']").val("");
+            }
+        });
+
+        function gradeTpl($dom,data) {
+            $("#"+$dom).html("");
+            var secondGrade=$("#"+$dom);
+            var optiona=$("<option>").text("请选择").val("").attr("data-name","");
+            secondGrade.append(optiona);
+            for(var i=0;i<data.length;i++){
+                var optionb=$("<option>").text(data[i].mingcheng).val(data[i].daimazhi).attr("data-name",data[i].hangbiaoshi);
+                secondGrade.append(optionb);
+            }
+            form.render(null, "component-form-element-search");
+        }
+
+        //所属行业一级
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+            ,data:{"firstGrade":-1}
+            , done: function (result) {
+                gradeTpl("firstGrade",result.data);
+            }
+        });
+
+
+        form.on('select(firstGrade)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='firstGradeName']").val(name);
+                $("[name='secondGradeName']").val("");
+                $("[name='thirdGradeName']").val("");
+                $("[name='fourGradeName']").val("");
+                gradeTpl("secondGrade",1);
+                gradeTpl("thirdGrade",1);
+                gradeTpl("fourGrade",1);
+                secondGradeTpl(data.value);
+            }else {
+                $("[name='firstGradeName']").val("");
+                $("[name='secondGradeName']").val("");
+                $("[name='thirdGradeName']").val("");
+                $("[name='fourGradeName']").val("");
+                gradeTpl("secondGrade",1);
+                gradeTpl("thirdGrade",1);
+                gradeTpl("fourGrade",1);
+            }
+        });
+
+        //所属行业二级
+        function secondGradeTpl(value) {
+            var gradeValue=$("#firstGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"secondGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("secondGrade",result.data);
+                }
+            });
+
+
+            form.on('select(secondGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='secondGradeName']").val(name);
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("thirdGrade",1);
+                    gradeTpl("fourGrade",1);
+                    thirdGradeTpl(data.value);
+                }else {
+                    $("[name='secondGradeName']").val("");
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("thirdGrade",1);
+                    gradeTpl("fourGrade",1);
+                }
+            });
+        }
+
+        //所属行业三级
+        function thirdGradeTpl(value) {
+            var gradeValue=$("#secondGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"thirdGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("thirdGrade",result.data);
+                }
+            });
+
+
+            form.on('select(thirdGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='thirdGradeName']").val(name);
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("fourGrade",1);
+                    fourGradeTpl(data.value);
+                }else {
+                    $("[name='thirdGradeName']").val("");
+                    $("[name='fourGradeName']").val("");
+                    gradeTpl("fourGrade",1);
+                }
+            });
+        }
+
+        //所属行业四级
+        function fourGradeTpl(value) {
+            var gradeValue=$("#thirdGrade [value='"+value+"']").attr("data-name");
+            admin.req({//获取字典请求
+                url: setter.remoteServiceAddress + "/sys/syshangyedaima/list"
+                ,data:{"fourGrade":gradeValue}
+                , done: function (result) {
+                    gradeTpl("fourGrade",result.data);
+                }
+            });
+
+
+            form.on('select(fourGrade)', function(data){
+                if(data.value){
+                    var name = data.elem[data.elem.selectedIndex].text;
+                    // form.render('select');
+                    $("[name='fourGradeName']").val(name);
+                }else {
+                    $("[name='fourGradeName']").val("");
+                }
+            });
+        }
+
+        form.render(null, "component-form-element-search");
+
+        laydate.render({
+            elem: '#batchTime'
+            ,type: 'year'
+        });
+
+        //查询列表信息
+        table.render({
+            elem: '#LAY-environmental-environmentalEmergencyRisk'
+            ,url: baseurl+"/riskSourceSel"
+            ,page: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            },
+            cellMinWidth:80
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                // {type: 'checkbox', fixed: 'left',width:"3%"}
+                {type: 'numbers', title: '序号',minWidth: 80,unresize: true}
+//              ,{field: 'id', title: 'ID',minWidth:"3%", key: true }
+                ,{field: 'companyName', title: '单位名称',minWidth: 150, unresize: true,event:'preview',style:'color:blue;cursor:pointer;'}
+                ,{field: 'companyAddress', title: '地址',minWidth: 150,unresize: true}
+                ,{field: 'industry', title: '所属行业', minWidth: 150,unresize: true}
+                ,{field: 'riskRatingName', title: '风险级别',width: 140, unresize: true}
+                ,{field: 'regulatoryYearName', title: '评估年份', width: 140,unresize: true}
+                ,{field: 'representativePhone', title: '联系电话',width: 160, unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+//            ,size: 'sm' //小尺寸的表格
+        });
+
+        table.on('tool(LAY-environmental-environmentalEmergencyRisk)',function (obj) {
+            if (obj.event == 'preview') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '660px']
+                    // offset: '120px',
+                    ,content: editproductionWasteBurnregister.innerHTML
+                });
+
+                $("#hrefInfo").attr("href","../src/views/cominfo/companyshow/slider.html?pid="+data.pid);
+
+                var differType=0;
+                $1('#com-info li').on('click', function(){
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        admin.req({//获取字典请求
+                            url: baseurl+"/"+data.pid
+                            ,done: function (result) {
+                                for(var id in result.cominfoBaseinfo ){
+                                    if(result.cominfoBaseinfo[id]!=null){
+                                        $("#LAY-market-cominfoBaseinfo0 .reporttable [data-name='"+id+"']").text(result.cominfoBaseinfo[id])
+                                    }
+                                }
+                                var setter = {};
+
+                                if($("#mapwrapper")){
+                                    $("#mapwrapper").remove();
+                                    $("#mapwrapper").empty();
+                                }
+                                var div_wrapper = $("<div>").addClass("wrapper").css({'top':'0px'}).attr("id","mapwrapper");
+                                $("#mapContent").append(div_wrapper);
+                                var div_simpleMap = $("<div>").addClass("newmap").attr("id","simpleMap");
+                                div_wrapper.append(div_simpleMap);
+
+                                BaiduMap.init(1,null,setter,null,result.cominfoBaseinfo);
+                            }
+                        });
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-market-cominfoBaseinfo1'
+                            ,url: baseurl1
+                            ,page: true
+//                            ,height: 'full-500'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,cid:data.pid
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                {type: 'numbers', unresize: true, title: '序号'}
+                                ,{field: 'companyName', title: '存放单位', minWidth: 100,unresize: true}
+                                ,{field: 'dangerousName', title: '品名', minWidth: 100,event:'showDetail',style:'color:blue;cursor:pointer;',unresize: true}
+                                ,{field: 'casNumber', title: 'CAS号', minWidth: 100,unresize: true}
+                                ,{field: 'amount', title: '数量（吨）', minWidth: 100}
+                                ,{field: 'dangerousTypeName', title: '活动属性', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                    if(differType==2){
+                        table.render({//查询列表信息
+                            elem: '#LAY-market-cominfoBaseinfo2'
+                            ,url: baseurl2
+                            ,page: true
+//                            ,height: 'full-500'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,cid:data.pid
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                {type: 'numbers', unresize: true, title: '序号'}
+                                ,{field: 'companyName', title: '存放单位', minWidth: 100,unresize: true}
+                                ,{field: 'suppliesName', title: '物资名称', minWidth: 100,unresize: true,event:'showDetail', style:'color:blue;cursor:pointer;'}
+                                ,{field: 'suppliesNumber', title: '物资数量（吨）', minWidth: 100,unresize: true}
+                                ,{field: 'suppliesUnit', title: '物资单位', minWidth: 100,unresize: true}
+                                ,{field: 'suppliesTypeName', title: '物资类型', minWidth: 100,unresize: true}
+                                ,{field: 'linkmen', title: '联系人', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                    if(differType==3){
+                        table.render({//查询列表信息
+                            elem: '#LAY-market-cominfoBaseinfo3'
+                            ,url: baseurl3
+                            ,page: true
+                            // ,height: 'full-200'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,cid:data.pid
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                                ,{field: 'companyName', title: '单位名称', minWidth: 130,unresize: true}
+                                ,{field: 'planTitle', title: '预案标题', event: 'showDetail',style:'color:blue;cursor:pointer;', unresize: true, minWidth: 100}
+                                ,{field: 'planTypeName', title: '预案类型',  width: 120,unresize: true}
+                                ,{field: 'recordDate', title: '备案日期',  minWidth: 110,unresize: true}
+                                ,{field: 'statusName', title: '状态',  minWidth: 110,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                    if(differType==4){
+                        table.render({//查询列表信息
+                            elem: '#LAY-market-cominfoBaseinfo4'
+                            ,url: baseurl4
+                            ,page: true
+//                            ,height: 'full-500'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,cid:data.pid
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                                ,{field: 'companyName', title: '单位名称',minWidth: 130,unresize: true}
+                                ,{field: 'drillTitle', title: '演练标题', unresize: true,event:'showDetail', style:'color:blue;cursor:pointer;', minWidth: 100}
+                                ,{field: 'drillTypeName', title: '演练类型',  width: 120,unresize: true}
+                                ,{field: 'drillDate', title: '演练日期',  minWidth: 110,unresize: true}
+                                ,{field: 'publishDate', title: '发布日期',  minWidth: 110,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                    if(differType==5){
+                        table.render({//查询列表信息
+                            elem: '#LAY-market-cominfoBaseinfo5'
+                            ,url: baseurl5
+                            ,page: true
+//                            ,height: 'full-500'
+                            ,where: {
+                                hasPermission: hasPermission
+                                ,cid:data.pid
+                            }
+                            ,headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            }
+                            ,cols: [[
+                                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                                ,{field: 'companyName', title: '单位名称',minWidth: 110,unresize: true}
+                                ,{field: 'eventTitle', title: '事件标题', event:'showDetail', style:'color:blue;cursor:pointer;',  width: 120,unresize: true}
+                                ,{field: 'eventLevelName', title: '事件等级',  minWidth: 110,unresize: true}
+                                ,{field: 'disposalStatusName', title: '处置状态',  minWidth: 110,unresize: true}
+                                ,{field: 'occurrenceDate', title: '发生日期',  minWidth: 110,unresize: true}
+                                ,{field: 'occurrencePoint', title: '发生地点', unresize: true, minWidth: 100}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+                    }
+                });
+                showInfo();
+                $1("#com-info1").trigger('click');
+            }
+        });
+
+        function showInfo() {
+
+            table.on('tool(LAY-market-cominfoBaseinfo1)',function (obj) {
+                if (obj.event === 'showDetail') {
+                    var data = obj.data;
+                    layer.open({
+                        type: 1
+                        ,title: "查看"
+                        ,area: ['1100px', '500px']
+                        // offset: '120px',
+                        ,content: showComInfo1.innerHTML
+                    });
+                    for (var attr in data) {
+                        $1("[name=" + attr + "]").val(data[attr]);
+                        $1(" [name=" + attr + "]").attr("readonly","readonly");
+                    }
+
+                }
+            });
+
+            //监听单元格事件
+            table.on('tool(LAY-market-cominfoBaseinfo2)', function(obj){
+                if(obj.event === 'showDetail'){
+                    var data = obj.data;
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        , area:  ['1100px', '500px']
+                        // offset: '120px',
+                        , content: showComInfo2.innerHTML
+                    });
+                    for(var id in data){
+                        $("[name='"+id+"']").val(data[id]);
+                        $("[name='"+id+"']").attr("readonly","readonly");
+                    }
+                }
+
+            });
+
+            //监听单元格事件
+            table.on('tool(LAY-market-cominfoBaseinfo3)', function(obj){
+                if(obj.event === 'showDetail'){
+                    var data = obj.data;
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        , area:  ['1100px', '500px']
+                        // offset: '120px',
+                        , content: showComInfo3.innerHTML
+                    });
+                    var differType=0;
+                    $1('#plan-info li').on('click', function(){
+                        differType = $1(this).attr("value");
+                        if(differType==0){
+                            for(var id in data){
+                                if(id=='isFiling'){
+                                    if(data[id]==0){
+                                        $1("#planInfoShow [name='"+id+"']").val('否');
+                                    }else{
+                                        $1("#planInfoShow [name='"+id+"']").val('是');
+                                    }
+                                    $("#planInfoShow [name='"+id+"']").attr("readonly","readonly");
+                                }else if(id=='isOrganization'){
+                                    if(data[id]==0){
+                                        $1("#planInfoShow [name='"+id+"']").val('否');
+                                    }else{
+                                        $1("#planInfoShow [name='"+id+"']").val('是');
+                                    }
+                                    $1("#planInfoShow [name='"+id+"']").attr("readonly","readonly");
+                                }else{
+
+                                    $1("#planInfoShow [name='"+id+"']").val(data[id]);
+                                    $1("#planInfoShow [name='"+id+"']").attr("readonly","readonly");
+                                }
+//                                $1("#planInfoShow [name='"+id+"']").val(data[id]);
+//                                $1("#planInfoShow [name='"+id+"']").attr("readonly","readonly");
+                            }
+                        }
+                        if(differType==1){
+                            table.render({//查询列表信息
+                                elem: '#LAY-emergency-systemPlanTpl'
+                                ,page: true
+                                // ,height: 'full-550'
+                                ,cols: [[
+                                    {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                    ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                    ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                    ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                                ]]
+                                ,skin: 'line'
+                                ,even: true //开启隔行背景
+                            });
+
+                            admin.req({//
+                                url: setter.remoteServiceAddress + "/emergency/emergencysystemplanfile/dataByFile/" + data.pid
+                                , done: function (result) {
+                                    if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                        table.reload("LAY-emergency-systemPlanTpl",{//查询列表信息
+                                            data: result.fileAttachment
+                                        });
+                                    }
+                                }
+                            });
+                            table.on('tool(LAY-emergency-systemPlanTpl)',function (obj) {
+                                var data=obj.data;
+                                if (obj.event == 'setFileName') {
+                                    baseInfoAttachment.view(data.attachmentUrl);
+                                }
+                            });
+                        }
+                    });
+                    $1("#firstPlanClick").trigger('click');
+                }
+            });
+
+            //监听单元格事件
+            table.on('tool(LAY-market-cominfoBaseinfo4)', function(obj){
+                if(obj.event === 'showDetail'){
+                    var data=obj.data;
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        ,area: ['1100PX', '500px']
+                        // , area: admin.screen() < 2 ? ['80%', '350px'] :  ['650px', '450px']
+                        // offset: '120px',
+                        , content: showComInfo4.innerHTML
+                    });
+                    var differType=0;
+                    $1('#drill-info li').on('click', function(){
+                        differType = $1(this).attr("value");
+                        if(differType==0){
+                            for(var id in data){
+                                $1("#drillInfoShow [name='"+id+"']").val(data[id]);
+                                $1("#drillInfoShow [name='"+id+"']").attr("readonly","readonly");
+                            }
+                        }
+                        if(differType==1){
+                            table.render({//查询列表信息
+                                elem: '#LAY-emergency-systemDrillTpl'
+                                ,page: true
+                                // ,height: 'full-650'
+                                ,cols: [[
+                                    {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                    ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                    ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                    ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                                ]]
+                                ,skin: 'line'
+                                ,even: true //开启隔行背景
+                            });
+
+                            admin.req({//
+                                url: setter.remoteServiceAddress + "/emergency/emergencysystemdrillfile/dataByFile/" + data.pid
+                                , done: function (result) {
+                                    if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                        table.reload("LAY-emergency-systemDrillTpl",{//查询列表信息
+                                            data: result.fileAttachment
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        table.on('tool(LAY-emergency-systemDrillTpl)',function (obj) {
+                            var data=obj.data;
+                            if (obj.event == 'setFileName') {
+                                baseInfoAttachment.view(data.attachmentUrl);
+                            }
+                        });
+                    });
+                    $1("#firstDrillClick").trigger('click');
+                }
+
+            });
+
+            //监听单元格事件
+            table.on('tool(LAY-market-cominfoBaseinfo5)', function(obj){
+                if(obj.event === 'showDetail'){
+                    var data = obj.data;
+
+                    layer.open({
+                        type: 1
+                        , title: "查看"
+                        , area: ['1100px', '500px']
+                        // offset: '120px',
+                        , content: showComInfo5.innerHTML
+                    });
+                    for(var id in data){
+                        $("[name='"+id+"']").val(data[id]);
+                        $("[name='"+id+"']").attr("readonly","readonly");
+                    }
+                }
+
+            });
+        }
+
+        commonReload.companyNameReload($,admin,baseurl+"/riskSourceName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-environmental-environmentalEmergencyRisk","onlineCompanyReloadButton","labelTip",true);
+
+//        //导出excel表
+//        $1("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+////            var industryids=$("#industryids").val();
+////            if(industryids!=null &industryids!=''){
+////                var industry=industryids.split(",");
+////                var str="(";
+////                for(var i=0;i<industry.length;i++){
+////                    if(i==0){
+////                        str=str+"FIND_IN_SET("+industry[i]+",industryids)";
+////                    }else{
+////                        str=str+" or "+"FIND_IN_SET("+industry[i]+",industryids)";
+////                    }
+////                }
+////                str=str+")";
+////                criterias.backup=str;
+////            }else {
+////                criterias.backup=null;
+////            }
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "单位名称,地址,所属行业,风险级别,评估年份,联系电话";
+//            var headerfield = "companyName,company_address,industryids,riskRatingName,batchTime,representative_phone";
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

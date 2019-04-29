@@ -1,0 +1,468 @@
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header"  style="height:100px;background-color: #FFFFFF">
+    <div style="position: absolute;height:58px;width:58px;margin-left:21px;margin-top:25px;background-image: url('../src/style/login/log.png');background-repeat:no-repeat;background-size:58px;background-position:left;" id="logoimg">
+    </div>
+    <div style="position: absolute;font-size: 28px;left:100px;top:22px; height: 80px;width:600px;color:#249851;line-height: 60px;font-weight: 700;" id="project">
+    </div>
+
+    <div class="layui-layout-right"  style="top:20px;">
+      <i class="layui-icon layui-icon-l" style="color: #000000;padding: 0px;">&#xe612;
+        <label style="font-size: 14px">登录用户：</label>&nbsp;<cite id="userName" style="color: #000000;font-style: normal;"></cite>
+      </i>
+      <li class="layui-nav-item layui-hide-xs" style="float: right;padding:0 50px;">
+        <a href="javascript:;" layadmin-event="logout" id="logout">
+          <i class="layui-icon layui-icon-close" style="color: #000000">退出</i>
+        </a>
+      </li>
+    </div>
+
+  </div>
+
+  <div class="layui-header"  style="background: #269752 url('../src/style/login/bar.png') no-repeat right center;background-size: auto 100%;">
+
+    <ul class="layui-nav layui-layout-left" style="margin-left: -215px;width: 100%" id="topMenu"></ul>
+  </div>
+
+  <!-- 侧边菜单 -->
+  <div class="layui-side layui-side-menu" style="top:144px;bottom: 36px;">
+    <div id="leftMenuTpl" class="layui-side-scroll" >
+    </div>
+  </div>
+  <script type="text/html" template lay-url=""
+          lay-done="layui.element.render('nav', 'layadmin-system-side-menu');" id="TPL_layout">
+
+    <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+      {{#
+      var path =  layui.router().path
+      ,pathURL = layui.admin.correctRouter(path.join('/'))
+      ,dataName = layui.setter.response.dataName;
+
+      layui.each(d[dataName], function(index, item){
+      var hasChildren = typeof item.list === 'object' && item.list.length > 0
+      ,classSelected = function(){
+      var match = path[0] == item.name || (index == 0 && !path[0])
+      || (item.url && pathURL == layui.admin.correctRouter(item.url));
+      if(match){
+      return hasChildren ? 'layui-nav-itemed' : 'layui-this';
+      }
+      return '';
+      }
+      ,url = (item.url && typeof item.url === 'string') ? item.url : item.name;
+      }}
+      <li data-name="{{ item.name || '' }}" data-jump="{{ item.url || '' }}" class="layui-nav-item {{ classSelected() }}">
+        <a href="javascript:;" {{ hasChildren ? '' : 'lay-href="'+ url +'"' }} lay-tips="{{ item.title }}" lay-direction="2">
+        <i class="icon iconfont {{ item.icon }}" style="margin-right: 10px;"></i>
+        <cite>{{ item.title }}</cite>
+        </a>
+        {{# if(hasChildren){ }}
+        <dl class="layui-nav-child">
+          {{# layui.each(item.list, function(index2, item2){
+          var hasChildren2 = typeof item2.list == 'object' && item2.list.length > 0
+          ,classSelected2 = function(){
+          var match = (path[0] == item.name && path[1] == item2.name)
+          || (item2.url && pathURL == layui.admin.correctRouter(item2.url));
+          if(match){
+          return hasChildren2 ? 'layui-nav-itemed' : 'layui-this';
+          }
+          return '';
+          }
+          ,url2 = (item2.url && typeof item2.url === 'string')
+          ? item2.url
+          : [item.name, item2.name, ''].join('/');
+          }}
+          <dd  data-name="{{ item2.name || '' }}"  data-jump="{{ item2.url || '' }}"
+               {{ classSelected2() ? ('class="'+ classSelected2() +'"') : '' }}>
+          <a style="padding-left: 36px;" href="javascript:;" {{ hasChildren2 ? '' : 'lay-href="'+ url2 +'"' }}>
+          <i style="left: 27px;" class="icon iconfont {{ item2.icon }}"></i>
+          <cite>{{ item2.title }}</cite>
+          </a>
+          {{# if(hasChildren2){ }}
+          <dl class="layui-nav-child">
+            {{# layui.each(item2.list, function(index3, item3){
+            var match = (path[0] == item.name && path[1] == item2.name && path[2] == item3.name)
+            || (item3.url && pathURL == layui.admin.correctRouter(item3.url))
+            ,url3 = (item3.url && typeof item3.url === 'string')
+            ? item3.url
+            : [item.name, item2.name, item3.name].join('/')
+            }}
+            <dd data-name="{{ item3.name || '' }}"  data-jump="{{ item3.url || '' }}"
+                {{ match ? 'class="layui-this"' : '' }}>
+            <a href="javascript:;" lay-href="{{ url3 }}" {{ item3.iframe ? 'lay-iframe="true"' : '' }}>
+            <i style="left: 35px;" class="icon iconfont {{ item3.icon }}"></i>
+            <cite>{{ item3.title }}</cite>
+            </a>
+            </dd>
+            {{# }); }}
+          </dl>
+          {{# } }}
+          </dd>
+          {{# }); }}
+        </dl>
+        {{# } }}
+      </li>
+      {{# }); }}
+    </ul>
+  </script>
+
+  <!-- 主体内容 -->
+  <div class="layui-body" id="LAY_app_body"    >
+    <div class="layadmin-tabsbody-item layui-show"></div>
+  </div>
+
+  <!-- 辅助元素，一般用于移动设备下遮罩 -->
+  <div class="layadmin-body-shade" layadmin-event="shade"></div>
+
+  <!-- 页脚 -->
+  <div class="layui-footer-diy" id="LAY_app_foot"    >
+    <div>技术支持：南京腾迪智能科技有限公司</div>
+  </div>
+</div>
+<!-- 这是顶部一级菜单模板 -->
+<script id="topMenuTpl" type="text/html">
+  <!--<li lay-href="" class="layui-nav-item" name="topMenuList" id="{{ layui.setter.homepageId }}" style="cursor: pointer;color:#e2e2e2">
+    <i class="icon iconfont icon-zhuye"></i>&nbsp;首&nbsp;&nbsp;&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
+  </li>-->
+
+  {{#  layui.each(d, function(index, item){ }}
+
+  {{#  if(item.menuId !== layui.setter.homepageId){ }}
+  <li class="layui-nav-item" name="topMenuList" id="{{ item.menuId }}" style="cursor: pointer;color: #e2e2e2">
+    <i class="icon iconnew iconfont {{ item.icon }}"></i>
+    {{ item.title }}
+    <!--<cite>{{ item.title }}</cite> 斜体-->
+  </li>
+  {{#   } }}
+
+  {{#  }); }}
+  {{#  if(d.length === 0){ }}
+  <!--无数据-->
+  {{#  } }}
+</script>
+
+<!--编辑修改密码弹出框-->
+<script id="changepassword" type="text/html">
+  <div class="layui-fluid ">
+    <div class="layui-row  ">
+
+      <div class="layui-card-body layui-form-item  ">
+        <form class="layui-form" action="" lay-filter="component-form-changepwd">
+
+          <div  class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">原密码：</label>
+            <div class="layui-input-block">
+              <input type="password" name="password" lay-verify="required" placeholder="必填项！" class="layui-input" />
+            </div>
+          </div>
+
+          <div  class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">新密码：</label>
+            <div class="layui-input-block">
+              <input type="password" name="newpassword" lay-verify="required" placeholder="必填项！" class="layui-input" />
+            </div>
+          </div>
+
+          <div  class="layui-row layui-col-space10 layui-form-item">
+            <label class="layui-form-label">确认密码：</label>
+            <div class="layui-input-block">
+              <input type="password" id="confirmNewpassword" lay-verify="required" placeholder="必填项！" class="layui-input" />
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <div class="layui-layer-btn-c">
+              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-changepwd">确定</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>
+<script>
+    layui.use(['admin','laytpl','element','form'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,laytpl = layui.laytpl
+            ,element = layui.element
+            ,setter = layui.setter
+            ,menuList = []
+            ,form = layui.form
+            ,windowindex = 0
+            ,baseurllogout = setter.remoteServiceAddress + "/sys/logout"
+            ,baseurl = setter.remoteServiceAddress + "/sys/menu/nav";
+
+        $("#userName").text(layui.data(setter.userName).userName);
+        $("#project").text(layui.setter.name);
+
+        if(!layui.setter.changeSkin){
+            $("#changeSkin").hide();
+        }
+
+        admin.req({//获取菜单
+            url: baseurl
+            ,done: function(result){
+                var menuListtemp = result.data;
+                for(var i = 0 ; i < menuListtemp.length; i++){
+                    if(layui.data(setter.userId).userId == setter.superAdmin){
+                        if(menuListtemp[i].title != "企业维护"){
+                            menuList.push(menuListtemp[i]);
+                        }
+                    }else{
+                        menuList.push(menuListtemp[i]);
+                    }
+                }
+                var homepagearray1 = [];
+                var noticeobj1 = {
+                    "icon":"",
+                    "menuId":-3,
+                    "name":"",
+                    "open":false,
+                    "orderNum":0,
+                    "parentId":-2,
+                    "parentName":"",
+                    "perms":"",
+                    "title":"通知公告",
+                    "type":1,
+                    "url":"app/message/index",
+                    "list":[]
+                };
+                homepagearray1.push(noticeobj1);
+
+                var userRole=layui.data(setter.userRoles).userRoles;
+                userRole=userRole.substring(1,userRole.length-1);
+                if(userRole!=setter.annulusRoleId){
+                    var noticeobj2 = {
+                        "icon":"",
+                        "menuId":-4,
+                        "name":"",
+                        "open":false,
+                        "orderNum":0,
+                        "parentId":-2,
+                        "parentName":"",
+                        "perms":"",
+                        "title":"待办事项",
+                        "type":1,
+                        "url":"app/schedule/index",
+                        "list":[]
+                    };
+                    homepagearray1.push(noticeobj2);
+                }else {
+                    var noticeobj3 = {
+                        "icon":"",
+                        "menuId":-5,
+                        "name":"",
+                        "open":false,
+                        "orderNum":0,
+                        "parentId":-2,
+                        "parentName":"",
+                        "perms":"",
+                        "title":"待办事项",
+                        "type":1,
+                        "url":"app/schedule/show",
+                        "list":[]
+                    };
+                    homepagearray1.push(noticeobj3);
+                }
+                var homepagearray = [];
+                var noticeobj = {
+                    "icon":"icon-tongzhigonggao",
+                    "menuId":-2,
+                    "name":"",
+                    "open":false,
+                    "orderNum":0,
+                    "parentId":-1,
+                    "parentName":"",
+                    "perms":"",
+                    "title":"通知公告",
+                    "type":1,
+                    "url":"",
+                    "list":homepagearray1
+                };
+                // homepagearray.push(noticeobj);
+                var homepageobj = {
+                    "icon":"",
+                    "menuId":-1,
+                    "name":"",
+                    "open":false,
+                    "orderNum":0,
+                    "parentId":0,
+                    "parentName":"",
+                    "perms":"",
+                    "title":"主页",
+                    "type":0,
+                    "url":"homepage",
+                    "list":homepagearray
+                };
+                // menuList.push(homepageobj);
+                // global_obj.deptList = result.data;
+                var menu_id = "" ;
+                var getTopMenuTpl = topMenuTpl.innerHTML
+                    ,topMenu = document.getElementById('topMenu');
+                laytpl(getTopMenuTpl).render(menuList, function(html){
+                    topMenu.innerHTML = html;
+                    element.render('nav');
+                    var idtemp = "";
+                    $("[name=topMenuList]").each(function(index){
+                        if(index == 0){
+                            idtemp = $(this).attr("id");
+                        }
+                        $(this).bind('click',function(){
+                            var menuobj = {};
+                            menuobj.code = 0;
+                            menuobj.msg = "";
+                            var menuId = $(this).attr("id");
+                            for(var i = 0 ; i < menuList.length; i++){
+                                if(menuList[i].menuId == menuId){
+                                    menuobj.data = menuList[i].list;
+                                    break;
+                                }
+                            }
+                            // debugger
+                            if(setter.aMapId == menuId ){
+                                // alert(2)
+                                $(".layui-side-menu").hide();
+                                $(".layui-body").css({"left":"0px"})
+                                location.hash = "/cominfo/datastatistics/";
+                                $('.layui-this').removeClass('layui-this')
+                                $(this).addClass('layui-this');
+                                return;
+                            }
+                            if(setter.officialDoc == menuId ){
+                                openUrl(setter.officialDocPage,"view_window")
+                                return;
+                            }
+                            if(setter.lawsRegulations == menuId ){
+                                openUrl(setter.lawsRegulationsPage,"_blank")
+                                return;
+                            }
+                            if(setter.homepageId == menuId){
+                                // alert(2)
+                                $(".layui-side-menu").hide();
+                                $(".layui-body").css({"left":"0px"})
+                                $('.layui-this').removeClass('layui-this')
+                                $(this).addClass('layui-this');
+                                return;
+                            }
+                            $(".layui-side-menu").show();
+                            $(".layui-body").css({"left":"210px"})
+                            var getTPLTpl = TPL_layout.innerHTML,
+                                leftMenu = document.getElementById('leftMenuTpl');
+                            laytpl(getTPLTpl).render(menuobj, function(html) {
+                                leftMenu.innerHTML = html;
+                            });
+                            $('.layui-this').removeClass('layui-this')
+                            $(this).addClass('layui-this');
+                            element.render('nav', 'layadmin-system-side-menu')
+                            element.init();
+                            var count = 0;
+                            $("[data-name='']").each(function () {
+                                if(count == 0){
+                                    var ch = $(this)[0].children
+                                    var aa = ch[0];
+                                    if(aa.innerText != "通知公告"){
+                                        $(aa).trigger("click")
+                                        if(ch.length > 1){
+                                            var nextdom = $(aa).next()[0].children;
+                                            var nextdomfirst = nextdom[0].children;
+                                            $(nextdomfirst[0]).trigger("click")
+                                        }
+                                    }
+                                }
+                                count ++;
+                            });
+                        });
+                    });
+                    // $("#"+setter.homepageId).trigger('click');
+                    // $("#"+setter.aMapId).trigger('click');
+                    // var menu_length = $("[name=topMenuList]").length;
+                    // if(menu_length==1){
+                    //     menu_id =  $("[name=topMenuList]").attr("id");
+                    //     $("#"+menu_id).trigger('click');
+                    // }
+                    $("#"+idtemp).trigger('click');
+                });
+            }
+        });
+
+        $("#logout").bind("click",function () {
+            if (setter.stompClient !== null) {
+                setter.stompClient.disconnect();
+                setter.stompClient = null;
+            }
+            console.log("Disconnected");
+            
+        });
+
+        function openUrl(url,targetname) {
+            var a = $('<a href="'+url+'" target="'+targetname+'"></a>')[0];
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            a.dispatchEvent(e);
+        }
+
+        //探出修改密码页面
+        var editwin = function(title,data) {
+            windowindex = layer.open({
+                type: 1
+                , title: title
+                , area: admin.screen() < 2 ? ['80%', '300px'] : ['420px', '260px']
+                // offset: '120px',
+                , content: changepassword.innerHTML
+            });
+            form.on('submit(component-form-changepwd)', function(data){
+                var password = $("[name='password']").val()
+                var newpassword = $("[name='newpassword']").val()
+                var pwd = $("#confirmNewpassword").val()
+
+                if ( newpassword == password) {
+                    layer.msg('新旧密码不能相同！', {icon: 5});
+                    return false;
+                }
+                if (newpassword != pwd) {
+                    layer.msg('两次输入密码不一致！', {icon: 5});
+                    return false;
+                }
+                var type = "PUT";
+                // debugger
+                data.field.userId = layui.data(setter.userId).userId;//客户为当前登录的用户
+                // data.field.username = layui.data(setter.userName).userName;//客户为当前登录的用户名
+                var b = new Base64();
+                data.field.password = b.encode(data.field.password);
+                data.field.newpassword = b.encode(data.field.newpassword);
+                var loadindex = layer.load(1);
+                admin.req({
+                    type: type,
+                    contentType: "application/json",
+                    url: setter.remoteServiceAddress + "/sys/user/basechangepassword",
+                    data: JSON.stringify(data.field),
+                    done: function (result) {
+                        layer.close(loadindex);
+                        if(result.status==1){
+                            layer.msg('验证失败，原密码错误！', {icon: 5});
+                        }else{
+                            if (result.code == 0){
+                                layer.closeAll();
+                                layer.msg('密码修改成功！',{icon: 6, time: 1000});
+                            }
+                        }
+                    },
+                    error:function (res) {
+                        layer.alert(res.msg);
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false
+            })
+        };
+
+        //修改密码点击事件
+        $("#xiugaipassword").bind("click",function () {
+            //打开修改密码页面
+            editwin("修改密码",null);
+        });
+
+
+    });
+</script>

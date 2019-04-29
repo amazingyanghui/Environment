@@ -1,0 +1,400 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>应急预案</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>应急预案</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入预案单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-emergency-systemPlan" lay-filter="LAY-emergency-systemPlan"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="planTypeName"/>
+                    <input type="hidden" name="statusName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">预案类型：</label>
+                            <div class="layui-input-block">
+                                <select id="planType" name="planType" lay-filter="planType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">状态：</label>
+                            <div class="layui-input-block">
+                                <select id="status" name="status" lay-filter="status" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showPlanInfoTpl" type="text/html">
+    <div class="layui-tab layui-tab-brief ">
+        <ul class="layui-tab-title" id="plan-info">
+            <li  id ="firstPlanClick" class="layui-this" value="0">应急预案</li>
+            <li value="1">预案文档</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="planInfoShow" action="" lay-filter="component-form-element">
+                                <table class="reporttable">
+                                    <tr>
+                                        <td>预案标题：</td>
+                                        <td>
+                                            <input type="text" name="planTitle" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>预案单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案类型：</td>
+                                        <td>
+                                            <input type="text" name="planTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>备案日期：</td>
+                                        <td>
+                                            <input type="text" name="recordDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>批复单位：</td>
+                                        <td>
+                                            <input type="text" name="batchCompany" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>批复时间：</td>
+                                        <td>
+                                            <input type="text" name="batchDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>状态：</td>
+                                        <td>
+                                            <input type="text" name="statusName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>实施时间：</td>
+                                        <td>
+                                            <input type="text" name="implementationTime" value=""placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>备案部门：</td>
+                                        <td>
+                                            <input type="text" name="recordDepartment"  value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>预案评估：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;" name="planEvaluation"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="systemPlan">
+                    <table id="LAY-emergency-systemPlanTpl" lay-filter="LAY-emergency-systemPlanTpl"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/emergency/emergencysystemplan";
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_emergency_system_plan',
+            title: "应急预案记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //预案类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/plan_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var planType=$("#planType");
+                var optiona=$("<option>").text("请选择").val("");
+                planType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    planType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(planType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='planTypeName']").val(name);
+            }else {
+                $("[name='planTypeName']").val("");
+            }
+        });
+
+        //状态
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/plan_status_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var status=$("#status");
+                var optiona=$("<option>").text("全部").val("");
+                status.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    status.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(status)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='statusName']").val(name);
+            }else{
+                $("[name='statusName']").val("");
+            }
+        });
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        var column = [[
+            {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'companyName', title: '预案单位', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.companyName!=""){
+                        return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                    }}}
+            ,{field: 'planTitle', title: '预案标题', minWidth: 140,unresize: true, event:'setName', style:'color:blue;cursor:pointer;'}
+            ,{field: 'planTypeName', title: '预案类型', width: 100,unresize: true}
+            ,{field: 'recordDate', title: '备案日期', width: 110,unresize: true}
+            ,{field: 'batchCompany', title: '批复单位', minWidth: 100,unresize: true}
+            ,{field: 'batchDate', title: '批复时间', width: 110,unresize: true}
+//            ,{field: 'preplanDocumentAddress', title: '预案文档地址', minWidth: 100,unresize: true}
+            ,{field: 'statusName', title: '状态', width: 100,unresize: true}
+//            ,{field: 'remark', title: '操作', width: 120,event:"dom",style:'color:blue;cursor:pointer;',unresize: true,templet:function (item, index) {
+//
+//                    return '<span class="layui-btn layui-btn-xs layui-bg-blue">预览</span> <span class="layui-btn layui-btn-xs layui-bg-blue">下载</span>';
+//
+//                }}
+
+        ]];
+
+        table.render({//查询列表信息
+            elem: "#LAY-emergency-systemPlan"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols:column
+            ,skin: 'line'
+            ,height: 'full-280'
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-emergency-systemPlan","onlineCompanyReloadButton","labelTip");
+
+        //监听单元格事件
+        table.on('tool(LAY-emergency-systemPlan)', function(obj){
+            if(obj.event === 'setName'){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['1100px', '450px']
+                    // offset: '120px',
+                    , content: showPlanInfoTpl.innerHTML
+                });
+
+                var differType=0;
+                $('#plan-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        for(var id in data){
+                            $("#planInfoShow [name='"+id+"']").val(data[id]);
+                            $("#planInfoShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-emergency-systemPlanTpl'
+                            ,height: 'full-500'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/emergency/emergencysystemplanfile/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-emergency-systemPlanTpl",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+                $("#firstPlanClick").trigger('click');
+            }
+            table.on('tool(LAY-emergency-systemPlanTpl)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "预案单位,预案标题,预案类型,备案日期,批复单位,批复时间,预案文档地址,状态";
+//            var headerfield = "companyName,plan_title,planTypeName,record_date,batch_company,batch_date,preplan_document_address,statusName";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+    });
+</script>

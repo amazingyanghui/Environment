@@ -1,0 +1,2406 @@
+<script type="text/javascript" src="common/cominfo/portinfo.js"></script>
+<script type="text/javascript" src="common/cominfo/factor.js"></script>
+<script type="text/javascript" src="common/cominfo/dischargeCoefficient.js"></script>
+<title>排放与监测</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+<style>
+
+    .reporttable_one{
+        width: 100%;
+    }
+
+    .reporttable_one tr td{
+        border:1px solid #e3e9ee;
+        font-size:14px;
+        color: #353535;
+        overflow: visible;
+        height: 30px;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .reporttable_one tr td:nth-child(odd){
+        background: #f1f4f6;
+    }
+
+    .reporttable_one tr td input{
+        width:100%;
+        height: 100%;
+    }
+
+    .reporttable_one tr td .layui-form-select{
+        width:100%;
+        height: 100%;
+        text-align: left;
+    }
+
+    .reporttable_one tr td .layui-form-select .layui-select-title{
+        width:100%;
+        height: 100%;
+    }
+
+
+    .reporttable_one tr td .layui-form-select input{
+        width:100%;
+        height: 100%;
+    }
+</style>
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li value="0" power="pf:yjc:xxwh:fs:pfqk">废水排放情况</li>
+                <li value="1" power="pf:yjc:xxwh:fq:pfqk">废气排放情况</li>
+                <li value="2" power="pf:yjc:xxwh:vo:cspfqk">VOCs排放情况</li>
+                <!--<li value="3" power="pf:yjc:xxwh:gf:csyly">固废产生与利用</li>-->
+                <!--<li value="4" power="pf:yjc:xxwh:wf:csyly">危废产生与利用</li>-->
+                <li value="5" power="pf:yjc:xxwh:zs:zswrqk">噪声污染情况</li>
+                <li value="6" power="pf:yjc:xxwh:pf:dwrw">排放点污染物</li>
+                <li value="7" power="pf:yjc:xxwh:cp:wxs">产排污系数</li>
+                <li value="8" power="pf:yjc:xxwh:cp:wxs">废水监测数据</li>
+                <li value="9" power="pf:yjc:xxwh:cp:wxs">废气监测数据</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+                <button class="layui-btn layui-hide" id="link" data-events="link">关联因子</button>
+            </div>
+            <div class="layui-tab-content"  id="com-table">
+                <div class="layui-tab-item layui-show" power="pf:yjc:xxwh:fs:pfqk">
+                    <div id="monitorPortinfo0">
+                        <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo0"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:fq:pfqk">
+                    <div id="monitorPortinfo1">
+                        <table id="LAY-online-onlineMonitorPortinfo1" lay-filter="LAY-online-onlineMonitorPortinfo1"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo1"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:vo:cspfqk">
+                    <div id="monitorPortinfo2">
+                        <table id="LAY-online-onlineMonitorPortinfo2" lay-filter="LAY-online-onlineMonitorPortinfo2"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo2"></div>
+                </div>
+                <!--<div class="layui-tab-item" power="pf:yjc:xxwh:gf:csyly">-->
+                    <!--<div id="monitorPortinfo3">-->
+                        <!--<table id="LAY-online-onlineMonitorPortinfo3" lay-filter="LAY-online-onlineMonitorPortinfo3"></table>-->
+                    <!--</div>-->
+                    <!--<div id="onlineMonitorPortinfo3"></div>-->
+                <!--</div>-->
+                <!--<div class="layui-tab-item" power="pf:yjc:xxwh:wf:csyly">-->
+                    <!--<div id="monitorPortinfo4">-->
+                        <!--<table id="LAY-online-onlineMonitorPortinfo4" lay-filter="LAY-online-onlineMonitorPortinfo4"></table>-->
+                    <!--</div>-->
+                    <!--<div id="onlineMonitorPortinfo4"></div>-->
+                <!--</div>-->
+                <div class="layui-tab-item" power="pf:yjc:xxwh:zs:csyly">
+                    <div id="monitorPortinfo5">
+                        <table id="LAY-online-onlineMonitorPortinfo5" lay-filter="LAY-online-onlineMonitorPortinfo5"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo5"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:pf:dwrw">
+                    <div id="monitorPortinfo6">
+                        <table id="LAY-online-onlineMonitorPortinfo6" lay-filter="LAY-online-onlineMonitorPortinfo6"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo6"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:cp:wxs">
+                    <div id="monitorPortinfo7">
+                        <table id="LAY-online-onlineMonitorPortinfo7" lay-filter="LAY-online-onlineMonitorPortinfo7"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo7"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:cp:wxs">
+                    <div id="monitorPortinfo8">
+                        <table id="LAY-online-onlineMonitorPortinfo8" lay-filter="LAY-online-onlineMonitorPortinfo8"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo8"></div>
+                </div>
+                <div class="layui-tab-item" power="pf:yjc:xxwh:cp:wxs">
+                    <div id="monitorPortinfo9">
+                        <table id="LAY-online-onlineMonitorPortinfo9" lay-filter="LAY-online-onlineMonitorPortinfo9"></table>
+                    </div>
+                    <div id="onlineMonitorPortinfo9"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--排放情况-->
+<script id="editonlineMonitorPortinfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorPortinfoedit" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>排污许可证编号：</td>
+                            <td>
+                                <input type="text" name="permitCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2" rowspan="15">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>排口照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap2" style="height: 400px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 400px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="containerquery">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:10px;margin-left:70px;top: 69px;display: none;">
+                                                                <div style="float: left; width: 380px">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName" style="height: 35px;width:300px" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanelquery" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 400px">
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 20px;">
+                                                        <img id="photoPath" style="height: 400px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>监控点编号：</td>
+                            <td>
+                                <input type="text" name="monitorCode" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>监控点名称：</td>
+                            <td>
+                                <input type="text" name="monitorName" id="monitorNamequery" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>税源编号：</td>
+                            <td>
+                                <input type="text" name="taxSourceCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点是否使用：</td>
+                            <td>
+                                <input type="text" name="monitorUseFlagName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                <input type="text" name="pointArea" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污水处理厂：</td>
+                            <td>
+                                <input type="text" name="sewagePlantName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点位置：</td>
+                            <td>
+                                <input type="text" name="monitorPosition" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排口高度（米）：</td>
+                            <td>
+                                <input type="text" name="outPortHeight" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出口内经（米）：</td>
+                            <td>
+                                <input type="text" name="outPortDiameter" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>堆存物料：</td>
+                            <td>
+                                <input type="text" name="fuelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>堆存物料类型：</td>
+                            <td>
+                                <input type="text" name="fuelTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物料处理措施：</td>
+                            <td>
+                                <input type="text" name="fuelMode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                <input type="text" name="longitude" id="longitudequery" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>纬度：</td>
+                            <td>
+                                <input type="text" name="latitude" id="latitudequery" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物排放量计算方法：</td>
+                            <td>
+                                <input type="text" name="computingMethodName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排放口类别：</td>
+                            <td>
+                                <input type="text" name="airpollutantTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年物料运载车次（车）：</td>
+                            <td>
+                                <input type="text" name="deliveryVehicleCount" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单车平均运载量（吨/车）：</td>
+                            <td>
+                                <input type="text" name="averageCarryingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主要污染物：</td>
+                            <td>
+                                <input type="text" name="mainPollution" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排放方式：</td>
+                            <td>
+                                <input type="text" name="emissionMode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排放去向：</td>
+                            <td>
+                                <input type="text" name="emissionDirection" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>受纳水体：</td>
+                            <td>
+                                <input type="text" name="receivingWater" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运维单位：</td>
+                            <td>
+                                <input type="text" name="operationUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排放类型：</td>
+                            <td>
+                                <input type="text" name="emissionTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                <input type="text" name="networkingDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>使用类型：</td>
+                            <td>
+                                <input type="text" name="useTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="editonlineMonitorPortinfoVOICE" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorPortinfoedit" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>排污许可证编号：</td>
+                            <td>
+                                <input type="text" name="permitCode" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td colspan="2" rowspan="15">
+                                <div>
+                                    <div class="layui-tab layui-tab-brief">
+                                        <ul class="layui-tab-title">
+                                            <li class="layui-this">地图</li>
+                                            <li>排口照片</li>
+                                        </ul>
+                                        <div class="layui-tab-content">
+                                            <div class="layui-tab-item layui-show">
+                                                <div id="divmap2" style="height: 400px">
+                                                    <div class="wrapper">
+                                                        <form id="form1" runat="server">
+                                                            <div id="Content">
+                                                                <div style="width: 97%; height: 400px; border: 1px solid gray; margin: 10px 20px 0 10px;"
+                                                                     id="containerquery">
+                                                                </div>
+                                                            </div>
+                                                            <div id="divToolbar" class="map-toolbar" style="margin-top:10px;margin-left:70px;top: 69px;display: none;">
+                                                                <div style="float: left; width: 380px">
+                                                                    <span style=" margin-left: 18px; line-height: 30px; vertical-align: middle;" id="spnTitle">
+                                                                        名称：<input type="text" id="txtMonitorName" style="height: 35px;width:300px" />
+                                                                    </span>
+                                                                </div>
+                                                                <div id="searchResultPanelquery" style="border:1px solid #C0C0C0;width:220px;height:auto; display:none;margin-left: 18px;"></div>
+                                                            </div>
+                                                            <input id="txtDiTuMingCheng" type="hidden" runat="server" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-tab-item">
+                                                <div style="height: 400px">
+                                                    <div class="layui-col-md12" style="margin-top: 10px;margin-bottom: 20px;">
+                                                        <img id="photoPath" style="height: 400px">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>监控点编号：</td>
+                            <td>
+                                <input type="text" name="monitorCode" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+
+                        </tr>
+                        <tr>
+                            <td>监控点名称：</td>
+                            <td>
+                                <input type="text" name="monitorName" id="monitorNamequery" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>税源编号：</td>
+                            <td>
+                                <input type="text" name="taxSourceCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监控点是否使用：</td>
+                            <td>
+                                <input type="text" name="monitorUseFlagName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>主要污染物：</td>
+                            <td>
+                                <input type="text" name="mainPollution" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>占地面积：</td>
+                            <td>
+                                <input type="text" name="pointArea" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污水处理厂：</td>
+                            <td>
+                                <input type="text" name="sewagePlantName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>噪声源位置：</td>
+                            <td>
+                                <input type="text" name="monitorPosition" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排口高度（米）：</td>
+                            <td>
+                                <input type="text" name="outPortHeight" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出口内经（米）：</td>
+                            <td>
+                                <input type="text" name="outPortDiameter" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>堆存物料：</td>
+                            <td>
+                                <input type="text" name="fuelName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>堆存物料类型：</td>
+                            <td>
+                                <input type="text" name="fuelTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物料处理措施：</td>
+                            <td>
+                                <input type="text" name="fuelMode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>经度：</td>
+                            <td>
+                                <input type="text" name="longitude" id="longitudequery" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>纬度：</td>
+                            <td>
+                                <input type="text" name="latitude" id="latitudequery" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年物料运载车次（车）：</td>
+                            <td>
+                                <input type="text" name="deliveryVehicleCount" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单车平均运载量（吨/车）：</td>
+                            <td>
+                                <input type="text" name="averageCarryingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物排放量计算方法：</td>
+                            <td>
+                                <input type="text" name="computingMethodName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排放口类别：</td>
+                            <td>
+                                <input type="text" name="airpollutantTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>功能区类型：</td>
+                            <td>
+                                <input type="text" name="domainTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>是否昼夜产生：</td>
+                            <td>
+                                <input type="text" name="dayAndNightName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>执行标准：</td>
+                            <td>
+                                <input type="text" name="executiveStandard" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>昼间：</td>
+                            <td>
+                                <input type="text" name="standardLimitsDay" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>夜间：</td>
+                            <td>
+                                <input type="text" name="standardLimitsNight" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>运维单位：</td>
+                            <td>
+                                <input type="text" name="operationUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联网日期：</td>
+                            <td>
+                                <input type="text" id="networkingDate0" name="networkingDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>使用类型：</td>
+                            <td>
+                                <input type="text" name="useTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--排放污染物 -->
+<script id="editonlineMonitorWasteinfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorPortinfoedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>排口类型：</td>
+                            <td>
+                                <input type="text" id="portType" name="portType" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应排口：</td>
+                            <td>
+                                <input type="text" id="portName" name="portName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>污染物名称：</td>
+                            <td>
+                                <input type="text" id="pollutantName" name="pollutantName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物代码：</td>
+                            <td>
+                                <input type="text" name="pollutantCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>产量：</td>
+                            <td>
+                                <input type="text" name="output" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排放量：</td>
+                            <td>
+                                <input type="text" name="emissions" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                    </table>
+                    <!--<div class="layui-form-item divbutton">-->
+                    <!--<div>-->
+                    <!--<button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>-->
+                    <!--<button class="layui-btn layui-btn-normal" type="button" name="portInfoHome">返回</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 产排污系数编辑弹窗 -->
+<script id="editDischargeCoefficient" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="dischargeCoefficientEdit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td><span class="starClass">*</span>核算环节名称：</td>
+                            <td>
+                                {{# if(d.accountingLink){ }}
+                                <input type="text" name="accountingLink" lay-verify="required|strSize|strSpecialCharacter" value="{{d.accountingLink}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="accountingLink" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>对应监控点：</td>
+                            <td>
+                                <select id="mid_select" name="mid" lay-verify="required"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>普查表号：</td>
+                            <td>
+                                {{# if(d.censusCode){ }}
+                                <input type="text" name="censusCode" lay-verify="numberSize|strSpecialCharacter·" value="{{d.censusCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="censusCode" lay-verify="numberSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>原料名称：</td>
+                            <td>
+                                {{# if(d.materialName){ }}
+                                <input type="text" name="materialName" lay-verify="required|strSize|strSpecialCharacter" value="{{d.materialName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="materialName" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>产品名称：</td>
+                            <td>
+                                {{# if(d.productName){ }}
+                                <input type="text" name="productName" lay-verify="required|strSize|strSpecialCharacter" value="{{d.productName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="productName" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td><span class="starClass">*</span>工艺名称：</td>
+                            <td>
+                                {{# if(d.processName){ }}
+                                <input type="text" name="processName" lay-verify="required|strSize|strSpecialCharacter" value="{{d.processName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="processName" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="starClass">*</span>年度：</td>
+                            <td>
+                                {{# if(d.year!=null){ }}
+                                <input type="text" name="year" lay-verify="required" value="{{d.year}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="year" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>生产规模等级：</td>
+                            <td>
+                                {{# if(d.productionGrade){ }}
+                                <input type="text" name="productionGrade" lay-verify="strSize|strSpecialCharacter" value="{{d.productionGrade}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="productionGrade" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>产品产量：</td>
+                            <td>
+                                {{# if(d.productOutput){ }}
+                                <input type="text" name="productOutput" lay-verify="numberSize|nullNumberFormat" value="{{d.productOutput}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="productOutput" lay-verify="numberSize|nullNumberFormat" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>产品产量的计量单位：</td>
+                            <td>
+                                {{# if(d.productOutputUnit){ }}
+                                <input type="text" name="productOutputUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.productOutputUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="productOutputUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>原料/燃料用量：</td>
+                            <td>
+                                {{# if(d.rawMaterialConsumption){ }}
+                                <input type="text" name="rawMaterialConsumption" lay-verify="numberSize|nullNumberFormat" value="{{d.rawMaterialConsumption}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="rawMaterialConsumption" lay-verify="numberSize|nullNumberFormat" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>原料/燃料用量的计量单位：</td>
+                            <td>
+                                {{# if(d.rawMaterialConsumptionUnit){ }}
+                                <input type="text" name="rawMaterialConsumptionUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.rawMaterialConsumptionUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="rawMaterialConsumptionUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物名称：</td>
+                            <td>
+                                {{# if(d.pollutantName){ }}
+                                <input type="text" name="pollutantName" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantName}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantName" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染物产污系数：</td>
+                            <td>
+                                {{# if(d.pollutantsCoefficient){ }}
+                                <input type="text" name="pollutantsCoefficient" lay-verify="nullNumberFormat|numberSize" value="{{d.pollutantsCoefficient}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantsCoefficient" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物计量单位：</td>
+                            <td>
+                                {{# if(d.pollutantUnit){ }}
+                                <input type="text" name="pollutantUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染物产污系数中参数取值：</td>
+                            <td>
+                                {{# if(d.pollutantsCoefficientParamValue){ }}
+                                <input type="text" name="pollutantsCoefficientParamValue" lay-verify="nullNumberFormat|numberSize" value="{{d.pollutantsCoefficientParamValue}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantsCoefficientParamValue" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物产生量：</td>
+                            <td>
+                                {{# if(d.pollutantProduction){ }}
+                                <input type="text" name="pollutantProduction" lay-verify="nullNumberFormat|numberSize" value="{{d.pollutantProduction}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantProduction" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染物产生量计量单位：</td>
+                            <td>
+                                {{# if(d.pollutantProductionUnit){ }}
+                                <input type="text" name="pollutantProductionUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantProductionUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantProductionUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物处理工艺名称：</td>
+                            <td>
+                                {{# if(d.pollutantTreatmentProcess){ }}
+                                <input type="text" name="pollutantTreatmentProcess" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantTreatmentProcess}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantTreatmentProcess" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>污染物去除效率/排污系数：</td>
+                            <td>
+                                {{# if(d.pollutantsRemovalEfficiency){ }}
+                                <input type="text" name="pollutantsRemovalEfficiency" lay-verify="nullNumberFormat|numberSize" value="{{d.pollutantsRemovalEfficiency}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantsRemovalEfficiency" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染物去除效率/排污系数计量单位：</td>
+                            <td>
+                                {{# if(d.pollutantsRemovalEfficiencyUnit){ }}
+                                <input type="text" name="pollutantsRemovalEfficiencyUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantsRemovalEfficiencyUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantsRemovalEfficiencyUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数一名称：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersName1){ }}
+                                <input type="text" name="actualOperatingParametersName1" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersName1}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersName1" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染治理设施实际运行参数一数值：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersValue1){ }}
+                                <input type="text" name="actualOperatingParametersValue1" lay-verify="nullNumberFormat|numberSize" value="{{d.actualOperatingParametersValue1}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersValue1" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数一计量单位：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersUnit1){ }}
+                                <input type="text" name="actualOperatingParametersUnit1" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersUnit1}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersUnit1" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染治理设施实际运行参数二名称：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersName2){ }}
+                                <input type="text" name="actualOperatingParametersName2" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersName2}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersName2" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数二数值：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersValue2){ }}
+                                <input type="text" name="actualOperatingParametersValue2" lay-verify="nullNumberFormat|numberSize" value="{{d.actualOperatingParametersValue2}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersValue2" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染治理设施实际运行参数二计量单位：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersUnit2){ }}
+                                <input type="text" name="actualOperatingParametersUnit2" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersUnit2}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersUnit2" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数三名称：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersName3){ }}
+                                <input type="text" name="actualOperatingParametersName3" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersName3}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersName3" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染治理设施实际运行参数三数值：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersValue3){ }}
+                                <input type="text" name="actualOperatingParametersValue3" lay-verify="nullNumberFormat|numberSize" value="{{d.actualOperatingParametersValue3}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersValue3" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数三计量单位：</td>
+                            <td>
+                                {{# if(d.actualOperatingParametersUnit3){ }}
+                                <input type="text" name="actualOperatingParametersUnit3" lay-verify="strSize|strSpecialCharacter" value="{{d.actualOperatingParametersUnit3}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="actualOperatingParametersUnit3" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>排污许可证执行报告排放量：</td>
+                            <td>
+                                {{# if(d.permitExecutionReporCounts){ }}
+                                <input type="text" name="permitExecutionReporCounts" lay-verify="nullNumberFormat|numberSize" value="{{d.permitExecutionReporCounts}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="permitExecutionReporCounts" lay-verify="nnullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物排放量：</td>
+                            <td>
+                                {{# if(d.pollutantDischargeCounts){ }}
+                                <input type="text" name="pollutantDischargeCounts" lay-verify="nullNumberFormat|numberSize" value="{{d.pollutantDischargeCounts}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantDischargeCounts" lay-verify="nullNumberFormat|numberSize" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td>污染物排放量计量单位：</td>
+                            <td>
+                                {{# if(d.pollutantDischargeCountsUnit){ }}
+                                <input type="text" name="pollutantDischargeCountsUnit" lay-verify="strSize|strSpecialCharacter" value="{{d.pollutantDischargeCountsUnit}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="pollutantDischargeCountsUnit" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                {{# if(d.remarks){ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="coefficientHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 产排污系数展示弹窗 -->
+<script id="showDischargeCoefficient" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="dischargeCoefficientShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>核算环节名称：</td>
+                            <td>
+                                <input type="text" name="accountingLink" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>监控点名称：</td>
+                            <td>
+                                <input type="text" name="monitorName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>普查表号：</td>
+                            <td>
+                                <input type="text" name="censusCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>原料名称：</td>
+                            <td>
+                                <input type="text" name="materialName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>产品名称：</td>
+                            <td>
+                                <input type="text" name="productName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>工艺名称：</td>
+                            <td>
+                                <input type="text" name="processName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年度：</td>
+                            <td>
+                                <input type="text" name="year" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>生产规模等级：</td>
+                            <td>
+                                <input type="text" name="productionGrade" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>产品产量：</td>
+                            <td>
+                                <input type="text" name="productOutput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>产品产量的计量单位：</td>
+                            <td>
+                                <input type="text" name="productOutputUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>原料/燃料用量：</td>
+                            <td>
+                                <input type="text" name="rawMaterialConsumption" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>原料/燃料用量的计量单位：</td>
+                            <td>
+                                <input type="text" name="rawMaterialConsumptionUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物名称：</td>
+                            <td>
+                                <input type="text" name="pollutantName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物产污系数：</td>
+                            <td>
+                                <input type="text" name="pollutantsCoefficient" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物计量单位：</td>
+                            <td>
+                                <input type="text" name="pollutantUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物产污系数中参数取值：</td>
+                            <td>
+                                <input type="text" name="pollutantsCoefficientParamValue" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物产生量：</td>
+                            <td>
+                                <input type="text" name="pollutantProduction" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物产生量计量单位：</td>
+                            <td>
+                                <input type="text" name="pollutantProductionUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物处理工艺名称：</td>
+                            <td>
+                                <input type="text" name="pollutantTreatmentProcess" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>污染物去除效率/排污系数：</td>
+                            <td>
+                                <input type="text" name="pollutantsRemovalEfficiency" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物去除效率/排污系数计量单位：</td>
+                            <td>
+                                <input type="text" name="pollutantsRemovalEfficiencyUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数一名称：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersName1" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染治理设施实际运行参数一数值：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersValue1" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数一计量单位：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersUnit1" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染治理设施实际运行参数二名称：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersName2" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数二数值：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersValue2" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染治理设施实际运行参数二计量单位：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersUnit2" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数三名称：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersName3" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染治理设施实际运行参数三数值：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersValue3" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染治理设施实际运行参数三计量单位：</td>
+                            <td>
+                                <input type="text" name="actualOperatingParametersUnit3" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排污许可证执行报告排放量：</td>
+                            <td>
+                                <input type="text" name="permitExecutionReporCounts" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>污染物排放量：</td>
+                            <td>
+                                <input type="text" name="pollutantDischargeCounts" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>污染物排放量计量单位：</td>
+                            <td>
+                                <input type="text" name="pollutantDischargeCountsUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 废水检测数据新增弹窗 -->
+<script id="showOnlineMonitorWasteWater" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorWasteWaterShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>年度：</td>
+                            <td>
+                                <input type="text" name="year" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应监控点：</td>
+                            <td>
+                                <input type="text" name="monitorName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>普查表号：</td>
+                            <td>
+                                <input type="text" name="censusCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>进口水量：</td>
+                            <td>
+                                <input type="text" name="importWaterVolume" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出口水量：</td>
+                            <td>
+                                <input type="text" name="exportWaterVolume" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>因子名称：</td>
+                            <td>
+                                <input type="text" name="fidName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出口浓度：</td>
+                            <td>
+                                <input type="text" name="outletConcentration" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>进口浓度：</td>
+                            <td>
+                                <input type="text" name="inletConcentration" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>创建时间：</td>
+                            <td>
+                                <input type="text" name="createdatestr" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>经总排放口排放的水量：</td>
+                            <td>
+                                <input type="text" name="totalDisplacement" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 废水监测数据编辑窗口 -->
+<script id="editOnlineMonitorWasteWater" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorWasteWaterEdit" action="" lay-filter="component-form-element" onSubmit="return false;">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <input type="hidden" name="mid" value="{{d.mid}}"/>
+                    <input type="hidden" name="fid" value="{{d.fid}}"/>
+                    <table class="reporttable_one">
+                        <tr>
+                            <td colspan="1"><span class="starClass">*</span>年度：</td>
+                            <td colspan="2">
+                                {{# if(d.year){ }}
+                                <input type="text" id="year8" name="year" lay-verify="required|numberSize|strSpecialCharacter·" value="{{d.year}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="year8" name="year" lay-verify="required|numberSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2"><span class="starClass">*</span>对应监控点：</td>
+                            <td colspan="2">
+                                <select id="mid_select_two" lay-filter="mid_select_two" name="mid" lay-verify="required"></select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="1">普查表号：</td>
+                            <td colspan="2">
+                                {{# if(d.censusCode){ }}
+                                <input type="text" name="censusCode" lay-verify="strSize|strSpecialCharacter" value="{{d.censusCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="censusCode" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2"><span class="starClass">*</span>创建时间：</td>
+                            <td colspan="2">
+                                {{# if(d.createdate){ }}
+                                <input type="text" name="createdate" lay-verify="required|strSize|strSpecialCharacter" value="{{d.createdate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="createdate" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tbody id="insert_tbody">
+
+                        </tbody>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="7">
+                                {{# if(d.remarks){ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="coefficientHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 废气监测数据编辑窗口 -->
+<script id="editOnlineMonitorWasteGas" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorWasteGasEdit" action="" lay-filter="component-form-element" onSubmit="return false;">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <input type="hidden" name="mid" value="{{d.mid}}"/>
+                    <input type="hidden" name="fid" value="{{d.fid}}"/>
+                    <table class="reporttable_one">
+                        <tr>
+                            <td colspan="1"><span class="starClass">*</span>年度：</td>
+                            <td colspan="2">
+                                {{# if(d.year){ }}
+                                <input type="text" id="year9" name="year" lay-verify="required|numberSize|strSpecialCharacter·" value="{{d.year}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="year9" name="year" lay-verify="required|numberSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2"><span class="starClass">*</span>对应监控点：</td>
+                            <td colspan="2">
+                                <select id="mid_select_three" lay-filter="mid_select_three" name="mid" lay-verify="required"></select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="1">普查表号：</td>
+                            <td colspan="2">
+                                {{# if(d.censusCode){ }}
+                                <input type="text" name="censusCode" lay-verify="strSize|strSpecialCharacter" value="{{d.censusCode}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" name="censusCode" lay-verify="strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+                            <td colspan="2"><span class="starClass">*</span>创建时间：</td>
+                            <td colspan="2">
+                                {{# if(d.createdate){ }}
+                                <input type="text"  name="createdate" lay-verify="required|strSize|strSpecialCharacter" value="{{d.createdate}}" placeholder="" autocomplete="off" class="layui-input">
+                                {{# }else{ }}
+                                <input type="text" id="createdate_two" name="createdate" lay-verify="required|strSize|strSpecialCharacter" value="" placeholder="" autocomplete="off" class="layui-input">
+                                {{# } }}
+                            </td>
+
+                        </tr>
+                        <tbody id="insert_tbody_two">
+
+                        </tbody>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="7">
+                                {{# if(d.remarks){ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea">{{d.remarks}}</textarea>
+                                {{# }else{ }}
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                                {{# } }}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="layui-form-item divbutton">
+                        <div>
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">保存</button>
+                            <button class="layui-btn layui-btn-normal" type="button" name="coefficientHome">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- 废气监测数据 查看弹出层 -->
+<script id="showOnlineMonitorWasteGas" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorWasteGasShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>年度：</td>
+                            <td>
+                                <input type="text" name="year" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应监控点：</td>
+                            <td>
+                                <input type="text" name="monitorName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>普查表号：</td>
+                            <td>
+                                <input type="text" name="censusCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>因子名称：</td>
+                            <td>
+                                <input type="text" name="fidName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>平均流量：</td>
+                            <td>
+                                <input type="text" name="displacement" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>年排放天数：</td>
+                            <td>
+                                <input type="text" name="annualEmissionTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>进口浓度：</td>
+                            <td>
+                                <input type="text" name="inletConcentration" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>出口浓度：</td>
+                            <td>
+                                <input type="text" name="outletConcentration" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>创建时间：</td>
+                            <td>
+                                <input type="text" name="createdatestr" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" lay-verify="bigStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','upload','loadtab','layer', 'form','formVerify','wasteProduceAndUse','perms','wasteInfo','dictComponent'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            , wasteProduceAndUse = layui.wasteProduceAndUse
+            , perms = layui.perms
+            ,layer=layui.layer
+            ,upload=layui.upload
+            , dictComponent = layui.dictComponent
+            ,formVerify=layui.formVerify
+            ,wasteInfo = layui.wasteInfo
+            ,global_obj = {}
+            ,onlineMonitorWasteWaterCollectionEntity={}
+            ,baseurl = setter.remoteServiceAddress + "/online/onlinemonitorportinfo"
+            ,baseurl1 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor"
+            ,baseurl3 = setter.remoteServiceAddress + "/online/onlinemonitorWasteinfo"
+            ,baseUrl4 = setter.remoteServiceAddress +"/comInfo/enterprisesdischargecoefficient"
+            ,baseUrl5 = setter.remoteServiceAddress +"/online/onlinemonitorwastewater";
+        var roles = perms.getParam("roles",window.location.search);
+
+        loadtab.power("com-info","com-table");
+
+        formVerify.verifyForm();
+        var router = layui.router();
+        var pid=router.search.pid;
+        var cid = router.search.pid ;
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>排放与监测</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>排放与监测</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite>");
+        }
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(pid!=null&pid!="undefined"){
+            loadtab.tab('online');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#monitorPortinfo0").removeClass("layui-hide");
+            $("#monitorPortinfo1").removeClass("layui-hide");
+            $("#monitorPortinfo2").removeClass("layui-hide");
+            $("#monitorPortinfo3").removeClass("layui-hide");
+            $("#monitorPortinfo4").removeClass("layui-hide");
+            $("#monitorPortinfo5").removeClass("layui-hide");
+            $("#monitorPortinfo6").removeClass("layui-hide");
+            $("#monitorPortinfo7").removeClass("layui-hide");
+            $("#monitorPortinfo8").removeClass("layui-hide");
+            $("#monitorPortinfo9").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo0").addClass("layui-hide");
+            $("#onlineMonitorPortinfo1").addClass("layui-hide");
+            $("#onlineMonitorPortinfo2").addClass("layui-hide");
+            $("#onlineMonitorPortinfo3").addClass("layui-hide");
+            $("#onlineMonitorPortinfo4").addClass("layui-hide");
+            $("#onlineMonitorPortinfo5").addClass("layui-hide");
+            $("#onlineMonitorPortinfo6").addClass("layui-hide");
+            $("#onlineMonitorPortinfo7").addClass("layui-hide");
+            $("#onlineMonitorPortinfo8").addClass("layui-hide");
+            $("#onlineMonitorPortinfo9").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+            if(differType==0 || differType==1 || differType==2 || differType==5){
+                $("#link").removeClass("layui-hide");
+            }
+        };
+
+        var hideAndShow=function () {
+            $("#monitorPortinfo0").addClass("layui-hide");
+            $("#monitorPortinfo1").addClass("layui-hide");
+            $("#monitorPortinfo2").addClass("layui-hide");
+            $("#monitorPortinfo3").addClass("layui-hide");
+            $("#monitorPortinfo4").addClass("layui-hide");
+            $("#monitorPortinfo5").addClass("layui-hide");
+            $("#monitorPortinfo6").addClass("layui-hide");
+            $("#monitorPortinfo7").addClass("layui-hide");
+            $("#monitorPortinfo8").addClass("layui-hide");
+            $("#monitorPortinfo9").addClass("layui-hide");
+            $("#onlineMonitorPortinfo0").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo1").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo2").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo3").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo4").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo5").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo6").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo7").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo8").removeClass("layui-hide");
+            $("#onlineMonitorPortinfo9").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+            $("#link").addClass("layui-hide");
+        };
+
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-online-onlineMonitorPortinfo'+differType;
+            $("#link").addClass("layui-hide");
+            showAndHide();
+            if(differType==0||differType==1||differType==2){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseurl
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                        ,monitorType:differType
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'monitorCode', title: '监控点编号', width: 120,unresize: true}
+                        ,{field: 'monitorName', title: '监控点名称', minWidth: 130,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+//                    ,{field: 'monitorType', title: '监控点类型', minWidth: 100,unresize: true}
+//                    ,{field: 'monitorUseFlagName', title: '监控点是否使用', minWidth: 100,unresize: true}
+                        ,{field: 'linkmen', title: '联系人', width: 100,unresize: true}
+                        ,{field: 'linkphone', title: '联系电话', width: 130,unresize: true}
+                        ,{field: 'monitorPosition', title: '监控点位置', width: 120,unresize: true}
+//                    ,{field: 'longitude', title: '经度', minWidth: 100,unresize: true}
+//                    ,{field: 'latitude', title: '纬度', minWidth: 100,unresize: true}
+                        ,{field: 'mainPollution', title: '主要污染物', minWidth: 100,unresize: true}
+                        ,{field: 'emissionMode', title: '排放方式', width: 100,unresize: true}
+                        ,{field: 'emissionDirection', title: '排放去向', minWidth: 100,unresize: true}
+//                    ,{field: 'receivingWater', title: '受纳水体', width: 90,unresize: true}
+//                    ,{field: 'operationUnit', title: '运维单位',width: 90,unresize: true}
+//                    ,{field: 'photoPath', title: '排口照片', minWidth: 100,unresize: true}
+//                    ,{field: 'emissionTypeName', title: '排放类型', width: 88,unresize: true}
+                        ,{field: 'networkingDate', title: '联网日期', width: 110,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+            }else if(differType==5){ //噪声污染table 列表
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseurl
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                        ,monitorType:differType
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'monitorCode', title: '监控点编号', width: 120,unresize: true}
+                        ,{field: 'monitorName', title: '监控点名称', minWidth: 130,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+//                    ,{field: 'monitorType', title: '监控点类型', minWidth: 100,unresize: true}
+//                    ,{field: 'monitorUseFlagName', title: '监控点是否使用', minWidth: 100,unresize: true}
+                        ,{field: 'linkmen', title: '联系人', width: 100,unresize: true}
+                        ,{field: 'linkphone', title: '联系电话', width: 130,unresize: true}
+                        ,{field: 'monitorPosition', title: '噪声源位置', width: 120,unresize: true}
+//                    ,{field: 'longitude', title: '经度', minWidth: 100,unresize: true}
+//                    ,{field: 'latitude', title: '纬度', minWidth: 100,unresize: true}
+                        ,{field: 'mainPollution', title: '主要污染物', minWidth: 100,unresize: true}
+                        ,{field: 'domainType', title: '功能区分类', width: 230,unresize: true,templet:function (item, index) {
+                                return dictComponent.getDictValueForTable("domain_type", item.domainType);
+                        }}
+                        ,{field: 'executiveStandard', title: '执行标准', minWidth: 100,unresize: true}
+//                    ,{field: 'receivingWater', title: '受纳水体', width: 90,unresize: true}
+//                    ,{field: 'operationUnit', title: '运维单位',width: 90,unresize: true}
+//                    ,{field: 'photoPath', title: '排口照片', minWidth: 100,unresize: true}
+//                    ,{field: 'emissionTypeName', title: '排放类型', width: 88,unresize: true}
+//                         ,{field: 'networkingDate', title: '联网日期', width: 110,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+
+            }else if(differType==6){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseurl3
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                        ,useType:0
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'pollutantName', title: '污染物名称', width: 100,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                        ,{field: 'pollutantCode', title: '污染物代码', minWidth: 100,unresize: true}
+                        ,{field: 'output', title: '产生量', minWidth: 100,unresize: true}
+                        ,{field: 'emissions', title: '排放量', minWidth: 100,unresize: true}
+                        // ,{field: 'remark', title: '备注', width: 85,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+            }else if(differType==7){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseUrl4+"/queryPage"
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'accountingLink', title: '核算环节名称', minWidth: 110,unresize: true,event:"setName",style:"color:blue;cursor:pointer"}
+                        ,{field: 'censusCode', title: '普查表号', minWidth: 110,unresize: true}
+                        ,{field: 'monitorName', title: '监控点名称', minWidth: 110,unresize: true}
+                        ,{field: 'materialName', title: '原料名称', minWidth: 110,unresize: true}
+                        ,{field: 'productName', title: '产品名称', minWidth: 110,unresize: true}
+                        ,{field: 'processName', title: '工艺名称', minWidth: 110,unresize: true}
+                        ,{field: 'pollutantName', title: '污染物名称', minWidth: 110,unresize: true}
+                    ]]
+                    ,skin: 'line'
+                });
+            }else if(differType==8){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseUrl5
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                        ,type:0
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'companyName', title: '企业名', minWidth: 100,event:"setName",style:"color:blue;cursor:pointer"}
+                        // ,{field: 'mid', title: '监控点ID', minWidth: 100}
+                        ,{field: 'monitorName', title: '监控点名称', minWidth: 100}
+                        ,{field: 'year', title: '年度', minWidth: 100}
+                        ,{field: 'censusCode', title: '普查表号', minWidth: 100}
+                        // ,{field: 'importWaterVolume', title: '进口水量', minWidth: 100}
+                        // ,{field: 'exportWaterVolume', title: '出口水量', minWidth: 100}
+                        // ,{field: 'totalDisplacement', title: '经总排放口排放的水量', minWidth: 100}
+                        // ,{field: 'displacement', title: '平均流量', minWidth: 100}
+                        // ,{field: 'annualEmissionTime', title: '年排放时间(小时或天数)', minWidth: 100}
+                        // ,{field: 'fid', title: '因子ID', minWidth: 100}
+                        ,{field: 'fidName', title: '因子名称', minWidth: 100}
+                        ,{field: 'inletConcentration', title: '进口浓度', minWidth: 100}
+                        ,{field: 'outletConcentration', title: '出口浓度', minWidth: 100}
+                        // ,{field: 'dataTime', title: '数据时间', minWidth: 100}
+                        // ,{field: 'remarks', title: '备注', minWidth: 100}
+                        ,{field: 'createdatestr', title: '创建时间', minWidth: 100}
+                        // ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+                        // ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+                    ]]
+                    ,skin: 'line'
+                });
+            }else if (differType==9){
+                table.render({//查询列表信息
+                    elem: elem
+                    ,url: baseUrl5
+                    ,page: true
+                    ,event:true
+                    ,where: {
+                        hasPermission: hasPermission
+                        ,cid:pid
+                        ,type:1
+                    }
+                    ,headers: {
+                        access_token: layui.data(setter.tableName).access_token
+                    }
+                    ,cols: [[
+                        {type: 'checkbox', fixed: 'left',unresize: true}
+                        ,{type: 'numbers', unresize: true, title: '序号'}
+                        ,{field: 'companyName', title: '企业名', minWidth: 100,event:"setName",style:"color:blue;cursor:pointer"}
+                        ,{field: 'monitorName', title: '监控点名称', minWidth: 100}
+                        ,{field: 'year', title: '年度', minWidth: 100}
+                        ,{field: 'censusCode', title: '普查表号', minWidth: 100}
+                        ,{field: 'fidName', title: '因子名称', minWidth: 100}
+                        ,{field: 'annualEmissionTime', title: '年排放天数', minWidth: 100}
+                        ,{field: 'displacement', title: '平均流量', minWidth: 100}
+                        ,{field: 'createdatestr', title: '创建时间', minWidth: 100}
+                    ]]
+                    ,skin: 'line'
+                });
+            }
+
+            table.on("tool(LAY-online-onlineMonitorPortinfo"+differType+")",function (obj) {
+                var data=obj.data;
+                if(obj.event=="setName"){
+                    showInfo(data);
+                }
+            });
+        });
+
+        $("#com-info li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+
+        function showInfo(data) {
+            var pagecontent;
+            if(differType==0||differType==1||differType==2){
+
+                pagecontent=editonlineMonitorPortinfo.innerHTML;
+
+            }else if(differType==5){
+
+                pagecontent=editonlineMonitorPortinfoVOICE.innerHTML;
+            }else if(differType==6){
+                pagecontent=editonlineMonitorWasteinfo.innerHTML;
+            }else if(differType==7){
+                pagecontent=showDischargeCoefficient.innerHTML;
+            }else if (differType==8){
+                pagecontent=showOnlineMonitorWasteWater.innerHTML;
+            }else if (differType==9){
+                pagecontent=showOnlineMonitorWasteGas.innerHTML;
+            }
+            layer.open({
+                type: 1
+                , title: "查看"
+                , area: ['1100px', '620px']
+                // offset: '120px',
+                , content: pagecontent
+                ,success: function(layero, index){
+                    if(differType==7){
+                        for(var id in data){
+                            $("#dischargeCoefficientShow [name='"+id+"']").val(data[id]);
+                            $("#dischargeCoefficientShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }else {
+                        for(var id in data){
+                            $("#onlineMonitorPortinfoedit [name='"+id+"']").val(data[id]);
+                            $("#onlineMonitorPortinfoedit [name='"+id+"']").attr("readonly","readonly");
+                        }
+                        if(data.photoPath!=null && data.photoPath!="" && data.photoPath!="undefined"){
+                            $("#photoPath").attr("src",setter.remoteServiceAddress+data.photoPath);
+                        }
+                        if(differType==0||differType==1||differType==2||differType==5){
+                            var differTypenew = "query";
+                            initMapForAdd('container'+differTypenew,$("#monitorName"+differTypenew).val(),'txtMonitorName','searchResultPanel'+differTypenew,false,$("#longitude"+differTypenew).val(),$("#latitude"+differTypenew).val());
+                        }
+
+                    }
+                    if (differType==8){
+                        for(var id in data){
+                            $("#onlineMonitorWasteWaterShow [name='"+id+"']").val(data[id]);
+                            $("#onlineMonitorWasteWaterShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }else if (differType==9){
+                        for(var id in data){
+                            $("#onlineMonitorWasteGasShow [name='"+id+"']").val(data[id]);
+                            $("#onlineMonitorWasteGasShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }
+                }
+            });
+
+        }
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            if(differType==0||differType==1||differType==2||differType==5){
+                portInfo.editWin(admin,setter,$,table,form,baseurl,laytpl,laydate,element,differType,global_obj,pid,cid);
+//                form.render(null, 'component-form-element');
+            }else if(differType==6){
+                wasteInfo.editWin(admin,setter,$,table,form,baseurl3,laytpl,laydate,element,differType,global_obj,pid,cid)
+            }else if(differType==7){
+                var getBaseInfo=editDischargeCoefficient.innerHTML;
+                dischargeCoefficient.editWin(admin,setter,$,table,form,baseUrl4,laytpl,laydate,element,differType,global_obj,pid,cid,getBaseInfo)
+            }else if (differType==8){
+                var getBaseInfo=editOnlineMonitorWasteWater.innerHTML;
+                dischargeCoefficient.editWin(admin,setter,$,table,form,baseUrl5,laytpl,laydate,element,differType,global_obj,pid,cid,getBaseInfo)
+            }else if (differType==9){
+                var getBaseInfo=editOnlineMonitorWasteGas.innerHTML;
+                dischargeCoefficient.editWin(admin,setter,$,table,form,baseUrl5,laytpl,laydate,element,differType,global_obj,pid,cid,getBaseInfo)
+            }
+        };
+
+        var show=function () {
+            $("#factorAdd").addClass("layui-hide");
+            $("#factorMod").addClass("layui-hide");
+            $("#factorDel").addClass("layui-hide");
+            $("#monitorPointFactor").addClass("layui-hide");
+            $("#onlineMonitorPointFactor").removeClass("layui-hide");
+        };
+
+        var hide=function () {
+            $("#factorAdd").removeClass("layui-hide");
+            $("#factorMod").removeClass("layui-hide");
+            $("#factorDel").removeClass("layui-hide");
+            $("#monitorPointFactor").removeClass("layui-hide");
+            $("#onlineMonitorPointFactor").addClass("layui-hide");
+        };
+
+        var factorEditWin=function (mid) {
+
+            $("#factorAdd").on("click",function () {
+                show();
+                factor.editWin(admin,setter,$,table,form,baseurl,laytpl,laydate,element,differType,global_obj,null,mid);
+            });
+            $("#factorMod").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-online-onlineMonitorPointFactor")
+                    ,data = checkStatus.data; //获得选中的数据
+                if(data.length==0){
+                    return layer.msg('未选中行!');
+                }else if(data.length>1){
+                    return layer.msg('只能修改一条数据！');
+                }else{
+                    show();
+                    var pid=null;
+                    if(data!=null){
+                        pid=data[0].pid;
+                    }
+                    factor.editWin(admin,setter,$,table,form,baseurl1,laytpl,laydate,element,differType,global_obj,pid,mid);
+                }
+            });
+            $("#factorDel").on("click",function () {
+                var checkStatus = table.checkStatus("LAY-online-onlineMonitorPointFactor")
+                    ,data = checkStatus.data; //获得选中的数据
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl1
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-online-onlineMonitorPointFactor"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+
+            //修改和增加
+            form.on('submit(factor-form-element)', function(data){
+                var loadindex = layer.load(1);
+                // layer.msg(JSON.stringify(data.field));
+                data.field.token = layui.data(setter.tableName).access_token;
+                if(data.field.pid=="undefined"){
+                    data.field.pid="";
+                }
+                // layer.load(1);
+                var type = "POST";
+                if(data.field.pid!=null&data.field.pid!=""){//修改
+                    type = "PUT";
+                }
+                data.field.mid=mid;
+                admin.req({
+                    url: baseurl1+"/dataByFid/"+data.field.fid+"/"+mid,
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.onlineMonitorPointFactor!=null&type!="PUT"){
+                            layer.msg('该因子已经关联了！请进行修改');
+                        }else {
+                            admin.req({
+                                type: type,
+                                contentType:"application/json",
+                                url: baseurl1,
+                                data: JSON.stringify(data.field),
+                                done: function(result){
+                                    if(result.code == 0){//成功
+                                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                        });
+                                        hide();
+                                        table.reload("LAY-online-onlineMonitorPointFactor");
+                                    }else{
+                                        layer.alert(result.msg, {
+                                            skin: 'layui-layer-lan',
+                                            offset: 't',
+                                            anim: 6
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false
+            });
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    var url="";
+                    if(differType==0||differType==1||differType==2||differType==5){
+                        url=baseurl;
+                    }else if(differType==6){
+                        url=baseurl3;
+                    }else if(differType==7){
+                        url=baseUrl4;
+                    }else if (differType==8){
+                        url=baseUrl5;
+                    }else if (differType==9){
+                        url=baseUrl5;
+                    }
+                    admin.req({//根据
+                        url: url
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-online-onlineMonitorPortinfo"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,link:function (othis,data) {
+                linkData(data);
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-online-onlineMonitorPortinfo"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"||thisEvent=="link"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }else if(data.length > 1 && thisEvent == "link"){
+                    return layer.msg('只能操作一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            data.field.cid=pid;
+            data.field.monitorType=differType;
+            var url="";
+            if(differType==0||differType==1||differType==2||differType==5){
+                // if(roles == setter.companyRoleId){
+                //     data.field.useType = 0;
+                // }else if(roles == setter.administrativeRoleId){
+                //     data.field.useType = 1;
+                // }
+                url=baseurl;
+            }else  if(differType==6){
+                url=baseurl3;
+            }else if(differType==7){
+                url=baseUrl4;
+            }else if (differType==8){
+                url=baseUrl5+"/addMonitorWasteWater";
+            }else if (differType==9){
+                url=baseUrl5+"/addMonitorWasteWater";
+            }
+
+            if (differType==8){
+                if(data.field.pid!=null&data.field.pid!=""){//修改
+                    type = "PUT";
+                    url=baseUrl5
+                    admin.req({
+                        type: type,
+                        contentType:"application/json",
+                        url: url,
+                        data: JSON.stringify(data.field),
+                        done: function(result){
+                            layer.close(loadindex);
+                            if(result.code == 0){//成功
+                                layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                });
+                                showAndHide();
+                                table.reload("LAY-online-onlineMonitorPortinfo"+differType);
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                        ,complete:function (res) {
+                            layer.close(loadindex);
+                        }
+                    });
+                    return false
+                }else {
+                    //新增
+                    onlineMonitorWasteWaterCollectionEntity.pid=data.field.pid//修改所需主键ID
+                    onlineMonitorWasteWaterCollectionEntity.cid=data.field.cid//企业ID
+                    onlineMonitorWasteWaterCollectionEntity.mid=data.field.mid//监控点ID
+                    onlineMonitorWasteWaterCollectionEntity.year=data.field.year//年份
+                    onlineMonitorWasteWaterCollectionEntity.censusCode=data.field.censusCode//普查表号
+                    onlineMonitorWasteWaterCollectionEntity.remarks=data.field.remarks//备注
+                    onlineMonitorWasteWaterCollectionEntity.type="0"//
+
+                    onlineMonitorWasteWaterCollectionEntity.list = [];//废物信息集合
+                    for (var i = 0; i < global_obj.yinziListr.length; i++){
+                        var EpSolidWasteMeasuresEntity={}
+                        console.log(global_obj.yinziListr)
+                        //填写排口关联因子
+                        for (var id in data.field) {
+                            var value = $("#yinziTr" + i + " [name='" + id + "']").val();
+                            console.log(data.field)
+                            if(id=="inletConcentration"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                             if (id=="outletConcentration"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if (id=="importWaterVolume"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if (id=="exportWaterVolume"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if (id=="totalDisplacement"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+
+                            EpSolidWasteMeasuresEntity[id] = value;
+                        }
+                        onlineMonitorWasteWaterCollectionEntity.list.push(EpSolidWasteMeasuresEntity)//合规综合利用设施
+                    }
+
+                    admin.req({
+                        type: type,
+                        contentType:"application/json",
+                        url: url,
+                        data: JSON.stringify(onlineMonitorWasteWaterCollectionEntity),
+                        done: function(result){
+                            layer.close(loadindex);
+                            if(result.code == 0){//成功
+                                layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                });
+                                showAndHide();
+                                table.reload("LAY-online-onlineMonitorPortinfo"+differType);
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                        ,complete:function (res) {
+                            layer.close(loadindex);
+                        }
+                    });
+                    return false
+
+                }
+
+            } else if (differType==9){
+                if(data.field.pid!=null&data.field.pid!=""){//修改
+                    type = "PUT";
+                    url=baseUrl5
+                    admin.req({
+                        type: type,
+                        contentType:"application/json",
+                        url: url,
+                        data: JSON.stringify(data.field),
+                        done: function(result){
+                            layer.close(loadindex);
+                            if(result.code == 0){//成功
+                                layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                });
+                                showAndHide();
+                                table.reload("LAY-online-onlineMonitorPortinfo"+differType);
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                        ,complete:function (res) {
+                            layer.close(loadindex);
+                        }
+                    });
+                    return false
+                }else {
+                    onlineMonitorWasteWaterCollectionEntity.pid=data.field.pid//修改所需主键ID
+                    onlineMonitorWasteWaterCollectionEntity.cid=data.field.cid//企业ID
+                    onlineMonitorWasteWaterCollectionEntity.mid=data.field.mid//监控点ID
+                    onlineMonitorWasteWaterCollectionEntity.year=data.field.year//年份
+                    onlineMonitorWasteWaterCollectionEntity.censusCode=data.field.censusCode//普查表号
+                    onlineMonitorWasteWaterCollectionEntity.remarks=data.field.remarks//备注
+                    onlineMonitorWasteWaterCollectionEntity.type="1"//备注
+
+                    onlineMonitorWasteWaterCollectionEntity.list = [];//废物信息集合
+                    for (var i = 0; i < global_obj.yinziListr_two.length; i++){
+                        var EpSolidWasteMeasuresEntity={}
+                        console.log(global_obj.yinziListr_two)
+                        //填写排口关联因子
+                        for (var id in data.field) {
+                            var value = $("#yinziTr_two" + i + " [name='" + id + "']").val();
+                            if(id=="inletConcentration"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if(id=="outletConcentration"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if(id=="displacement"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            if(id=="annualEmissionTime"){
+                                if(value==null || value=="" || value==undefined){
+                                    layer.msg("请填写监控点对应因子相关信息！");
+                                    layer.close(loadindex);
+                                    return false;
+                                }
+                            }
+                            EpSolidWasteMeasuresEntity[id] = value;
+                        }
+                        onlineMonitorWasteWaterCollectionEntity.list.push(EpSolidWasteMeasuresEntity)//合规综合利用设施
+                    }
+
+                    admin.req({
+                        type: type,
+                        contentType:"application/json",
+                        url: url,
+                        data: JSON.stringify(onlineMonitorWasteWaterCollectionEntity),
+                        done: function(result){
+                            layer.close(loadindex);
+                            if(result.code == 0){//成功
+                                layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                                });
+                                showAndHide();
+                                table.reload("LAY-online-onlineMonitorPortinfo"+differType);
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                        ,complete:function (res) {
+                            layer.close(loadindex);
+                        }
+                    });
+                    return false
+                }
+            } else {
+                admin.req({
+                    type: type,
+                    contentType:"application/json",
+                    url: url,
+                    data: JSON.stringify(data.field),
+                    done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            });
+                            showAndHide();
+                            table.reload("LAY-online-onlineMonitorPortinfo"+differType);
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+                return false
+            }
+
+        });
+
+        function linkData(data) {
+            layer.open({
+                type: 1
+                , title: "关联因子"
+                , area: admin.screen() < 2 ? ['80%', '300px'] :['1050px', '400px']
+                // offset: '120px',
+                , content: onlineMonitorPointFactorEdit.innerHTML
+            });
+
+            hide();
+            table.render({//查询列表信息
+                elem: '#LAY-online-onlineMonitorPointFactor'
+                , url: baseurl1
+                , page: true
+                , event: true
+                , where: {
+                    hasPermission: hasPermission
+                    ,mid:data[0].pid
+                }
+                , headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                , cols: [[
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'fid', title: '因子编码', width: 90, unresize: true}
+                    , {field: 'factorName', title: '因子名称', width: 100, unresize: true}
+                    , {field: 'useFlagName', title: '使用否', width: 80, unresize: true}
+                    , {field: 'testCompany', title: '检测单位', width: 100, unresize: true}
+                    , {field: 'maximumValue', title: '最大检测值', width: 100, unresize: true}
+                    , {field: 'minimumValue', title: '最小检测值', width: 100, unresize: true}
+                    , {field: 'executiveStandard', title: '执行标准', width: 100, unresize: true}
+                    , {field: 'standardValue', title: '标准浓度值', width: 100, unresize: true}
+                    , {field: 'permissionDischargeValue', title: '许可排放浓度限值', minWidth: 100, unresize: true}
+                ]]
+                , skin: 'line'
+                ,limit:5
+                ,limits:[5,10,15,20,25,30,35,40,45,50]
+            });
+            factorEditWin(data[0].pid);
+        }
+
+//       function uploadFile(bizType,differType) {
+//            //执行实例
+//            var uploadInst = upload.render({
+//                elem: '#uploadPicture'+differType //绑定元素
+//                ,headers: {
+//                    access_token: layui.data(setter.tableName).access_token
+//                }
+//                ,url: setter.remoteServiceAddress + '/cominfo/cominfobaseinfoattachment/upload/'+bizType //上传接口
+//                ,accept:"images"
+//                ,before : function(obj){
+//                    this.data = {uploadType:1,cid:""};
+//                    layer.load();
+//                }
+//                ,done: function(result){
+//                    layer.closeAll('loading');
+//                    if(result.code == 0){//成功
+//                        $("[name='photoPath']").val(result.data.src);
+//                        layer.msg('上传成功！', {icon: 6,time:1000},function(){
+//                        });
+//                        $("#photoPath"+differType).attr("src",setter.remoteServiceAddress+result.data.src);
+//                    }else{
+//                        layer.alert(result.msg, {
+//                            skin: 'layui-layer-lan',
+//                            offset: 't',
+//                            anim: 6
+//                        });
+//                    }
+//                }
+//                ,error: function(){
+//                    layer.closeAll('loading');
+//                }
+//            });
+//        }
+
+//         //噪声提交
+//         form.on("submit(component-form-element_onlineMonitorWasteWater)",function (data) {
+// alert(1)
+//         })
+
+    });
+</script>

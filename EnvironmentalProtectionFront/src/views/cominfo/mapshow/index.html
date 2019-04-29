@@ -1,0 +1,915 @@
+<script type="text/javascript" src="../src/views/online/monitor/statistics.js"></script>
+<script type="text/javascript" src="common/cominfo/mapshow.js"></script>
+<script type="text/javascript" src="highcharts/common.js"></script>
+<link rel="stylesheet" href="TDTNJApi/css/downcheckbox.css">
+<style type="text/css">
+    .diybutton{
+        height: 86px;
+        width: 15px;
+        position: absolute;
+        float: right;
+        top: 300px;
+        border: 1px solid #fff;
+        border-radius: 10px 0px 0px 10px;
+        cursor: pointer;
+        line-height: 3;
+        right: 0px;
+        z-index: 1;
+        background-color: white;
+    }
+
+    .topicList{
+        width:25%;
+        float:left;
+        cursor: pointer;
+    }
+
+    .topicList img{
+        margin-left:18px;
+    }
+
+    .topicList label{
+        cursor: pointer;
+        float: left;
+    }
+
+    .topicList input{
+        cursor: pointer;
+        position: absolute;
+        top: 66px;
+        margin-left: -24px;
+    }
+
+    .topicListRisk{
+        width:33%;
+        float:left;
+        cursor: pointer;
+    }
+
+    .topicListRisk img{
+        margin-left:18px;
+    }
+
+    .topicListRisk label{
+        cursor: pointer;
+        float: left;
+        margin-left: 18px;
+    }
+
+    .topicListRisk input{
+        cursor: pointer;
+        position: absolute;
+        top: 100px;
+        margin-left: -36px;
+    }
+    .searchdivRisk{
+        top: 120px;
+        position: absolute;
+    }
+
+    .searchResultRisk{
+        position: absolute;
+        height:200px;
+        border: 1px;
+        width:410px;
+        margin-top:140px;
+    }
+
+    .searchdiv{
+        top: 80px;
+        position: absolute;
+    }
+    .titleNav{
+        position: absolute;
+        width:500px;
+        z-index: 1;
+        top:22px;
+        box-shadow: 2px 3px 3px #888888;
+        opacity: 0.8;
+    }
+    .searchResultDiv{
+        position: absolute;
+        height:200px;
+        border: 1px;
+        width:410px;
+    }
+    .resultDiv{
+        /*height: 396px;*/
+        overflow: auto;
+    }
+
+    .searchdivOnline{
+        margin-top: 30px;
+    }
+
+    .onlineTopic{
+        float: left;
+        margin-left: 20px;
+    }
+    .onlineTopic input{
+        cursor: pointer;
+    }
+    .onlineTopic label{
+        cursor: pointer;
+    }
+    .resultDivRisk{
+        /*height: 520px;*/
+        overflow: auto;
+    }
+
+    .resultDivOnline{
+        /*height: 600px;*/
+        overflow: auto;
+    }
+    .searchResultDivOnline{
+        position: absolute;
+        height:200px;
+        border: 1px;
+        width:410px;
+    }
+    .searchinput{
+        height:26px;
+        width:95%;
+    }
+    .searchlabel{
+        width:65px;
+        height:30px;
+        padding: 0 5px;
+        font-size: 12px;
+        border: #7b9ebd 1px solid;
+        line-height: 20px;
+        cursor: pointer;
+    }
+    .myitem{
+        height:40px;
+    }
+    .topAndDown{
+        top:45px;
+    }
+    .topicListIsotope{
+        width:33%;
+        float:left;
+        cursor: pointer;
+    }
+
+    .topicListIsotope img{
+        margin-left:18px;
+    }
+
+    .topicListIsotope label{
+        cursor: pointer;
+        float: left;
+        margin-left: 24px;
+    }
+
+    .topicListIsotope input{
+        cursor: pointer;
+        position: absolute;
+        top: 80px;
+        margin-left: -33px;
+    }
+</style>
+
+<title>一张图</title>
+
+<!--<div class="layui-card layadmin-header">-->
+<!--<div class="layui-breadcrumb" lay-filter="breadcrumb">-->
+<!--<a lay-href="">主页</a>-->
+<!--&lt;!&ndash;<a lay-href="cominfo/" id="aCite"><cite>信息管理</cite></a>&ndash;&gt;-->
+<!--<a><cite>一张图</cite></a>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="layui-fluid" id="LAY-app-main">
+    <div class="layui-card">
+        <div class="titleNav">
+            <ul class="layui-nav layui-bg-green-diy" lay-filter="">
+                <li class="layui-nav-item myitem" style="line-height: 40px">
+                    <a href="javascript:;" id="companyMap" style="color: #000000;width: 90px;" >专题图</a>
+                    <!--<dl class="layui-nav-child"> &lt;!&ndash; 二级菜单 &ndash;&gt;-->
+                    <!--<dd><a id="pointMap" href="javascript:void(0);">点图</a></dd>-->
+                    <!--<dd><a id="heatMap" href="javascript:void(0);">热力图</a></dd>-->
+                    <!--</dl>-->
+                </li>
+                <li class="layui-nav-item myitem" style="line-height: 40px">
+                    <a href="javascript:;" style="color: #000000;width: 90px;">污染源监测</a>
+                    <dl class="layui-nav-child topAndDown"> <!-- 二级菜单 -->
+                        <dd><a id="waterMap" href="javascript:void(0);">水排放监测图</a></dd>
+                        <dd><a id="airMap" href="javascript:void(0);">气排放监测图</a></dd>
+                        <dd><a id="VOCsMap" href="javascript:void(0);">VOCs排放监测图</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item myitem" style="line-height: 40px">
+                    <a href="javascript:;" style="color: #000000;width: 90px;">风险源</a>
+                    <dl class="layui-nav-child topAndDown"> <!-- 二级菜单 -->
+                        <dd><a id="riskMap" href="javascript:void(0);">涉源企业</a></dd>
+                        <dd><a id="dangerousMap" href="javascript:void(0);">涉危企业</a></dd>
+                        <dd><a id="isotopeMap" href="javascript:void(0);">涉放射性企业</a></dd>
+                    </dl>
+                </li>
+                <!--<li class="layui-nav-item myitem" style="line-height: 40px">-->
+                <!--<a id="isotopeMap" href="javascript:void(0);" style="color: #000000;">放射性同位素</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div style="background-color: #F2F2F2;">
+                <div class="layui-row ">
+                    <div class="layui-card" id="layui-tab-main" style="margin-bottom:0px;">
+                        <div id="diyhide" class="diybutton" style="right:410px;">收起</div>
+                        <div id="diyshow" class="diybutton layui-hide" style="right:20px;">展开</div>
+                        <div class="layui-col-md3" id="rightmap" style="position: absolute;right: 10px;width:400px;float: right;z-index: 1;background-color: white" >
+                            <div id="company" class="whole">
+                                <div class="layui-card" style="margin-bottom: 0px;">
+                                    <div class="layui-card-header" style="height: 30px">专题分类</div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-tab">
+                                            <ul class="layui-tab-title" id="total_subject_classify">
+                                                <li class="layui-this" id="firstClick" value="0">监管级别</li>
+                                                <li value="1">污染分类</li>
+                                                <li value="2">评价等级</li>
+                                                <li value="3">其他</li>
+                                            </ul>
+                                            <div class="layui-tab-content" style="height:120px;" id="subjectClassify">
+                                                <div class="layui-tab-item layui-show" id="subjectClassify0"></div>
+                                                <div class="layui-tab-item" id="subjectClassify1"></div>
+                                                <div class="layui-tab-item" id="subjectClassify2"></div>
+                                                <div class="layui-tab-item" id="subjectClassify3"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-card" style="margin-bottom: -10px;">
+                                    <!--<div class="layui-card-header" style="height: 30px">专题列表</div>-->
+                                    <div class="layui-card-body" id="topicListDiv">
+                                        <!--<div id="topic1" class="topicList">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/1.png" />-->
+                                        <!--<label>国控污染源</label>-->
+                                        <!--<input type="radio" name="topicType" value="121" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="topic2" class="topicList">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/2.png" />-->
+                                        <!--<label>省控污染源</label>-->
+                                        <!--<input type="radio" name="topicType" value="122" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="topic3" class="topicList">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/3.png" />-->
+                                        <!--<label>市控污染源</label>-->
+                                        <!--<input type="radio" name="topicType" value="123" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="topic4" class="topicList">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/4.png" />-->
+                                        <!--<label>非重点污染源</label>-->
+                                        <!--<input type="radio" name="topicType" value="124" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <div class="layui-col-md12" style="margin-top: 10px">
+                                            <div class="layui-col-md9">
+                                                <input type="text" id="companyName" class="searchinput" placeholder="请输入企业名称" />
+                                            </div>
+                                            <div class="layui-col-md3"></div>
+                                            <input type="button" id="searchButton" class="searchlabel" value="搜索"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="margin-top: 4px;height: 100%;">
+                                            <div id="searchResultDiv">
+                                                <div id="resultDiv" class="resultDiv">查询结果（无）</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="online" class="layui-hide whole">
+                                <div class="layui-card">
+                                    <!--<div class="layui-card-header">监测专题</div>-->
+                                    <div class="layui-card-body" id="topicListDivOnline">
+                                        <!--<div >-->
+                                        <!--<div class="onlineTopic">-->
+                                        <!--<input type="checkbox" value="0"/>-->
+                                        <!--<label>全部</label>-->
+                                        <!--</div>-->
+                                        <!--<div class="onlineTopic">-->
+                                        <!--<input type="checkbox" value="1"/>-->
+                                        <!--<label>化学需氧量</label>-->
+                                        <!--</div>-->
+                                        <!--<div class="onlineTopic">-->
+                                        <!--<input type="checkbox" value="2"/>-->
+                                        <!--<label>氨氮</label>-->
+                                        <!--</div>-->
+                                        <!--<div class="onlineTopic">-->
+                                        <!--<input type="checkbox" value="3"/>-->
+                                        <!--<label>PH</label>-->
+                                        <!--</div>-->
+                                        <!--<div class="onlineTopic">-->
+                                        <!--<input type="checkbox" value="4"/>-->
+                                        <!--<label>总磷</label>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="layui-col-md12">
+                                            <div class="layui-col-md9">
+                                                <input type="text" id="companyNameOnline" class="searchinput" placeholder="请输入企业名称" />
+                                            </div>
+                                            <div class="layui-col-md3"></div>
+                                            <input type="button" id="searchButtonOnline" class="searchlabel" value="搜索"/>
+                                        </div>
+                                        <div class="layui-col-md12">
+                                            <div id="searchResultDivOnline">
+                                                <div id="resultDivOnline" class="resultDivOnline">查询结果（无）</div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="searchdivOnline">-->
+                                        <!--<input type="text" id="companyNameOnline"  class="searchinput" placeholder="请输入企业名称" />-->
+                                        <!--<input type="button" id="searchButtonOnline" class="searchlabel" value="搜索"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="searchResultDivOnline" class="searchResultDivOnline">-->
+                                        <!--<div id="resultDivOnline" class="resultDivOnline">查询结果（无）</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="risk" class="layui-hide whole">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">风险等级</div>
+                                    <div class="layui-card-body" id="topicListDivRisk">
+                                        <div id="topicRisk1" class="topicListRisk">
+                                            <img src="TDTNJApi/profile/images/topic/risk1.png" />
+                                            <label>重大风险源</label>
+                                            <input type="radio" name="topicTypeRisk" value="3" class="topicType"/>
+                                        </div>
+                                        <div id="topicRisk2" class="topicListRisk">
+                                            <img src="TDTNJApi/profile/images/topic/risk2.png" />
+                                            <label>较大风险源</label>
+                                            <input type="radio" name="topicTypeRisk" value="2" class="topicType"/>
+                                        </div>
+                                        <div id="topicRisk3" class="topicListRisk">
+                                            <img src="TDTNJApi/profile/images/topic/risk3.png" />
+                                            <label>一般风险源</label>
+                                            <input type="radio" name="topicTypeRisk" value="1" class="topicType"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="top: 20px">
+                                            <div class="layui-col-md9">
+                                                <input type="text" id="companyNameRisk" class="searchinput" placeholder="请输入企业名称" />
+                                            </div>
+                                            <div class="layui-col-md3"></div>
+                                            <input type="button" id="searchButtonRisk" class="searchlabel" value="搜索"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="top: 20px;">
+                                            <div id="searchResultRisk">
+                                                <div id="resultDivRisk" class="resultDivRisk">查询结果（无）</div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="searchdivRisk">-->
+                                        <!--<input type="text" id="companyNameRisk"  class="searchinput"  placeholder="请输入企业名称" />-->
+                                        <!--<input type="button" id="searchButtonRisk" class="searchlabel" value="搜索"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="searchResultRisk" class="searchResultRisk">-->
+                                        <!--<div id="resultDivRisk" class="resultDivRisk">查询结果（无）</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="danger" class="layui-hide whole">
+                                <div class="layui-card">
+                                    <!--<div class="layui-card-header">风险等级</div>-->
+                                    <div class="layui-card-body" id="topicListDivfanger">
+                                        <!--<div id="topicRisk1" class="topicListRisk">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/risk1.png" />-->
+                                        <!--<label>重大风险源</label>-->
+                                        <!--<input type="radio" name="topicTypeRisk" value="199" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="topicRisk2" class="topicListRisk">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/risk2.png" />-->
+                                        <!--<label>较大风险源</label>-->
+                                        <!--<input type="radio" name="topicTypeRisk" value="200" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="topicRisk3" class="topicListRisk">-->
+                                        <!--<img src="TDTNJApi/profile/images/topic/risk3.png" />-->
+                                        <!--<label>一般风险源</label>-->
+                                        <!--<input type="radio" name="topicTypeRisk" value="201" class="topicType"/>-->
+                                        <!--</div>-->
+                                        <div class="layui-col-md12" style="top: 20px">
+                                            <div class="layui-col-md9">
+                                                <input type="text" id="companyNameDanger" class="searchinput" placeholder="请输入企业名称" />
+                                            </div>
+                                            <div class="layui-col-md3"></div>
+                                            <input type="button" id="searchButtonDanger" class="searchlabel" value="搜索"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="top: 20px;">
+                                            <div id="searchResultDanger">
+                                                <div id="resultDivDanger" class="resultDivRisk">查询结果（无）</div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="searchdivRisk">-->
+                                        <!--<input type="text" id="companyNameRisk"  class="searchinput"  placeholder="请输入企业名称" />-->
+                                        <!--<input type="button" id="searchButtonRisk" class="searchlabel" value="搜索"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="searchResultRisk" class="searchResultRisk">-->
+                                        <!--<div id="resultDivRisk" class="resultDivRisk">查询结果（无）</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="isotope" class="layui-hide whole">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">放射性类别</div>
+                                    <div class="layui-card-body" id="topicListDivIsotope">
+                                        <div id="topicIsotope1" class="topicListIsotope layui-col-md12">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope1.png" />
+                                            <label>密封Ⅰ</label>
+                                            <input type="radio" name="topicTypeIsotope" value="1" class="topicType"/>
+                                        </div>
+                                        <div id="topicIsotope2" class="topicListIsotope layui-col-md12">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope2.png" />
+                                            <label>密封Ⅱ</label>
+                                            <input type="radio" name="topicTypeIsotope" value="2" class="topicType"/>
+                                        </div>
+                                        <div id="topicIsotope3" class="topicListIsotope layui-col-md12">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope3.png" />
+                                            <label>密封Ⅲ</label>
+                                            <input type="radio" name="topicTypeIsotope" value="3" class="topicType"/>
+                                        </div>
+                                        <div id="topicIsotope4" class="topicListIsotope layui-col-md12" style="top: 20px">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope4.png" />
+                                            <label>密封Ⅳ</label>
+                                            <input type="radio" name="topicTypeIsotope" value="4" class="topicType"/>
+                                        </div>
+                                        <div id="topicIsotope5" class="topicListIsotope layui-col-md12" style="top: 20px">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope5.png" />
+                                            <label>密封Ⅴ</label>
+                                            <input type="radio" name="topicTypeIsotope" value="5" class="topicType"/>
+                                        </div>
+                                        <div id="topicIsotope6" class="topicListIsotope layui-col-md12" style="top: 20px">
+                                            <img src="TDTNJApi/profile/images/isotope/isotope6.png" />
+                                            <label>非密封</label>
+                                            <input type="radio" name="topicTypeIsotope" value="6" class="topicType"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="top: 40px">
+                                            <div class="layui-col-md9">
+                                                <input type="text" id="companyNameIsotope" class="searchinput" placeholder="请输入企业名称" />
+                                            </div>
+                                            <div class="layui-col-md3"></div>
+                                            <input type="button" id="searchButtonIsotope" class="searchlabel" value="搜索"/>
+                                        </div>
+                                        <div class="layui-col-md12" style="top: 40px;">
+                                            <div id="searchResultIsotope">
+                                                <div id="resultDivIsotope" class="resultDivRisk">查询结果（无）</div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="searchdivRisk">-->
+                                        <!--<input type="text" id="companyNameRisk"  class="searchinput"  placeholder="请输入企业名称" />-->
+                                        <!--<input type="button" id="searchButtonRisk" class="searchlabel" value="搜索"/>-->
+                                        <!--</div>-->
+                                        <!--<div id="searchResultRisk" class="searchResultRisk">-->
+                                        <!--<div id="resultDivRisk" class="resultDivRisk">查询结果（无）</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,element = layui.element
+            ,setter = layui.setter
+            ,baseurl = setter.remoteServiceAddress + "/map"
+            ,featureList = []//要素数组对象
+            ,global_obj = {}
+            ,monitorType = 0
+            ,risktabType = 2;
+
+        element.render('nav');
+
+        var lefttemp = (window.innerWidth - $(".titleNav").width())/2;
+
+        $(".titleNav").css({"left":""+lefttemp+"px"})
+
+        if($("#tab-content")){
+            $("#tab-content").empty();
+            $("#tab-content").remove();
+        }
+        var div_content = $("<div>").attr("id","tab-content");
+        $("#layui-tab-main").append(div_content);
+        var div_whole = $("<div>").css({'width':'100%','height':''+($("#LAY_app_body").height() -41)+''});
+        div_content.append(div_whole);
+        var div_wrapper = $("<div>").addClass("wrapper").css({'top':'0px'});
+        div_whole.append(div_wrapper);
+        var div_simpleMap = $("<div>").addClass("newmap").attr("id","simpleMap").css({height:''+($("#LAY_app_body").height() -41)+''});
+        div_wrapper.append(div_simpleMap);
+        BaiduMap.init(0,admin,setter,$,setter);
+
+        $("#topicListDiv").css({'height':''+($("#LAY_app_body").height() -322)+''});
+
+        $("#diyhide").bind('click',function () {
+            // $("#mainmap").animate({width:"100%"});
+            $("#rightmap").animate({width:"0px"});
+            $("#diyhide").animate({right:"0px"});
+            setTimeout(function () {
+                $("#rightmap .layui-card").hide();
+                $("#diyshow").removeClass("layui-hide");
+                $("#diyhide").addClass("layui-hide");
+            },400)
+        });
+        $("#diyshow").bind('click',function () {
+            $("#rightmap .layui-card").show();
+            // $("#mainmap").animate({width:"75%"});
+            $("#rightmap").animate({width:"400px"});
+            $("#diyhide").removeClass("layui-hide");
+            $("#diyhide").animate({right:"410px"});
+            $("#diyshow").addClass("layui-hide");
+        });
+
+        $("#companyMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            $(".whole").addClass("layui-hide");
+            $("#company").removeClass("layui-hide");
+//            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList);
+//            mapshow.getTotalCompanyLevel(admin,setter,$,baseurl,featureList);
+//            $("[name='topicType']").each(function () {
+//                $(this).prop("checked",false);
+//            });
+            if($("#resultDiv")){
+                $("#resultDiv").empty();
+                $("#resultDiv").remove();
+            }
+            var resultDiv = $("<div>").attr("id","resultDiv").addClass("resultDiv");
+            $("#searchResultDiv").append(resultDiv);
+            var divtip = $("<div>").text("查询结果（无）");
+            resultDiv.append(divtip);
+            $("#firstClick").trigger("click");
+            // BaiduMap.lon_temp = 118.808425;
+            // BaiduMap.lat_temp = 32.23416;
+            BaiduMap.lon_temp = 119.278027;
+            BaiduMap.lat_temp = 35.096744;
+            BaiduMap.zoom_temp = 13;
+            BaiduMap.maptype = 0;
+        });
+
+//        $("#heatMap").bind("click",function () {
+//            $(".whole").addClass("layui-hide")
+//            $("#company").removeClass("layui-hide")
+//            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList);
+//        });
+
+        $("#waterMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            monitorType = 0;
+            $(".whole").addClass("layui-hide");
+            $("#online").removeClass("layui-hide");
+            $("#topicListDivOnline").css({'height':''+($("#LAY_app_body").height() -60)+''});
+            // mapshow.getMonitorLocationForMap(admin,setter,$,baseurl,featureList,monitorType);
+            var global_objtemp = {}
+            global_objtemp.wasteType = 1
+            global_objtemp.differType = 1
+            BaiduMap.map_level = 0;
+            BaiduMap.maptype = 1;
+            BaiduMap.zoom_temp = 11;
+            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_objtemp);
+            BaiduMap.monitorType = monitorType;
+            BaiduMap.wasteType = global_objtemp.wasteType;
+        });
+
+        $("#airMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            monitorType = 1;
+            $(".whole").addClass("layui-hide");
+            $("#online").removeClass("layui-hide");
+            // mapshow.getMonitorLocationForMap(admin,setter,$,baseurl,featureList,monitorType);
+            var global_objtemp = {}
+            global_objtemp.wasteType = 2
+            global_objtemp.differType = 1
+            BaiduMap.map_level = 0;
+            BaiduMap.maptype = 1;
+            BaiduMap.zoom_temp = 11;
+            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_objtemp);
+            BaiduMap.monitorType = monitorType;
+            BaiduMap.wasteType = global_objtemp.wasteType;
+        });
+
+        $("#VOCsMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            monitorType = 2;
+            $(".whole").addClass("layui-hide");
+            $("#online").removeClass("layui-hide");
+            // mapshow.getMonitorLocationForMap(admin,setter,$,baseurl,featureList,monitorType);
+            var global_objtemp = {}
+            global_objtemp.wasteType = 4
+            global_objtemp.differType = 1
+            BaiduMap.map_level = 0;
+            BaiduMap.maptype = 1;
+            BaiduMap.zoom_temp = 11;
+            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_objtemp);
+            BaiduMap.monitorType = monitorType;
+            BaiduMap.wasteType = global_objtemp.wasteType;
+        });
+
+        $("#riskMap").bind("click",function () {
+            risktabType = 2;
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            $(".whole").addClass("layui-hide");
+            $("#risk").removeClass("layui-hide");
+            $("#topicListDivRisk").css({'height':''+($("#LAY_app_body").height() -101)+''});
+//            mapshow.getRiskSourceForMap(admin,setter,$,baseurl,featureList,risktabType);
+            $("[name='topicTypeRisk']").each(function () {
+                $(this).prop("checked",false);
+            });
+            if($("#resultDivRisk")){
+                $("#resultDivRisk").empty();
+                $("#resultDivRisk").remove();
+            }
+            var resultDiv = $("<div>").attr("id","resultDivRisk").addClass("resultDivRisk");
+            $("#searchResultRisk").append(resultDiv);
+            var divtip = $("<div>").text("查询结果（无）");
+            resultDiv.append(divtip);
+            topicListRiskTpl();
+        });
+
+        $("#dangerousMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+            risktabType = 3;
+            $(".whole").addClass("layui-hide");
+            $("#danger").removeClass("layui-hide");
+            $("#topicListDivDanger").css({'height':''+($("#LAY_app_body").height() -101)+''});
+            BaiduMap.maptype = 3;
+            BaiduMap.zoom_temp = 11;
+            mapshow.getDangerSourceForMap(admin,setter,$,baseurl,featureList,risktabType);
+//            $("[name='topicTypeRisk']").each(function () {
+//                $(this).prop("checked",false);
+//            });
+            if($("#resultDivDanger")){
+                $("#resultDivDanger").empty();
+                $("#resultDivDanger").remove();
+            }
+            var resultDiv = $("<div>").attr("id","resultDivDanger").addClass("resultDivRisk");
+            $("#searchResultDanger").append(resultDiv);
+            var divtip = $("<div>").text("查询结果（无）");
+            resultDiv.append(divtip);
+        });
+
+//        $(".topicList").each(function () {
+//            $(this).bind("click",function () {
+//                var children =$(this).children();
+//                var radio = children[2];
+//                $(radio).prop("checked",true);
+//                $("#companyName").val("");
+//                mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,radio.value,"");
+//            });
+//        });
+
+        $("#searchButton").bind("click",function () {
+//            var topicType = $('input[name="topicType"]:checked').val();
+            var companyName = $("#companyName").val();
+            mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,companyName,global_obj);
+        });
+
+//        $(".onlineTopic label").each(function () {
+//            $(this).bind("click",function () {
+//                var checkbox = $(this).prev();
+//                if($(checkbox).prop("checked")){
+//                    $(checkbox).prop("checked",false);
+//                }else{
+//                    $(checkbox).prop("checked",true);
+//                }
+//
+//            });
+//        });
+
+        $("#searchButtonOnline").bind("click",function () {
+            var companyNameOnline = $("#companyNameOnline").val();
+            if(BaiduMap.map_level == 1){
+                mapshow.getMonitorLocationForMap(admin,setter,$,baseurl,featureList,monitorType,1,companyNameOnline);
+            }else{
+                var global_obj_temp = {};
+                global_obj_temp.wasteType = BaiduMap.wasteType;
+                global_obj_temp.differType = 1;
+                mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,companyNameOnline,global_obj_temp);
+            }
+        });
+
+        function topicListRiskTpl() {
+            $("#risk .topicListRisk").each(function () {
+                $(this).bind("click",function () {
+                    var children =$(this).children();
+                    var radio = children[2];
+                    $(radio).prop("checked",true);
+                    $("#companyNameRisk").val("");
+                    BaiduMap.maptype = 2;
+                    BaiduMap.zoom_temp = 11;
+                    mapshow.getRiskSourceForMap(admin,setter,$,baseurl,featureList,risktabType,radio.value,"");
+                });
+                $("#risk .topicListRisk:first-child").trigger("click");
+            });
+        }
+
+        $("#searchButtonRisk").bind("click",function () {
+            var topicTypeRisk = $('input[name="topicTypeRisk"]:checked').val();
+            var companyNameRisk = $("#companyNameRisk").val();
+            mapshow.getRiskSourceForMap(admin,setter,$,baseurl,featureList,risktabType,topicTypeRisk,companyNameRisk);
+        });
+
+        $("#searchButtonDanger").bind("click",function () {
+            var companyNameDanger = $("#companyNameDanger").val();
+            mapshow.getDangerSourceForMap(admin,setter,$,baseurl,featureList,risktabType,companyNameDanger);
+        });
+
+        $("#isotopeMap").bind("click",function () {
+            $("#companyNameOnline").val("");
+            $("#companyNameRisk").val("");
+            $("#companyNameDanger").val("");
+//            var radioactiveCategory = 4;
+            $(".whole").addClass("layui-hide");
+            $("#isotope").removeClass("layui-hide");
+            $("#topicListDivIsotope").css({'height':''+($("#LAY_app_body").height() -101)+''});
+            mapshow.getIsotopeForMap(admin,setter,$,baseurl,featureList);
+//            $("[name='topicTypeRisk']").each(function () {
+//                $(this).prop("checked",false);
+//            });
+            if($("#resultDivIsotope")){
+                $("#resultDivIsotope").empty();
+                $("#resultDivIsotope").remove();
+            }
+            var resultDiv = $("<div>").attr("id","resultDivIsotope").addClass("resultDivRisk");
+            $("#searchResultIsotope").append(resultDiv);
+            var divtip = $("<div>").text("查询结果（无）");
+            resultDiv.append(divtip);
+            topicListIsotopeTpl();
+        });
+
+        $("#searchButtonIsotope").bind("click",function () {
+            var topicTypeIsotope = $('input[name="topicTypeIsotope"]:checked').val();
+            var companyNameIsotope = $("#companyNameIsotope").val();
+            mapshow.getIsotopeForMap(admin,setter,$,baseurl,featureList,topicTypeIsotope,companyNameIsotope);
+        });
+
+        function topicListIsotopeTpl() {
+            $("#isotope .topicListIsotope").each(function () {
+                $(this).bind("click",function () {
+                    var children =$(this).children();
+                    var radio = children[2];
+                    $(radio).prop("checked",true);
+                    $("#companyNameIsotope").val("");
+                    BaiduMap.maptype = 4;
+                    BaiduMap.zoom_temp = 11;
+                    mapshow.getIsotopeForMap(admin,setter,$,baseurl,featureList,radio.value,"");
+                });
+                $("#isotope .topicListIsotope:first-child").trigger("click");
+            });
+        }
+
+        $("#companyMap").trigger("click");
+
+
+        var differType=0;
+        $("#total_subject_classify li").off("click").on("click",function () {
+            $("#subjectClassify0").html("");
+            differType=$(this).val();
+            $("#companyName").val("");
+            if(differType==0){
+                var url=setter.remoteServiceAddress + "/market/sysdict/dicts/regulatory_level_type";
+                subjectClassify(url,differType,null,null);
+            }
+            if(differType==1){
+                var keys=[0,1,2,3,4,5];
+                var values=["全部","废水","废气","固废","VOCs","重金属"];
+                subjectClassify(null,differType,keys,values);
+            }
+            if(differType==2){
+                var url=setter.remoteServiceAddress + "/market/sysdict/dicts/credit_evaluation_type";
+                subjectClassify(url,differType,null,null);
+            }
+            if(differType==3){
+                var keys=[0,1,2,3,4,5,6,7];
+                var values=["全部","污水处理厂","电力企业","固废经营","已排污申报","已征排污费","清洁生产","环境统计"];
+                subjectClassify(null,differType,keys,values);
+            }
+        });
+        $(function (){
+            $("#firstClick").trigger("click");
+        });
+        function subjectClassify(url,differType,keys,values) {
+            $("#subjectClassify"+differType).html("");
+            if(differType==0||differType==2){
+                admin.req({//获取字典请求
+                    url: url
+                    , done: function (result) {
+                        $("#subjectClassify"+differType).html("");
+                        var subjectClassify=$("#subjectClassify"+differType);
+                        var div0=$("<div>").addClass("layui-col-md6");
+                        var span0=$("<span>").text("全部").attr("name","");
+                        div0.append(span0);
+                        subjectClassify.append(div0);
+                        var dicts=result.dicts;
+                        for(var i=0;i<dicts.length;i++){
+                            var div=$("<div>").addClass("layui-col-md6");
+                            var span=$("<span>").text(dicts[i].value).attr("name",dicts[i].key);
+                            div.append(span);
+                            subjectClassify.append(div);
+                        }
+                        subjectClassifyTpl(differType);
+                    }
+                });
+            }
+            if(differType==1||differType==3){
+                var subjectClassify=$("#subjectClassify"+differType);
+                for(var i=0;i<keys.length;i++){
+                    var div=$("<div>").addClass("layui-col-md6");
+                    var span=$("<span>").text(values[i]).attr("name",keys[i]);
+                    div.append(span);
+                    subjectClassify.append(div);
+                }
+                subjectClassifyTpl(differType);
+            }
+        }
+
+        function subjectClassifyTpl(differType) {
+            global_obj.differType=[];
+            global_obj.regulatoryLevel=[];
+            global_obj.wasteType=[];
+            global_obj.creditEvaluation=[];
+            global_obj.otherCondition=[];
+            if(differType==0){
+                var subjectClassifyType0=0;
+                $("#subjectClassify0 span").off("click").on("click",function () {
+                    $("#companyName").val("");
+                    $("#subjectClassify0 span").attr("style","border: 1px solid #797979;color:#797979;");
+                    $(this).attr("style","border: 1px solid #FF3366;color:#FF3366;");
+                    subjectClassifyType0=$(this).attr("name");
+                    global_obj.differType=differType;
+                    global_obj.regulatoryLevel=subjectClassifyType0;
+                    BaiduMap.map_level = 1;
+                    mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_obj);
+//                    mapshow.getTotalCompanyLevel(admin,setter,$,baseurl,featureList);
+                });
+
+                $("#subjectClassify0 div:first-child span").trigger("click");
+            }
+            if(differType==1){
+                var subjectClassifyType1=0;
+                $("#subjectClassify1 span").off("click").on("click",function () {
+                    $("#companyName").val("");
+                    $("#subjectClassify1 span").attr("style","border: 1px solid #797979;color:#797979;");
+                    $(this).attr("style","border: 1px solid #FF3366;color:#FF3366;");
+                    subjectClassifyType1=$(this).attr("name");
+                    global_obj.differType=differType;
+                    global_obj.wasteType=subjectClassifyType1;
+                    BaiduMap.map_level = 1;
+                    mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_obj);
+//                    mapshow.getTotalCompanyLevel(admin,setter,$,baseurl,featureList);
+                });
+
+                $("#subjectClassify1 div:first-child span").trigger("click");
+            }
+            if(differType==2){
+                var subjectClassifyType2=0;
+                $("#subjectClassify2 span").off("click").on("click",function () {
+                    $("#companyName").val("");
+                    $("#subjectClassify2 span").attr("style","border: 1px solid #797979;color:#797979;");
+                    $(this).attr("style","border: 1px solid #FF3366;color:#FF3366;");
+                    subjectClassifyType2=$(this).attr("name");
+                    global_obj.differType=differType;
+                    global_obj.creditEvaluation=subjectClassifyType2;
+                    BaiduMap.map_level = 1;
+                    mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_obj);
+//                    mapshow.getTotalCompanyLevel(admin,setter,$,baseurl,featureList);
+                });
+
+                $("#subjectClassify2 div:first-child span").trigger("click");
+            }
+            if(differType==3){
+                var subjectClassifyType3=0;
+                $("#subjectClassify3 span").off("click").on("click",function () {
+                    $("#companyName").val("");
+                    $("#subjectClassify3 span").attr("style","border: 1px solid #797979;color:#797979;");
+                    $(this).attr("style","border: 1px solid #FF3366;color:#FF3366;");
+                    subjectClassifyType3=$(this).attr("name");
+                    global_obj.differType=differType;
+                    global_obj.otherCondition=subjectClassifyType3;
+                    BaiduMap.map_level = 1;
+                    mapshow.getCompanyLocationForMap(admin,setter,$,baseurl,featureList,null,null,global_obj);
+//                    mapshow.getTotalCompanyLevel(admin,setter,$,baseurl,featureList);
+                });
+
+                $("#subjectClassify3 div:first-child span").trigger("click");
+            }
+        }
+
+    });
+</script>

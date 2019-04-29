@@ -1,0 +1,315 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="common/cominfo/emergencysystem.js"></script>
+
+
+
+<style type="text/css">
+    #LAY-app-message .layui-table-body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+
+<title>应急物资</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>环境应急</cite></a>
+        <a><cite>应急物资</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入存放单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-emergency-systemSupplies" lay-filter="LAY-emergency-systemSupplies"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="suppliesTypeName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">物资名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="suppliesName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">物资类型：</label>
+                            <div class="layui-input-block">
+                                <select id="suppliesType" name="suppliesType" lay-filter="suppliesType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="emergencysystemsuppliesedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid" value="{{d.pid}}"/>
+                    <input type="hidden" name="cid" value="{{d.cid}}"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>物资名称：</td>
+                            <td>
+                                <input type="text" name="suppliesName" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物资数量：</td>
+                            <td>
+                                <input type="text" name="suppliesNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物资单位：</td>
+                            <td>
+                                <input type="text" name="suppliesUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物资类型：</td>
+                            <td>
+                                <input type="text" name="suppliesTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>存放单位：</td>
+                            <td>
+                                <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>存放地址：</td>
+                            <td>
+                                <input type="text" name="storeAddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人：</td>
+                            <td>
+                                <input type="text" name="linkmen" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>联系人电话：</td>
+                            <td>
+                                <input type="text" name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/emergency/emergencysystemsupplies";
+        var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var criterias = {
+            table: 'vw_emergency_system_supplies',
+            title: "应急物资记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //物资类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/supplies_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var suppliesType=$("#suppliesType");
+                var optiona=$("<option>").text("请选择").val("");
+                suppliesType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    suppliesType.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(suppliesType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='suppliesTypeName']").val(name);
+            }else {
+                $("[name='suppliesTypeName']").val("");
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-emergency-systemSupplies'
+            ,url: baseurl
+            ,page: true
+            ,height: 'full-280'
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '存放单位', minWidth: 180,unresize: true,templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                        }}}
+                ,{field: 'suppliesName', title: '物资名称', event:"showDetail",style:'color:blue;cursor:pointer;', width: 140,unresize: true,templet: function(item, index){
+                        if(item.suppliesName!=""){
+                            return '<span title="'+item.suppliesName+'">'+item.suppliesName+'</span>';
+                        }}}
+                ,{field: 'suppliesTypeName', title: '物资类型', width: 100,unresize: true}
+                ,{field: 'suppliesNumber', title: '物资数量', width: 130,unresize: true}
+                ,{field: 'suppliesUnit', title: '物资单位', minWidth: 100,unresize: true}
+                ,{field: 'storeAddress', title: '存放地址', minWidth: 100,unresize: true}
+                ,{field: 'linkmen', title: '联系人', width: 100,unresize: true}
+                ,{field: 'linkphone', title: '联系人电话', width: 140,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+        });
+
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-emergency-systemSupplies","onlineCompanyReloadButton","labelTip");
+
+        //监听单元格事件
+        table.on('tool(LAY-emergency-systemSupplies)', function(obj){
+            if(obj.event === 'showDetail'){
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:  ['1100px', '300px']
+                    // offset: '120px',
+                    , content: recordShowInfo.innerHTML
+                });
+                for(var id in data){
+                    $("#emergencysystemsuppliesedit [name='"+id+"']").val(data[id]);
+                    $("#emergencysystemsuppliesedit [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+
+        });
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "存放单位,物资名称,物资类型,物资数量,物资单位,联系人,联系人电话";
+//            var headerfield = "companyName,suppliesName,suppliesTypeName,supplies_number,supplies_unit,linkmen,linkphone";
+//            // 生成表头和表头
+//            // for (var i = 0; i < colstemp[0].length; i++) {
+//            //     if (colstemp[0][i].title != undefined && colstemp[0][i].title != "") {
+//            //         if(i>1){
+//            //             header += colstemp[0][i].title + ",";
+//            //             // headerfield += colstemp[0][i].field + ",";
+//            //         }
+//            //     }
+//            // }
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: setter.remoteServiceAddress + "/common/exportExcel/export"
+//                ,data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+    });
+</script>

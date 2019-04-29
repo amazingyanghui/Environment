@@ -1,0 +1,509 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+
+<title>角色管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>角色管理</cite></a>
+    </div>
+</div>
+
+<style type="text/css">
+    .xtree_contianer {
+        width: 95%;
+        border: 1px solid #9C9C9C;
+        overflow: auto;
+        margin-bottom: 30px;
+        margin-left:10px;
+        background-color: #fff;
+        padding: 10px 0 25px 5px;
+    }
+</style>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-col-md12">
+                        <button class="layui-btn " id="add" perm="sysmgr:role:index:add">新增</button>
+                        <button class="layui-btn " id="mod" perm="sysmgr:role:index:mod">修改</button>
+                        <button class="layui-btn " id="del" perm="sysmgr:role:index:del">删除</button>
+                        <div style="float: right;margin-right: 30px;">
+                            <div class="layui-inline">
+                                <input class="layui-input" id="roleReload" autocomplete="off" placeholder="请输入角色名称">
+                            </div>
+                            <button class="layui-btn" data-type="roleReload" id="roleReloadQuery"  perm="sysmgr:role:index:query">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                            <button class="layui-btn" data-type="reset" id="reset" >
+                                <i class="layui-icon">&#xe669;</i>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="LAY-sysmgr-sysRole" lay-filter="LAY-sysmgr-sysRole"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 编辑弹窗 -->
+<script id="editRole" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="sysRoleedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" id="roleId" />
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">角色名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="roleName" lay-verify="required" placeholder="必填项" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">备注：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="remark" lay-verify="remark" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">所属部门：</label>
+                        <div class="layui-input-block">
+                            <!--<select id="select_deptId" name="deptId" lay-verify="required" >
+                            </select>-->
+                            <input type="hidden" id="select_deptId" >
+                            <input type="text" id="select_deptName" readonly lay-verify="required" placeholder="必填项" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!--<div class="layui-row layui-col-space10 layui-form-item layui-fluid">-->
+                    <div class="layui-col-md12" style="height:350px;overflow:auto;">
+                        <div class="layui-col-md6">
+                            <div style="margin-left: 37px;">
+                                <strong style="margin-left: 10px;">菜单功能权限</strong>
+                                <ul id="menu_tree" class="ztree" style="font-size: 14px;height: 300px;width: 300px;"></ul>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div style="margin-left: 32px;">
+                                <strong style="margin-left: 10px;">部门树</strong>
+                                <ul id="role_dept_select_tree"  style="font-size: 14px;height: 300px;width: 300px;" class="ztree"></ul>
+                            </div>
+                        </div>
+                    </div>
+                        <!--<div class="layui-col-md6">
+                            <strong>数据权限</strong>
+                            <div id="data_tree" name="deptId"  class="xtree_contianer"></div>
+                        </div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item" style="padding-top: 10px">
+                        <div class="layui-layer-btn-c">
+                            <!--<input class="layui-btn layui-btn-normal" id="confirm" value="确定"/>-->
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--部门模板-->
+<script id="deptTplSelect" type="text/html">
+    <option value=""></option>
+    {{#  layui.each(d, function(index, item){ }}
+    <option value="{{ item.deptId }}">{{ item.name }}</option>
+    {{#  }); }}
+    {{#  if(d.length === 0){ }}
+    <!--无数据-->
+    {{#  } }}
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','treeGrid','tree','form','perms'], function() {
+        // var $ = layui.$
+        var admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , setter = layui.setter
+            , form = layui.form
+            , perms = layui.perms
+            , global_obj = {}
+            , tree = layui.tree
+            , xtree = ""
+            ,windowindex = 0
+            , baseurl = setter.remoteServiceAddress + "/sys/role"
+            , treeGrid = layui.treeGrid; //很重要
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+        perms.doPerm();
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:role:list') === -1)) hasPermission = true;
+        //
+
+        form.verify({
+            remark: function(value,item){
+                if(value.length > 100){
+                    return '不能超过100个字符！';
+                }
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-sysmgr-sysRole'
+            , url: baseurl
+            , page: true
+            , even: true
+            , where: {
+                hasPermission: hasPermission
+            }
+            , headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            , cols: [[
+                {type: 'checkbox'}
+                ,{type: 'numbers', unresize: true, title: '序号',width:80}
+                // , {field: 'roleId', title: '角色ID',unresize: true, minWidth: 100, key: true}
+                , {field: 'roleName', title: '角色名称',unresize: true, minWidth: 100}
+                , {field: 'deptName', title: '部门',unresize: true, minWidth: 100}
+                , {field: 'remark', title: '备注',unresize: true, minWidth: 100}
+
+            ]]
+            , skin: 'line'
+            ,height: 'full-370'
+        });
+
+        var active = {
+            roleReload: function () {
+                var roleName = $('#roleReload').val();
+                //执行重载
+                table.reload('LAY-sysmgr-sysRole', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        roleName: roleName
+                    }
+                });
+            }
+            ,reset:function () {
+                $('#roleReload').val("");
+                $("#roleReloadQuery").click();
+            }
+        };
+        $("#roleReload").keypress(function(event){
+            if(event.keyCode==13){
+                $("#roleReloadQuery").click();
+            }
+        });
+
+        $('.layui-btn').bind('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        global_obj.deptList = [];//创建部门数组对象
+        global_obj.menuList = [];//创建菜单数组对象
+        admin.req({//获取请求
+            url: baseurl + "/getTreesList"
+            , done: function (result) {
+                global_obj.deptList = result.deptTree;
+                global_obj.menuList = result.menuTree
+            }
+        });
+
+        var editwin = function (title, data) {
+            windowindex = layer.open({
+                type: 1
+                , title: title
+                , area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '600px']
+                // offset: '120px',
+                , content: editRole.innerHTML
+            });
+
+            var setting = {
+                check: {
+                    enable: true
+                }
+            };
+            $.fn.zTree.init($("#menu_tree"), setting, global_obj.menuList);
+            if (data) {
+                var loadindex = layer.load(1);
+                admin.req({//根据id获取该记录的详细信息
+                    url: baseurl + "/" + data.roleId
+                    , done: function (result) {
+                        layer.close(loadindex);
+                        if (result.code == 0) {//成功
+                            for (var id in result.role) {
+                                if (id == "deptId") {//部门
+                                    $("#select_deptId").val(result.role.deptId);
+                                    $("#select_deptName").val(data.deptName);
+                                } else if (id == "menuIdList") {
+                                    var treeObj = $.fn.zTree.getZTreeObj("menu_tree");
+                                    for(var i = 0 ; i <  result.role[id].length ;i++){
+                                        var node = treeObj.getNodeByParam("id", result.role[id][i], null);
+                                        treeObj.checkNode(node, true, false);
+                                    }
+                                } else {
+                                    $("#" + id ).val(result.role[id]);
+                                }
+                            }
+                            form.render(null, 'component-form-element');
+                        } else {
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    } ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+            //点击部门输入框，弹出部门选择树
+            $("#select_deptName").bind('click', function () {
+                return layer.msg("请在部门树中选择部门双击");
+//                var deptindex = layer.open({
+//                    type: 1
+//                    , title: '部门选择'
+//                    , area: admin.screen() < 2 ? ['30%', '300px'] : ['400px', '500px']
+//                    // offset: '120px',
+//                    , content: roleDeptSelect.innerHTML
+//                });
+//
+//                var setting = {
+//                    data: {
+//                        simpleData: {
+//                            enable: true
+//                        }
+//                    }
+//                    , callback: {
+//                        onDblClick: function (event, treeId, treeNode) {
+//                            onDblClick(event, treeId, treeNode, deptindex)
+//                        }
+//                    }
+//                };
+//                $.fn.zTree.init($("#role_dept_select_tree"), setting, global_obj.deptList);
+            });
+
+            var deptSetting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+                , callback: {
+                    onDblClick: function (event, treeId, treeNode) {
+                        onDblClick(event, treeId, treeNode)
+                    }
+                }
+            };
+            $.fn.zTree.init($("#role_dept_select_tree"), deptSetting, global_obj.deptList);
+
+            $("#confirm").bind("click", function () {
+                var type = "POST";
+                if ($("#roleId").val()) {//修改
+                    type = "PUT";
+                }
+                var treeObj = $.fn.zTree.getZTreeObj("menu_tree");
+                var nodes = treeObj.getCheckedNodes();
+                var menuIds = [];
+                for (var i = 0; i < nodes.length; i++) {
+                    menuIds.push(nodes[i].id);
+                }
+                var deptIds = [];
+                deptIds.push($("#select_deptId").val());
+
+                var roleId = $("#roleId").val();
+                var roleName = $("#roleName").val();
+                var remark = $("#remark").val();
+                var obj = {
+                    "roleId": roleId,
+                    "roleName": roleName,
+                    "remark": remark,
+                    "menuIdList": menuIds,
+                    "deptId":$("#select_deptId").val(),
+                    "deptIdList": deptIds
+                };
+                var loadindex = layer.load(1);
+                admin.req({
+                    type: type,
+                    contentType: "application/json",
+                    url: baseurl,
+                    data: JSON.stringify(obj),
+                    done: function (result) {
+                        layer.close(loadindex);
+                        if (result.code == 0) {//成功
+                            layer.close(windowindex);
+                            table.reload("LAY-sysmgr-sysRole")
+                            layer.msg('操作成功！', {icon: 6, time: 1000});
+                        } else {
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            })
+        };
+
+        function onDblClick(event, treeId, treeNode, deptindex) {
+            $("#select_deptId").val(treeNode.id);
+            $("#select_deptName").val(treeNode.name);
+//            layer.close(deptindex);
+        }
+
+        $("#add").bind("click", function () {
+            editwin("新增", null);
+        });
+
+        $("#mod").bind("click", function () {
+            var checkStatus = table.checkStatus("LAY-sysmgr-sysRole")
+                , data = checkStatus.data; //获得选中的数据
+
+            if (data.length === 0) {
+                return layer.msg('未选中行!');
+            } else if (data.length > 1) {
+                return layer.msg('只能修改一条数据！');
+            }
+
+            editwin("修改", data[0]);
+        });
+
+        $("#del").bind("click", function () {
+            var checkStatus = table.checkStatus("LAY-sysmgr-sysRole")
+                , data = checkStatus.data; //获得选中的数据
+            if (data.length === 0) {
+                return layer.msg('未选中行!');
+            }
+            layer.confirm('确定删除选中的数据吗？', function () {
+                var roleIds = [];
+                for (var i = 0; i < data.length; i++) {
+                    roleIds.push(data[i].roleId);
+                }
+                var loadindex = layer.load(1);
+                admin.req({//根据
+                    url: baseurl
+                    , contentType: "application/json"
+                    , type: "DELETE"
+                    , data: JSON.stringify(roleIds)
+                    , done: function (result) {
+                        layer.close(loadindex);
+                        if (result.code == 0) {//成功
+                            layer.msg('删除成功', {
+                                icon: 1,
+                                time: 1000
+                            });
+                            table.reload("LAY-sysmgr-sysRole"); //刷新表格
+                        } else {
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            });
+        })
+
+        form.on('submit(component-form-element)', function(data){
+            var type = "POST";
+            if ($("#roleId").val()) {//修改
+                type = "PUT";
+            }
+            var treeObj = $.fn.zTree.getZTreeObj("menu_tree");
+            var nodes = treeObj.getCheckedNodes();
+            var menuIds = [];
+            for (var i = 0; i < nodes.length; i++) {
+                menuIds.push(nodes[i].id);
+            }
+            var deptIds = [];
+            deptIds.push($("#select_deptId").val());
+
+            var roleId = $("#roleId").val();
+            var roleName = $("#roleName").val();
+            var remark = $("#remark").val();
+            var obj = {
+                "roleId": roleId,
+                "roleName": roleName,
+                "remark": remark,
+                "menuIdList": menuIds,
+                "deptId":$("#select_deptId").val(),
+                "deptIdList": deptIds
+            };
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType: "application/json",
+                url: baseurl,
+                data: JSON.stringify(obj),
+                done: function (result) {
+                    layer.close(loadindex);
+                    if (result.code == 0) {//成功
+                        layer.close(windowindex);
+                        table.reload("LAY-sysmgr-sysRole")
+                        layer.msg('操作成功！', {icon: 6, time: 1000});
+                    } else {
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    })
+</script>

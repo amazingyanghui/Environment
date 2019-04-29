@@ -1,0 +1,451 @@
+
+<title>企业统计</title>
+
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="cominfo/"><cite>数据统计</cite></a>
+        <a lay-href="online/monitor/company"><cite>在线监测</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-row layui-col-space15">
+        <div class="card layui-col-md5">
+            <div class="layui-card total-height">
+                <div class="layui-card-header">
+                    <div class="layui-col-md3" style="display: inline-block;margin-left: 10px">
+                        <img src="../src/views/online/images/u1209.png" style="height: 50px;width: 50px">
+                    </div>
+                    <span class="layui-col-md9" id="companyName"></span>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-col-md12 company-top">
+                        <div class="layui-col-md1" style="display: inline-block">
+                            <i class="iconfont company-font">&#xe54f;</i>
+                        </div>
+                        <span class="layui-col-md2">地&nbsp;&nbsp;&nbsp;址：</span>
+                        <span class="layui-col-md10" id="addressName"></span>
+                    </div>
+                    <div class="layui-col-md12 company-top">
+                        <div class="layui-col-md1" style="display: inline-block">
+                            <i class="iconfont company-font">&#xe631;</i>
+                        </div>
+                        <span class="layui-col-md2">法&nbsp;&nbsp;&nbsp;人：</span>
+                        <span class="layui-col-md10" id="personName"></span>
+                    </div>
+                    <div class="layui-col-md12 company-top">
+                        <div class="layui-col-md1" style="display: inline-block">
+                            <i class="iconfont company-font">&#xe77f;</i>
+                        </div>
+                        <span class="layui-col-md2">联系人：</span>
+                        <span class="layui-col-md10" id="linkman"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                        <i class="iconfont total-font">&#xe761;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">水排口</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalEmphasis"></span>89<span>个</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #99CC00;border: 1px solid #99CC00;">
+                        <i class="iconfont total-font">&#xe639;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">气排口</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalWater"></span>125<span>个</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #993366;border: 1px solid #993366;">
+                        <i class="iconfont total-font">&#xe76f;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">VOCs排口</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="totalAir"></span>100<span>个</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body total-container">
+                    <div class="layui-col-md12 total-center">
+                        <div style="display: inline-block">年份</div>
+                        <div id="year">
+                            <span title="0">2018</span>
+                            <span title="1">2017</span>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 total-center">
+                        <div style="display: inline-block">统计类型</div>
+                        <div id="totalType">
+                            <span title="0">水</span>
+                            <span title="1">气</span>
+                            <span title="2">VOCs</span>
+                        </div>
+                        <div style="display: inline-block;margin-left: 100px">排口</div>
+                        <select id="portType">
+                            <option value="0">排口一</option>
+                            <option value="0">排口二</option>
+                        </select>
+                    </div>
+                    <div class="layui-col-md12 total-center">
+                        <div style="display: inline-block">监测项目</div>
+                        <div id="monitorProject">
+                            <input type="radio" name="monitorProject" value="0" title=""><span>排放量</span>
+                            <input type="radio" name="monitorProject" value="1" title=""><span>化学需氧量</span>
+                            <input type="radio" name="monitorProject" value="2" title=""><span>氨氮</span>
+                            <input type="radio" name="monitorProject" value="3" title=""><span>总磷</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>排放量</span>
+                            <div id="chartType">
+                                <span title="0">列表</span>
+                                <span title="1">图标</span>
+                            </div>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="monthTotal" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>本年排放量与去年对比</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="compareTotal" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>平均浓度（值）</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="year_law_enforcement" class="total-chart">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>排放量排行榜</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="discharge" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate'], function() {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , global_obj = {}
+            , baseurl = setter.remoteServiceAddress + "/market/analyze";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+
+        function monthTotal() {
+            var chart = Highcharts.chart('monthTotal', {
+                title: {
+                    text: '月排放量统计'
+                },
+                yAxis: {
+                    title: {
+                        text: '排放量（吨）'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 2010
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '安装，实施人员',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+        function compareTotal() {
+            var chart = Highcharts.chart('compareTotal',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '本年排放量与去年对比'
+                },
+                xAxis: {
+                    categories: [
+                        '一月','二月'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '排放量（吨）'
+                    }
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '排放量',
+                    data: [49.9, 71.5]
+                }]
+            });
+        }
+        function discharge() {
+            var chart = Highcharts.chart('discharge', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '排放量排行榜'
+                },
+                xAxis: {
+                    categories: ['非洲', '美洲', '亚洲', '欧洲', '大洋洲'],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '排放量 (吨)',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' 吨'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            allowOverlap: true // 允许数据标签重叠
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '排放量',
+                    data: [107, 31, 635, 203, 2]
+                }]
+            });
+        }
+        function year_law_enforcement(){
+            var chart = Highcharts.chart('year_law_enforcement', {
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: '东京月平均温度和降雨量'
+                },
+                subtitle: {
+                    text: '数据来源: WorldClimate.com'
+                },
+                xAxis: [{
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    crosshair: true
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}°C',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: '温度',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: '降雨量',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '{value} mm',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 120,
+                    verticalAlign: 'top',
+                    y: 100,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                series: [{
+                    name: '降雨量',
+                    type: 'column',
+                    yAxis: 1,
+                    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+                    tooltip: {
+                        valueSuffix: ' mm'
+                    }
+                }, {
+                    name: '温度',
+                    type: 'spline',
+                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                    tooltip: {
+                        valueSuffix: '°C'
+                    }
+                }]
+            });
+        }
+        monthTotal();
+        compareTotal();
+        discharge();
+        year_law_enforcement();
+        var year=[];
+        var totalType=[];
+
+        $("#year span").on("click",function () {
+            $("#year span").attr("style","background-color:#CCCCCC");
+            $(this).attr("style","background-color:#0099FF");
+            year=$(this).attr("title");
+        });
+        $("#year span:first-child").trigger("click");
+
+        $("#totalType span").on("click",function () {
+            $("#totalType span").attr("style","border: 1px solid #CCCCCC;color:#CCCCCC;");
+            $(this).attr("style","border: 1px solid #0099FF;color:#0099FF;");
+            totalType=$(this).attr("title");
+        });
+        $("#totalType span:first-child").trigger("click");
+
+        $("#monitorProject input:first-child").trigger("click");
+        var monitorProject=$("#monitorProject [name='monitorProject']:checked").val();
+
+        $("#monitorProject [name='monitorProject']").on("click",function () {
+            monitorProject=$("#monitorProject [name='monitorProject']:checked").val();
+        });
+
+        $("#portType").on("click",function () {
+            $("#portType").attr("style","border-color:#0099FF");
+        });
+
+        $("#chartType span").on("click",function () {
+            $("#chartType span").attr("style","border: 1px solid #CCCCCC;color:#CCCCCC;");
+            $(this).attr("style","border: 1px solid #0099FF;color:#0099FF;");
+            totalType=$(this).attr("title");
+        });
+        $("#chartType span:first-child").trigger("click");
+    })
+</script>

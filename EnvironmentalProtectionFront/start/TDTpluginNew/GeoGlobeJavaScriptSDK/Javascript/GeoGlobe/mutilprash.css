@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*background: #222;
+    font-family: Georgia, serif;
+    color: #fff;
+    font-size: 14px;*/
+}
+#controlView{
+    min-height:100px;
+    height: 100%;
+    margin: 5px 0px;
+    float: left;
+    overflow:auto;
+}
+#docs{
+    font-size:12px;
+    font-family:"微软雅黑", SimSun;
+    min-height:100px;
+    overflow:auto;
+    line-height:130%;
+    /*连续的英文字符和阿拉伯数字,使用word-wrap : break-word ;或者word-break:break-all;实现强制断行*/
+    word-wrap:break-word;
+}
+#docs ul,#docs2 ul{
+    list-style-type:none;
+    list-style-image:none;
+}
+#docs ul li,#docs2 ul li{
+    border-bottom:#ccc 1px dotted;
+    line-height:24px;
+    clear:both;
+}
+#dates li a,#dates2 li a {
+    color: #030303;
+    text-decoration: none;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    -ms-transition: 0.5s;
+    transition: 0.5s;
+}
+#dates li a:hover,#dates2 li a:hover,
+#dates li a.selected,#dates2 li a.selected {
+    color: #000000;
+}
+
+h1,h4,h5,h6 {
+    text-align: center;
+    color: #ccc;
+    text-shadow: #000 1px 1px 2px;
+    margin-bottom: 5px;
+}
+h1 {
+    font-size: 18px;
+}
+.sociales {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#timeline,#timeline2 {
+    width: 650px;
+    height: auto;
+    overflow: hidden;
+    margin: 0px 2px 2px 12px;
+    margin-left: 0px;
+    position: relative;
+    background: url('../images/multiTimePhase/blue/line.png') left 35px repeat-x;
+    float: left;
+}
+#dates,#dates2 {
+    width: 800px;
+    height: 60px;
+    overflow: hidden;
+}
+#dates li,#dates2 li {
+    list-style: none;
+    float: left;
+    width: 100px;
+    height: 50px;
+    font-size: 12px;
+    text-align: center;
+}
+.dates-li{
+    background: url('../images/multiTimePhase/blue/dot.png') center bottom no-repeat;
+}
+.dates-li-selected{
+    background: url('../images/multiTimePhase/blue/dot-selected.png') center bottom no-repeat;
+}
+#dates li:hover,#dates2 li:hover {
+    background: url('../images/multiTimePhase/blue/dot-rollover.png') center bottom no-repeat;
+}
+#dates a,#dates2 a {
+    line-height: 38px;
+    padding-bottom: 24px;
+}
+#dates .selected,#dates2 .selected {
+    font-size: 19px;
+}
+
+#issues,#issues2 {
+    width: 800px;
+    height: 350px;
+    overflow: hidden;
+}
+#issues li,#issues2 li {
+    width: 800px;
+    height: 350px;
+    list-style: none;
+    float: left;
+}
+#issues li img,#issues2 li img {
+    float: left;
+    margin: 10px 30px 10px 50px;
+}
+#issues li h1,#issues2 li h1 {
+    color: #ffcc00;
+    font-size: 48px;
+    margin: 20px 0;
+    text-shadow: #000 1px 1px 2px;
+}
+#issues li p,#issues2 li p {
+    font-size: 14px;
+    margin-right: 70px;
+    font-weight: normal;
+    line-height: 22px;
+    text-shadow: #000 1px 1px 2px;
+}
+
+#grad_left,
+#grad_right {
+    width: 100px;
+    height: 350px;
+    position: absolute;
+    top: 0;
+}
+#grad_left {
+    left: 0;
+    background: url('../images/multiTimePhase/grad_left.png') repeat-y;
+}
+#grad_right {
+    right: 0;
+    background: url('../images/multiTimePhase/grad_right.png') repeat-y;
+}
+
+#next,
+#prev,#next2,#prev2 {
+    position: absolute;
+    top: 0;
+    font-size: 70px;
+    top: 170px;
+    width: 22px;
+    height: 38px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+#next:hover,
+#prev:hover,
+#next2:hover,
+#prev2:hover {
+    background-position: 0 -76px;
+}
+#next,#next2 {
+    right: 0;
+    background-image: url('../images/multiTimePhase/next.png');
+}
+#prev,#prev2 {
+    left: 0;
+    background-image: url('../images/multiTimePhase/prev.png');
+}
+#next.disabled,
+#prev.disabled,
+#next2.disabled,
+#prev2.disabled {
+    opacity: 0.2;
+}
+
+
+#prevBtn{
+    float: left;
+    background: url('../images/multiTimePhase/blue/left.png') no-repeat;
+    width: 15px;
+    height: 27px;
+    margin: 26px 10px 0px 0px;
+    cursor: pointer;
+}
+#nextBtn{
+    float: left;
+    background: url('../images/multiTimePhase/blue/right.png') no-repeat;
+    width: 15px;
+    height: 27px;
+    margin: 26px 0px 0px 10px;
+    cursor: pointer;
+}
+.olImageLoadError{ background-color: pink; opacity: 0!important; filter: alpha(opacity=0)!important; /*background:url(../images/blank.gif)!important;*/}

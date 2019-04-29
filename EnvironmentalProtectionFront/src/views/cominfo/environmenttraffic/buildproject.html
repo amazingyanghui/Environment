@@ -1,0 +1,1675 @@
+<script type="text/javascript" src="common/cominfo/buildproject.js"></script>
+<title>环境业务</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li value="0" power="hj:yw:xxwh:xm:js">项目建设</li>
+                <li value="1" power="hj:yw:xxwh:pw:xkz">排污许可证</li>
+                <li value="2" power="hj:yw:xxwh:hj:xf">环境信访</li>
+                <li value="3" power="hj:yw:xxwh:xz:cf">行政处罚</li>
+                <li value="4" power="hj:yw:xxwh:kh:qk">考核情况</li>
+                <li value="5" power="hj:yw:xxwh:kz:jh">控制计划</li>
+                <li value="6" power="hj:yw:xxwh:hj:jc">环境监察</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+            </div>
+            <div class="layui-tab-content"  id="com-table">
+                <div class="layui-tab-item layui-show" power="hj:yw:xxwh:xm:js">
+                    <div id="environmenttraffic0">
+                        <table id="LAY-building-environmenttraffic0" lay-filter="LAY-building-environmenttraffic0"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic0"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:pw:xkz">
+                    <div id="environmenttraffic1">
+                        <table id="LAY-building-environmenttraffic1" lay-filter="LAY-building-environmenttraffic1"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic1"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:hj:xf">
+                    <div id="environmenttraffic2">
+                        <table id="LAY-building-environmenttraffic2" lay-filter="LAY-building-environmenttraffic2"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic2"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:xz:cf">
+                    <div id="environmenttraffic3">
+                        <table id="LAY-building-environmenttraffic3" lay-filter="LAY-building-environmenttraffic3"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic3"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:kh:qk">
+                    <div id="environmenttraffic4">
+                        <table id="LAY-building-environmenttraffic4" lay-filter="LAY-building-environmenttraffic4"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic4"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:kz:jh">
+                    <div id="environmenttraffic5">
+                        <table id="LAY-building-environmenttraffic5" lay-filter="LAY-building-environmenttraffic5"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic5"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:yw:xxwh:hj:jc">
+                    <div id="environmenttraffic6">
+                        <table id="LAY-building-environmenttraffic6" lay-filter="LAY-building-environmenttraffic6"></table>
+                    </div>
+                    <div id="buildingEnvironmenttraffic6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="editqualityWasteTestShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="build-info">
+            <li  id ="com-info1" class="layui-this" value="0">项目情况</li>
+            <li value="1">审批资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>项目名称：</td>
+                                        <td>
+                                            <input type="text" name="projectName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>建设单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目地址：</td>
+                                        <td colspan="3">
+                                            <input type="text" name="projectAddress" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>项目类别:</td>
+                                        <td>
+                                            <input type="text" readonly name="projectType" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+
+                                        <td>受理时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="admissibilityTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>法人代表：</td>
+                                        <td>
+                                            <input type="text" readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>法人电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="legalPersonPhone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>联系人：</td>
+                                        <td>
+                                            <input type="text" readonly name="linkman" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>审批文号：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalNumbe" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>经办人员：</td>
+                                        <td>
+                                            <input type="text" readonly name="operator" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>审批单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalUnitName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="batchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>文件类型：</td>
+                                        <td>
+                                            <input type="text" name="fileTypeName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目性质：</td>
+                                        <td>
+                                            <input type="text" name="projectNatureName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                            <!--<select id="projectNature" name="projectNature"></select>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>环评审批机关：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaApprovalAuthority" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目总投资（万元）：</td>
+                                        <td>
+                                            <input type="text" name="totalInvestment" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目环保投资（万元）：</td>
+                                        <td>
+                                            <input type="text" readonly name="environmentalProtectionInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收申请时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceRequestTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>验收批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceBatchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>建设内容：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="constructionContent"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>审批意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="approvalOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="acceptanceOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>后评价：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="postAssessment"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评补充意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentAddopinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="recordShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="com-info3">
+            <li  id ="firstClick3" class="layui-this" value="0">处罚情况</li>
+            <li value="1">处罚资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit3" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <!--<tr>-->
+                                        <!--<td>立案时间：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="filingTime" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>处罚主体：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="punishSubject" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>被处罚单位：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>违法类型：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="illegalTypeName" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>结案时间：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="closingTime" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>违法行为：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<input type="text" readonly name="illegalActivities" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>处罚执行情况：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<input type="text" readonly name="punishmentExecution" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>案情概述：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea type="text" readonly name="caseOverview" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>处罚依据：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea type="text" readonly name="punishmentBasis" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>处罚结果：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea type="text" readonly name="punishmentResult" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>复议情况：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea type="text" readonly name="reconsideration" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>申诉情况：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea type="text" readonly name="appealSituation" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <tr>
+                                        <td>立案时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="filingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>处罚主体：</td>
+                                        <td>
+                                            <input type="text" readonly name="punishSubject"  value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="illegalTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>结案时间：</td>
+                                        <td>
+                                            <input type="text"  readonly name="closingTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚编号：</td>
+                                        <td>
+                                            <input type="text"  readonly name="penaltyNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>营业执照注册号（公民身份证号）：</td>
+                                        <td>
+                                            <input type="text"  readonly name="business" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法定代表人：</td>
+                                        <td>
+                                            <input type="text"  readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text"  readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>邮政编码：</td>
+                                        <td>
+                                            <input type="text"  readonly name="postcode" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>调查人员：</td>
+                                        <td>
+                                            <input type="text"  readonly name="researcher" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚决定文号：</td>
+                                        <td>
+                                            <input type="text"  readonly name="penaltySign" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>违法行为：</td>
+                                        <td colspan="3">
+                                            <input type="text"  readonly name="illegalActivities" value="" placeholder=""   autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚执行情况：</td>
+                                        <td colspan="3">
+                                            <input type="text"  readonly name="punishmentExecution" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>案情概述：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;"  readonly name="caseOverview" placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚依据：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;"  readonly name="punishmentBasis"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>处罚结果：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;"  readonly name="punishmentResult" placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>复议情况：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;"  readonly name="reconsideration"   placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>申诉情况：</td>
+                                        <td colspan="3">
+                                            <textarea style="resize: none;"  readonly name="appealSituation"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo3">
+                    <table id="LAY-online-onlineMonitorPortinfo3" lay-filter="LAY-online-onlineMonitorPortinfo3"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="recordShowInfo1" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="marketContractManageeditShowInfo" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid"/>
+                    <input type="hidden" name="cid"/>
+                    <table class="reporttable">
+                        <tr>
+                            <td>排污许可证编号：</td>
+                            <td>
+                                <input type="text" readonly name="permitCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>证书类型：</td>
+                            <td>
+                                <input type="text" readonly name="permitTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>单位名称：</td>
+                            <td>
+                                <input type="text" readonly name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>生产经营场所地址：</td>
+                            <td>
+                                <input type="text" readonly name="companyAddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>行业类别：</td>
+                            <td>
+                                <input type="text" readonly name="industry" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>技术负责人：</td>
+                            <td>
+                                <input type="text" readonly name="technologyLeader" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" readonly name="linkphone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>发证日期：</td>
+                            <td>
+                                <input type="text" readonly name="issueDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="1">
+                            </td>
+                            <td>有效期开始日期：</td>
+                            <td>
+                                <input type="text" readonly name="startDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>有效期结束日期：</td>
+                            <td>
+                                <input type="text" readonly name="endDate" lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input" lay-key="3">
+                            </td>
+                            <td>发证单位：</td>
+                            <td>
+                                <input type="text" readonly name="issueCompany" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>主要污染物类别：</td>
+                            <td>
+                                <input type="text" readonly name="mainWasteCategoryName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>大气主要污染物种类：</td>
+                            <td>
+                                <input type="text" readonly name="airMainWaste" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>大气污染物排放规律：</td>
+                            <td>
+                                <input type="text" readonly name="airPollutantsRuleName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>大气污染物排放执行标准：</td>
+                            <td>
+                                <input type="text" readonly name="airPollutantsStandard" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>废水主要污染物种类：</td>
+                            <td>
+                                <input type="text" readonly name="waterMainWaste" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>废水污染物排放规律：</td>
+                            <td>
+                                <input type="text" readonly name="waterPollutantsRule" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>废水污染物排放执行标准：</td>
+                            <td>
+                                <input type="text" readonly name="waterPollutantsStandard" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>排污权使用和交易信息：</td>
+                            <td>
+                                <input type="text" readonly name="emissionsTrading" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td>正本文件：</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" readonly name="originalDocument" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</td>-->
+                        <!--<td>副本文件：</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" readonly name="copyFile" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                        <!--</td>-->
+                        <!--</tr>-->
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showPetitionSystemComplain" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="petitionSystemComplainShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>举报主题：</td>
+                            <td>
+                                <input type="text" name="informTitle" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>举报人：</td>
+                            <td>
+                                <input type="text" name="informPerson" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>举报方式：</td>
+                            <td>
+                                <input type="text" name="informTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>举报日期：</td>
+                            <td>
+                                <input type="text" name="informDate" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话：</td>
+                            <td>
+                                <input type="text" name="linkPhone" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>电子邮箱：</td>
+                            <td>
+                                <input type="text" name="linkEmail" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>信访人数：</td>
+                            <td>
+                                <input type="text" name="letterPersonNum" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>被举报单位：</td>
+                            <td>
+                                <input type="text" name="companyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>处理单位：</td>
+                            <td>
+                                <input type="text" name="handleCompany" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>举报内容是否属实：</td>
+                            <td>
+                                <input type="text" name="informIsTrueName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>被举报单位地址：</td>
+                            <td colspan="3">
+                                <input type="text" name="companyAddress" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>是否反馈：</td>
+                            <td>
+                                <input type="text" name="isReplyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>立案查处否：</td>
+                            <td>
+                                <input type="text" name="isPenalizeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>反馈方式：</td>
+                            <td>
+                                <input type="text" name="replyTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>举报内容：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="informContent" placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>网上回复结果：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="replyContent" placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>反馈违法情况：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="replyLawContent" placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>举报人意见：</td>
+                            <td colspan="3">
+                                <textarea style="resize: none;" name="informOpinion" placeholder="" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showMobileEnforcementScene" type="text/html">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" id="enforcementScene-info">
+            <li  id="enforcementScene_click" class="layui-this" value="0">考核情况</li>
+            <li value="1">考核情况附件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="mobileEnforcementSceneShow" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="" value="undefined">
+                                <input type="hidden" name="" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>检查单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkCompany" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>执法人及执法证号</td>
+                                        <td colspan="3">
+                                            <input type="text" readonly name="checkPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被检查单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>被检查单位地址：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyAddress" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>被检查单位法人：</td>
+                                        <td>
+                                            <input type="text" readonly name="companyRepresentative" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>法人联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="representativePhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>检查开始时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkStarttime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>检查结束时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkEndtime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>现场负责人：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkedCompanyLeader" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>负责人联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="checkedCompanyLeaderPhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>记录人及执法证号：</td>
+                                        <td>
+                                            <input type="text" readonly name="recordPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>执法类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="lawEnforcementTypeName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>检查结果：</td>
+                                        <td>
+                                            <input type="text" readonly name="examinationResultsName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>结果类型：</td>
+                                        <td>
+                                            <input type="text" readonly name="resultTypeStr" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>现场情况：</td>
+                                        <td colspan="3">
+                                            <textarea name="fieldSituation" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>监测意见：</td>
+                                        <td colspan="3">
+                                            <!--<div  name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></div>-->
+                                            <textarea name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--<div class="layui-form-item divbSysApprovalUnit.htmlutton"> -->
+                                <!--<div> -->
+                                <!--<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="component-form-element">保存</button> -->
+                                <!--<button class="layui-btn layui-btn-normal" type="button" name="buildingHome3">返回</button>-->
+                                <!--</div> -->
+                                <!--</div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="enforcementScene">
+                    <table id="LAY-mobile-EnforcementSceneInfo" lay-filter="LAY-mobile-EnforcementSceneInfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showControlPlanTpl" type="text/html">
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" id="controlPlan-info">
+            <!--<li  id="controlPlan_click" class="layui-this" value="0">考核情况</li>-->
+            <li id="controlPlan_click" class="layui-this" value="1">控制计划附件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!--<div class="layui-tab-item layui-show">-->
+                <!--<div class="layui-fluid">-->
+                    <!--<div class="layui-row layui-col-space15">-->
+                        <!--<div class="layui-card-body">-->
+                            <!--<form class="layui-form" id="controlPlanShow" action="" lay-filter="component-form-element">-->
+                                <!--<input type="hidden" name="" value="undefined">-->
+                                <!--<input type="hidden" name="" value="undefined">-->
+                                <!--<table class="reporttable">-->
+                                    <!--<tbody>-->
+                                    <!--<tr>-->
+                                        <!--<td>检查单位：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="checkCompany" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td></td>-->
+                                        <!--<td>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>执法人及执法证号</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<input type="text" readonly name="checkPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>被检查单位：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="companyName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>被检查单位地址：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="companyAddress" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>被检查单位法人：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="companyRepresentative" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>法人联系电话：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="representativePhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>检查开始时间：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="checkStarttime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>检查结束时间：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="checkEndtime" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>现场负责人：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="checkedCompanyLeader" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>负责人联系电话：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="checkedCompanyLeaderPhone" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>记录人及执法证号：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="recordPersonName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td>执法类型：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="lawEnforcementTypeName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>检查结果：</td>-->
+                                        <!--<td>-->
+                                            <!--<input type="text" readonly name="examinationResultsName" lay-verify="required"  placeholder="" autocomplete="off" class="layui-input">-->
+                                        <!--</td>-->
+                                        <!--<td></td>-->
+                                        <!--<td></td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>现场情况：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--<textarea name="fieldSituation" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>监测意见：</td>-->
+                                        <!--<td colspan="3">-->
+                                            <!--&lt;!&ndash;<div  name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></div>&ndash;&gt;-->
+                                            <!--<textarea name="monitoringOpinion" readonly placeholder="" style="resize: none;" class="layui-textarea"></textarea>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                                <!--&lt;!&ndash;<div class="layui-form-item divbSysApprovalUnit.htmlutton"> &ndash;&gt;-->
+                                <!--&lt;!&ndash;<div> &ndash;&gt;-->
+                                <!--&lt;!&ndash;<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="component-form-element">保存</button> &ndash;&gt;-->
+                                <!--&lt;!&ndash;<button class="layui-btn layui-btn-normal" type="button" name="buildingHome3">返回</button>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div> &ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="layui-tab-item layui-show">
+                <div id="controlPlan">
+                    <table id="LAY-cominfo-controlPlanInfo" lay-filter="LAY-cominfo-controlPlanInfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-green" lay-event="zhengben">正本</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs layui-bg-blue" lay-event="fuben">副本</a>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','baseInfoAttachment','layer', 'form','upload','attachment','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,form = layui.form
+            ,layer=layui.layer
+            ,formVerify=layui.formVerify
+            ,attachment = layui.attachment
+            ,upload = layui.upload
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/building/buildingprojectapproval"
+            ,baseurl1 = setter.remoteServiceAddress + "/permit/pollutantdischargepermit"
+            ,baseurl2 = setter.remoteServiceAddress + "/petition/petitionsystemcomplain"
+            ,baseurl3 = setter.remoteServiceAddress + "/penalty/administrativepenaltyinfo"
+            ,baseurl4 = setter.remoteServiceAddress + "/mobile/mobileenforcementscene"
+            ,baseurl5 = setter.remoteServiceAddress + "/cominfo/cominfototalcontrolplan"
+            ,baseurl6 = setter.remoteServiceAddress + "/cominfo/environmentalmonitoringrecord"
+            ;
+
+        var router = layui.router();
+        var pid=router.search.pid;
+
+        formVerify.verifyForm();
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>环境业务</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>环境业务</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(pid!=null&pid!="undefined"){
+            loadtab.tab('environmenttraffic');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('building:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        //
+
+        var showAndHide=function () {
+            $("#com-table table").each(function () {
+                $(this).parent().removeClass("layui-hide");
+                $(this).parent().next().addClass("layui-hide")
+            });
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#com-table table").each(function () {
+                $(this).parent().addClass("layui-hide");
+                $(this).parent().next().removeClass("layui-hide")
+            });
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+        };
+
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-building-environmenttraffic'+differType;
+            showAndHide();
+            var url=baseurl;
+            var cols=[[
+                {type: 'checkbox', unresize: true}
+                ,{type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '建设单位', minWidth: 100,unresize: true}
+                ,{field: 'projectName', title: '项目名称', minWidth: 100,unresize: true,event:'setProjectName',style:'color:blue;cursor:pointer;'}
+                ,{field: 'projectAddress', title: '项目地址', minWidth: 100,unresize: true}
+                ,{field: 'fileTypeName', title: '文件类型', width: 100,unresize: true}
+                ,{field: 'approvalUnitName', title: '审批单位', width: 130,unresize: true}
+                ,{field: 'batchTime', title: '批复时间', width: 120,unresize: true}
+            ]];
+
+            if(differType==1){
+                url=baseurl1;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left',unresize: true}
+                    ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                    ,{field: 'companyName', title: '单位名称', event: 'getContract', minWidth: 130,unresize: true,templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                        }}}
+                    ,{field: 'permitCode', title: '许可证编号', unresize: true, minWidth: 100,event:"setProjectName",style:'color:blue;cursor:pointer;'}
+                    ,{field: 'industry', title: '行业类别',  width: 140,unresize: true}
+                    ,{field: 'startDate', title: '有效期开始日期',  minWidth: 110,unresize: true}
+                    ,{field: 'endDate', title: '有效期结束日期',  minWidth: 110,unresize: true}
+                    ,{field: 'issueDate', title: '发证日期',  minWidth: 110,unresize: true}
+                    ,{field: 'remark', title: '操作', minWidth: 100,unresize: true,toolbar: '#barDemo1'}
+                ]];
+            }
+            if(differType==2){
+                url=baseurl2;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'informTitle', title: '举报主题', minWidth: 100,event:'setName',style:'color:blue;cursor:pointer;'}
+                    ,{field: 'companyName', title: '被举报单位', minWidth: 100}
+                    ,{field: 'informPerson', title: '举报人', minWidth: 100}
+                    ,{field: 'informTypeName', title: '举报方式', minWidth: 100}
+                    ,{field: 'informDate', title: '举报日期', minWidth: 100}
+                    ,{field: 'linkPhone', title: '联系电话', minWidth: 100}
+//                    ,{field: 'linkEmail', title: '电子邮箱', minWidth: 100}
+//                    ,{field: 'letterPersonNum', title: '信访人数', minWidth: 100}
+//                    ,{field: 'informedAddress', title: '单位地址', minWidth: 100}
+                    ,{field: 'handleCompany', title: '处理单位', minWidth: 100}
+//                    ,{field: 'informIsTrue', title: '举报内容是否属实', minWidth: 100}
+//                    ,{field: 'isReply', title: '是否反馈', minWidth: 100}
+//                    ,{field: 'isPenalize', title: '立案查处否', minWidth: 100}
+//                    ,{field: 'replyType', title: '反馈方式', minWidth: 100}
+                ]];
+            }
+
+            if(differType==3){
+                url=baseurl3;
+                cols=[[
+                    {type: 'checkbox', fixed: 'left',unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'companyName', title: '被处罚单位',minWidth: 130,event:"setName",style:'color:blue;cursor:pointer;',unresize: true}
+                    ,{field: 'companyaddress', title: '被处罚单位地址', unresize: true, minWidth: 100}
+                    ,{field: 'illegalTypeName', title: '违法类型',  width: 120,unresize: true}
+                    ,{field: 'illegalActivities', title: '违法行为',  minWidth: 110,unresize: true}
+                    ,{field: 'filingTime', title: '处罚时间',  minWidth: 110,unresize: true}
+                ]];
+            }
+
+            if(differType==4){
+                url=baseurl4;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', title: '序号',unresize: true}
+                    ,{field: 'companyName', title: '被检查单位', minWidth: 100,event:'preview',style:'color:blue;cursor:pointer;',unresize: true,templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                        }}
+                    }
+                    ,{field: 'companyAddress', title: '被检查单位地址',minWidth: 100,unresize: true}
+                    ,{field: 'checkPersonName', title: '执法人及执法证号', minWidth:100,unresize: true,templet: function(item, index){
+                        if(item.checkPersonName!=""){
+                            return '<span title="'+item.checkPersonName+'">'+item.checkPersonName+'</span>';
+                        }}}
+                    ,{field: 'lawEnforcementTypeName', title: '执法类型', width: 100,unresize: true}
+                    ,{field: 'checkStarttime', title: '检查时间', width: 180,unresize: true}
+                    ,{field: 'examinationResultsName', title: '检查结果', width: 210,unresize: true}
+                ]];
+            }
+
+            if(differType==5){
+                url=baseurl5;
+                cols=[[
+                    {type: 'checkbox',unresize: true}
+                    ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                    ,{field: 'year', title: '年度', unresize: true, minWidth: 100}
+                    ,{field: 'factor', title: '因子',minWidth: 130,event:"setName",style:'color:blue;cursor:pointer;',unresize: true}
+                    ,{field: 'total', title: '总量', unresize: true, minWidth: 100}
+                    ,{field: 'unit', title: '单位',  width: 120,unresize: true}
+//                    ,{field: 'attachment', title: '附件',  minWidth: 110,unresize: true}
+//                    ,{field: 'createdate', title: '创建时间',  minWidth: 110,unresize: true}
+                ]];
+            }
+            if(differType==6){
+                url=baseurl6;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                    ,{field: 'companyName', title: '被检测单位', minWidth: 200,unresize: true,templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                        }}}
+                    ,{field: 'testerName', title: '检测人',minWidth: 120,unresize: true}
+                    ,{field: 'testType', title: '检测类型', minWidth:100,unresize: true}
+                    ,{field: 'testDate', title: '检测时间', minWidth: 110,unresize: true}
+                    ,{field: 'testContent', title: '检测内容', minWidth: 100,unresize: true,templet: function(item, index){
+                        if(item.testContent!=""){
+                            return '<span title="'+item.testContent+'">'+item.testContent+'</span>';
+                        }}}
+                ]];
+            }
+
+            table.render({//查询列表信息
+                elem: elem
+                ,url: url
+                ,page: true
+                ,event:true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,cid:pid
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: cols
+                ,skin: 'line'
+                ,done:function () {
+                    if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+                        $("#aCite").text("企业维护");
+                        $("#aCite").attr("lay-href","cominfo/baseinfo/index");
+                    }
+                }
+            });
+        });
+
+        $("#com-info li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            var url=baseurl;
+            var getBaseInfo = editenvironmenttraffic.innerHTML;
+            if(differType==1){
+                url=baseurl1;
+                getBaseInfo = pollutantDischargePermit.innerHTML;
+            }
+            if(differType==2){
+                url=baseurl2;
+                getBaseInfo = editpetitionSystemComplain.innerHTML;
+            }
+            if(differType==3){
+                url=baseurl3;
+                getBaseInfo = editAdministrativePenalty.innerHTML;
+            }
+            if(differType==4){
+                url=baseurl4;
+                getBaseInfo = editMobileEnforcementScene.innerHTML;
+            }
+            if(differType==5){
+                url=baseurl5;
+                getBaseInfo = editControlPlan.innerHTML;
+            }
+            if(differType==6){
+                url=baseurl6;
+                getBaseInfo = editEnvironmentalMonitoringRecord.innerHTML;
+            }
+
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            buildproject.editWin(admin,setter,$,table,form,upload,url,laytpl,laydate,element,differType,global_obj,pid,getBaseInfo,baseInfoAttachment);
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    var url=baseurl;
+                    if(differType==1){
+                        url=baseurl1;
+                    }
+                    if(differType==2){
+                        url=baseurl2;
+                    }
+                    if(differType==3){
+                        url=baseurl3;
+                    }
+                    if(differType==4){
+                        url=baseurl4;
+                    }
+                    if(differType==5){
+                        url=baseurl5;
+                    }
+                    if(differType==6){
+                        url=baseurl6;
+                    }
+                    admin.req({//根据
+                        url: url
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                if(result.status==0){
+                                    layer.open({
+                                        type: 1
+                                        ,offset:  'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                                        ,id: 'layerDemo' //防止重复弹出
+                                        ,content: '<div style="padding: 10px 60px;">'+ result.msg +'</div>'
+                                        ,btn: '关闭'
+                                        ,btnAlign: 'c' //按钮居中
+                                        ,shade: 0 //不显示遮罩
+                                        ,yes: function(){
+                                            layer.closeAll();
+                                        }
+                                    });
+                                }else {
+                                    layer.msg('删除成功', {
+                                        icon: 1,
+                                        time:1000
+                                    });
+                                }
+                                table.reload("LAY-building-environmenttraffic"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-building-environmenttraffic"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            var url=baseurl;
+            if(differType==1){
+                url=baseurl1;
+            }
+            if(differType==2){
+                url=baseurl2;
+            }
+            if(differType==3){
+                url=baseurl3;
+            }
+            if(differType==4){
+                url=baseurl4;
+            }
+            if(differType==5){
+                url=baseurl5;
+            }
+            if(differType==6){
+                url=baseurl6;
+            }
+            data.field.cid=pid;
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        if(differType==0||differType==3||differType==4 || differType==5){
+                            if (type=='PUT') {
+                                $('#upload_file_bizcode'+differType).val(data.field.pid);
+                            }else {
+                                $('#upload_file_bizcode'+differType).val(result.pid);
+                            }
+                            $("#attachment_upload_btn"+differType).trigger('click');
+                        }
+                        table.reload("LAY-building-environmenttraffic"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+        var serializeObject = function (form) {
+            var o = {};
+            var a = $("#" + form).serializeArray();
+            $.each(a, function () {
+                // 区划组件的值要排除
+                if (this.name.indexOf('region_') < 0) {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                }
+            });
+            return o;
+        };
+
+        table.on('tool(LAY-building-environmenttraffic0)', function (obj) {
+            if (obj.event == 'setProjectName') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    , area:  ['1100px', '550px']
+                    // offset: '120px',
+                    , content: editqualityWasteTestShowInfo.innerHTML
+                });
+                var differType=0;
+                $('#build-info li').on('click', function(data){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+//                        var formdata = serializeObject("administrativePenaltyedit");
+                        for (var attr in data) {
+                            $("[name=" + attr + "]").val(data[attr]);
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-online-onlineMonitorPortinfo0'
+                            ,height: 'full-375'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/market/buildingprojectattachment/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-online-onlineMonitorPortinfo0",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+                $("#com-info1").trigger('click');
+            }
+            table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+
+        });
+        //污染许可证表格监听事件
+        table.on('tool(LAY-building-environmenttraffic1)', function (obj) {
+            if (obj.event == 'setProjectName') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:  ['1100px', '550px']
+                    // offset: '120px',
+                    , content: recordShowInfo1.innerHTML
+                });
+                for(var id in data){
+                    $("#marketContractManageeditShowInfo [name='"+id+"']").val(data[id]);
+                }
+            }
+            if(obj.event ==='zhengben'){
+                attachment.view(obj.data.originalDocument);
+            }
+            if(obj.event ==='fuben'){
+                attachment.view(obj.data.copyFile);
+            }
+        });
+        //监听单元格事件
+        table.on('tool(LAY-building-environmenttraffic3)', function(obj){
+            if(obj.event === 'setName'){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:['1100px', '600px']
+                    // offset: '120px',
+                    , content: recordShowInfo.innerHTML
+                });
+
+                var differType=0;
+                $('#com-info3 li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        for (var attr in data) {
+                            $("#administrativePenaltyedit3 [name=" + attr + "]").val(data[attr]);
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-online-onlineMonitorPortinfo3'
+                            ,height: 'full-315'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/penalty/administrativepenaltyfile/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-online-onlineMonitorPortinfo3",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                });
+                $("#firstClick3").trigger('click');
+            }
+            table.on('tool(LAY-online-onlineMonitorPortinfo3)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+
+
+        });
+
+        table.on('tool(LAY-building-environmenttraffic2)', function (obj) {
+            if (obj.event == 'setName') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:  ['1100px', '550px']
+                    // offset: '120px',
+                    , content: showPetitionSystemComplain.innerHTML
+                });
+
+                for(var id in data){
+                    $("#petitionSystemComplainShow [name='"+id+"']").val(data[id]);
+                    $("#petitionSystemComplainShow [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+        });
+
+        table.on('tool(LAY-building-environmenttraffic4)',function (obj) {
+            if (obj.event == 'preview') {
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '600px']
+                    // offset: '120px',
+                    ,content: showMobileEnforcementScene.innerHTML
+                });
+                var differType=0;
+                $('#enforcementScene-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+//                        var formdata = serializeObject("mobileEnforcementSceneShow");
+                        for (var attr in data) {
+                            if(attr=="monitoringOpinion"){
+                                var monitoringOpinion=data.monitoringOpinion==null?'':data.monitoringOpinion.replace(/<br\/>/g,"");
+                                $("#mobileEnforcementSceneShow [name='monitoringOpinion']").val(monitoringOpinion);
+                            }else{
+                                $("#mobileEnforcementSceneShow [name=" + attr + "]").val(data[attr]);
+                            }
+
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-mobile-EnforcementSceneInfo'
+                            ,height: 'full-315'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/mobile/mobileenforcementattachment/dataByFile"
+                            ,data:{"mid":data.pid,"type":"0"}
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-mobile-EnforcementSceneInfo",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+
+                $("#enforcementScene_click").trigger('click');
+
+                table.on('tool(LAY-mobile-EnforcementSceneInfo)',function (obj) {
+                    var data=obj.data;
+                    if (obj.event == 'setFileName') {
+                        baseInfoAttachment.view(data.attachmentUrl);
+                    }
+                });
+            }
+        });
+
+
+        table.on('tool(LAY-building-environmenttraffic5)',function (obj) {
+            if (obj.event == 'setName') {
+                layer.open({
+                    type: 1
+                    ,title: "查看"
+                    ,area: ['1100px', '600px']
+                    // offset: '120px',
+                    ,content: showControlPlanTpl.innerHTML
+                });
+                var differType=1;
+                $('#controlPlan-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+//                    if(differType==0){
+//                        var formdata = serializeObject("mobileEnforcementSceneShow");
+//                        for (var attr in formdata) {
+//                            if(attr=="monitoringOpinion"){
+//                                var monitoringOpinion=data.monitoringOpinion==null?'':data.monitoringOpinion.replace(/<br\/>/g,"");
+//                                $("#mobileEnforcementSceneShow [name='monitoringOpinion']").val(monitoringOpinion);
+//                            }else{
+//                                $("#mobileEnforcementSceneShow [name=" + attr + "]").val(data[attr]);
+//                            }
+//
+//                        }
+//                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-cominfo-controlPlanInfo'
+                            ,height: 'full-315'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/cominfo/cominfototalcontrolplanfile/dataByFile/"+data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-cominfo-controlPlanInfo",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+
+                $("#controlPlan_click").trigger('click');
+
+                table.on('tool(LAY-cominfo-controlPlanInfo)',function (obj) {
+                    var data=obj.data;
+                    if (obj.event == 'setFileName') {
+                        baseInfoAttachment.view(data.attachmentUrl);
+                    }
+                });
+            }
+        });
+    });
+</script>

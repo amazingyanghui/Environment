@@ -1,0 +1,336 @@
+<script type="text/javascript" src="common/zoneinfo/baseinfo.js"></script>
+<title>基本信息</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite id="parentTitle"></cite></a>
+        <!--<a lay-href="zoneinfo/"><cite>信息管理</cite></a>-->
+        <a><cite id="tabTitle"></cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" id="LAY-zoneinfoBaseinfo-f">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-input-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="zoneinfoBaseinfoReload" autocomplete="off" lay-filter="zoneinfoBaseinfoReload"  lay-search placeholder="请输入园区名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+
+                            <div id="divpanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="zoneinfoBaseinfoReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <a class="layui-btn"  id="newadd" lay-href="/zoneinfo/baseinfo/add">新增</a>
+                        <!--<button class="layui-btn" data-type="searchShow"  id="searchShow">-->
+                            <!--开启高级搜索-->
+                            <!--<i class="layui-icon">&#xe61a;</i>-->
+                        <!--</button>-->
+                        <!--<button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >-->
+                            <!--关闭高级搜索-->
+                            <!--<i class="layui-icon">&#xe619;</i>-->
+                        <!--</button>-->
+                        <!--<label id="labelTip" class="labelTipHidden"></label>-->
+                    </div>
+                    <table id="LAY-zoneinfoBaseinfo" lay-filter="LAY-zoneinfoBaseinfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .layui-table-body{
+        overflow-x: hidden;
+    }
+    .layui-table-cell{
+        height:86px;
+    }
+    .tabCompanyName{
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .tablelabel{
+        margin-right: 20px;
+    }
+    .querylabel{
+        float: right;
+        margin-right: 50px;
+        cursor: pointer;
+    }
+    .querylabel:HOVER{
+        color: lightsalmon;
+    }
+</style>
+
+<!--企业名称-->
+<script id="companyTplSelect" type="text/html">
+    <option value=""></option>
+    {{#  layui.each(d, function(index, item){ }}
+    <option value="{{ item.sort }}">{{ item.companyName }}</option>
+    {{#  }); }}
+    {{#  if(d.length === 0){ }}
+    <!--无数据-->
+    {{#  } }}
+</script>
+<!-- 编辑 -->
+<script type="text/html" id="comInfoTemplateEdit">
+    <a class="tabCompanyName" lay-href="zoneinfo/baseinfo//pid={{ d.pid }}">{{ d.zoneName }}</a>
+    <br />
+    <label class="tablelabel">地址：{{ d.address }}</label>
+    <label class="tablelabel">园区代码：{{ d.zoneCode }}</label>
+    <!--<label class="tablelabel">电话：{{ d.representativePhone }}</label>-->
+    <!--<label class="tablelabel">组织机构代码：{{ d.organizationCode }}</label>-->
+    <div class="querylabel" lay-href="zoneinfo/baseinfo//pid={{ d.pid }} ">编辑</div>
+    <br />
+    <label class="tablelabel">园区级别：{{ d.zoneLevelText }}</label>
+    <label class="tablelabel">综合类型：{{ d.zoneTypeComprehensiveText }}</label>
+    <label class="tablelabel">所属街道：{{ d.street }}</label>
+    <!--<label class="tablelabel">所属地市：{{ d.localCity }}</label>-->
+    <!--<label class="tablelabel">所属区县：{{ d.districtAndCounty }}</label>-->
+</script>
+
+<!-- 查看详情（一源一档） -->
+<script type="text/html" id="comInfoTemplateShow">
+    <a class="tabCompanyName" lay-href="zoneinfo/companyshow/layout/pid={{ d.pid }}">{{ d.zoneName }}</a>
+    <br />
+    <label class="tablelabel">地址：{{d.address}}</label>
+    <label class="tablelabel">园区代码：{{d.zoneCode}}</label>
+    <!--<label class="tablelabel">电话：{{ d.representativePhone }}</label>-->
+    <!--<label class="tablelabel">组织机构代码：{{ d.organizationCode }}</label>-->
+    <div class="querylabel" lay-href="zoneinfo/companyshow/layout/pid={{ d.pid }}">查看详情</div>
+    <br />
+    <label class="tablelabel">园区级别：{{ d.zoneLevelText }}</label>
+    <label class="tablelabel">综合类型：{{ d.zoneTypeComprehensiveText }}</label>
+    <label class="tablelabel">所属街道：{{ d.street }}</label>
+    <!--<label class="tablelabel">所属地市：{{ d.localCity }}</label>-->
+    <!--<label class="tablelabel">所属区县：{{d.districtAndCounty}}</label>-->
+</script>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="pollutionSourceCategoryText"/>
+                    <input type="hidden" name="regulatoryLevelText"/>
+                    <input type="hidden" name="keySourceText"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">企业类型：</label>
+                            <div class="layui-input-block">
+                                <select id="select_pollutionSourceCategory" name="pollutionSourceCategory" lay-filter="select_pollutionSourceCategory"  lay-search></select>
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">监管级别：</label>
+                            <div class="layui-input-block">
+                                <select id="select_regulatoryLevel" name="regulatoryLevel" lay-filter="select_regulatoryLevel"  lay-search></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">所属街道：</label>
+                            <div class="layui-input-block">
+                                <!--<select id="select_zx" name="zx" lay-filter="select_zx" lay-verify="required" lay-search>-->
+                                <!--<option value="0">是</option>-->
+                                <!--<option value="1">否</option>-->
+                                <!--</select>-->
+                                <input type="text" name="streetOrTown" value="" placeholder="请填写街道名称" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">是否重点：</label>
+                            <div class="layui-input-block">
+                                <select id="select_keySource" name="keySource" lay-filter="select_keySource"  lay-search></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            , util = layui.util
+            , tabtype = util.getUrlParam().type
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/zoneinfo/zoneinfobaseinfo";
+
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+        commonReload.firstInReload($,"divpanel",searchWin.innerHTML,"test");
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:zoneinfobaseinfo:list') === -1)) hasPermission = true;\
+        var heightfalg=700;
+        var heighttemp=627;
+        if(window.innerHeight > 850 ){
+
+        }else if(window.innerHeight > 700){
+            heightfalg=540;
+            heighttemp=440;
+        }else {
+            heightfalg=400;
+            heighttemp=310;
+        }
+        //
+        var comInfoTemplate = "";
+        if(tabtype == 0){
+            comInfoTemplate = "#comInfoTemplateShow";
+            $("#parentTitle").text("一张表");
+            $("#tabTitle").parent().attr("lay-href","parm:zoneinfo/index?type=0");
+            $("#tabTitle").text("一企一档");
+            $("#newadd").hide();
+        }else{
+            $("#parentTitle").text("数据维护");
+            $("#tabTitle").parent().attr("lay-href","parm:zoneinfo/index?type=1");
+            comInfoTemplate = "#comInfoTemplateEdit";
+            $("#tabTitle").text("园区信息");
+        }
+        table.render({//查询列表信息
+            elem: '#LAY-zoneinfoBaseinfo'
+            ,url: baseurl
+            ,page: true
+            ,height: heightfalg
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {field: 'companyName', title: '污染源名称（公司名称）', toolbar: comInfoTemplate, minWidth: 100}
+            ]]
+            ,skin: 'line'
+            ,done:function (e) {
+                $(".layui-table-header").hide();
+            }
+        });
+        $(".layui-border-box").css("height",heighttemp);
+        $("#LAY-zoneinfoBaseinfo-f").on('dblclick', '.layui-table-view tbody tr', function () {
+            // 当前的tr
+            var trElem = $(this);
+            // 当前tr的index
+            var index = trElem.data('index');
+            // 找到这个table的view
+            var tableView = trElem.parents('.layui-table-view').first();
+            // alert(index)
+            // do something
+        });
+
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/pollution_source_category_type"
+            , done: function (result) {
+                var getDictTpl = SelectDictTpl.innerHTML
+                    ,pollutionSourceCategory = document.getElementById('select_pollutionSourceCategory');
+                laytpl(getDictTpl).render(result.dicts, function(html){
+                    pollutionSourceCategory.innerHTML = html;
+                });
+                form.render(null, 'component-form-element');
+            }
+        });
+        form.on('select(select_pollutionSourceCategory)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='pollutionSourceCategoryText']").val(name);
+            }else {
+                $("[name='pollutionSourceCategoryText']").val("");
+            }
+        });
+
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/regulatory_level_type"
+            , done: function (result) {
+                var getDictTpl = SelectDictTpl.innerHTML
+                    ,pollutionSourceCategory = document.getElementById('select_regulatoryLevel');
+                laytpl(getDictTpl).render(result.dicts, function(html){
+                    pollutionSourceCategory.innerHTML = html;
+                });
+                form.render(null, 'component-form-element');
+            }
+        });
+        form.on('select(select_regulatoryLevel)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='regulatoryLevelText']").val(name);
+            }else {
+                $("[name='regulatoryLevelText']").val("");
+            }
+        });
+
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/boolean_type"
+            , done: function (result) {
+                var getDictTpl = SelectDictTpl.innerHTML
+                    ,pollutionSourceCategory = document.getElementById('select_keySource');
+                laytpl(getDictTpl).render(result.dicts, function(html){
+                    pollutionSourceCategory.innerHTML = html;
+                });
+                form.render(null, 'component-form-element');
+            }
+        });
+        form.on('select(select_keySource)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='keySourceText']").val(name);
+            }else{
+                $("[name='keySourceText']").val("");
+            }
+        });
+
+        $("#zoneinfoBaseinfoReloadButton").bind("click",function(){
+            var zoneName = $('#zoneinfoBaseinfoReload').val();
+            var data = {};
+            data.zoneName = zoneName;
+            table.reload('LAY-zoneinfoBaseinfo', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                ,where: data
+            });
+        });
+
+        $("#resetReload").bind("click",function () {
+            $('#zoneinfoBaseinfoReload').val("");
+            var zoneName = $('#zoneinfoBaseinfoReload').val();
+            var data = {};
+            data.zoneName = zoneName;
+            table.reload('LAY-zoneinfoBaseinfo', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                ,where: data
+            });
+        });
+
+        // commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"zoneinfoBaseinfoReload","test","component-form-element-search","divpanel","searchHide","searchShow","reset","LAY-zoneinfoBaseinfo","zoneinfoBaseinfoReloadButton","labelTip");
+
+    });
+</script>

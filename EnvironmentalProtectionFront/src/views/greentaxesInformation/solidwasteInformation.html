@@ -1,0 +1,990 @@
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<title>固体废物基础信息采集</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>环保税基础信息采集</cite></a>
+        <a><cite>固体废物基础信息采集</cite></a>
+    </div>
+</div>
+<style type="text/css">
+
+
+    .vacationTable {
+        width: 100%
+    }
+
+    .vacationTable tr td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        font-size: 16px;
+        padding: 5px 10px;
+        color: #353535;
+        overflow: visible;
+        vertical-align: middle;
+        width: 80px;
+    }
+
+    .vacationTable tr td {
+        background: #f1f4f6;
+    }
+
+    .vacationTable tr td input {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+</style>
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element_solid" onSubmit="return false;">
+                    <div style="margin-bottom: 10px;">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element_table">
+                            立即提交
+                        </button>
+                    </div>
+
+                    <div style="height: 50px;text-align: center;">
+                        <p style="font-size: 20pt;color: black" id="applyTitleText">固体废物基础信息表采集</p>
+                    </div>
+                    <div style="margin-left: 30px">
+                        <div style="height: 35px;font-size: 16px;">
+                            <div class="layui-col-md8">
+                                <div style="margin-left: 20px;">
+                                    <label>纳税人名称：</label>
+                                    <label style="margin-left: 5px;" id="taxpayerName"></label>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <label>统一社会信用代码(纳税人识别号)：</label>
+                                <label style="margin-left: 5px;" id="taxpayerNumber"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="designEnvironmentCss" id="LAY-market-solidwasteInformation"
+                           lay-filter="LAY-market-solidwasteInformation" border="1px">
+                        <tr>
+                            <td colspan="12" style="text-align: center"><h2 style="font-size: 20pt;color: black">
+                                一、基本情况</h2></td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="starClass">*</span>所在行政区划：</td>
+                            <td colspan="2">
+                                <input type="text" id="quhua" value="" name="localCity" lay-verify="required"
+                                       placeholder=""
+                                       autocomplete="off" class="layui-input">
+                            </td>
+                            <td><span class="starClass">*</span>所在街道乡镇：</td>
+                            <td colspan="2">
+                                <input type="text" id="xiangzheng" value="" name="streetOrTown"
+                                       lay-verify="required" placeholder=""
+                                       autocomplete="off" class="layui-input">
+                            </td>
+
+                            <td><span class="starClass">*</span>环境保护主管部门：</td>
+                            <td colspan="2">
+                                <input type="text" id="zhuguan" name="competentDepartment" placeholder=""
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td>主管税务所(科、分局)：</td>
+                            <td colspan="2">
+                                <input type="text" id="shuiwu" name="competentTax" placeholder=""
+                                       autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12" style="text-align: center" id="getWasteAll"><h2
+                                    style="font-size: 20pt;color: blue">
+                                二、固体废物产废情况</h2></td>
+                        </tr>
+                        <tr id="insert">
+                            <td colspan="1">序号：</td>
+                            <td colspan="3"><span class="starClass">*</span>固体废物类别：</td>
+                            <td colspan="3">固体废物名称或危险废物代码：</td>
+                            <td colspan="4">固体废物描述：</td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="12" style="text-align: center"><h2 style="font-size: 20pt;color: black">
+                                三、固体废物产废情况</h2></td>
+                        </tr>
+                        <tr>
+                            <td colspan="12" style="text-align: left">
+                                <h2 style="font-size: 15pt;color: black">
+                                    一、合规综合利用设施
+                                    <div class="layui-btn-group">
+                                        <button class="layui-btn layui-btn-sm" data-events="add_one">
+                                            <i class="layui-icon">&#xe654;</i>
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm" data-events="del_one">
+                                            <i class="layui-icon">&#xe640;</i>
+                                        </button>
+                                    </div>
+                                </h2>
+                            </td>
+                        </tr>
+                        <tr id="table_three">
+                            <td colspan="1">设施编码：</td>
+                            <td colspan="1">设施名称：</td>
+                            <td colspan="2"><span class="starClass">*</span>综合利用废物名称、编号：</td>
+                            <td colspan="2">综合利用废物来源：</td>
+                            <td colspan="2">综合利用产物：</td>
+                            <td colspan="2">综合利用方式：</td>
+                            <td colspan="2">综合利用能力(吨\年)：</td>
+                        </tr>
+                        <tr id="comprehensive0">
+                            <td colspan="1">
+                                <input type="hidden" name="type" value="1">
+                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="measuresName" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <!--<input type="text" name="ssfeiwu" placeholder="" autocomplete="off"-->
+                                <!--class="layui-input">-->
+                                <select id="computingMethod0" name="waste" lay-verify="required">
+
+                                </select>
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="wasteSource" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="product" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="mode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="12" style="text-align: left">
+                                <h2 style="font-size: 15pt;color: black">
+                                    二、合规处置设施
+                                    <div class="layui-btn-group">
+                                        <button class="layui-btn layui-btn-sm" data-events="add_two">
+                                            <i class="layui-icon">&#xe654;</i>
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm" data-events="del_two">
+                                            <i class="layui-icon">&#xe640;</i>
+                                        </button>
+                                    </div>
+                                </h2>
+                            </td>
+                        </tr>
+                        <tr id="table_four">
+                            <td colspan="1">设施编码：</td>
+                            <td colspan="2">设施名称：</td>
+                            <td colspan="2"><span class="starClass">*</span>处置固体废物名称、编号：</td>
+                            <td colspan="2">处置固体废物来源：</td>
+                            <td colspan="2">处置方式：</td>
+                            <td colspan="2">处置能力(吨\年)：</td>
+                        </tr>
+                        <tr id="disposal0">
+                            <td colspan="1">
+                                <input type="hidden" name="type" value="2">
+                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="measuresName" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <!--<input type="text" name="czfeiwu" placeholder="" autocomplete="off"-->
+                                <!--class="layui-input">-->
+                                <select id="computingMethod_two" name="waste" lay-verify="required">
+
+                                </select>
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="wasteSource" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="mode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="12" style="text-align: left">
+                                <h2 style="font-size: 15pt;color: black">
+                                    三、合规储存场所
+                                    <div class="layui-btn-group">
+                                        <button class="layui-btn layui-btn-sm" data-events="add_three">
+                                            <i class="layui-icon">&#xe654;</i>
+                                        </button>
+                                        <button class="layui-btn layui-btn-sm" data-events="del_three">
+                                            <i class="layui-icon">&#xe640;</i>
+                                        </button>
+                                    </div>
+                                </h2>
+                            </td>
+                        </tr>
+                        <tr id="table_five">
+                            <td colspan="1">设施编码：</td>
+                            <td colspan="2">场所(设施)名称：</td>
+                            <td colspan="3">场所(设施)基本情况：</td>
+                            <td colspan="3"><span class="starClass">*</span>储存固体废物名、编号：</td>
+                            <td colspan="2">储存容量(吨\年)：</td>
+                        </tr>
+                        <tr id="storage0">
+                            <td colspan="1">
+                                <input type="hidden" name="type" value="3">
+                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="measuresName" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="3">
+                                <input type="text" name="measuresBasic" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="3">
+                                <!--<input type="text" name="ccCode" placeholder="" autocomplete="off"-->
+                                <!--class="layui-input">-->
+                                <select id="computingMethod_three" name="waste" lay-verify="required">
+
+                                </select>
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12" style="text-align: center">
+                                <h2 style="font-size: 20pt;color: black">
+                                    四、接受或委托外单位处理情况
+                                    <!--<div class="layui-btn-group">-->
+                                    <!--<button class="layui-btn layui-btn-sm" data-events="add_four">-->
+                                    <!--<i class="layui-icon">&#xe654;</i>-->
+                                    <!--</button>-->
+                                    <!--<button class="layui-btn layui-btn-sm" data-events="del_four">-->
+                                    <!--<i class="layui-icon">&#xe640;</i>-->
+                                    <!--</button>-->
+                                    <!--</div>-->
+                                </h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">序号：</td>
+                            <td colspan="1"><span class="starClass">*</span>类型：</td>
+                            <td colspan="2">拟接受或委托单位名：</td>
+                            <td colspan="2">统一社会信用代码：</td>
+                            <td colspan="1">拟接受或委托固体废物名：</td>
+                            <td colspan="1">处置方式：</td>
+                            <td colspan="1">资质合法说明：</td>
+                            <td colspan="1">联系人及联系方式：</td>
+                            <td colspan="1">合同截止：</td>
+                        </tr>
+                        <tr id="acceptOrentrust0">
+                            <td colspan="1">
+                                <input type="text" value="1" name="" placeholder="" autocomplete="off" readonly
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <!--<input type="text" name="clientType" placeholder="" autocomplete="off"-->
+                                <!--class="layui-input">-->
+
+                                <select id="deptType" name="clientType" lay-verify="required">
+                                    <option value=""></option>
+                                    <option value="接受">接受</option>
+                                    <option value="委托">委托</option>
+                                </select>
+
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="clientName" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="2">
+                                <input type="text" name="clientSocialCreditCode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="clientWaste" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="handleMode" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="qualification" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="clientLinkman" placeholder="" autocomplete="off"
+                                       class="layui-input">
+                            </td>
+                            <td colspan="1">
+                                <input type="text" name="clientContractDeadline" class="layui-input" id="test11"
+                                       placeholder="yyyy-MM-dd HH:mm:ss">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 编辑弹窗 -->
+<script id="getWasteAll_show" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-body">
+                <form class="layui-form" id="productionWasteBurnjobedit" action="" lay-filter="component-form-element"
+                      onSubmit="return false;">
+                    <input type="hidden" name="id"/>
+                    <input type="hidden" name="personnel"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <!-- 搜索-->
+                        <div style="padding-left:15px ">
+                            <div class="layui-inline">
+                                <label class="mylabel">废物类别：</label>
+                                <input class="layui-input myinput" id="productionTransportCodeReloadValue"
+                                       autocomplete="off" placeholder="">
+                            </div>
+                            <div class="layui-inline" style="margin-right: 35px">
+                                <label class="mylabel">废物代码：</label>
+                                <input class="layui-input myinput" id="compatibilityPlan" autocomplete="off"
+                                       placeholder="">
+                            </div>
+                            <button class="layui-btn" type="button" data-type="productionTransportCodeReload"
+                                    id="productionTransportCodeReload">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                            <button class="layui-btn" type="button" data-type="reset1" id="reset1">
+                                <i class="layui-icon">&#xe669;</i>
+                            </button>
+                        </div>
+                        <div style="padding-left: 15px">
+                            <div class="layui-col-md8">
+                                <div>
+                                    <table id="LAY-burnjob-storage" lay-filter="LAY-burnjob-storage"></table>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4" id="burnjob-storage">
+                                <div class="layui-tab-item layui-show" style="margin-left: 5px">
+                                    <table id="LAY-burnjob-storage1" lay-filter="LAY-burnjob-storage1"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="delDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl', 'laydate', 'upload', 'attachment', 'dictComponent', 'bizComponent', 'tree', 'treeComponent', 'pageScaffolding'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , pageScaffolding = layui.pageScaffolding
+            , global_obj = {}
+            , solidWasteInformationCollection = {}
+            , baseurl = setter.remoteServiceAddress + "/environmentalTariff/solidWaste";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false
+        // elem: '#LAY-market-solidwasteInformation'
+        // var tableobj = pageScaffolding.createTable("LAY-market-solidwasteInformation", {
+        //     // url: baseurl,
+        //     cols: [{}]
+        //     , form: {
+        //         dlgSet: {width: "50%", height: "50%"},
+        //         customVerify: {},
+        //         elements: [{}]
+        //         , queryCriteria: [{}]
+        //     }
+        //
+        // });
+        //
+        // pageScaffolding.getQueryForm("LAY-market-solidwasteInformation", true)//生成表单搜索
+        //自定义格式
+        //开启公历节日
+        laydate.render({
+            elem: '#test11'
+            , type: 'datetime'
+            , value: new Date()
+        });
+
+        form.render(null, 'component-form-element_solid');
+
+        var pid = layui.data(setter.userDeptId).userDeptId;
+        admin.req({//获取字典请求
+            type: "GET",
+            url: baseurl + "/getCompanyInfo/" + pid
+            , done: function (result) {
+                console.log(result.cominfoBaseinfo)
+                $("#taxpayerName").text(result.cominfoBaseinfo.companyName);//纳税人名称
+                $("#taxpayerNumber").text(result.cominfoBaseinfo.unifiedSocialCreditCode);//同意社会信用代码
+                $('#quhua').val(result.cominfoBaseinfo.localCity);//区划
+                $('#xiangzheng').val(result.cominfoBaseinfo.streetOrTown);//所在接到乡镇
+                if (result.cominfoBaseinfo.localCity != null) {
+                    $("#quhua").attr("readOnly", "true");
+                }
+                if (result.cominfoBaseinfo.localCity.length == 0) {
+                    $("#quhua").prop("readOnly", false);
+                }
+                if (result.cominfoBaseinfo.streetOrTown != null) {
+                    $("#xiangzheng").attr("readOnly", "true");
+                }
+                if (result.cominfoBaseinfo.streetOrTown == "") {
+                    $("#xiangzheng").prop("readOnly", false);
+                }
+
+            }
+        });
+        var index = 0
+        var index_two = 0
+        var index_three = 0
+        var index_four = 0
+        //事件处理
+        var events = {
+            add_one: function (othis, data) {
+                index++
+                var tr_one = '';
+                tr_one += '    <tr id="comprehensive' + index + '">\n' +
+                    '         <input type="hidden" name="type" value="1">                   <td colspan="1">\n' +
+                    '                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="measuresName" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <select id="computingMethod' + index + '" name="waste">\n' +
+                    '\n' +
+                    '                                </select>\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="wasteSource" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="product" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="mode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                        </tr>'
+
+                var $tr1 = $("#comprehensive0");
+                $tr1.after(tr_one);
+            }
+            , add_two: function (othis, data) {
+                index_two++
+                var tr_two = '';
+                tr_two += ' <tr id="disposal' + index_two + '">\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="hidden" name="type" value="2">\n' +
+                    '                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="measuresName" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <!--<input type="text" name="czfeiwu" placeholder="" autocomplete="off"-->\n' +
+                    '                                <!--class="layui-input">-->\n' +
+                    '                                <select id="computingMethod_two" name="waste">\n' +
+                    '\n' +
+                    '                                </select>\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="wasteSource" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="mode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                        </tr>';
+                var $tr2 = $("#disposal0");
+                $tr2.after(tr_two);
+            }
+            , add_three: function (othis, data) {
+                index_three++
+                var tr_three = '';
+                tr_three += '  <tr id="storage' + index_three + '">\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="hidden" name="type" value="3">\n' +
+                    '                                <input type="text" name="measuresCode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="measuresName" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="3">\n' +
+                    '                                <input type="text" name="measuresBasic" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="3">\n' +
+                    '                                <!--<input type="text" name="ccCode" placeholder="" autocomplete="off"-->\n' +
+                    '                                <!--class="layui-input">-->\n' +
+                    '                                <select id="computingMethod_three" name="waste">\n' +
+                    '\n' +
+                    '                                </select>\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="processingCapacity" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                        </tr>';
+                var $tr3 = $("#storage0");
+                $tr3.after(tr_three);
+            }
+            , add_four: function (othis, data) {
+                index_four
+                var tr_four = '';
+                tr_four += '  <tr id="acceptOrentrust0">\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" value="1" name="" placeholder="" autocomplete="off" readonly\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <!--<input type="text" name="clientType" placeholder="" autocomplete="off"-->\n' +
+                    '                                <!--class="layui-input">-->\n' +
+                    '\n' +
+                    '                                <select id="deptType" name="clientType" lay-verify="required">\n' +
+                    '                                    <option value=""></option>\n' +
+                    '                                    <option value="接受">接受</option>\n' +
+                    '                                    <option value="委托">委托</option>\n' +
+                    '                                </select>\n' +
+                    '\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="clientName" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <input type="text" name="clientSocialCreditCode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="clientWaste" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="handleMode" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="qualification" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="clientLinkman" placeholder="" autocomplete="off"\n' +
+                    '                                       class="layui-input">\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="1">\n' +
+                    '                                <input type="text" name="clientContractDeadline" class="layui-input" id="test11"\n' +
+                    '                                       placeholder="yyyy-MM-dd HH:mm:ss">\n' +
+                    '                            </td>\n' +
+                    '                        </tr>';
+
+                //在表格的最后追加新增的tr acceptOrentrust
+                var $tr4 = $("#acceptOrentrust0");
+                $tr4.after(tr_four);
+            }
+
+        };
+        form.render(null, 'component-form-element');
+        //点击筛选废物类别
+        var btn1 = document.getElementById('getWasteAll');
+        btn1.onclick = getWasteAll;
+
+        function getWasteAll() {
+            layer.open({
+                type: 1
+                , title: "固体废物类别筛选"
+                , area: admin.screen() < 2 ? ['80%', '450px'] : ['70%', '60%']
+                // offset: '120px',
+                , content: getWasteAll_show.innerHTML
+            });
+
+            table.render({
+                elem: '#LAY-burnjob-storage'
+                , url: baseurl + "/getWasteAll"
+                , page: true
+                , height: 300
+                , where: {
+                    hasPermission: hasPermission
+                }
+                , headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                , cols: [[
+                    {field: 'id', title: '危废ID', minWidth: 20, unresize: true, fixed: 'left'},
+                    {field: 'wastetype', title: '废物类别', unresize: true, minWidth: 130, fixed: 'left'}
+                    , {
+                        field: 'wastecode',
+                        title: '废物名称或废物代码',
+                        unresize: true,
+                        minWidth: 130,
+                        event: 'setTransferCode',
+                        style: 'color:blue;cursor:pointer;',
+                        fixed: 'left'
+                    }
+                    , {field: 'waste', title: '废物描述', minWidth: 140, unresize: true, fixed: 'left'}
+                ]]
+                , skin: 'line'
+                , even: true //开启隔行背景
+                , limit: 5
+                , limits: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+            });
+            //模糊查询
+            $('#productionTransportCodeReload').on('click', function () {
+                var wasteType = $('#productionTransportCodeReloadValue').val();
+                var wasteCode = $("#compatibilityPlan").val();
+                //执行重载
+                table.reload('LAY-burnjob-storage', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        wasteType: wasteType
+                        , wasteCode: wasteCode
+                    }
+                });
+            });
+            $("#reset1").on("click", function () {
+                $('#productionTransportCodeReloadValue').val("");
+                $("#compatibilityPlan").val("");
+                $("#productionTransportCodeReload").click();
+            });
+            global_obj.list = [];//暂存数据
+            table.render({//查询列表信息
+                elem: '#LAY-burnjob-storage1'
+                , height: 260
+                , cols: [[
+                    {field: 'wastetype', title: '废物类别', minWidth: 80, unresize: true}
+                    , {field: 'wastecode', title: '废物代码', width: 120, unresize: true}
+                    , {fixed: 'right', title: '操作', width: 80, align: 'center', toolbar: '#delDemo', unresize: true}
+                ]]
+                , skin: 'line'
+                , even: true //开启隔行背景
+                , limit: 30 //显示的数量
+                , done: function (data) {
+                    global_obj.list = data.data;
+                }
+            });
+            global_obj.flag = true;//判断包装数量和重量是否符合
+            global_obj.burnRegisterList = [];//创建综合利用数组对象
+            table.on('tool(LAY-burnjob-storage)', function (obj) {
+                var data = obj.data;
+                var flag = true;
+                if (obj.event == 'setTransferCode') {
+                    if (global_obj.list.length <= 0) {
+                        global_obj.burnRegisterList.push(data);
+                        global_obj.list.push(data);
+                    } else {
+                        layui.each(global_obj.list, function (index, item) {
+                            if (item.id == data.id) {
+                                flag = false;
+                            }
+                        });
+                        if (flag == true) {
+
+                            global_obj.burnRegisterList.push(data);
+                            global_obj.list.push(data);
+                        }
+                    }
+                    table.reload("LAY-burnjob-storage1", {//查询列表信息
+                        data: global_obj.list
+                    });
+
+
+                    //删除
+                    table.on('tool(LAY-burnjob-storage1)', function (obj) {
+                        var num = obj.tr.selector.substring(33, obj.tr.selector.length - 2);
+                        var data = obj.data;
+                        if (obj.event = "del") {
+                            var burnRegisterList = [];
+                            for (var i = 0; i < global_obj.list.length; i++) {
+                                if (i != num) {
+                                    burnRegisterList.push(global_obj.list[i])
+                                }
+                            }
+                            global_obj.burnRegisterList = [];
+                            global_obj.burnRegisterList = burnRegisterList;
+                        }
+                        table.reload("LAY-burnjob-storage1", {//查询列表信息
+                            data: global_obj.burnRegisterList
+                        });
+                        var totalCount = 0;
+                        layui.each(global_obj.list, function (index, item) {
+                            totalCount = arithmetic.accAdd(totalCount, item.instorecount);
+                        });
+                        $("#totalCount").text(totalCount);
+                        $("#dataCount").text(Number(global_obj.list.length));
+                    });
+
+                    form.render(null, 'component-form-element');
+
+                }
+            });
+        }
+
+        $('.layui-btn').on('click', function () {
+            var othis = $(this)
+                , thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-solidwasteInformation")
+                , data = checkStatus.data; //获得选中的数据
+
+            if (thisEvent == "mod" || thisEvent == "del") {
+                if (data.length === 0) {
+                    return layer.msg('未选中行!');
+                } else if (data.length > 1 && thisEvent == "mod") {
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis, data);
+        });
+        //修改和增加
+        form.on('submit(component-form-element)', function (data) {
+            var designAirAndWaterHtml = '';
+            var table_three = '';
+            var table_four = '';
+            var table_five = '';
+            data.field.token = layui.data(setter.tableName).access_token;
+            //判断包装数量和重量有一方为0情况
+            var flag = true;
+            if (global_obj.list.length <= 0) {
+                flag = false;
+                layer.msg("需处理的数据不能为空！");
+            }
+            data.field.burnRegisterList = global_obj.list;
+            if (global_obj.flag == true) {
+                if (flag == true) {
+                    console.log(global_obj.list)
+                    for (var i = 0; i < global_obj.list.length; i++) {
+                        var num = Number(i) + 1;
+                        designAirAndWaterHtml += ' <tr id="designEnvironmentTable' + i + '" ><td colspan="1">\n' +
+                            '        <input type="hidden" value="' + global_obj.list[i].id + '" name="id">                     <input type="text" readonly value="' + num + '" name="" placeholder="" autocomplete="off"\n' +
+                            '                                       class="layui-input">\n' +
+                            '                            </td>\n' +
+                            '                            <td colspan="3">\n' +
+                            '                                <input type="text"  readonly value="' + global_obj.list[i].wastetype + '" name="solidWasteType"  placeholder="" autocomplete="off"\n' +
+                            '                                       class="layui-input">\n' +
+                            '                            </td>\n' +
+                            '                            <td colspan="3">\n' +
+                            '                                <input type="text" readonly value="' + global_obj.list[i].wastecode + '" name="solidWasteNumber" placeholder="" autocomplete="off"\n' +
+                            '                                       class="layui-input">\n' +
+                            '                            </td>\n' +
+                            '                            <td colspan="4">\n' +
+                            '                                <input type="text" readonly value="' + global_obj.list[i].waste + '" name="solidWasteMiaoshu" placeholder="" autocomplete="off"\n' +
+                            '                                       class="layui-input">\n' +
+                            '                            </td></tr>'
+                    }
+                    //将筛选后的数据添加至指定tr后
+                    var $tr1 = $("#insert");
+                    $tr1.after(designAirAndWaterHtml);
+                    var selectIndex = global_obj.list.length;
+                    //固体废物污染防治设施 废物代码下拉相关
+                    var getDictTpl = SelectWaste.innerHTML;
+                    for (var j = 0; j < global_obj.list.length; j++) {
+                        //one
+                        var wasteCode_one = document.getElementById('computingMethod'+j);
+                        laytpl(getDictTpl).render(global_obj.list, function (html) {
+                            wasteCode_one.innerHTML = html;
+                        });
+                        if (global_obj.list[j].wastecode != null) {
+                            $("#computingMethod"+j).val(global_obj.list[j].wastecode);
+                        }
+                        //two
+                        var wasteCode_two = document.getElementById('computingMethod_two');
+                        laytpl(getDictTpl).render(global_obj.list, function (html) {
+                            wasteCode_two.innerHTML = html;
+                        });
+                        if (global_obj.list[j].wastecode != null) {
+                            $("#computingMethod_two").val(global_obj.list[j].wastecode);
+                        }
+                        //three
+                        var wasteCode_three = document.getElementById('computingMethod_three');
+                        laytpl(getDictTpl).render(global_obj.list, function (html) {
+                            wasteCode_three.innerHTML = html;
+                        });
+                        if (global_obj.list[j].wastecode != null) {
+                            $("#computingMethod_three").val(global_obj.list[j].wastecode);
+                        }
+
+                    }
+
+                    form.render(null, 'component-form-element_solid');
+
+                }
+            }
+            return false
+        });
+
+
+        //保存 固废信息
+        form.on('submit(component-form-element_table)', function (data) {
+
+            var ids = "";//危废ID
+            var createName = $("#taxpayerName").html().trim();//纳税人名称 也是此表单创建者
+            var eightCode = document.getElementById("computingMethod").value;   //合规综合利用设施 下拉选中的废物代码
+            var eightCode_two = document.getElementById("computingMethod_two").value;   //合规处置 下拉选中的废物代码
+            var eightCode_three = document.getElementById("computingMethod_three").value;   //合规储存 下拉选中的废物代码
+            if (eightCode == "") {
+                return layer.msg('请选择综合利用废物编号', {
+                    icon: 0,
+                    time: 1000
+                });
+            }
+            if (eightCode_two == "") {
+                return layer.msg('请选择处置用废物编号', {
+                    icon: 0,
+                    time: 1000
+                });
+            }
+            if (eightCode_three == "") {
+                return layer.msg('请选择储存废物编号', {
+                    icon: 0,
+                    time: 1000
+                });
+            }
+            solidWasteInformationCollection.list = [];//废物信息集合
+            var field = data.field
+            if (global_obj.list == undefined) {
+                return layer.msg('请选择固体废物产生情况', {
+                    icon: 0,
+                    time: 1000
+                });
+            }
+            for (var i = 0; i < global_obj.list.length; i++) {
+                var EpSolidWasteMeasuresEntity_one = {};
+                var EpSolidWasteMeasuresEntity = {};
+                var EpSolidWasteMeasuresEntity_two = {};
+                var EpSolidWasteMeasuresEntity_three = {};
+                for (var id in data.field) {
+                    if (id == "id") {
+                        var waste = $("#designEnvironmentTable" + i + " [name='id']").val();
+                        ids += waste + ",";
+                    }
+                    var value = $("#designEnvironmentTable" + i + " [name='" + id + "']").val();
+                    EpSolidWasteMeasuresEntity_one[id] = value;
+                }
+                //合规综合利用设施 1
+                for (var id in data.field) {
+                    var value = $("#comprehensive" + i + " [name='" + id + "']").val();
+                    EpSolidWasteMeasuresEntity[id] = value;
+                }
+
+                solidWasteInformationCollection.list.push(EpSolidWasteMeasuresEntity)//合规综合利用设施
+                //合规处置设施 2
+                for (var id in data.field) {
+                    var value = $("#disposal" + i + " [name='" + id + "']").val();
+                    EpSolidWasteMeasuresEntity_two[id] = value;
+                }
+                solidWasteInformationCollection.list.push(EpSolidWasteMeasuresEntity_two)//合规处置设施
+                //合规储存场所 3
+                for (var id in data.field) {
+                    var value = $("#storage" + i + " [name='" + id + "']").val();
+                    EpSolidWasteMeasuresEntity_three[id] = value;
+                }
+                solidWasteInformationCollection.list.push(EpSolidWasteMeasuresEntity_three)//合规储存场所
+            }
+
+
+            var epSolidWasteMainEntity = {};//主表
+            var epSolidWasteClientEntities = {};//接受或委托方
+            //第一次遍历，将符合基本情况的值筛选
+            solidWasteInformationCollection.localCity = field.localCity//所在行政区划
+            solidWasteInformationCollection.streetOrTown = field.streetOrTown//所在街道象征
+            epSolidWasteMainEntity.competentDepartment = field.competentDepartment//环境保护主管部门
+            epSolidWasteMainEntity.competentTax = field.competentTax//主管税务所
+            solidWasteInformationCollection.createName = createName//纳税人名称 也是此表单创建者
+            epSolidWasteMainEntity.id = ids//危废ID ,号隔开
+            //第二次，将接受或委托单位的值筛选
+            epSolidWasteClientEntities.clientType = field.clientType// 类型
+            epSolidWasteClientEntities.clientName = field.clientName//  拟接受或委托单位名
+            epSolidWasteClientEntities.clientSocialCreditCode = field.clientSocialCreditCode//  统一社会信用代码
+            epSolidWasteClientEntities.clientWaste = field.clientWaste//   拟接受或委托固体废物名
+            epSolidWasteClientEntities.handleMode = field.handleMode//     处置方式
+            epSolidWasteClientEntities.qualification = field.qualification//    资质合法说明
+            epSolidWasteClientEntities.clientLinkman = field.clientLinkman//   联系人及联系方式
+            epSolidWasteClientEntities.clientContractDeadline = field.clientContractDeadline// 合同截止
+            solidWasteInformationCollection.epSolidWasteClientEntities = epSolidWasteClientEntities//接受或委托方
+            solidWasteInformationCollection.epSolidWasteMainEntity = epSolidWasteMainEntity//主表
+
+
+            admin.req({
+                type: "POST",
+                contentType: "application/json",
+                url: baseurl + "/addWasteInfo",
+                data: JSON.stringify(solidWasteInformationCollection),
+                done: function (result) {
+                    if (result.code == 0) {//成功
+                        layer.msg('操作成功！', {icon: 6, time: 1000}, function () {
+                        });
+                    } else {
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            })
+        })
+    });
+</script>

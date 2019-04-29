@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.cominfo.dao.CominfoProductionEnergyDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoProductionEnergyEntity" id="cominfoProductionEnergyMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="energyCode" column="energy_code"/>
+        <result property="energyName" column="energy_name"/>
+        <result property="energyConsumption" column="energy_consumption"/>
+        <result property="unit" column="unit"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+        <result property="year" column="year"/>
+    </resultMap>
+
+</mapper>

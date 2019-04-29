@@ -1,0 +1,384 @@
+
+<title>因子信息</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>因子信息</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <label>因子名称：</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" id="factorName" autocomplete="off" placeholder="请输入因子名称">
+                        </div>
+                        <!--<label style="margin-left: 15px">因子编码：</label>-->
+                        <!--<div class="layui-inline">-->
+                            <!--<input class="layui-input" id="factorCode" autocomplete="off" placeholder="请输入因子编码">-->
+                        <!--</div>-->
+                        <label style="margin-left: 15px">因子分类：</label>
+                        <div class="layui-inline">
+                            <select  name="factorType"  id="factorType" style="width: 150px;height: 32px;border-color:#e6e6e6;cursor: pointer">
+                            </select>
+                        </div>
+                        <label style="margin-left: 15px">环境因子：</label>
+                        <div class="layui-inline" style="margin-right: 15px">
+                            <select  name="isEnvironmentFactor"  id="isEnvironmentFactorName" style="width: 150px;height: 32px;border-color:#e6e6e6;cursor: pointer">
+                                <option value="">请选择</option>
+                                <option value="0">环境因素</option>
+                                <option value="1">监测因子</option>
+                            </select>
+                        </div>
+                        <button class="layui-btn" data-type="onlineMonitorFactorReload" id="onlineMonitorFactorReload">搜索</button>
+                    </div>
+                    <div style="margin-bottom: 10px">
+                        <button class="layui-btn " data-events="add">新增</button>
+                        <button class="layui-btn " data-events="mod">修改</button>
+                        <button class="layui-btn " data-events="del">删除</button>
+                    </div>
+                    <table id="LAY-online-onlineMonitorFactor" lay-filter="LAY-online-onlineMonitorFactor"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editonlineMonitorFactor" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="onlineMonitorFactoredit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid">
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">因子编码：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="factorCode" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">因子名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="factorName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">因子分类：</label>
+                            <div class="layui-input-block">
+                                <select id="select_factorType" name="factorType" lay-verify="required" class="layui-form-select"></select>
+                                <!--<input type="text" name="factorType" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">环境因子：</label>
+                            <div class="layui-input-block">
+                                <select id="isEnvironmentFactor" name="isEnvironmentFactor" lay-verify="required" class="layui-form-select">
+                                    <option value="0">环境因素</option>
+                                    <option value="1">监测因子</option>
+                                </select>
+                                <!--<input type="text" name="isEnvironmentFactor" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">浓度单位：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="unit" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">排放量单位：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="emissionUnit" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">因子国际编码：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="factorInternationalCode" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                        <!--<div class="layui-col-md6">-->
+                            <!--<label class="layui-form-label">排序：</label>-->
+                            <!--<div class="layui-input-block">-->
+                                <!--<input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/online/onlinemonitorfactor";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:onlinemonitorfactor:list') === -1)) hasPermission = true;
+        //
+
+        //因子分类
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/factor_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var factorType=$("#factorType");
+                var optiona=$("<option>").text("全部").val("");
+                factorType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    factorType.append(optionb);
+                }
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-online-onlineMonitorFactor'
+            ,url: baseurl
+            ,page: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+//                ,{field: 'pid', title: '因子编码',minWidth: 100,unresize: true}
+                ,{type: 'numbers', unresize: true, title: '序号',width:80}
+                ,{field: 'factorCode', title: '因子编码', minWidth: 100,unresize: true}
+                ,{field: 'factorName', title: '因子名称', minWidth: 100,unresize: true}
+                ,{field: 'factorTypeName', title: '因子分类', minWidth: 100,unresize: true}
+                ,{field: 'isEnvironmentFactor', title: '环境因子', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.isEnvironmentFactor === 0){
+                        return '<span>环境因素</span>';
+                    }
+                    if(item.isEnvironmentFactor === 1){
+                        return '<span>监测因子</span>';
+                    }
+                }}
+                ,{field: 'unit', title: '浓度单位', minWidth: 100,unresize: true}
+                ,{field: 'emissionUnit', title: '排放量单位', minWidth: 100,unresize: true}
+                ,{field: 'factorInternationalCode', title: '因子国际编码', minWidth: 100,unresize: true}
+//                ,{field: 'sort', title: '排序序号', minWidth: 100,unresize: true}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+            onlineMonitorFactorReload: function(){
+//                var factorCode = $('#factorCode').val();
+                var factorName = $('#factorName').val();
+                var factorType=$("#factorType").val();
+                var isEnvironmentFactor=$("#isEnvironmentFactorName").val();
+                //执行重载
+                table.reload('LAY-online-onlineMonitorFactor', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        factorName:factorName,
+//                        factorCode:factorCode,
+                        factorType:factorType,
+                        isEnvironmentFactor:isEnvironmentFactor
+                    }
+                });
+            }
+        };
+
+        $("#factorName").keypress(function(event){
+            if(event.keyCode==13){
+                $("#onlineMonitorFactorReload").click();
+                $(this).blur();
+            }
+        });
+
+//        $("#factorCode").keypress(function(event){
+//            if(event.keyCode==13){
+//                $("#onlineMonitorFactorReload").click();
+//                $(this).blur();
+//            }
+//        });
+
+        $("#factorType").change(function () {
+            $("#onlineMonitorFactorReload").click();
+        });
+
+        $("#isEnvironmentFactorName").change(function () {
+            $("#onlineMonitorFactorReload").click();
+        });
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        global_obj.factorTypeList=[];
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/factor_type_type"
+            , done: function (result) {
+                global_obj.factorTypeList=result.dicts;
+            }
+        });
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '300px']
+                // offset: '120px',
+                ,content: editonlineMonitorFactor.innerHTML
+            });
+
+            var getDictTpl = SelectDictTpl.innerHTML
+                ,select_factorType = document.getElementById('select_factorType');
+            laytpl(getDictTpl).render(global_obj.factorTypeList, function(html){
+                select_factorType.innerHTML = html;
+            });
+            form.render(null, 'component-form-element');
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].pid
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.onlineMonitorFactor){
+                            $("[name="+id+"]").val(result.onlineMonitorFactor[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    debugger;
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-online-onlineMonitorFactor"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-online-onlineMonitorFactor")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid){//修改
+                type = "PUT";
+            }
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            layer.closeAll();
+                            table.reload("LAY-online-onlineMonitorFactor")
+                        });
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+            return false
+        });
+
+    });
+</script>

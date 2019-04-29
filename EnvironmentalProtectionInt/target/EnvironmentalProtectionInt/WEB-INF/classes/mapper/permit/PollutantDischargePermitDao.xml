@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.permit.dao.PollutantDischargePermitDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <select id="queryList3" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity">
+        SELECT `a`.`pid` AS `pid`,
+        `a`.`cid` AS `cid`,
+        `a`.`permit_code` AS `permitCode`,
+        `z`.`company_name` AS `companyName`,
+        `z`.`industryids` AS `industryids`,
+        `z`.`company_address` AS `company_address`,
+        `a`.`industry_category` AS `industry_category`,
+        `a`.`technology_leader` AS `technology_leader`,
+        `a`.`linkphone` AS `linkphone`,
+        `a`.`issue_date` AS `issue_date`,
+        `a`.`start_date` AS `start_date`,
+        `a`.`end_date` AS `end_date`,
+        `a`.`issue_company` AS `issue_company`,
+        `a`.`main_waste_category` AS `main_waste_category`,
+        `a`.`air_main_waste` AS `air_main_waste`,
+        `a`.`air_pollutants_rule` AS `air_pollutants_rule`,
+        `a`.`air_pollutants_standard` AS `air_pollutants_standard`,
+        `a`.`water_main_waste` AS `water_main_waste`,
+        `a`.`water_pollutants_rule` AS `water_pollutants_rule`,
+        `a`.`water_pollutants_standard` AS `water_pollutants_standard`,
+        `a`.`emissions_trading` AS `emissions_trading`,
+        `a`.`original_document` AS `original_document`,
+        `a`.`copy_file` AS `copy_file`,
+        `a`.`createdate` AS `createdate`,
+        `a`.`updatedate` AS `updatedate`,
+        `a`.`deletedate` AS `deletedate`,
+        `a`.`permit_type` AS `permit_type`,
+        `a`.`control_requirements` AS `control_requirements`,
+        `d`.`value` AS permitTypeName,
+        `x`.`value` AS mainWasteCategoryName,
+        `y`.`value` AS airPollutantsRuleName
+        from pollutant_discharge_permit a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        LEFT JOIN sys_dict d ON d.`key` = a.permit_type AND d.type = 'permit_type_type'
+        LEFT JOIN sys_dict x ON x.`key` = a.main_waste_category AND x.type = 'main_waste_category_type'
+        LEFT JOIN sys_dict y ON y.`key` = a.air_pollutants_rule AND y.type = 'air_pollutants_rule_type'
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="permitCode != null and permitCode != ''">
+                AND a.permit_code like CONCAT('%',#{permitCode},'%')
+            </if>
+            <if test="batchTime != null and batchTime != ''">
+                AND date_format(a.issue_date,'%Y')= #{batchTime}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(a.issue_date)=#{year}
+            </if>
+            <if test="permitType != null and permitType != ''">
+                AND a.permit_type=#{permitType}
+            </if>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(a.issue_date,'%Y-%m')=#{yearMonth}
+            </if>
+            <if test="industry!=null and industry!=''">
+                AND z.industryids=#{industry}
+            </if>
+            <if test="unknownType!=null and unknownType!=''">
+                <if test="unknownType=1">
+                    AND z.industryids IS NULL
+                </if>
+            </if>
+        </where>
+        order by `z`.`company_name` desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity">
+        SELECT `a`.`pid` AS `pid`,
+        `a`.`cid` AS `cid`,
+        `a`.`permit_code` AS `permitCode`,
+        `z`.`company_name` AS `companyName`,
+        `z`.`industryids` AS `industryids`,
+        `z`.`company_address` AS `company_address`,
+        `a`.`industry_category` AS `industry_category`,
+        `a`.`technology_leader` AS `technology_leader`,
+        `a`.`linkphone` AS `linkphone`,
+        `a`.`issue_date` AS `issue_date`,
+        `a`.`start_date` AS `start_date`,
+        `a`.`end_date` AS `end_date`,
+        `a`.`issue_company` AS `issue_company`,
+        `a`.`main_waste_category` AS `main_waste_category`,
+        `a`.`air_main_waste` AS `air_main_waste`,
+        `a`.`air_pollutants_rule` AS `air_pollutants_rule`,
+        `a`.`air_pollutants_standard` AS `air_pollutants_standard`,
+        `a`.`water_main_waste` AS `water_main_waste`,
+        `a`.`water_pollutants_rule` AS `water_pollutants_rule`,
+        `a`.`water_pollutants_standard` AS `water_pollutants_standard`,
+        `a`.`emissions_trading` AS `emissions_trading`,
+        `a`.`original_document` AS `original_document`,
+        `a`.`copy_file` AS `copy_file`,
+        `a`.`createdate` AS `createdate`,
+        `a`.`updatedate` AS `updatedate`,
+        `a`.`deletedate` AS `deletedate`,
+        `a`.`permit_type` AS `permit_type`,
+        `a`.`control_requirements` AS `control_requirements`,
+        `d`.`value` AS permitTypeName,
+        `x`.`value` AS mainWasteCategoryName,
+        `y`.`value` AS airPollutantsRuleName
+        from pollutant_discharge_permit a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        LEFT JOIN sys_dict d ON d.`key` = a.permit_type AND d.type = 'permit_type_type'
+        LEFT JOIN sys_dict x ON x.`key` = a.main_waste_category AND x.type = 'main_waste_category_type'
+        LEFT JOIN sys_dict y ON y.`key` = a.air_pollutants_rule AND y.type = 'air_pollutants_rule_type'
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity">
+        SELECT `a`.`pid` AS `pid`,
+        `a`.`cid` AS `cid`,
+        `a`.`permit_code` AS `permitCode`,
+        `z`.`company_name` AS `companyName`,
+        `z`.`industryids` AS `industryids`,
+        `z`.`company_address` AS `company_address`,
+        `a`.`industry_category` AS `industry_category`,
+        `a`.`technology_leader` AS `technology_leader`,
+        `a`.`linkphone` AS `linkphone`,
+        `a`.`issue_date` AS `issue_date`,
+        `a`.`start_date` AS `start_date`,
+        `a`.`end_date` AS `end_date`,
+        `a`.`issue_company` AS `issue_company`,
+        `a`.`main_waste_category` AS `main_waste_category`,
+        `a`.`air_main_waste` AS `air_main_waste`,
+        `a`.`air_pollutants_rule` AS `air_pollutants_rule`,
+        `a`.`air_pollutants_standard` AS `air_pollutants_standard`,
+        `a`.`water_main_waste` AS `water_main_waste`,
+        `a`.`water_pollutants_rule` AS `water_pollutants_rule`,
+        `a`.`water_pollutants_standard` AS `water_pollutants_standard`,
+        `a`.`emissions_trading` AS `emissions_trading`,
+        `a`.`original_document` AS `original_document`,
+        `a`.`copy_file` AS `copy_file`,
+        `a`.`createdate` AS `createdate`,
+        `a`.`updatedate` AS `updatedate`,
+        `a`.`deletedate` AS `deletedate`,
+        `a`.`permit_type` AS `permit_type`,
+        `a`.`control_requirements` AS `control_requirements`,
+        `d`.`value` AS permitTypeName,
+        `x`.`value` AS mainWasteCategoryName,
+        `y`.`value` AS airPollutantsRuleName
+        from pollutant_discharge_permit a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        LEFT JOIN sys_dict d ON d.`key` = a.permit_type AND d.type = 'permit_type_type'
+        LEFT JOIN sys_dict x ON x.`key` = a.main_waste_category AND x.type = 'main_waste_category_type'
+        LEFT JOIN sys_dict y ON y.`key` = a.air_pollutants_rule AND y.type = 'air_pollutants_rule_type'
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="permitCode != null and permitCode != ''">
+                AND a.permit_code like CONCAT('%',#{permitCode},'%')
+            </if>
+            <if test="batchTime != null and batchTime != ''">
+                AND date_format(a.issue_date,'%Y')= #{batchTime}
+            </if>
+        </where>
+        GROUP BY a.cid
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) from pollutant_discharge_permit a
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        LEFT JOIN sys_dict d ON d.`key` = a.permit_type AND d.type = 'permit_type_type'
+        LEFT JOIN sys_dict x ON x.`key` = a.main_waste_category AND x.type = 'main_waste_category_type'
+        LEFT JOIN sys_dict y ON y.`key` = a.air_pollutants_rule AND y.type = 'air_pollutants_rule_type'
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="permitCode != null and permitCode != ''">
+                AND a.permit_code like CONCAT('%',#{permitCode},'%')
+            </if>
+            <if test="batchTime != null and batchTime != ''">
+                AND date_format(a.issue_date,'%Y')= #{batchTime}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(a.issue_date)=#{year}
+            </if>
+            <if test="permitType != null and permitType != ''">
+                AND a.permit_type=#{permitType}
+            </if>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(a.issue_date,'%Y-%m')=#{yearMonth}
+            </if>
+            <if test="industry!=null and industry!=''">
+                AND z.industryids=#{industry}
+            </if>
+            <if test="unknownType!=null and unknownType!=''">
+                <if test="unknownType=1">
+                    AND z.industryids IS NULL
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!--查询本年度发放许可证个数sql-->
+    <select id="curyeartotalpermits" parameterType="String" resultType="java.lang.Integer" >
+        SELECT count(*) FROM pollutant_discharge_permit WHERE YEAR(  issue_date ) = #{year}
+    </select>
+    <!--查询上一年度发放许可证个数sql-->
+    <select id="lastyeartotalpermit" parameterType="String" resultType="java.lang.Integer" >
+        SELECT count(*) FROM pollutant_discharge_permit WHERE YEAR(  issue_date ) = #{year} - 1
+    </select>
+
+    <!--查询累计许可证个数sql-->
+    <select id="totalpermit" parameterType="String" resultType="java.lang.Integer" >
+        SELECT count(*) FROM pollutant_discharge_permit
+    </select>
+    <!--查询本年度正式许可证个数sql-->
+    <select id="formal" parameterType="String" resultType="java.lang.Integer" >
+        SELECT count(*) FROM pollutant_discharge_permit t where t.permit_type = 1 AND YEAR(issue_date)=#{year}
+    </select>
+    <!--查询本年度临时许可证个数sql-->
+    <select id="provisional" parameterType="String" resultType="java.lang.Integer" >
+        SELECT count(*) FROM pollutant_discharge_permit t where t.permit_type = 0 AND YEAR(issue_date)=#{year}
+    </select>
+
+    <!--每月许可证发放统计sql-->
+    <select id="monthpermitList" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity" >
+        select year(issue_date) year,
+        month(issue_date) month,
+        count(*) counts
+        from pollutant_discharge_permit
+        WHERE YEAR(  issue_date ) = #{year}
+        group by year(issue_date),
+        month(issue_date)
+    </select>
+
+
+    <!--各行业排污许可证发放数量统计sql-->
+    <select id="industrypermitList" parameterType="String" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity" >
+               SELECT z.industryids industryids,count(*) industrypermits
+                FROM pollutant_discharge_permit s
+                LEFT JOIN cominfo_baseinfo z ON z.pid=s.cid
+                where year(s.issue_date)= #{year}
+                group by z.industryids
+        </select>
+
+    <select id="getBaseInfoForEnvironment" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitAndBaseInfoEntity" parameterType="java.lang.String">
+        SELECT a.pid cid,a.company_name companyName
+        ,a.unified_social_credit_code unifiedSocialCreditCode
+        ,a.environmental_protection_name environmentalProtectionName
+        ,a.environmental_protection_mobile environmentalProtectionMobile
+        ,b.pid eid,b.is_sampling isSampling,b.is_oceaneering isOceaneering
+        ,b.is_sewagetreatment_sites isSewagetreatmentSites
+        ,b.is_domesticwaste_sites isDomesticwasteSites
+        ,(case when (SELECT count(1) FROM pollutant_discharge_permit c WHERE c.cid=a.pid)>0 then 1 ELSE 0 end) isGetSewageDischargePermission
+        ,(case when (SELECT count(1) FROM online_monitor_portinfo c WHERE c.cid=a.pid AND c.monitor_type=0)>0 then 1 ELSE 0 end) isWaterWaste
+        ,(case when (SELECT count(1) FROM online_monitor_portinfo c WHERE c.cid=a.pid AND c.monitor_type=1)>0 then 1 ELSE 0 end) isAirWaste
+        ,(case when (SELECT count(1) FROM online_monitor_portinfo c WHERE c.cid=a.pid AND c.monitor_type=5)>0 then 1 ELSE 0 end) isNoiseWaste
+        FROM cominfo_baseinfo a,cominfo_environmental_manage b
+        WHERE b.cid=a.pid
+        AND a.pid=#{pid}
+    </select>
+
+    <select id="getPaiKouInfoForEnvironment" resultType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitAndBaseInfoEntity" parameterType="java.lang.String">
+        SELECT a.pid oid,b.pid pid,b.permit_code permitCode,c.company_address companyAddress,b.start_date startDate
+        ,b.end_date endDate,a.monitor_type monitorType,a.tax_source_code taxSourceCode
+        ,a.monitor_code monitorCode,a.monitor_name monitorName,c.district_and_county districtAndCounty
+        ,c.street_or_town streetOrTown,a.mn mn,a.longitude longitude,a.latitude latitude
+        ,a.emission_mode emissionMode,a.emission_direction emissionDirection
+        ,b.control_requirements controlRequirements,a.airpollutant_type airpollutantType
+        FROM online_monitor_portinfo a
+        LEFT JOIN pollutant_discharge_permit b ON b.pid=a.permitid
+        LEFT JOIN cominfo_baseinfo c ON c.pid=a.cid
+        WHERE a.cid=#{pid}
+    </select>
+
+    <update id="updateForEnvironment" parameterType="com.tengdi.environmentalprotectionint.modules.permit.entity.PollutantDischargePermitEntity">
+        UPDATE pollutant_discharge_permit
+        SET control_requirements=#{controlRequirements},updatedate=#{updatedate}
+        WHERE pid=#{pid}
+    </update>
+
+</mapper>

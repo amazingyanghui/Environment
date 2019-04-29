@@ -1,0 +1,334 @@
+
+<style type="text/css">
+    .layui-table-body{
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+
+<title>行业类型</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>基础管理</cite></a>
+        <a><cite>行业类型</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid"  id="LAY-app-message">
+    <div class="layui-card" >
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <button class="layui-btn " data-events="add" perm="sysmgr:base:Dtype:add">新增</button>
+                        <button class="layui-btn " data-events="mod" perm="sysmgr:base:Dtype:mod">修改</button>
+                        <!--<button class="layui-btn " data-events="del">删除</button>-->
+                        <div style="float: right;margin-right: 30px;">
+                            <label>名称：</label>
+                            <div class="layui-inline" style="margin-right: 35px">
+                                <input class="layui-input" id="marketBasicSetReloadValue" autocomplete="off" placeholder="">
+                            </div>
+                            <!--<button class="layui-btn" data-type="marketBasicSetReload">搜索</button>-->
+                            <button class="layui-btn" data-type="marketBasicSetReload" id="marketBasicSetReload" perm="sysmgr:base:Dtype:query">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                            <button class="layui-btn" data-type="reset" id="reset" >
+                                <i class="layui-icon">&#xe669;</i>
+                            </button>
+                        </div>
+                    </div>
+                    <table id="LAY-market-marketBasicSet"  lay-filter="LAY-market-marketBasicSet"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editmarketBasicSet" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="marketBasicSetedit" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="sort" />
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" >类型名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" lay-verify="required|name" placeholder="请填写名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label">来源：</label>
+                        <div class="layui-input-block">
+                            <select type="text" name="status" lay-verify="required" >
+                                <option value="1">启用</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                            <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="switchTpl">
+    <!-- 这里的 checked 的来源只是演示 -->
+    <input type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="statuschange" {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','upload','perms'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,upload = layui.upload
+            ,perms = layui.perms
+            ,setter = layui.setter
+            ,form = layui.form
+            ,laydate=layui.laydate
+            ,global_obj = {}
+            ,windowindex = 0
+            ,baseurl = setter.remoteServiceAddress + "/market/marketbasicset";
+        var hasPermission = false;
+        perms.doPerm();
+        global_obj.differType = 4;
+        var colstemp = [[
+            {type: 'checkbox', unresize: true}
+            ,{type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+            ,{field: 'name', title: '类型名称', minWidth: 100,unresize: true}
+            ,{field: 'createdatestr', title: '建立时间',minWidth: 120,unresize: true}
+            ,{field: 'status', title: '来源', minWidth: 100, templet: '#switchTpl',event:'doEvent',unresize: true}
+        ]];
+        table.render({//查询列表信息
+            elem: "#LAY-market-marketBasicSet"
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+                ,type:global_obj.differType
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: colstemp
+            ,skin: 'line'
+            ,height: 'full-370'
+        });
+
+
+        var active = {
+            marketBasicSetReload: function(){
+                var marketBasicSetName = $('#marketBasicSetReloadValue').val();
+                //执行重载
+                table.reload("LAY-market-marketBasicSet", {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        name:marketBasicSetName
+                    }
+                });
+            }
+            ,reset:function () {
+                $('#marketBasicSetReloadValue').val("");
+                $("#marketBasicSetReload").click();
+            }
+        };
+
+        $("#marketBasicSetReloadValue").keypress(function(event){
+            if(event.keyCode==13){
+                $("#marketBasicSetReload").click();
+            }
+        });
+
+
+        /* 自定义验证规则 */
+        form.verify({
+            name: function(value){
+                if(value.length > 20){
+                    return '不能超过20个字符！';
+                }
+            }
+            ,sort: function(value){
+                if(value.length > 3){
+                    return '不能超过3位数字！';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+        });
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['650px', '250px']
+                // offset: '120px',
+                ,content: editmarketBasicSet.innerHTML
+            });
+            form.render(null, 'component-form-element');
+            admin.req({//根据id获取该记录的详细信息
+                url: baseurl + "/" + data[0].sort
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        for(var id in result.marketBasicSet){
+                            $("[name="+id+"]").val(result.marketBasicSet[id]);
+                        }
+                        form.render(null, 'component-form-element');
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var sorts = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        sorts.push(data[i].sort);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(sorts)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-market-marketBasicSet"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-marketBasicSet")
+                ,data = checkStatus.data; //获得选中的数据
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+
+        table.on('tool(LAY-market-marketBasicSet)',function (obj) {
+            doEvent(obj)
+        });
+
+        //执行点击按钮事件
+        function doEvent(obj){
+            if (obj.event == 'doEvent') {
+                var data = obj.data;
+                var statusnew = (data.status === 1 ? 0 : 1)
+                var param = {sort:data.sort,status:statusnew};
+                admin.req({
+                    type : "PUT"
+                    ,contentType:"application/json",
+                    url: baseurl,
+                    data: JSON.stringify(param),
+                    done: function(result){
+                        if(result.code == 0){//成功
+                            layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                            });
+                            table.reload("LAY-market-marketBasicSet");
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        form.on('submit(component-form-element)', function(data){
+            var type = "POST";
+            if(data.field.sort){//修改
+                type = "PUT";
+            }
+            data.field.type=global_obj.differType;
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.close(windowindex);
+                        table.reload("LAY-market-marketBasicSet");
+                        layer.msg('操作成功！', {icon: 6,time:1000});
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                },error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

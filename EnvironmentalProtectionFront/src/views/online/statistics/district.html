@@ -1,0 +1,737 @@
+<title>在线监测</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>数据统计</cite></a>
+        <a><cite>在线监测</cite></a>
+    </div>
+</div>
+<style type="text/css">
+    .companyClass{
+        margin-left: -37px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .qyda {
+        margin-left: 119px;
+        color: #0099FF;
+    }
+    #myyear span{
+        padding: 5px 20px;
+        border-radius: 10%;
+        margin-left: 13px;
+        cursor:pointer;
+    }
+</style>
+<div class="layui-fluid" id="">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2 enterpriseType " data-type="OnlineMonitoringEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #49A9EE;border: 1px solid #49A9EE;">
+                        <i class="iconfont total-font">&#xe69e;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin" >在线监控企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="onlineBusinessesEnterprise" style="font-size:80%"></span ><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div >
+        <div class="layui-col-md2 enterpriseType" data-type="KeyMonitoringEnterprises" style="cursor:pointer" >
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                        <i class="iconfont total-font">&#xe662;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">重点监控企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="keyPollutionEnterprise" style="font-size:80%"></span><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="WasteDischargeEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #99CC00;border: 1px solid #99CC00;">
+                        <i class="iconfont total-font">&#xe761;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">废水监控企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="wasteWaterEnterprise"style="font-size:80%"></span><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="emissionEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #993366;border: 1px solid #993366;">
+                        <i class="iconfont total-font">&#xe639;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">废气监控企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="wasteGasEnterprise"style="font-size:80%"></span><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="VOCsEmissionEnterprises" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF66FF;border: 1px solid #FF66FF;">
+                        <i class="iconfont total-font">&#xe76f;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">VOCs监控企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="VOCsEnterprise" style="font-size:80%"></span><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md2 enterpriseType" data-type="sewageTreatmentWorks" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6" style="background-color: #FF6633;border: 1px solid #FF6633;">
+                        <i class="iconfont total-font">&#xe7a9;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">污水处理厂</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="sewagePlant" style="font-size:80%"></span><span style="font-size:80%">家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 "  id="bodySize">
+            <div class="layui-card"  id="bodySize2">
+                <div class="layui-card-body total-container">
+                    <div class="layui-col-md12 total-center">
+                        <label class="mylabel" >年份：</label>
+                        <!--<div style="display: inline-block">年份</div>-->
+                        <div id="myyear" style="margin-left: 13px;">
+
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 total-center">
+                        <label class="mylabel" >统计类型：</label>
+                        <!--<div style="display: inline-block">统计类型</div>-->
+                        <div id="mystatisticalType">
+                            <span style="padding: 5px 30px;border-radius: 10%;margin-left: 13px;cursor:pointer">水</span>
+                            <span style="padding: 5px 30px;border-radius: 10%;margin-left: 13px;cursor:pointer">气</span>
+                            <span style="padding: 5px 30px;border-radius: 10%;margin-left: 13px;cursor:pointer">VOCs</span>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 total-center">
+                        <label class="mylabel" >监测项目：</label>
+                        <!--<div style="display: inline-block">监测项目</div>-->
+                        <div id="mymonitorProject" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>月排放量统计</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="mymonthTotal" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>本年排放量与去年对比</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="mycompareTotal" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>废水实时排放情况</span>
+                        </div>
+                        <div class="layui-card-body total-content" style="width: 97%;height:400px">
+                            <div class="layui-card ">
+                                <div class="layui-card-header total-title-top" style="border-bottom:none;top:45px;height:100px;text-align:center;">
+                                    <div class="layui-col-md6" style="">
+                                        <p><span style="font-size:20px;">本年度累计工业废水排放量</span></p>
+                                    </div>
+                                    <div class="layui-col-md6" style="">
+                                        <p><span style="font-size:20px;">工业废水排放量</span></p>
+                                    </div>
+                                </div>
+                                <div class="layui-card-body ">
+                                    <div id="topicIsotope1" class="topicListIsotope layui-col-md2"style="top: 100px">
+                                        <img src="layui/images/face/feishui.png">
+                                        <div style=" margin-top: 40px;font-size: 17px;color: #0099FF"><span id="wasteWater"></span>吨</div>
+                                    </div>
+                                    <div id="topicIsotope2" class="topicListIsotope layui-col-md2" style="top: 100px">
+                                        <img src="layui/images/face/cod.png">
+                                        <div style=" margin-top: 40px;font-size: 17px;color: #99CC00"><span id="COD"></span>吨</div>
+                                    </div>
+                                    <div id="topicIsotope3" class="topicListIsotope layui-col-md2" style="top: 100px">
+                                        <img src="layui/images/face/andan.png">
+                                        <div style=" margin-top: 40px;font-size: 17px;color: #FF66FF"><span id="ammoniaNitrogen"></span>吨</div>
+                                    </div>
+                                    <div id="topicIsotope4" class="topicListIsotope layui-col-md2" style="top: 100px;margin-right: 50px;width: 10px;">
+                                        <div style="width: 1px;height: 100px;background:black"></div>
+                                    </div>
+                                    <div id="topicIsotope5" class="topicListIsotope layui-col-md2" style="top: 117px">
+                                        <img src="layui/images/face/benyue.png">
+                                        <div style=" margin-top: 54px;font-size: 17px;color: #0099FF"><span id="monthTheEmissions"></span>吨</div>
+                                    </div>
+                                    <div id="topicIsotope6" class="topicListIsotope layui-col-md2" style="top: 117px">
+                                        <img src="layui/images/face/shangyue.png">
+                                        <div style=" margin-top: 54px;margin-left: 10px;font-size: 17px;color: #FF9933"><span id="lastmonthTheEmissions"></span>吨</div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+                <div class="layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>排放量排行榜</span>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="mydischarge" class="total-chart">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','wasteProduceAndUse','static','statisticalBounced'], function() {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            ,statics = layui.static
+            , setter = layui.setter
+            , wasteProduceAndUse = layui.wasteProduceAndUse
+            , statisticalBounced = layui.statisticalBounced
+            , form = layui.form
+            , global_obj = {}
+            , baseurl = setter.remoteServiceAddress + "/online/onlinemonitordaydata/onlineMonitoring"
+            , baseurl2 = setter.remoteServiceAddress + "/online/onlinemonitordaydata/selFactorByStatisticalType"
+            ,baseurl3 = setter.remoteServiceAddress + "/online/onlinemonitorpointfactor/selFactorByStatisticalType"
+            ,baseurl4= setter.remoteServiceAddress + "/online/onlinemonitorpointfactor"
+            ,baseurl5= setter.remoteServiceAddress + "/online/onlinemonitordaydata/onlineMonitoringEnterpriseList";
+        var hasPermission = false;
+        var myyear=null;
+        var currentYear=null;
+        var currentmonth=null;
+        var currentlastmonth=null;
+        var mytotalType=null;
+        var myvalueTypes=null;
+        // 根据当前年份动态加载年份选项
+        var heighttemp = window.innerHeight - 680;
+        if(window.innerHeight < 650 ){
+            heighttemp = window.innerHeight - 650
+        }
+        $(".welcome").css({'margin-top':''+heighttemp+'px'});
+        var mystr="吨";
+//        $(function(){
+//            var date=new Date;
+//            myyear=date.getFullYear();
+//            var seperator1 = "-";
+//            currentYear=date.getFullYear();
+//            month=date.getMonth()+1;
+//            if (month >= 1 && month <= 9) {
+//                month = "0" + month;
+//            }
+//            if((date.getMonth())==0){
+//                lastmonth=(date.getFullYear()-1)+seperator1+"12";
+//            }else{
+//                var lastmonth1=date.getMonth();
+//                if (lastmonth1 >= 1 && lastmonth1 <= 9) {
+//                    lastmonth1 = "0" + lastmonth1;
+//                }
+//                currentlastmonth=date.getFullYear() + seperator1 + lastmonth1;
+//            }
+//            currentmonth = date.getFullYear() + seperator1 + month;
+//            wasteProduceAndUse.yearQuery("myyear");
+//        });
+
+        //默认年份点击事件
+        admin.req({//
+            url: setter.remoteServiceAddress + "/common/exportExcel/getDate"
+            , done: function (result) {
+                var date=new Date(result.date);
+                myyear=date.getFullYear();
+                for(var i=myyear;i >= 2017;i--){
+                    $("#myyear").append("<span >"+i+"</span>")
+                }
+                var seperator1 = "-";
+                currentYear=date.getFullYear();
+                month=date.getMonth()+1;
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if((date.getMonth())==0){
+                    lastmonth=(date.getFullYear()-1)+seperator1+"12";
+                }else{
+                    var lastmonth1=date.getMonth();
+                    if (lastmonth1 >= 1 && lastmonth1 <= 9) {
+                        lastmonth1 = "0" + lastmonth1;
+                    }
+                    currentlastmonth=date.getFullYear() + seperator1 + lastmonth1;
+                }
+                currentmonth = date.getFullYear() + seperator1 + month;
+                //年份点击事件
+                $("#myyear span").on("click",function () {
+                    $("#myyear span").css({"background-color":"#CCCCCC","border":"1px solid #CCCCCC","color":"white"});
+                    $(this).css({"background-color":"#0099FF"});
+                    myyear=$(this).text();
+                    if($("[name='mymonitorProject']").length>0){
+                        var ck=$("#mymonitorProject input[type='radio']:checked").val();
+                        defaultClick(myyear,ck);
+                    }
+                });
+                //统计类型点击事件
+                $("#mystatisticalType span").on("click",function () {
+                    $("#mystatisticalType span").css({"color":"#CCCCCC","border":"1px solid #CCCCCC"});
+                    $(this).css({"color":"#0099FF","border":"1px solid #0099FF"});
+                    mytotalType=$(this).text();
+                    //统计类型选中后要联动获取该类型的污染因子
+                    selTestItems(mytotalType);
+                });
+                //检测项目点击事件
+                // $("#monitorProject [name='monitorProject']").on("click",function () {
+                //     monitorProject=$("#monitorProject [name='monitorProject']:checked").val();
+                //     defaultClick(year,totalType);
+                // });
+                //初始化按钮默认点击事件
+                $("#myyear span:first-child").trigger("click");
+                $("#mystatisticalType span:first-child").trigger("click");
+
+                $('.enterpriseType').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            }
+        });
+
+        //图表模板
+        function mymonthTotal(data) {
+            var chart = Highcharts.chart('mymonthTotal', {
+                title: {
+                    text: ''
+                },
+                subtitle: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                credits: {
+                    enabled: false
+                },
+                yAxis: {
+                    title: {
+                        text: '排放量('+mystr+')'
+                    }
+                },
+                xAxis: {
+                    categories: [
+                        '一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'
+                    ],
+                    crosshair: true
+                },
+                legend: {
+                    // layout: 'vertical',
+                    // align: 'right',
+                    // verticalAlign: 'middle'
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                        // pointStart: 2010
+                    }
+                },
+                colors: ['#7cb5ec'],
+                series: [{
+                    name: '排放量',
+                    // data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 15417,546,654,546,654]
+                    data:data
+                }],
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} </b>'+mystr+'</td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+
+
+        }
+        function mycompareTotal(data) {
+            var chart = Highcharts.chart('mycompareTotal',{
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                legend: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: [
+                        '本年','去年'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '排放量（'+mystr+'）'
+                    }
+                },
+                tooltip: {
+                    // head + 每个 point + footer 拼接成完整的 table
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b>'+mystr+'</td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '排放量',
+                    data: data
+                }]
+            });
+        }
+        function mydischarge(data1,data2) {
+            var chart = Highcharts.chart('mydischarge', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: ''
+                },
+                exporting:{
+                    enabled:false
+                },
+                credits: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: data1,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '排放量 ('+mystr+')',
+                        align: 'high'
+                    },
+                    labels: {
+                        useHTML: true,
+                        enabled: true,
+                        overflow: 'justify',
+                        style :{
+                            'display':'inline-block',
+                            'max-width':'80px',
+                            'overflow':'hidden',
+                            'text-overflow':'ellipsis',
+                            'white-space':'nowrap',
+                            'padding-right':'15px'
+                        }
+                    },
+                },
+                tooltip: {
+                    valueSuffix:mystr
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            allowOverlap: true // 允许数据标签重叠
+                        }
+                    }
+                },
+                legend: {
+                    // layout: 'vertical',
+                    // align: 'right',
+                    // verticalAlign: 'top',
+                    // x: -40,
+                    // y: 100,
+                    // floating: true,
+                    // borderWidth: 1,
+                    // backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    // shadow: true
+                    enabled: false
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '排放量',
+                    data: data2
+                }]
+            });
+        }
+        //图表数据
+        function defaultClick(year,fid){
+            //监控企业、重点监控、水、气、VOC、污水处理厂家数动态查询显示
+            admin.req({
+                url:baseurl+"/"+year+"/"+currentYear+"/"+myvalueTypes+"/"+fid+"/"+currentmonth+"/"+currentlastmonth
+                , done: function (result) {
+                    if(result.code == 0){
+                        var data=result.data;
+                        $("#onlineBusinessesEnterprise").html(data[0].onlineBusinesses);
+                        $("#keyPollutionEnterprise").html(data[0].keyPollution);
+                        $("#wasteWaterEnterprise").html(data[0].wasteWater);
+                        $("#wasteGasEnterprise").html(data[0].wasteGas);
+                        $("#VOCsEnterprise").html(data[0].VOC);
+                        $("#sewagePlant").html(data[0].sewagePlant);
+                        var monthContainer=result.monthContainer;
+                        monthContainer=monthContainer.map(Number);
+                        mymonthTotal(monthContainer);
+                        mycompareTotal(result.yearContainer);
+                        mydischarge(result.names,result.values);
+                        $("#wasteWater").html(result.wasteWater);
+                        $("#COD").html(result.COD);
+                        $("#ammoniaNitrogen").html(result.ammoniaNitrogen);
+                        $("#monthTheEmissions").html(result.monthTheEmissions);
+                        $("#lastmonthTheEmissions").html(result.lastmonthTheEmissions);
+                    }
+                }
+            });
+        }
+        //根据统计类型联动获取该类型的污染因子
+        function selTestItems(mytotalType){
+            var type1=null;
+            if(mytotalType=="水"){
+                type1="0";
+                myvalueTypes="0";
+            }else if(mytotalType=="气"){
+                type1="1";
+                myvalueTypes="1";
+            }else{
+                type1="2";
+                myvalueTypes="0";
+            }
+            admin.req({
+                url: baseurl2 +"/"+ type1
+                , done: function (result) {
+                    var data=result.data;
+                    if(result.code == 0){
+                        $("#mymonitorProject").empty();
+                        for(var i=0;i<data.length;i++){
+                            if(i!==0 && i%5==0){
+                                if((i/3)>3){
+                                    $("#mymonitorProject").append(
+                                        '<br/>'
+                                    );
+                                    $("#mymonitorProject").append(
+                                        '<label><input type="radio" name="mymonitorProject"  id="'+data[i].emissionUnit+'" value="'+data[i].factorCode +'" style="margin-left: 120px;" ><span  style=" display:inline-block;width: 80px;cursor:pointer">'+data[i].factorName+'</span></label>'
+                                    );
+                                }else{
+                                    $("#mymonitorProject").append(
+                                        '<br/>'
+                                    );
+                                    $("#mymonitorProject").append(
+                                        ' <label><input type="radio" name="mymonitorProject"   id="'+data[i].emissionUnit+'" value="'+data[i].factorCode +'"  style="margin-left: 0px;"><span  style="display:inline-block;width: 80px; cursor:pointer">'+data[i].factorName+'</span></label>'
+                                    );
+                                }
+                            }else{
+                                $("#mymonitorProject").append(
+                                    '<label><input type="radio" name="mymonitorProject" id="'+data[i].emissionUnit+'" value="'+data[i].factorCode +'" ><span  style=" display:inline-block;width: 80px;cursor:pointer">'+data[i].factorName+'</span></label>'
+                                );
+                            }
+                        }
+                        //直接设置元素的高
+                        $("#bodySize2").height($("#bodySize").height());
+                        $("#mymonitorProject [name='mymonitorProject']").on("click",function () {
+                            $(this).prev().attr("checked",true);
+                           var danwei=$(this).attr('id');
+                            if(danwei.indexOf("null")!= -1){
+                                mystr="无";
+                            }else {
+                                mystr=$(this).attr('id');
+                            }
+                            var  mymonitorProject=$("#mymonitorProject input:radio[name='mymonitorProject']:checked").val();
+                           if(mymonitorProject==null){
+                               $("#mymonitorProject input:first").attr("checked",true);
+                               mymonitorProject=$("#mymonitorProject input:first").val();
+                           }
+                            defaultClick(myyear,mymonitorProject);
+                        });
+                        $("#mymonitorProject [name='mymonitorProject']:first").trigger("click");
+                    }
+                }
+            });
+        }
+
+        var editwin = function(title,data){
+            var element="LAY-online-onlineMonitorCompany";
+            var colstemp= [[
+                {type: 'numbers', title: '序号',minWidth: 100,unresize: true}
+                ,{field: 'companyName', title: '公司名称', minWidth: 200,event:"showStatic",style:'color:blue;cursor:pointer;',unresize: true}
+                ,{field: 'unifiedSocialCreditCode', title: '统一社会信用代码', minWidth: 60,unresize: true}
+                // ,{field: 'districtAndCounty', title: '所属区县', minWidth: 100,unresize: true}
+                ,{field: 'companyAddress', title: '单位地址', minWidth: 220,unresize: true}
+                ,{field: 'companyRepresentative', title: '法人代表', minWidth: 20,unresize: true}
+                // ,{field: 'industry', title: '行业类型', minWidth: 40,unresize: true}
+                // ,{field: 'pollutionSourceCategoryText', title: '单位类型', minWidth: 50,unresize: true}
+                // ,{field: 'opts', title: '地图', width: 100,align:'center', toolbar: '#delDemo',unresize: true}
+            ]];
+            var whereConditions={
+                hasPermission: hasPermission
+                    //是否重点企业
+                    ,keySource:data.keySource ? data.keySource:null
+                    //是否为废水排放企业
+                    ,wasteWater:data.wasteWater ? data.wasteWater:null
+                    //是否为废气排放企业
+                    ,emissionEnterprises:data.emissionEnterprises ? data.emissionEnterprises:null
+                    //是否为VOCs排放企业
+                    ,vocEnterprises:data.vocEnterprises ? data.vocEnterprises:null
+                    //是否为污水处理厂
+                    ,sewagePlant:data.sewagePlant ? data.sewagePlant:null
+            };
+            statisticalBounced.bounced(element,colstemp,whereConditions,baseurl5,title);
+
+            // $("#test").animate({height:'0px'},"fast");
+            // $("#test").addClass("layui-hide");
+
+            //表格点击监听事件
+            table.on("tool(LAY-online-onlineMonitorCompany)",function (obj){
+                if(obj.event=="showStatic"){
+                    pid = obj.data.pid;
+                    statics.init(admin,setter,pid)
+                }
+                table.render
+            });
+            $("#sousuo").click(function(){
+                var onlineCompanyReload=$("#onlineCompanyReload").val();
+                table.reload('LAY-online-onlineMonitorCompany', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        cominfoBaseinfoName:onlineCompanyReload
+                    }
+                });
+            });
+            $("#chongzhi").click(function(){
+                $("#onlineCompanyReload").val("")
+                $("#sousuo").click();
+            })
+
+        };
+        var active = {
+            OnlineMonitoringEnterprise : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data="";
+                editwin("在线监测企业",data);
+            }
+            ,KeyMonitoringEnterprises : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"keySource":"1"};
+                editwin("重点监控企业",data);
+            }
+            ,WasteDischargeEnterprise : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"wasteWater":"1"};
+                editwin("废水排放企业",data);
+            }
+            ,emissionEnterprise : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"emissionEnterprises":"1"};
+                editwin("废气排放企业",data);
+            }
+            ,VOCsEmissionEnterprises : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"vocEnterprises":"1"};
+                editwin("VOCs排放企业",data);
+            }
+            ,sewageTreatmentWorks : function(othis,data){
+                // var equalColumns = [];
+                // equalColumns.push({column:"online_monitoring", value:1});
+                // tablewhere.equalColumns=equalColumns;
+                var data={"sewagePlant":"1"};
+                editwin("污水处理厂",data);
+            }
+        };
+
+    })
+</script>

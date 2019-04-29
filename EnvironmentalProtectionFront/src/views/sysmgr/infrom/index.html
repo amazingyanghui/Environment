@@ -1,0 +1,544 @@
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.excheck.js"></script>
+
+<title>通知公告</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>通知公告</cite></a>
+    </div>
+</div>
+
+<style type="text/css">
+    .divtextarea{
+        min-height: 100px;
+        resize:none;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div class="layui-inline">
+                            <input class="layui-input" id="sysInformReload" autocomplete="off" placeholder="请输入关键字">
+                        </div>
+                        <button class="layui-btn" data-type="sysInformReload" perm="sysmgr:infrom:index:query">
+                            <i class="layui-icon">&#xe615;</i>
+                        </button>
+                        <button class="layui-btn " data-events="add" perm="sysmgr:infrom:index:add">新增</button>
+                        <button class="layui-btn " data-events="mod" perm="sysmgr:infrom:index:mod">修改</button>
+                        <button class="layui-btn " data-events="del" perm="sysmgr:infrom:index:del">删除</button>
+                        <button class="layui-btn " data-events="publish" perm="sysmgr:infrom:index:publish">发布</button>
+                    </div>
+                    <table id="LAY-sys-sysInform" lay-filter="LAY-sys-sysInform"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹窗 -->
+<script id="editsysInform" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row  ">
+            <div class="layui-row layui-col-space15">
+                <!--<div class="layui-card-header">响应式组合</div>-->
+                <div class="layui-card-body">
+                    <form class="layui-form" id="sysInformedit" action="" lay-filter="component-form-element">
+                        <input type="hidden" name="id" />
+                        <!--<div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">通知部门：</label>
+                            <div class="layui-input-block">
+                                <input type="hidden" name="deptid" >
+                                <input type="text" id="select_deptName" name="company" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>-->
+                        <div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">标题：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" lay-verify="required|title" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">内容：</label>
+                            <div class="layui-input-block">
+                                <textarea id="areacontent" lay-verify="content" placeholder="请输入内容" class="layui-textarea divtextarea"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10 layui-form-item" style="margin-top: 10px;">
+                            <div class="layui-col-md6">
+                                <label class="layui-form-label">操作人：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="person" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <label class="layui-form-label">状态：</label>
+                                <div class="layui-input-block">
+                                    <select type="text" name="status" lay-verify="required" >
+                                        <option value="0">未发布</option>
+                                        <option value="1">已发布</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="layui-row layui-col-space10 layui-form-item">-->
+                            <!--<div class="layui-col-md6">-->
+                                <!--<label class="layui-form-label">附件：</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<button type="button" class="layui-btn" id="uploadFile" style="float: left">-->
+                                        <!--<i class="layui-icon">&#xe67c;</i>上传-->
+                                    <!--</button>-->
+                                    <!--<label class="layui-form-label" id="noUploaded">未上传</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="layui-form-item">
+                            <div class="layui-layer-btn-c">
+                                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                                <button type="reset" class="layui-btn layui-btn-normal">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','layedit','perms'], function(){
+        var $1 = layui.$
+                ,admin = layui.admin
+                ,table = layui.table
+                ,element = layui.element
+                ,laytpl = layui.laytpl
+                ,laydate=layui.laydate
+                ,layedit = layui.layedit
+                ,layeditindex = 0
+                ,setter = layui.setter
+                ,form = layui.form
+                ,perms = layui.perms
+                ,global_obj = {}
+                ,windowindex = 0
+                ,baseurl = setter.remoteServiceAddress + "/sys/sysinform";
+
+        var hasPermission = false;
+        perms.doPerm();
+//        if(!(layui.data(setter.permissionName).list.indexOf('sys:sysinform:list') === -1)) hasPermission = true;
+        //
+
+        /* 自定义验证规则 */
+        form.verify({
+            title: function(value,item){
+                if(value.length > 50){
+                    return '不能超过50个字符！';
+                }
+            }
+            , content: function(value,item){
+                if(value.length > 3000){
+                    return '不能超过3000个字符！';
+                }
+            }
+        });
+
+        table.render({//查询列表信息
+            elem: '#LAY-sys-sysInform'
+            ,url: baseurl
+            ,page: true
+            ,even: true
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox',  key: true,unresize: true}
+//                ,{field: 'id', title: 'ID',minWidth: 100, key: true }
+                ,{field: 'title', title: '通知标题', minWidth: 100,unresize: true}
+                // ,{field: 'url', title: '附件', minWidth: 100}
+                ,{field: 'person', title: '操作人', minWidth: 100,unresize: true}
+                // ,{field: 'company', title: '通知部门', minWidth: 100}
+                ,{field: 'status', title: '状态', minWidth: 100,unresize: true,templet: function(item, index){
+                    if(item.status === 0){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-gray">未发布</span>';
+                    }
+                    if(item.status === 1){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">已发布</span>';
+                    }
+                }}
+                ,{field: 'publishdatestr', title: '发布时间', minWidth: 100,unresize: true}
+//                ,{field: 'updatedate', title: '修改时间', minWidth: 100}
+//                ,{field: 'deletedate', title: '删除时间', minWidth: 100}
+//                ,{field: 'backup', title: '备用', minWidth: 100}
+            ]]
+            ,skin: 'line'
+            ,height: 'full-370'
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+                sysInformReload: function(){
+                var sysInformName = $1('#sysInformReload').val();
+                //执行重载
+                table.reload('LAY-sys-sysInform', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                            sysInformName:sysInformName
+                    }
+                });
+            }
+        };
+
+        $1('.layui-btn').on('click', function(){
+            var type = $1(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+       /* global_obj.deptList = [];//创建部门数组对象
+        admin.req({//获取请求
+            url: setter.remoteServiceAddress + "/sys/dept/getDeptTree"
+            , done: function (result) {
+                global_obj.deptList = result.deptTree;
+            }
+        });*/
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            windowindex = layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['800px', '500px']
+                // offset: '120px',
+                ,content: editsysInform.innerHTML
+            });
+
+            // layedit.set({
+            //     uploadImage: {
+            //         headers: {
+            //             access_token: layui.data(setter.tableName).access_token
+            //         }
+            //         ,url: setter.remoteServiceAddress + '/sys/file/upload/16' //上传接口
+            //     }
+            // });
+
+            layeditindex = layedit.build('areacontent' ,{
+                height: 180 //设置编辑器高度
+                ,hideTool:['image']
+            }); //建立编辑器
+            // //点击部门输入框，弹出部门选择树
+            // $1("#select_deptName").bind('click', function () {
+            //     var deptindex = layer.open({
+            //         type: 1
+            //         , title: '部门选择'
+            //         , area: admin.screen() < 2 ? ['30%', '300px'] : ['20%', '40%']
+            //         // offset: '120px',
+            //         , content: roleDeptSelect.innerHTML
+            //     });
+            //
+            //     var setting = {
+            //         data: {
+            //             simpleData: {
+            //                 enable: true
+            //             }
+            //         }
+            //         , callback: {
+            //             onDblClick: function (event, treeId, treeNode) {
+            //                 onDblClick(event, treeId, treeNode, deptindex)
+            //             }
+            //         }
+            //     };
+            //     $.fn.zTree.init($1("#role_dept_select_tree"), setting, global_obj.deptList);
+            // });
+            //
+            // function onDblClick(event, treeId, treeNode, deptindex) {
+            //     $1("[name='deptid']").val(treeNode.id);
+            //     $1("#select_deptName").val(treeNode.name);
+            //     layer.close(deptindex);
+            // }
+
+            $(".fileInsert").bind('change', function(e){
+                var tag = e.target
+                var fileList = tag.files
+                if(fileList.length > 10){
+                    alert("上传图片数目不可以超过10个，请重新选择");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
+                }
+                else if(fileList.length < 10){
+                    //fileList = validateUp(fileList);
+                    for(var i = 0;i<fileList.length;i++){
+                        var form = new FormData()
+                        form.append('file', fileList[i], fileList[i].name)
+                        var url = setter.remoteServiceAddress + '/sys/file/upload/16';
+                        $.ajax({
+                            headers: {
+                                access_token: layui.data(setter.tableName).access_token
+                            },
+                            url:url,
+                            type:"post",
+                            data:form,
+                            processData:false,
+                            contentType: false,
+                            success:function(result){
+                                // if (result.ret == true) {
+                                //     var rturl = uploadUrl + result.info.md5;
+                                //     var insertStr = '<img src="' + rturl + '">';
+                                //     $(window.frames["LAY_layedit_1"].document).find('body').append(insertStr);
+                                // }else{
+                                //     alert(result.ret);
+                                // }
+                            },
+                            error:function(e){
+                                alert("错误！！");
+                            }
+                        });
+                    }
+
+                }
+            });
+
+            $("#confirm").bind("click", function () {
+                // var type = "POST";
+                // if ($("#roleId").val()) {//修改
+                //     type = "PUT";
+                // }
+                // var treeObj = $.fn.zTree.getZTreeObj("menu_tree");
+                // var nodes = treeObj.getCheckedNodes();
+                // var menuIds = [];
+                // for (var i = 0; i < nodes.length; i++) {
+                //     menuIds.push(nodes[i].id);
+                // }
+                // var deptIds = [];
+                // deptIds.push($("#select_deptId").val());
+                //
+                // var roleId = $("#roleId").val();
+                // var roleName = $("#roleName").val();
+                // var remark = $("#remark").val();
+                // var obj = {
+                //     "roleId": roleId,
+                //     "roleName": roleName,
+                //     "remark": remark,
+                //     "menuIdList": menuIds,
+                //     "deptId":$("#select_deptId").val(),
+                //     "deptIdList": deptIds
+                // };
+                // admin.req({
+                //     type: type,
+                //     contentType: "application/json",
+                //     url: baseurl,
+                //     data: JSON.stringify(obj),
+                //     done: function (result) {
+                //         if (result.code == 0) {//成功
+                //             layer.msg('操作成功！', {icon: 6, time: 1000}, function () {
+                //                 layer.closeAll();
+                //                 table.reload("LAY-sysmgr-sysRole")
+                //             });
+                //         } else {
+                //             layer.alert(result.msg, {
+                //                 skin: 'layui-layer-lan',
+                //                 offset: 't',
+                //                 anim: 6
+                //             });
+                //         }
+                //     }
+                // });
+            })
+
+            form.render(null, 'component-form-element');
+
+            $("[name='person']").val(layui.data(setter.userName).userName);
+
+            if(title == "修改"){
+                var loadindex = layer.load(1);
+                admin.req({//根据id获取该记录的详细信息
+                    url: baseurl + "/" + data[0].id
+                    ,done: function(result){
+                        layer.close(loadindex);
+                        if(result.code == 0){//成功
+                            for(var id in result.sysInform){
+                                $1("[name="+id+"]").val(result.sysInform[id]);
+                            }
+                            form.render(null, 'component-form-element');
+                        }else{
+                            layer.alert(result.msg, {
+                                skin: 'layui-layer-lan',
+                                offset: 't',
+                                anim: 6
+                            });
+                        }
+                    }
+                    ,error:function (res) {
+                        layer.alert(res, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                    ,complete:function (res) {
+                        layer.close(loadindex);
+                    }
+                });
+            }
+
+
+
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+            }
+            ,publish : function(othis,data) {
+                layer.confirm('确定发布选中的内容吗？', function(){
+                    var obj = {"id":data[0].id,"status":1};
+                    admin.req({
+                        type: "PUT",
+                        contentType:"application/json",
+                        url: baseurl + "/0",
+                        data: JSON.stringify(obj),
+                        done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('操作成功！', {icon: 6,time:1000},function(){
+
+                                });
+                                table.reload("LAY-sys-sysInform")
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var ids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        ids.push(data[i].id);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-sys-sysInform"); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $1('.layui-btn').on('click', function(){
+            var othis = $1(this)
+                    ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-sys-sysInform")
+                    ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"|| thisEvent == "publish"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }
+                if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }else if(thisEvent == "mod"){
+                    if(data[0].status == 1){
+                        return layer.msg('该通知公告已发布，无法修改！');
+                    }
+                }
+                if(data.length > 1 && thisEvent == "publish"){
+                    return layer.msg('只能发布一条数据！');
+                }
+                if(data[0].status === 1 && thisEvent == "publish"){
+                    return layer.msg('已发布！');
+                }
+
+                // if(thisEvent == "del"){
+                //     for(var i = 0 ; i < data.length; i++){
+                //         if(data[i].status == 1){
+                //             return layer.msg('存在已发布的通知公告，无法删除！');
+                //         }
+                //     }
+                // }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            var type = "POST";
+            var url = baseurl;
+            if(data.field.id){//修改
+                type = "PUT";
+                url = baseurl +"/1";
+            }
+            data.field.content = layedit.getContent(layeditindex)
+
+            var loadindex = layer.load(1);
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.close(windowindex);
+                        table.reload("LAY-sys-sysInform")
+                        layer.msg('操作成功！', {icon: 6,time:1000});
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error:function (res) {
+                    layer.alert(res, {
+                        skin: 'layui-layer-lan',
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

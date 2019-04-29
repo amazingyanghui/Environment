@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.radioactiveore.dao.CominfoRadioactiveOreMonitorDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.radioactiveore.entity.CominfoRadioactiveOreMonitorEntity" id="cominfoRadioactiveOreMonitorMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="year" column="year"/>
+        <result property="category" column="category"/>
+        <result property="monitorType" column="monitor_type"/>
+        <result property="monitorName" column="monitor_name"/>
+        <result property="monitorCode" column="monitor_code"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="samplingDate" column="sampling_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.radioactiveore.entity.CominfoRadioactiveOreMonitorEntity">
+        SELECT *
+        FROM cominfo_radioactive_ore_monitor
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM cominfo_radioactive_ore_monitor
+        <where>
+            <if test="companyId!=null and companyId!=''">
+                AND a.cid =#{companyId}
+            </if>
+            <if test="reportSection!=null and reportSection!=''">
+                AND b.report_section =#{reportSection}
+            </if>
+            <if test="monitorName!=null and monitorName!=''">
+                AND a.monitor_name like CONCAT('%',#{monitorName},'%')
+            </if>
+            <if test="mainPollution!=null and mainPollution!=''">
+                AND a.main_pollution like CONCAT('%',#{mainPollution},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

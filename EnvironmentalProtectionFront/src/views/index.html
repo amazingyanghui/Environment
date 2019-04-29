@@ -1,0 +1,1590 @@
+<script type="text/javascript" src="layui/arithmetic.js"></script>
+
+<style type="text/css">
+    .indexcard{
+        background-color: rgba(17, 38, 79, 1);
+    }
+    .indexcardheader{
+        border-bottom: 0px;
+        color:white;
+    }
+    .airDiv{
+        width: 180px;
+        float: left;
+        margin-top: 0px;
+        margin-left: 5px;
+        margin-bottom: 0px;
+        height: 100px;
+    }
+    .airDiv img{
+        float: left;
+    }
+    .airDiv div div{
+        margin-left: 60px;
+        margin-bottom: 10px;
+    }
+    .fixedValue{
+        color: #FFF;
+    }
+    .changeValueColor{
+        color: #FFCC00;
+    }
+    .changeRedValueColor{
+        color: #BD4B70;
+    }
+    .changeGreenValueColor{
+        color: #98D87D
+    }
+    .changeValueFontSize{
+        font-size: 16px;
+    }
+    .labelFontSize{
+        font-size: 24px;
+    }
+    .labelFontWeight{
+        font-weight: bold;
+    }
+    .cominfoTitle{
+        font-size: 18px;
+        margin-top: 0px;
+        margin-bottom: 20px;
+    }
+
+    .cominfoDiv{
+        float: left;
+        width: 185px;
+        height: 86px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-bottom: 12px;
+        background-image: url("../start/wholeindex/首页/u10.png");
+    }
+    .cominfoDiv img{
+        left: 0px;
+        top: 0px;
+        width: 42px;
+        height: 42px;
+        float: left;
+        margin: 20px;
+    }
+    .cominfoDiv div{
+        margin-top: 12px;
+    }
+    .cominfoDivTip{
+        margin-left: 30px;
+    }
+    .cominfoLittleTip{
+        margin-left:10px;
+        color: #fff;
+    }
+
+    .hbzfDiv{
+        float: left;
+        width: 138px;
+        height: 64px;
+        margin-left: 24px;
+        margin-right: 22px;
+        margin-bottom: 12px;
+        background-image: url("../start/wholeindex/首页/u10.png");
+        background-size: contain;
+    }
+    .hbzfDivTip{
+        margin-top: 12px;
+        margin-left: 40px;
+    }
+    .hbzfDivLabel{
+        margin-left: 40px;
+    }
+
+    .monitorTitle{
+        font-size: 28px;
+        margin-top: 20px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+
+    }
+
+    .monitorDiv{
+        width: 158px;
+        float: left;
+        margin-top: 16px;
+        margin-left: 5px;
+        margin-bottom: 0px;
+        height: 70px;
+    }
+    .monitorDiv img{
+        width: 35px;
+        height: 35px;
+        float: left;
+        margin-top: 10px;
+        margin-left: 16px;
+    }
+    .monitorDiv div div{
+        margin-left: 60px;
+        margin-bottom: 10px;
+    }
+
+    .vocsMonitorDiv{
+        width: 180px;
+    }
+</style>
+<!--
+
+<div class="layui-fluid" lay-filter="layadmin-layui-fluid" style="overflow: auto">
+    <div class="layui-row layui-col-space15" style="width: 3840px;height:1086px;background-color: #0C0C0C;overflow-y:hidden">
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md1" style="width: 420px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader" >
+                                    空气质量
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:200px!important;">
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u447.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">本年度污染天数</div>
+                                                <div class="changeValueColor changeValueFontSize">127天</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u453.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">本年度优良天数</div>
+                                                <div class="changeValueColor changeValueFontSize">167天</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u459.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">今日空气质量</div>
+                                                <div class="changeValueColor changeValueFontSize">良</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            &lt;!&ndash;<img src="../start/wholeindex/首页/u447.png" width="53px" height="48px">&ndash;&gt;
+                                            <div>
+                                                <div class="fixedValue">主要污染物</div>
+                                                <div class="changeValueColor changeValueFontSize">PM2.5</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div id="curYearAirTotalCount" style="height:352px"></div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    本年度空气首要污染物统计
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:356px!important;">
+                                        <div id="curYearAirFirstWasteCount" style="height:278px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 420px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader" >
+                                    积淹水点
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:200px!important;">
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u360.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">淹积水点总数</div>
+                                                <div class="changeValueColor changeValueFontSize">51处</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u366.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">各街道积淹水点整治任务</div>
+                                                <div class="changeValueColor changeValueFontSize">17条</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u372.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">产业平台积淹水点整治任务</div>
+                                                <div class="changeValueColor changeValueFontSize">9条</div>
+                                            </div>
+                                        </div>
+                                        <div class="airDiv">
+                                            <img src="../start/wholeindex/首页/u382.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">已列入建设计划的积淹水点</div>
+                                                <div class="changeValueColor changeValueFontSize">18处</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    各单位积水点整治任务统计
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:722px!important;">
+                                        <div id="renovationTaskCount" style="height:638px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 440px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    企业信息
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:355px!important;">
+                                        <div class="cominfoTitle fixedValue">纳入监管的新区污染企业总数：<label class="changeValueColor labelFontSize labelFontWeight">3088</label> 家</div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u117.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">区重点源</div>
+                                                <div><label class="changeValueFontSize changeValueColor">1602</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u159.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">固废产废源</div>
+                                                <div><label class="changeValueFontSize changeRedValueColor">188</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u117.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">重点排污源</div>
+                                                <div><label class="changeValueFontSize changeRedValueColor">36</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u117.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">放射源</div>
+                                                <div><label class="changeValueFontSize changeGreenValueColor">126</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u117.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">风险源</div>
+                                                <div><label class="changeValueFontSize changeGreenValueColor">234</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="cominfoDiv">
+                                            <img src="../start/wholeindex/首页/u117.png">
+                                            <div>
+                                                <div class="cominfoDivTip fixedValue">产VOCs源</div>
+                                                <div><label class="changeValueFontSize changeValueColor">402</label><label class="cominfoLittleTip">家</label></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    污染源行业分布
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:568px!important;">
+                                        <div id="wastePosition" style="height:562px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md4" style="width: 1000px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    企业信息
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:1000px!important;">
+                                        <div class="wrapper">
+                                            <div class="newmap" id="simpleMap" style="height:1000px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 420px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    环保执法监察
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:280px!important">
+                                        <div id="huangbaozhifajiancha" style="height:200px"></div>
+                                        <div class="hbzfDiv">
+                                            <div>
+                                                <div class="hbzfDivTip fixedValue">执法次数</div>
+                                                <div><label class="hbzfDivLabel changeValueFontSize changeValueColor">1602</label><label class="cominfoLittleTip">次</label></div>
+                                            </div>
+                                        </div>
+                                        <div class="hbzfDiv">
+                                            <div>
+                                                <div class="hbzfDivTip fixedValue">执法人数</div>
+                                                <div><label class="hbzfDivLabel changeValueFontSize changeValueColor">188</label><label class="cominfoLittleTip">人</label></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    本年度执法类型统计
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:280px!important">
+                                        <div id="bennianduzhifaleixing"  style="height:278px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-col-md12">
+                                    <div id="curYearCompareWithLastYear" style="height:342px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 380px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    水在线监控
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:260px!important">
+                                        <div class="monitorTitle fixedValue">水在线监控企业<label class="changeValueColor monitorTitle labelFontWeight">278</label> 家</div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u584.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">重点监控企业</div>
+                                                <div class="changeValueColor labelFontSize">23家</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u590.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">非重点监控企业</div>
+                                                <div class="changeValueColor labelFontSize">155家</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u596.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">污水排口</div>
+                                                <div class="changeValueColor labelFontSize">178个</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u602.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">雨水排口</div>
+                                                <div class="changeValueColor labelFontSize">137个</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-col-md12">
+                                    <div id="shuipaifangquxiangtongji" style="height:342px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-col-md12">
+                                    <div id="shuijiancewuranwutongji" style="height:342px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 380px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    气在线监控
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:260px!important">
+                                        <div class="monitorTitle fixedValue">气在线监控企业<label class="changeValueColor monitorTitle labelFontWeight">278</label> 家</div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u713.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">常规气监控</div>
+                                                <div class="changeValueColor labelFontSize">239家</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u719.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">VOCs监控企业</div>
+                                                <div class="changeValueColor labelFontSize">195家</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u725.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">废气排口</div>
+                                                <div class="changeValueColor labelFontSize">357个</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u731.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">VOCs排口</div>
+                                                <div class="changeValueColor labelFontSize">237个</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    排放类型统计（排放口）
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:280px!important">
+                                        <div id="qipaifangleixingtongji" style="height:278px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-col-md12">
+                                    <div id="qijiancewuranwutongji" style="height:342px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md1" style="width: 380px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    VOC检漏
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:260px!important">
+                                        <div class="monitorTitle fixedValue">计划检漏企业<label class="changeValueColor monitorTitle labelFontWeight">278</label> 家</div>
+                                        <div class="monitorDiv vocsMonitorDiv">
+                                            <img src="../start/wholeindex/首页/u713.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">计划检漏点数</div>
+                                                <div class="changeValueColor labelFontSize">12780处</div>
+                                            </div>
+                                        </div>
+                                        <div class="monitorDiv">
+                                            <img src="../start/wholeindex/首页/u725.png" width="53px" height="48px">
+                                            <div>
+                                                <div class="fixedValue">已完成检漏</div>
+                                                <div class="changeValueColor labelFontSize">8757处</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-col-md12">
+                                    <div id="nianduxiaojianliangtongji" style="height:342px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card indexcard">
+                                <div class="layui-card-header indexcardheader">
+                                    检漏任务总进度统计
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-carousel layadmin-backlog indexcard" style="height:280px!important">
+                                        <div id="jianlourenwuzongjindutongji"  style="width: 300px; height:278px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+
+<script id="showInfo" type="text/html">
+    <div class="layui-fluid" id="LAY-app-message-detail">
+        <div class="layui-card layuiAdmin-msg-detail">
+            <div >
+                <div class="layui-card-header">
+                    <h1 id="s_title"></h1>
+                    <p>
+                        <span id="s_publishdate"></span>
+                    </p>
+                </div>
+                <div class="layui-card-body layui-text">
+                    <div class="layadmin-text" id="s_content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'laytpl', 'element', 'table', 'echarts','attachment'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , laytpl = layui.laytpl
+            , table = layui.table
+            , element = layui.element
+            , setter = layui.setter
+            ,attachment = layui.attachment
+            ,global_obj = {}
+            ,form = layui.form
+            , echarts = layui.echarts
+            , baseurl1 = setter.remoteServiceAddress + "/sys/sysinformschedule"
+            , baseurl2 = setter.remoteServiceAddress + "/ledger/ledgerrunlist";
+        /*TDTMap.init(1,admin,setter,$,setter);
+        var loadindex = layer.load(0);
+        admin.req({//
+            url: setter.remoteServiceAddress + "/map/queryCominfoList"
+            ,data:{
+                regulatoryLevel:null
+                ,companyName:null
+                ,wasteType:null
+                ,creditEvaluation:null
+                ,otherCondition:null
+
+            }
+            , done: function (result) {
+                layer.close(loadindex);
+                TDTMap.addPointsInMap(admin,setter,$,result.data,[],0);
+            }
+            ,complete:function (res) {
+                layer.close(loadindex);
+            }
+        });
+
+        var chart = Highcharts.chart('curYearAirTotalCount',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '本年度空气质量统计',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '空气质量',
+                colorByPoint: true,
+                data: [{
+                    name: '优',
+                    y: 50,
+                }, {
+                    name: '良',
+                    y: 105,
+                }, {
+                    name: '轻度污染',
+                    y: 95,
+                }, {
+                    name: '中度污染',
+                    y: 35,
+                }, {
+                    name: '重度污染',
+                    y: 10,
+                }, {
+                    name: '严重污染',
+                    y: 5,
+                }]
+            }],
+        });
+
+        var chart1 = Highcharts.chart('curYearAirFirstWasteCount',{
+            credits: {
+                enabled: false
+            },
+            exporting:{
+                enabled:false
+            },
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            title: {
+                text: ''
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: <b>{y}天</b>  {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || '#fff',
+                            fontSize:'16px'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name:"占比",
+                colorByPoint: true,
+                data: [{
+                    name: 'PM10',
+                    y: 20
+                }, {
+                    name: 'NO2',
+                    y: 15
+                }, {
+                    name: 'PM2.5',
+                    y: 65
+                }]
+            }]
+        });
+
+        var chart2 = Highcharts.chart('renovationTaskCount',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'bar',
+                // backgroundColor: {
+                //     linearGradient: [0, 0, 0, 500],
+                //     stops: [
+                //         [0, 'rgb(5, 235, 235)'],
+                //         [1, 'rgb(39, 111, 210)']
+                //     ]
+                // },
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            colors: ['#90ed7d', '#434348', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                categories: [
+                    '盘城街道','研创园','泰山街道','大厂街道','桥北指挥部','新区公建中心',
+                    '高新公建中心','顶山街道','全新中心','市公建中心','葛塘街道','浦易通','智能制造产业园'
+                ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#fff", "cursor": "default", "fontSize": "12px" }
+                },
+            },
+            yAxis: {
+                // min: 0,
+                title: {
+                    text: ''
+                },
+                // labels:{
+                //     style:{ "color": "#fff", "cursor": "default", "fontSize": "12px" }
+                // }
+                enabled:false
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name:'任务数量',
+                colorByPoint: true,
+                data: [{
+                    y: 8,
+                }, {
+                    y: 8,
+                }, {
+                    y: 7,
+                }, {
+                    y: 5,
+                }, {
+                    y: 5,
+                }, {
+                    y: 4,
+                },{
+                    y: 3,
+                }, {
+                    y: 2,
+                }, {
+                    y: 2,
+                }, {
+                    y: 2,
+                }, {
+                    y: 1,
+                }, {
+                    y: 1,
+                },{
+                    y:1
+                }]
+            }],
+        });
+
+        var chart3 = Highcharts.chart('wastePosition',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'bar',
+                // backgroundColor: {
+                //     linearGradient: [0, 0, 0, 500],
+                //     stops: [
+                //         [0, 'rgb(5, 235, 235)'],
+                //         [1, 'rgb(39, 111, 210)']
+                //     ]
+                // },
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            colors: ['#90ed7d', '#434348', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                categories: [
+                    '建筑业','资本市场服务','机织服装制造','家禽饲养','其他市场服务','纺织业',
+                    '证券市场服务','黑色金属铸造','高等教育','金属制品','机械和设备修理业'
+                ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#fff", "cursor": "default", "fontSize": "12px" }
+                },
+            },
+            yAxis: {
+                // min: 0,
+                title: {
+                    text: ''
+                },
+                // labels:{
+                //     style:{ "color": "#fff", "cursor": "default", "fontSize": "12px" }
+                // }
+                enabled:false
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name:'数量',
+                colorByPoint: true,
+                data: [{
+                    y: 88,
+                }, {
+                    y: 72,
+                }, {
+                    y: 65,
+                }, {
+                    y: 63,
+                }, {
+                    y: 52,
+                }, {
+                    y: 46,
+                },{
+                    y: 37,
+                }, {
+                    y: 24,
+                }, {
+                    y: 10,
+                }, {
+                    y: 4,
+                }, {
+                    y: 2,
+                }]
+            }],
+        });
+
+        var chart4 = Highcharts.chart('huangbaozhifajiancha',{
+            credits: {
+                enabled: false
+            },
+            exporting:{
+                enabled:false
+            },
+            legend: {
+                align: 'right',
+                symbolHeight: 16,
+                symbolWidth: 16,
+                symbolRadius: 2,
+                verticalAlign: 'middle',
+                x: 70,
+                y: 0,
+                width:180,
+                labelFormat: '<span style="color:#fff">{name}: {y}次</span>'
+            },
+            chart: {
+                spacing : [0, 0 , 0, 0],
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            title: {
+                floating:true,
+                text: ''
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    showInLegend:true,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || '#fff',
+                            fontSize:'12px'
+                        }
+                    },
+                }
+            },
+            series: [{
+                type: 'pie',
+                name:'占比',
+                innerSize: '80%',
+                data: [
+                    ['询问笔录',    65],
+                    ['现场检查',     35]
+                ]
+            }]
+        });
+
+        var chart5 = Highcharts.chart('bennianduzhifaleixing',{
+            credits: {
+                enabled: false
+            },
+            exporting:{
+                enabled:false
+            },
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            title: {
+                text: ''
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || '#fff',
+                            fontSize:'16px'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: '占比',
+                colorByPoint: true,
+                data: [{
+                    name: '专项执法',
+                    y: 20
+                }, {
+                    name: '监督检查',
+                    y: 15
+                }, {
+                    name: '双随机',
+                    y: 65
+                },{
+                    name: '临时检查',
+                    y: 150
+                }]
+            }]
+        });
+
+        var chart6 = Highcharts.chart('curYearCompareWithLastYear',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '本年执法人次与去年对比',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '执法人次',
+                colorByPoint: true,
+                data: [{
+                    name: '2017年',
+                    y: 576,
+                }, {
+                    name: '2018年',
+                    y: 478,
+                }]
+            }],
+        });
+
+        var chart7 = Highcharts.chart('shuipaifangquxiangtongji',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '水排放去向统计（排放口）',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '吨',
+                colorByPoint: true,
+                data: [{
+                    name: '污水处理厂',
+                    y: 275,
+                }, {
+                    name: '城市下水道',
+                    y: 10,
+                }, {
+                    name: '江河、湖、库',
+                    y: 0,
+                }, {
+                    name: '海域',
+                    y: 0,
+                }, {
+                    name: '其他',
+                    y: 35,
+                }]
+            }],
+        });
+
+        var chart8 = Highcharts.chart('shuijiancewuranwutongji',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '监测污染物统计（家）',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '数量',
+                colorByPoint: true,
+                data: [{
+                    name: 'COD',
+                    y: 252,
+                }, {
+                    name: '氨氮',
+                    y: 235,
+                }, {
+                    name: 'PH',
+                    y: 220,
+                }, {
+                    name: '总磷',
+                    y: 25,
+                }, {
+                    name: '总铜',
+                    y: 11,
+                }]
+            }],
+        });
+
+        var chart9 = Highcharts.chart('qijiancewuranwutongji',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '监测污染物统计（家）',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '数量',
+                colorByPoint: true,
+                data: [{
+                    name: 'SO2',
+                    y: 246,
+                }, {
+                    name: '氨氮化物',
+                    y: 221,
+                }, {
+                    name: 'H2S',
+                    y: 206,
+                }, {
+                    name: 'CO',
+                    y: 80,
+                }, {
+                    name: 'CO2',
+                    y: 9,
+                }]
+            }],
+        });
+
+        var chart10 = Highcharts.chart('qipaifangleixingtongji',{
+            credits: {
+                enabled: false
+            },
+            exporting:{
+                enabled:false
+            },
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            title: {
+                text: ''
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || '#fff',
+                            fontSize:'16px'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: '占比',
+                colorByPoint: true,
+                data: [{
+                    name: '间接排放',
+                    y: 20
+                }, {
+                    name: '持续排放',
+                    y: 36
+                }]
+            }]
+        });
+
+        var chart11 = Highcharts.chart('nianduxiaojianliangtongji',{
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: 'column',
+                backgroundColor: {
+                    linearGradient: [0, 0, 0, 500],
+                    stops: [
+                        [0, 'rgb(5, 235, 235)'],
+                        [1, 'rgb(39, 111, 210)']
+                    ]
+                },
+            },
+            colors: ['#90ed7d', '#f7a35c', '#434348', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+            ,
+            exporting:{
+                enabled:false
+            },
+            title: {
+                text: '年度消减量对比',
+                align:'left',
+                style:{ "color": "#333333", "fontSize": "14px"}
+            },
+            legend:{
+                enabled:false
+            },
+            xAxis: {
+                // categories: [
+                //     '优','良','轻度污染','中度污染','重度污染','严重污染'
+                // ],
+                // crosshair: true
+                type:"category",
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                },
+                labels:{
+                    style:{ "color": "#333333", "cursor": "default", "fontSize": "12px" }
+                }
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '执法人数',
+                colorByPoint: true,
+                data: [{
+                    name: '2017年',
+                    y: 269,
+                }, {
+                    name: '2018年',
+                    y: 432,
+                }]
+            }],
+        });
+
+        var chart12 = Highcharts.chart('jianlourenwuzongjindutongji',{
+            chart: {
+                type: 'solidgauge',
+                backgroundColor: 'rgba(0,0,0,0)'
+            },
+            title: null,
+            pane: {
+                center: ['50%', '50%'],
+                size: '100%',
+                startAngle: -135,
+                endAngle: 135,
+                background: {
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                    innerRadius: '80%',
+                    outerRadius: '100%',
+                    shape: 'arc'
+                }
+            },
+            tooltip: {
+                enabled: false
+            },
+            plotOptions: {
+                solidgauge: {
+                    dataLabels: {
+                        y: -25,
+                        borderWidth: 0,
+                        useHTML: true
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                max: 100,
+                title: {
+                    text: ''
+                },
+                stops: [
+                    [0.1, '#DF5353'], // green
+                    [0.5, '#DDDF0D'], // yellow
+                    [0.9, '#55BF3B'] // red
+                ],
+                lineWidth: 0,
+                minorTickInterval: null,
+                tickPixelInterval: 100,
+                tickWidth: 0,
+                title: {
+                    y: -70
+                },
+                labels: {
+                    y: 16
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: '',
+                data: [{
+                    y:75,
+                    innerRadius: 80,
+                    // radius: 98,
+                    name:'dd',
+                }],
+                dataLabels: {
+                    format: '<div style="text-align:center"><span style="font-size:25px;color:#05D1E7">{y} %</span><br/>'
+                }
+            }]
+        });*/
+
+    });
+</script>
+

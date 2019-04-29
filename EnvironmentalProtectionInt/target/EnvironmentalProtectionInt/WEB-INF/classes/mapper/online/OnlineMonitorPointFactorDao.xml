@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.online.dao.OnlineMonitorPointFactorDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity" id="onlineMonitorPointFactorMap">
+        <result property="pid" column="pid"/>
+        <result property="mid" column="mid"/>
+        <result property="fid" column="fid"/>
+        <result property="useflag" column="useflag"/>
+        <result property="testCompany" column="test_company"/>
+        <result property="maximumValue" column="maximum_value"/>
+        <result property="minimumValue" column="minimum_value"/>
+    </resultMap>
+
+    <select id="dataByFid" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity" parameterType="java.util.Map">
+        SELECT * FROM online_monitor_point_factor WHERE fid=#{fid} and mid=#{mid}
+    </select>
+
+    <select id="dataByMid" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity" parameterType="java.lang.String">
+        SELECT p.pid
+        ,p.mid
+        ,p.fid
+        ,p.useflag
+        ,p.test_company testCompany
+        ,p.maximum_value maximumValue
+        ,p.minimum_value minimumValue
+        ,f.factor_name factorName
+        ,f.factor_type factorType
+        FROM online_monitor_point_factor p,online_monitor_factor f
+        WHERE f.factor_code=p.fid AND p.mid=#{mid} AND f.is_environment_factor=1
+    </select>
+
+    <select id="queryData" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        SELECT f.*,a.value useFlagName,b.factor_name factorName FROM online_monitor_point_factor f
+        LEFT JOIN sys_dict a ON f.useflag=a.key AND a.type='boolean_type'
+        LEFT JOIN online_monitor_factor b ON f.fid=b.factor_code
+        WHERE 1=1
+        <if test="mid!=null and mid!=''">
+            AND f.mid = #{mid}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) FROM online_monitor_point_factor f
+        LEFT JOIN sys_dict a ON f.useflag=a.key AND a.type='boolean_type'
+        WHERE 1=1
+        <if test="mid!=null and mid!=''">
+            AND f.mid = #{mid}
+        </if>
+        <if test="monitorType!=null and monitorType!=''">
+            AND f.monitor_type = #{monitorType}
+        </if>
+    </select>
+    <!-- 查询企业三种类型排口数量-->
+    <select id="drainsBaseInfo" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        SELECT b.monitor_type  monitorType , count(*) drainsCount FROM cominfo_baseinfo a
+        LEFT JOIN online_monitor_portinfo b on a.pid=b.cid
+        LEFT JOIN  online_table_retrieve c on c.mid=b.pid
+        where a.pid=#{pid} and  b.monitor_type is not null
+        GROUP BY b.monitor_type
+    </select>
+
+    <!--查询企业某个类型排口-->
+    <select id="queryDrains" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        SELECT b.monitor_name monitorName ,a.* ,c.dd_tab_name tableName FROM cominfo_baseinfo a
+                LEFT JOIN online_monitor_portinfo b on a.pid=b.cid
+                LEFT JOIN  online_table_retrieve c on c.mid=b.pid
+                where a.pid=#{pid} and b.monitor_type =#{type}
+    </select>
+    <!--某个排口某因子每月排放量统计-->
+    <select id="monthDrainsFactor" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        select month(createdate) month , SUM(cou_value) monthVauleCount from ${tableName}   where  YEAR(createdate) = #{year} and fid = #{fid}
+        GROUP BY month(createdate)
+    </select>
+    <!--某个排口某因子年度放量统计-->
+    <select id="yearDrainsFactor" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        select year(createdate) year, SUM(cou_value) yearVauleCount from ${tableName}   x where  YEAR(createdate) = #{year} and fid = #{fid}
+        GROUP BY year(createdate)
+    </select>
+    <!--某个排口某因子每月排放浓度统计-->
+    <select id="monthDrainsFactorPotency" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.online.entity.OnlineMonitorPointFactorEntity">
+        select month(createdate) month , SUM(avg_value) potencyCount from ${tableName}  where  YEAR(createdate) = #{year} and fid = #{fid}
+        GROUP BY month(createdate)
+    </select>
+    <!--某个因子排口排放量统计-->
+    <select id="drainsFactorRanking" parameterType="java.util.Map" resultType="java.util.Map">
+        select  IFNULL(SUM(cou_value),0) rankCount
+        from ${tableName}
+        where  YEAR(createdate) = #{year} and fid = #{fid}
+        GROUP BY year(createdate)
+    </select>
+
+</mapper>

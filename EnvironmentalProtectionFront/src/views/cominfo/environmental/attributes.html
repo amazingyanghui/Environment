@@ -1,0 +1,136 @@
+<script type="text/javascript" src="common/cominfo/environmentalattributes.js"></script>
+<title>环境管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li value="0" power="hj:gl:xxwh:gl:sx">管理属性</li>
+                <li value="1" power="hj:gl:xxwh:hj:sx">环境属性</li>
+            </ul>
+            <div class="layui-tab-content"  id="com-table">
+                <div class="layui-tab-item layui-show" power="hj:gl:xxwh:gl:sx">
+                    <div id="LAY-market-cominfoEnvironmentalAttributes0"></div>
+                </div>
+                <div class="layui-tab-item" power="hj:gl:xxwh:hj:sx">
+                    <div id="LAY-market-cominfoEnvironmentalAttributes1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','layer', 'form'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,form = layui.form
+            ,layer=layui.layer
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfoenvironmentalattributes"
+            ,baseurl1 = setter.remoteServiceAddress + "/market/cominfoenvironmentalmanage";
+
+        loadtab.power("com-info","com-table");
+
+        var router = layui.router();
+        var pid=router.search.pid;
+
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>环境管理</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>环境管理</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(pid!=null&pid!="undefined"){
+            loadtab.tab('environmental');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+//        if(!(layui.data(setter.permissionName).list.indexOf('market:cominfoenvironmentalattributes:list') === -1)) hasPermission = true;
+        //
+
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            var urltemp = baseurl;
+            if(differType==0){
+                urltemp = baseurl1;
+            }
+            environmentalAttributes.editWin(admin,setter,$,form,urltemp,laytpl,laydate,element,differType,global_obj,pid);
+        });
+
+        $("#com-info li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            data.field.cid=pid;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var url=baseurl;
+            if(differType==0){
+                url=baseurl1;
+            }
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        var urltemp = baseurl;
+                        if(differType==0){
+                            urltemp = baseurl1;
+                        }
+                        environmentalAttributes.editWin(admin,setter,$,form,urltemp,laytpl,laydate,element,differType,global_obj,pid);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+
+    });
+</script>

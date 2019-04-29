@@ -1,0 +1,238 @@
+
+<link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+
+<title>部门管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>部门管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    部门树
+                    <div class="searchInput">
+                        <button class="layui-btn " id="add" data-events="add">新增</button>
+                        <button class="layui-btn " id="del" data-events="del">删除</button>
+                    </div>
+                </div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <div class="layui-col-md12">
+                        <!--<div id="dept_select_tree"  class="xtree_contianer"></div>-->
+                        <ul id="dept_select_tree" class="ztree" style="width: 350px "></ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md7">
+            <div class="layui-card">
+                <div class="layui-card-header">部门编辑</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="component-form-element">
+                        <input type="hidden" name="deptId" />
+                        <div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">部门名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">上级部门：</label>
+                            <div class="layui-input-block">
+                                <input type="hidden" name="parentId" value="0" />
+                                <input type="text" id="parentName" value="根目录" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <!--<div class="layui-row layui-col-space10 layui-form-item">
+                            <label class="layui-form-label">排序：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="orderNum" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>-->
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="component-form-element">确定</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    layui.use(['admin', 'table', 'util', 'laytpl','tree'], function(){
+        // var $ = layui.$
+        var admin = layui.admin
+        ,table = layui.table
+        ,setter = layui.setter
+        ,form = layui.form
+        ,baseurl = setter.remoteServiceAddress + "/sys/dept"
+        // ,treeGrid = layui.treeGrid; //很重要
+        var hasPermission = false
+        // if(!(layui.data(setter.permissionName).list.indexOf('sys:dept:list') === -1)) hasPermission = true;
+        var loadindex = layer.load(0);
+        admin.req({//获取部门请求
+            url: baseurl + "/getDeptTreeList"
+            ,done: function(result){
+                layer.close(loadindex);
+                var setting = {
+
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    }
+                    ,callback: {
+                        onClick: onClick
+                    }
+                };
+                $.fn.zTree.init($("#dept_select_tree"), setting, result.deptTree);
+            }
+            ,complete:function (res) {
+                layer.close(loadindex);
+            }
+        });
+
+        function onClick(event, treeId, treeNode, clickFlag) {
+            // console.log(node) //node即为当前点击的节点数据
+            var parentNode = treeNode.getParentNode();
+            var parentId = (parentNode == null) ? 0 : parentNode.id;
+            var parentName = (parentNode == null) ? "根目录" : parentNode.name;
+            $("[name='parentId']").val(parentId);
+            $("#parentName").val(parentName);
+            $("[name='name']").val(treeNode.name);
+            $("[name='deptId']").val(treeNode.id);
+            // layer.close(deptindex);
+            // showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
+        }
+
+        $("#add").bind("click",function(){
+
+            var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+            var nodes = treeObj.getSelectedNodes();
+
+            $("[name='parentId']").val(nodes[0].id);
+            $("#parentName").val(nodes[0].name);
+            $("[name='name']").val("");
+            $("[name='deptId']").val("");
+
+        });
+
+        $("#del").bind("click",function(){
+            var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+            var selectnodes = treeObj.getSelectedNodes();
+            if(selectnodes.length == 0){
+                layer.msg('请选择待删除节点！', {
+                    icon: 7,
+                    time:1000
+                });
+                return;
+            }
+            var nodes = treeObj.transformToArray(selectnodes);
+            var deptIds = [];
+            for(var i = 0 ; i < nodes.length;i++){
+                deptIds.push(nodes[i].id);
+            }
+            admin.req({//根据部门查询该部门是否还有人员
+                url: baseurl + "/getDeptUser/" + deptIds
+                ,done: function(result){
+                    if(result.code == 0){//成功
+                        if(result.usercount == 0){
+                            layer.confirm('确定删除该部门节点吗？', function(){
+                                admin.req({//根据
+                                    url: baseurl
+                                    ,contentType:"application/json"
+                                    ,type: "DELETE"
+                                    ,data: JSON.stringify(deptIds)
+                                    ,done: function(result){
+                                        if(result.code == 0){//成功
+                                            layer.msg('删除成功！', {
+                                                icon: 1,
+                                                time:1000
+                                            });
+                                            var treeObjRemove = $.fn.zTree.getZTreeObj("dept_select_tree");
+                                            var nodesRemove = treeObjRemove.getSelectedNodes();
+                                            if (nodesRemove && nodesRemove.length>0) {
+                                                treeObjRemove.removeChildNodes(nodesRemove[0]);
+                                            }
+                                            treeObjRemove.removeNode(nodesRemove[0]);
+                                        }else{
+                                            layer.alert(result.msg, {
+                                                skin: 'layui-layer-lan',
+                                                offset: 't',
+                                                anim: 6
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        }else{
+                            layer.msg('该部门存在用户，无法删除！', {
+                                icon: 7,
+                                time:1000
+                            });
+                        }
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+
+        });
+
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            // data.field.access_token = layui.data(setter.tableName).access_token;
+
+            var type = "POST";
+            if(data.field.deptId){//修改
+                type = "PUT";
+            }
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: baseurl,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    if(result.code == 0){//成功
+                        var treeObj = $.fn.zTree.getZTreeObj("dept_select_tree");
+                        var nodes = treeObj.getSelectedNodes();
+                        if(data.field.deptId){//修改
+                            nodes[0].name = data.field.name;
+                            treeObj.updateNode(nodes[0]);
+                        }else{
+                            data.field.id = String(result.deptId);
+                            treeObj.addNodes(nodes[0], data.field);
+                        }
+                        layer.msg('操作成功！', {icon: 6,time:1000});
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+            return false
+        });
+
+    });
+</script>

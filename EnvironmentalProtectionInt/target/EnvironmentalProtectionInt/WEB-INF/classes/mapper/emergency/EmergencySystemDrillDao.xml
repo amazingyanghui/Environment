@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.emergency.dao.EmergencySystemDrillDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity" id="emergencySystemDrillMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="drillTitle" column="drill_title"/>
+        <result property="drillPoint" column="drill_point"/>
+        <result property="drillDate" column="drill_date"/>
+        <result property="drillSituation" column="drill_situation"/>
+        <result property="drillDocument" column="drill_document"/>
+        <result property="drillCompany" column="drill_company"/>
+        <result property="createdate" column="createdate"/>
+        <result property="drillType" column="drill_type"/>
+        <result property="publishDate" column="publish_date"/>
+    </resultMap>
+    <select id="queryList" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity">
+        SELECT a.*,c.company_name companyName,y.value drillTypeName
+        FROM emergency_system_drill a
+        LEFT JOIN sys_dict y ON y.key=a.drill_type AND y.type='drill_type_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="drillType != null and drillType != ''">
+            AND a.drill_type = #{drillType}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.drill_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.drill_date &lt; #{endTime}
+        </if>
+        order by c.company_name DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity">
+        SELECT a.*,c.company_name companyName,y.value drillTypeName
+        FROM emergency_system_drill a
+        LEFT JOIN sys_dict y ON y.key=a.drill_type AND y.type='drill_type_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        AND a.pid=#{pid}
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity">
+        SELECT a.*,c.company_name companyName,y.value drillTypeName
+        FROM emergency_system_drill a
+        LEFT JOIN sys_dict y ON y.key=a.drill_type AND y.type='drill_type_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        AND a.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity">
+        SELECT a.*,c.company_name companyName,y.value drillTypeName
+        FROM emergency_system_drill a
+        LEFT JOIN sys_dict y ON y.key=a.drill_type AND y.type='drill_type_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="drillType != null and drillType != ''">
+            AND a.drill_type = #{drillType}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.drill_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.drill_date &lt; #{endTime}
+        </if>
+        GROUP BY a.cid
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM emergency_system_drill a
+        LEFT JOIN sys_dict y ON y.key=a.drill_type AND y.type='drill_type_type'
+        ,cominfo_baseinfo c
+        WHERE c.pid = a.cid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            AND c.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="drillType != null and drillType != ''">
+            AND a.drill_type = #{drillType}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.drill_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.drill_date &lt; #{endTime}
+        </if>
+    </select>
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.emergency.entity.EmergencySystemDrillEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO
+        emergency_system_drill(pid,cid,drill_title,drill_point
+        ,drill_date,drill_situation,drill_document,drill_company
+        ,createdate,drill_type,publish_date,plan_evaluation)
+        VALUES (#{pid},#{cid},#{drillTitle},#{drillPoint}
+        ,#{drillDate},#{drillSituation},#{drillDocument},#{drillCompany}
+        ,#{createdate},#{drillType},#{publishDate},#{planEvaluation})
+    </insert>
+
+</mapper>

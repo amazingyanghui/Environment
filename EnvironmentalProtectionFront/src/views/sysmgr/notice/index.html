@@ -1,0 +1,172 @@
+<title>系统公告</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>系统设置</cite></a>
+        <a><cite>系统公告</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <button class="layui-btn " data-events="add">新增</button>
+                        <button class="layui-btn " data-events="mod">修改</button>
+                        <button class="layui-btn " data-events="del">删除</button>
+                        <div id="noticeSearch" class="layui-inline" style="float: right;"></div>
+                    </div>
+                    <table id="LAY-EP-SYSNOTICE" lay-filter="LAY-EP-SYSNOTICE" width="100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl', 'laydate','upload','attachment','bizComponent','pageScaffolding'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , global_obj = {}
+            , pageScaffolding = layui.pageScaffolding
+            , baseurl = setter.remoteServiceAddress + "/sys/notice";
+        var DISABLED = 'layui-btn-disabled'
+        var hasPermission = false;
+
+        var tableObj = pageScaffolding.createTable('LAY-EP-SYSNOTICE',{
+            url:baseurl ,
+            where: {
+                hasPermission : hasPermission
+            } ,
+            cols:[[
+                {type: 'checkbox', fixed: 'left'}
+                , {type:'numbers',title:'序号',unresize:true}
+                , {field: 'title', title: '公告标题', minWidth: 100 }
+                , {field: 'content', title: '公告内容', minWidth: 100}
+                , {field: 'file', title: '公告图片', minWidth: 100}
+                , {field: 'show', title: '是否显示', minWidth: 100,templet:function (d) {
+                        return d.show == 0 ? "<span>不显示</span>":"<span>显示</span>";
+                    }}
+                , {field: 'createTimeStr', title: '发布时间', minWidth: 100}
+            ]] ,
+            form : {
+                customVerify : {} ,
+                dlgSet : { width:'50%', height:'55%'} ,
+                elements : [
+                    {
+                        label:'公告标题' ,
+                        name:'title' ,
+                        type:'input' ,
+                        row:true ,
+                        verify:'required' ,
+                        divClass:'layui-col-md12'
+                    } ,
+                    {
+                        label:'是否显示' ,
+                        name:'show' ,
+                        type:'radio' ,
+                        row:true ,
+                        divClass:'layui-col-md12' ,
+                        verify:"required" ,
+                        config:{
+                            source:[{title:'显示',value:'1'},{title:'不显示',value:'0'}]
+                        }
+                    } ,
+                    {
+                        label:'公告图片' ,
+                        name:'file' ,
+                        type:'file' ,
+                        row:true ,
+                        config:{
+                           accept:"png,jpg", isMulti: false
+                        } ,
+                        divClass:'layui-col-md12'
+                    } ,
+                    {
+                        label:'公告内容' ,
+                        name:'content' ,
+                        type:'textarea' ,
+                        row:true ,
+                        verify:'required' ,
+                        divClass:'layui-col-md12'
+                    }
+                ] ,
+                queryCriteria:[0]
+            },
+            done:function (res, curr, count) {
+                $('#LAY-EP-SYSNOTICE').parent().find('.layui-table-body').find("table").find("tbody").children("tr").find("td:gt(0)").on('click', function (e) {
+                    var id = JSON.stringify($('#LAY-EP-SYSNOTICE').parent().find('.layui-table-body').find("table").find("tbody").find(".layui-table-hover").data('index'));
+                    var obj = res.data[id];
+                    pageScaffolding.showViewForm(obj);
+                });
+            }
+        });
+
+
+
+        //监听工具条
+        table.on('tool(LAY-EP-SYSNOTICE)',function (obj) {
+            if(obj.event=='showInfo'){
+                var data = obj.data;
+                pageScaffolding.showViewForm(data);
+            }
+        });
+
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var formId = pageScaffolding.getQueryForm("noticeSearch",true);
+        var active = {};
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //事件处理
+        var events = {
+            add: function (othis, data) {
+                pageScaffolding.showEditForm(null,function (formId) {
+
+                });
+            }
+            , mod: function (othis, data) {
+                var data = data[0];
+                pageScaffolding.showEditForm(data,function (formId) {
+
+                });
+            }
+            , del: function (othis, data) {
+                var ids = [];
+                for (var i = 0; i < data.length; i++) {
+                    ids.push(data[i].id);
+                }
+                pageScaffolding.showDeleteDlg(ids);
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var othis = $(this)
+                , thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-EP-SYSNOTICE")
+                , data = checkStatus.data; //获得选中的数据
+
+            if (thisEvent == "mod" || thisEvent == "del") {
+                if (data.length === 0) {
+                    return layer.msg('未选中行!');
+                } else if (data.length > 1 && thisEvent == "mod") {
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis, data);
+        });
+
+    });
+</script>

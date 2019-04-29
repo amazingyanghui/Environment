@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.mobile.dao.MobileEnforcementSceneDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity" id="mobileEnforcementSceneMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="checkStarttime" column="check_starttime"/>
+        <result property="checkEndtime" column="check_endtime"/>
+        <result property="checkCompany" column="check_company"/>
+        <result property="checkPersonName" column="check_person_name"/>
+        <result property="checkPersonNumber" column="check_person_number"/>
+        <result property="checkedCompanyName" column="checked_company_name"/>
+        <result property="checkedCompanyCode" column="checked_company_code"/>
+        <result property="checkedCompanyAddress" column="checked_company_address"/>
+        <result property="checkedCompanyLegal" column="checked_company_legal"/>
+        <result property="checkedCompanyLegalPhone" column="checked_company_legal_phone"/>
+        <result property="checkedCompanyLeader" column="checked_company_leader"/>
+        <result property="checkedCompanyLeaderPhone" column="checked_company_leader_phone"/>
+        <result property="recordPersonName" column="record_person_name"/>
+        <result property="recordPersonNumber" column="record_person_number"/>
+        <result property="lawEnforcementType" column="law_enforcement_type"/>
+        <result property="fieldSituation" column="field_situation"/>
+        <result property="monitoringOpinion" column="monitoring_opinion"/>
+        <result property="examinationResults" column="examination_results"/>
+        <result property="resultType" column="result_type"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+
+    <select id="mobilelist" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity" parameterType="java.util.Map" >
+        SELECT a.*,z.company_name companyName,z.company_address companyAddress,z.company_representative companyRepresentative,z.representative_phone representativePhone,y.value examinationResultsName,x.value as resultTypeStr FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN sys_dict x on x.`key` = a.result_type and x.type='mobileEnforcement_problemType'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="checkPersonName != null and checkPersonName != ''">
+                AND a.check_person_name like CONCAT('%',#{checkPersonName},'%')
+            </if>
+            <if test="lawEnforcementType != null and lawEnforcementType != ''">
+                AND FIND_IN_SET(#{lawEnforcementType},a.law_enforcement_type)
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &lt;= #{endTime}
+            </if>
+        </where>
+        order by z.company_name desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="entityById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT a.*,z.company_name companyName,z.company_address companyAddress,z.company_representative companyRepresentative,z.representative_phone representativePhone,y.value examinationResultsName,x.value as resultTypeStr FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN sys_dict x on x.`key` = a.result_type and x.type='mobileEnforcement_problemType'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.pid=#{pid}
+    </select>
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO
+        mobile_enforcement_scene(pid,cid,check_starttime,check_endtime
+        ,check_company,check_person_name,check_person_number
+        ,checked_company_name,checked_company_code,checked_company_address,checked_company_legal
+        ,checked_company_legal_phone,checked_company_leader,checked_company_leader_phone,record_person_name
+        ,record_person_number,law_enforcement_type,field_situation,monitoring_opinion,examination_results,result_type,createdate)
+        VALUES (#{pid},#{cid},#{checkStarttime},#{checkEndtime}
+        ,#{checkCompany},#{checkPersonName},#{checkPersonNumber}
+        ,#{checkedCompanyName},#{checkedCompanyCode},#{checkedCompanyAddress},#{checkedCompanyLegal}
+        ,#{checkedCompanyLegalPhone},#{checkedCompanyLeader},#{checkedCompanyLeaderPhone},#{recordPersonName}
+        ,#{recordPersonNumber},#{lawEnforcementType},#{fieldSituation},#{monitoringOpinion},#{examinationResults},#{resultType},#{createdate})
+    </insert>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT a.*,z.company_name companyName,z.company_address companyAddress,z.company_representative companyRepresentative,z.representative_phone representativePhone,y.value examinationResultsName FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        WHERE a.cid=#{cid}
+    </select>
+
+    <select id="queryName" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity" parameterType="java.util.Map" >
+        SELECT a.*,z.company_name companyName,z.company_address companyAddress,z.company_representative companyRepresentative,z.representative_phone representativePhone,y.value examinationResultsName FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="checkPersonName != null and checkPersonName != ''">
+                AND a.check_person_name like CONCAT('%',#{checkPersonName},'%')
+            </if>
+            <if test="lawEnforcementType != null and lawEnforcementType != ''">
+                AND FIND_IN_SET(#{lawEnforcementType},a.law_enforcement_type)
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &lt;= #{endTime}
+            </if>
+        </where>
+        GROUP BY a.cid
+    </select>
+
+    <select id="mobilelistsum" resultType="java.lang.Integer" parameterType="java.util.Map" >
+        SELECT count(*) FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN sys_dict x on x.`key` = a.result_type and x.type='mobileEnforcement_problemType'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="cid!=null and cid!=''">
+                AND a.cid=#{cid}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                AND z.company_name like CONCAT('%',#{companyName},'%')
+            </if>
+            <if test="checkPersonName != null and checkPersonName != ''">
+                AND a.check_person_name like CONCAT('%',#{checkPersonName},'%')
+            </if>
+            <if test="lawEnforcementType != null and lawEnforcementType != ''">
+                AND FIND_IN_SET(#{lawEnforcementType},a.law_enforcement_type)
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND substring_index(`a`.`check_starttime`,'.',1) &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+    <!-- 该年度执法次数、执法人数、发现问题、相比去年执法总数增加百分比-->
+    <select id="comprehensiveStatistical" parameterType="java.util.Map" resultType="java.util.Map">
+        select a.LawEnforcementNumber ,b.LawEnforcementPersonnel ,c.FoundTheProblem ,d.yearSum ,e.lastyearSum from
+        (select count(*) LawEnforcementNumber from mobile_enforcement_scene   where year(check_starttime)=#{year}) a,
+        (select count(distinct(check_person_name)) LawEnforcementPersonnel from mobile_enforcement_scene  where year(check_starttime)=#{year}) b,
+        (select count(*) FoundTheProblem from mobile_enforcement_scene    where examination_results in (2,3,4) and  year(check_starttime)=#{year} ) c,
+        (select count(*) yearSum from mobile_enforcement_scene   where  year(check_starttime)=#{year} ) d,
+        (select count(*) lastyearSum from mobile_enforcement_scene   where  year(check_starttime)=#{lastyear}) e
+    </select>
+    <!--移动执法统计：某一年每月执法次数-->
+    <select id="statistical" parameterType="java.util.Map" resultType="java.util.Map">
+        select month(check_starttime) months,count(*) counts
+        from mobile_enforcement_scene
+        where year(check_starttime)=#{year}
+        group by month(check_starttime)
+    </select>
+    <!--查询本年执法次数与去年对比-->
+    <select id="statisticalLastyearAndThisyear" parameterType="java.util.Map" resultType="java.util.Map">
+       select year(check_starttime) years,count(*) counts
+        from mobile_enforcement_scene
+        where (year(check_starttime)=#{year} or  year(check_starttime)=#{lastyear})
+        group by  year(check_starttime)
+    </select>
+    <!--移动执法统计：检查结果-->
+    <select id="checkTheResultStatistical" parameterType="java.util.Map" resultType="java.util.Map">
+        select count(*) counts,b.value name
+        from mobile_enforcement_scene a
+        LEFT JOIN sys_dict b on a.examination_results=b.key
+        where YEAR(a.check_starttime)=#{year} and b.type=#{checkDictType}
+        GROUP BY a.examination_results
+        ORDER BY counts
+    </select>
+    <!--移动执法统计：问题类型-->
+    <select id="statisticalProblemType" parameterType="java.util.Map" resultType="java.util.Map">
+      select a.result_type as type,b.value as name  from mobile_enforcement_scene a LEFT JOIN sys_dict b  on a.result_type=b.key
+      where  YEAR(check_starttime)=#{year} and b.type=#{questionDictType} and a.examination_results in (2,3,4)
+    </select>
+    <!--移动执法统计：本年度执法类型统计-->
+    <select id="lawEnforcementTypeStatistical" parameterType="java.util.Map" resultType="java.util.Map">
+       select b.value name,count(*) counts,
+       (select count(*) from mobile_enforcement_scene  where YEAR(check_starttime)=#{year}) sumNumber
+        from mobile_enforcement_scene a
+        LEFT JOIN sys_dict b on a.law_enforcement_type=b.key
+        where YEAR(check_starttime)=#{year} and b.type=#{lawDictType}
+        GROUP BY b.key
+        ORDER BY counts
+    </select>
+    <!--企业统计-企业所属行业类型统计-->
+    <select id="selAllCominfoBaseinfo" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        select * from cominfo_baseinfo
+    </select>
+    <!--根据类型（全部、本年、本月）查询移动执法-现场执法和调查问卷的次数、执法次数、执法人数、发现违法行为数、立案数-->
+    <select id="environmentalLawEnforcementMonitoring" parameterType="java.util.Map" resultType="java.util.Map">
+        select a.interrogationRecord,b.onSiteInspection,c.LawEnforcementPersonnel,d.FoundTheProblem,e.putOnRecord from
+        (SELECT count(*) interrogationRecord from mobile_enforcement_askrecord
+                                                  mobile_enforcement_askrecord
+        <where>
+            <if test="month!=null and month!=''">
+                AND MONTH(investigate_starttime)=#{month}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(investigate_starttime)=#{year}
+            </if>
+        </where>
+        ) a,
+        (select count(*) onSiteInspection from mobile_enforcement_scene
+        <where>
+            <if test="month!=null and month!=''">
+                AND MONTH(check_starttime)=#{month}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(check_starttime)=#{year}
+            </if>
+        </where>
+        ) b,
+        (select count(distinct(check_person_name))   LawEnforcementPersonnel from mobile_enforcement_scene
+        <where>
+            <if test="month!=null and month!=''">
+                AND MONTH(check_starttime)=#{month}
+            </if>
+            <if test="year != null and year != ''">
+                AND year(check_starttime)=#{year}
+            </if>
+        </where>
+        ) c,
+        (select count(*)  FoundTheProblem from mobile_enforcement_scene
+        where examination_results in (3,4)
+        <if test="month!=null and month!=''">
+            AND MONTH(check_starttime)=#{month}
+        </if>
+        <if test="year != null and year != ''">
+            AND year(check_starttime)=#{year}
+        </if>
+        ) d,
+        (select count(*)  putOnRecord from mobile_enforcement_scene
+        where examination_results in (4)
+        <if test="month!=null and month!=''">
+            AND MONTH(check_starttime)=#{month}
+        </if>
+        <if test="year != null and year != ''">
+            AND year(check_starttime)=#{year}
+        </if>
+        ) e
+    </select>
+
+    <!--移动执法页头弹框列表查询接口-->
+    <select id="playListBox" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT a.*,z.company_name companyName,z.company_address companyAddress,z.company_representative companyRepresentative,z.representative_phone representativePhone,y.value examinationResultsName,x.value as resultTypeStr  FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN sys_dict x on x.`key` = a.result_type and x.type='mobileEnforcement_problemType'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="year != null and year != ''">
+                AND year(a.check_starttime)=#{year}
+            </if>
+            <if test="foundProblem != null and foundProblem != ''">
+                AND a.examination_results in (2,3,4)
+            </if>
+            <if test="cominfoBaseinfoName != null and cominfoBaseinfoName != ''">
+                AND z.company_name like CONCAT('%',#{cominfoBaseinfoName},'%')
+            </if>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(a.check_starttime,'%Y-%m')=#{yearMonth}
+            </if>
+            <if test="lawEnforcementType != null and lawEnforcementType != ''">
+                AND FIND_IN_SET(#{lawEnforcementType},a.law_enforcement_type)
+            </if>
+            <if test="examinationResults!=null and examinationResults!=''">
+                AND a.examination_results=#{examinationResults}
+            </if>
+            <if test="resultType!=null and resultType!=''">
+                AND a.result_type=#{resultType} AND a.examination_results in (2,3,4)
+            </if>
+        </where>
+        order by a.check_starttime desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="playListBoxsum" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) FROM mobile_enforcement_scene a
+        LEFT JOIN sys_dict y ON y.`key` = a.examination_results AND y.type = 'examination_results_type'
+        LEFT JOIN sys_dict x on x.`key` = a.result_type and x.type='mobileEnforcement_problemType'
+        LEFT JOIN cominfo_baseinfo z ON z.pid=a.cid
+        <where>
+            <if test="year != null and year != ''">
+                AND year(a.check_starttime)=#{year}
+            </if>
+            <if test="foundProblem != null and foundProblem != ''">
+                AND a.examination_results in (2,3,4)
+            </if>
+            <if test="cominfoBaseinfoName != null and cominfoBaseinfoName != ''">
+                AND z.company_name like CONCAT('%',#{cominfoBaseinfoName},'%')
+            </if>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(a.check_starttime,'%Y-%m')=#{yearMonth}
+            </if>
+            <if test="lawEnforcementType != null and lawEnforcementType != ''">
+                AND FIND_IN_SET(#{lawEnforcementType},a.law_enforcement_type)
+            </if>
+            <if test="examinationResults!=null and examinationResults!=''">
+                AND a.examination_results=#{examinationResults}
+            </if>
+            <if test="resultType!=null and resultType!=''">
+                AND a.result_type=#{resultType} AND a.examination_results in (2,3,4)
+            </if>
+        </where>
+    </select>
+
+</mapper>

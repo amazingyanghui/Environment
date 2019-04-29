@@ -1,0 +1,805 @@
+<title>首页</title>
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md12">
+            <div class="layui-col-md3 enterpriseType" data-type="allEnterprise" style="cursor:pointer">
+                <div class="layui-card total-height">
+                    <div class="layui-card-header total-title-top">
+                        <div class="total-box-radio layui-col-md6"
+                             style="background-color: #49A9EE;border: 1px solid #49A9EE;">
+                            <i class="iconfont total-font">&#xe69e;</i>
+                        </div>
+                        <span class="layui-col-md6 total-margin">企业总数</span>
+                    </div>
+                    <div class="layui-card-body total-title-down">
+                        <p>
+                            <span id="totalCompany">0</span><span>家</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="layui-col-md2 enterpriseType" data-type="tempEnterprise" style="cursor:pointer">
+                <div class="layui-card total-height">
+                    <div class="layui-card-header total-title-top">
+                        <div class="total-box-radio layui-col-md6"
+                             style="background-color: #FFCC66;border: 1px solid #FFCC66;">
+                            <i class="iconfont total-font">&#xe761;</i>
+                        </div>
+                        <span class="layui-col-md6 total-margin">临时企业</span>
+                    </div>
+                    <div class="layui-card-body total-title-down">
+                        <p>
+                            <span id="tempCompany">0</span><span>家</span>
+                        </p>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="layui-col-md9">
+                <div class="layui-col-md3 enterpriseType" data-type="KeyEnterprise" style="cursor:pointer">
+                    <div class="layui-card total-height">
+                        <div class="layui-card-header total-title-top">
+                            <div class="total-box-radio layui-col-md6"
+                                 style="background-color: #99CC00;border: 1px solid #99CC00;">
+                                <i class="iconfont total-font">&#xe662;</i>
+                            </div>
+                            <span class="layui-col-md6 total-margin">重点企业</span>
+                        </div>
+                        <div class="layui-card-body total-title-down">
+                            <p>
+                                <span id="keyCompany">0</span><span>家</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 enterpriseType" data-type="registerEnterprise" style="cursor:pointer">
+                    <div class="layui-card total-height">
+                        <div class="layui-card-header total-title-top">
+                            <div class="total-box-radio layui-col-md6"
+                                 style="background-color: #993366;border: 1px solid #993366;">
+                                <i class="iconfont total-font">&#xe639;</i>
+                            </div>
+                            <span class="layui-col-md6 total-margin">注册企业</span>
+                        </div>
+                        <div class="layui-card-body total-title-down">
+                            <p>
+                                <span id="registerCompany">0</span><span>家</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 enterpriseType" data-type="checkEnterprise" style="cursor:pointer">
+                    <div class="layui-card total-height">
+                        <div class="layui-card-header total-title-top">
+                            <div class="total-box-radio layui-col-md6"
+                                 style="background-color: #FF66FF;border: 1px solid #FF66FF;">
+                                <i class="iconfont total-font">&#xe76f;</i>
+                            </div>
+                            <span class="layui-col-md6 total-margin">待审核企业</span>
+                        </div>
+                        <div class="layui-card-body total-title-down">
+                            <p>
+                                <span id="checkCompany">0</span><span>家</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 enterpriseType" data-type="checkedEnterprise" style="cursor:pointer">
+            <div class="layui-card total-height">
+                <div class="layui-card-header total-title-top">
+                    <div class="total-box-radio layui-col-md6"
+                         style="background-color: #FF6633;border: 1px solid #FF6633;">
+                        <i class="iconfont total-font">&#xe7a9;</i>
+                    </div>
+                    <span class="layui-col-md6 total-margin">已审核企业</span>
+                </div>
+                <div class="layui-card-body total-title-down">
+                    <p>
+                        <span id="checkedCompany">0</span><span>家</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span> 信息公告</span>
+                        </div>
+                        <div id="SYSNOTICE_DIV" class="layui-card-body total-content"  style="height: 400px;overflow: auto;">
+                            <table class="layui-table" lay-skin="nob">
+                                <tbody id="SYSNOTICE_TBODY"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>待审核企业</span>
+                        </div>
+                        <div id="CHECKCOM_DIV" class="layui-card-body total-content"  style="height: 400px;overflow: auto;">
+                            <table class="layui-table" lay-skin="nob">
+                                <tbody id="CHECKCOM_TBODY" ></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>企业统计</span>
+
+                            <div class="layui-inline" id="factor" style="float: right">
+                                <span class="layui-btn" title = "byType" style="background-color: #0099FF;">按类型</span>
+                                <span class="layui-btn" title = "bySize" style="background-color: #CCCCCC;">按规模</span>
+                                <span class="layui-btn" title = "byArea" style="background-color: #CCCCCC;">按区域</span>
+                            </div>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container3" class="total-chart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <span>执法统计</span>
+                            <div class="layui-inline" style="float: right">
+                                <span class="layui-btn" id="yearmonth" style="background-color: #0099FF;"></span>
+                            </div>
+                        </div>
+                        <div class="layui-card-body total-content">
+                            <div id="container4" class="total-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl', 'attachment','flow','upload','bizComponent','laydate', 'statisticalBounced','pageScaffoldingObj'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , flow = layui.flow
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , pageScaffoldingObj = layui.pageScaffoldingObj
+            , statisticalBounced = layui.statisticalBounced
+            , global_obj = {}
+            // , baseurl = setter.remoteServiceAddress + "/market/cominfoenvironmentalmanage"
+            , baseurl = setter.remoteServiceAddress + "/comInfo/statistics"
+            , baseurl5 = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+        var loadindex = layer.load(0);
+        var pageScaffolding = new pageScaffoldingObj();
+        var pageScaffolding2 = new pageScaffoldingObj();
+        var comStatisticsByTypeArr = [];
+        var comStatisticsBySizeArr = [];
+        var comStatisticsByAreaArr = [];
+
+        Array.prototype.sortByArg = function (arg) {
+            for (var i = 0 ;i<this.length-1 ;i++){
+                for(var j = 0 ;j<this.length-i-1;j++){
+                    var a = this[j][arg];
+                    var b = this[j+1][arg];
+                    var swap = this[j];
+                    if(typeof a == 'string' && a.length > 1){
+                        if(typeof b == 'string' && b.length > 1){
+                            continue;
+                        }
+                        this[j] = this[j+1];
+                        this[j+1] = swap;
+                        continue;
+                    }
+                    if(a < b){
+                        this[j] = this[j+1];
+                        this[j+1] = swap;
+                    }
+                }
+            }
+        }
+        // 信息公告
+        pageScaffolding.initForm({
+            id: 'LAY-START-SYSNOTICE',
+            form: {
+                dlgSet: {width: '50%', height: '55%'},
+                elements: [
+                    {
+                        label: '公告标题',
+                        name: 'title',
+                        type: 'input',
+                        row: true,
+                        verify: 'required',
+                        divClass: 'layui-col-md12'
+                    },
+                    {
+                        label: '公告图片',
+                        name: 'file',
+                        type: 'file',
+                        row: true,
+                        config: {
+                            accept: "png,jpg", isMulti: false
+                        },
+                        divClass: 'layui-col-md12'
+                    },
+                    {
+                        label: '公告内容',
+                        name: 'content',
+                        type: 'textarea',
+                        row: true,
+                        verify: 'required',
+                        divClass: 'layui-col-md12'
+                    }
+                ]
+            }
+        });
+        var noticeDatas = [];
+        flow.load({
+            elem: '#SYSNOTICE_TBODY'
+            , scrollElem:'#SYSNOTICE_DIV'
+            , isAuto:false      //自动加载
+            , end:'没有更多了'
+            , done: function (page, next) {
+                admin.req({
+                    url: setter.remoteServiceAddress + "/sys/notice" ,
+                    data:{page:page,show:'1'} ,
+                    type:"GET" ,
+                    done:function (res) {
+                        var lis = [];
+                        var lisTr;
+                        $.each(res.data, function (index, item) {
+                            lisTr = `<tr style="border-bottom: 1px solid #ccc"><td width="70%">${item.title}</td><td width="30%">${item.createTimeStr}</td></tr>`;
+                            lis.push(lisTr);
+                            noticeDatas.push(item);
+                        });
+                        next(lis.join(''), page < res.totalPage);
+
+                        //查看详情
+                        $('#SYSNOTICE_TBODY').parent().find("tbody").children("tr").off('click').on('click', function (e) {
+                            // var tr = $("#SYSNOTICE_TBODY tr");
+                            // var index = tr.index($(this).closest("tr"));
+                            var index = $(this).index();
+                            var obj = noticeDatas[index];
+                            pageScaffolding.showViewForm(obj);
+                        });
+                    }
+                });
+            }
+        });
+
+        //待审核企业
+        var checkcomDatas = [];
+        flow.load({
+            elem: '#CHECKCOM_TBODY'
+            , scrollElem:'#CHECKCOM_DIV'
+            , isAuto:false      //自动加载
+            , end:'没有更多了'
+            , done: function (page, next) {
+                admin.req({
+                    url: baseurl,
+                    data:{page:page,limit:10,checkFlag:'1'} ,
+                    where:{
+                        hasPermission : hasPermission,
+                    },
+                    type:"GET" ,
+                    done:function (res) {
+                        debugger
+                        var lis = [];
+                        var lisTr;
+                        $.each(res.data, function (index, item) {
+                            lisTr = `<tr style="border-bottom: 1px solid #ccc"><td width="50%">${item.companyName}</td><td width="20%">${item.companyRepresentative}</td><td width="30%">${item.unifiedSocialCreditCode}</td></tr>`;
+                            lis.push(lisTr);
+                            checkcomDatas.push(item);
+                        });
+                        next(lis.join(''), page < res.totalPage);
+                    }
+                });
+            }
+        });
+
+
+        //  企业统计 按规模
+        var comBySizeChart =  function(divId,data) {
+            var chart = Highcharts.chart(divId, {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        showInLegend: true ,  // 显示在图例中
+                        innerSize:'80%' ,
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        point:{
+                            events: {   //移动事件中间显示标题
+                                mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                    chart.setTitle({
+                                        text: e.target.name+ '\t'+ e.target.y+"家"
+                                    });
+                                },
+                                click:function (e) {    //点击事件
+                                    // 可以扩展
+                                }
+                            }
+                        }
+                    }
+                },
+                colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+                series: [{
+                    name: '企业数量',
+                    data: data
+                }]
+            }, function(c) { // 图表初始化完毕后的会掉函数
+                // 环形图圆心
+                var centerY = c.series[0].center[1],
+                    titleHeight = parseInt(c.title.styles.fontSize);
+                // 动态设置标题位置
+                c.setTitle({
+                    y:centerY + titleHeight/2
+                });
+            });
+        };
+        //  企业统计 按类型
+        var comByTypeChart = function (divId,data) {
+            var chart = Highcharts.chart(divId, {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    floating:true,
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                legend: {   // 图例开关
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        showInLegend: false ,  // 显示在图例中
+                        innerSize:'80%' ,
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        point:{
+                            events: {   //移动事件中间显示标题
+                                mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                    chart.setTitle({
+                                        text: e.target.name+ '\t'+ e.target.y+"家"
+                                    });
+                                },
+                                click:function (e) {    //点击事件
+                                    // 可以扩展
+                                }
+                            }
+                        }
+                    },
+                },
+                series: [
+                    {
+                        name: '企业数量',
+                        type: 'pie',
+                        colorByPoint: true,
+                        data: data
+                    }
+                ],
+                /*drilldown: {
+                    series: result.data2
+                }*/
+            }, function(c) { // 图表初始化完毕后的会掉函数
+                // 环形图圆心
+                var centerY = c.series[0].center[1],
+                    titleHeight = parseInt(c.title.styles.fontSize);
+                // 动态设置标题位置
+                c.setTitle({
+                    y:centerY + titleHeight/2
+                });
+            });
+        };
+        //  企业统计 按区域
+        var comByAreaChart = function (divId,data) {
+            var chart = Highcharts.chart(divId, {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    floating:true,
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                legend: {   // 图例开关
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        showInLegend: false ,  // 显示在图例中
+                        innerSize:'80%' ,
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        point:{
+                            events: {   //移动事件中间显示标题
+                                mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                    // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                    chart.setTitle({
+                                        text: e.target.name+ '\t'+ e.target.y+"家"
+                                    });
+                                },
+                                click:function (e) {    //点击事件
+                                    // 可以扩展
+                                }
+                            }
+                        }
+                    },
+                    events: {   //移动事件中间显示标题
+                        mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                            // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                            chart.setTitle({
+                                text: e.target.name+ '\t'+ e.target.y + ' %'
+                            });
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '企业数量',
+                        type: 'pie',
+                        colorByPoint: true,
+                        data: data
+                    }
+                ],
+                /*drilldown: {
+                    series: result.data2
+                }*/
+            }, function(c) { // 图表初始化完毕后的会掉函数
+                // 环形图圆心
+                var centerY = c.series[0].center[1],
+                    titleHeight = parseInt(c.title.styles.fontSize);
+                // 动态设置标题位置
+                c.setTitle({
+                    y:centerY + titleHeight/2
+                });
+            });
+        };
+        // 企业统计 条件切换按钮
+        $("#factor span").on("click",function () {
+            $("#factor span").attr("style","background-color:#CCCCCC");
+            $(this).attr("style","background-color:#0099FF");
+            var factor = $(this).attr("title");
+            if(factor == 'byArea'){
+                if(comStatisticsByAreaArr.length > 0){
+                    comByAreaChart('container3',comStatisticsByAreaArr);
+                }else{
+                    admin.req({ //企业规模
+                        url: baseurl + "/enterpriAreaStatic"
+                        , done: function (result) {
+                            if (result.code == 0) {
+                                comStatisticsByAreaArr = result.data;
+                                comStatisticsByAreaArr.sortByArg('y')
+                                comBySizeChart('container3',comStatisticsByAreaArr);
+                            }
+                        }
+                    });
+                }
+
+            }else if(factor == 'bySize'){
+                if(comStatisticsBySizeArr.length > 0){
+                    comBySizeChart('container3',comStatisticsBySizeArr);
+                }else{
+                    admin.req({ //企业规模
+                        url: baseurl + "/enterpriScaleStatic"
+                        , done: function (result) {
+                            if (result.code == 0) {
+                                comStatisticsBySizeArr = result.data;
+                                comStatisticsBySizeArr.sortByArg('y')
+                                comBySizeChart('container3',comStatisticsBySizeArr);
+                            }
+                        }
+                    });
+                }
+            }else if(factor == 'byType'){
+                comByTypeChart('container3',comStatisticsByTypeArr);
+            }
+
+        });
+
+        //执法统计
+        var lawEnforceChart = function (divId,year,month) {
+            admin.req({
+                url:`${baseurl}/lawEnforceStatic/${year}/${month}` ,
+                done:function (result) {
+                    if(result.code == 0){
+                        if(result.data != null){
+
+                            var chart = Highcharts.chart(divId,{
+                                chart: {
+                                    type: 'column'
+                                },
+                                title: {
+                                    text: ''
+                                },
+                                credits: {
+                                    enabled: false
+                                },
+                                exporting: {
+                                    enabled: false
+                                },
+                                legend: {   // 图例开关
+                                    enabled: false
+                                },
+                                xAxis: {
+                                    categories: result.data.name,
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    minTickInterval:1,
+                                    title: {
+                                        text: '次数'
+                                    }
+                                },
+                                tooltip: {
+                                    // head + 每个 point + footer 拼接成完整的 table
+                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                    '<td style="padding:0"><b>{point.y:.0f} 次</b></td></tr>',
+                                    footerFormat: '</table>',
+                                    useHTML: true
+                                },
+                                plotOptions: {
+                                    column: {
+                                        borderWidth: 0,
+                                        dataLabels:{
+                                            style: {
+                                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                            }
+                                        }
+                                    }
+                                },
+                                series: [{
+                                    name: `${year}年${month}月执法统计`,
+                                    data: result.data.count ,
+                                    colorByPoint: true
+                                }]
+
+                            });
+                        }
+                    }
+                }
+            });
+        }
+        laydate.render({
+            elem: "#yearmonth",
+            type:'month',
+            showBottom:false ,
+            change:function (value,date) {
+                $("#yearmonth").html(value);
+                // $('#layui-laydate1').remove();      切换后关闭
+                lawEnforceChart('container4',date.year,date.month);
+            }
+        });
+        var defaultClick = function defaultClick() {
+
+            // 第一排企业个数统计
+            admin.req({
+                url: baseurl + "/baseInfoStatic"
+                , done: function (result) {
+                    if (result.code == 0) {
+
+                        var data = result.data;
+                        if (!data == "" && data.length > 0) {
+                            $("#totalCompany").html(data[0].count);         //总数
+                            $("#keyCompany").html(data[0].keyCount);        //重点
+                            // $("#tempCompany").html(data[0].tempCount);
+                            $("#checkCompany").html(data[0].checkCount);    //待审核
+                            $("#checkedCompany").html(data[0].checkedCount);    //已审核
+                            $("#registerCompany").html(data[0].registerCount);  //注册
+                        }
+                    }
+                }
+            });
+
+            // 企业统计 ,按类型,规模,区域 , 默认查按类型
+            admin.req({
+                url: baseurl + "/industryStatic"
+                , done: function (result) {
+                    if(result.code == 0){
+                        layer.close(loadindex);
+                        comStatisticsByTypeArr = result.data1;
+                        comStatisticsByTypeArr.sortByArg('y');
+                        comByTypeChart('container3',comStatisticsByTypeArr);
+                    }
+                }
+                , error: function () {
+                    layer.close(loadindex);
+                }
+            });
+            //执法统计, 取当年时间的上个月
+            var year = new Date().getFullYear();
+            var month = new Date().getMonth();
+            if(month < 10){
+                month = "0" + month;
+            }
+            $("#yearmonth").html(`${year}-${month}`);
+            lawEnforceChart( "container4" , year , month );
+
+        }
+
+
+        var chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+        var chnUnitSection = ["", "万", "亿", "万亿", "亿亿"];
+        var chnUnitChar = ["", "十", "百", "千"];
+        var SectionToChinese = function (section) {
+            var strIns = '', chnStr = '';
+            var unitPos = 0;
+            var zero = true;
+            while (section > 0) {
+                var v = section % 10;
+                if (v === 0) {
+                    if (!zero) {
+                        zero = true;
+                        chnStr = chnNumChar[v] + chnStr;
+                    }
+                } else {
+                    zero = false;
+                    strIns = chnNumChar[v];
+                    strIns += chnUnitChar[unitPos];
+                    chnStr = strIns + chnStr;
+                }
+                unitPos++;
+                section = Math.floor(section / 10);
+            }
+            return chnStr + "级风险源";
+        }
+
+
+        defaultClick();
+        var editwin = function (title, whereConditions) {
+            var element = "LAY-online-onlineMonitorCompany";
+            var cols = [[
+                {type: 'numbers', title: '序号', minWidth: 100, unresize: true}
+                , {
+                    field: 'companyName',
+                    title: '公司名称',
+                    minWidth: 100,
+                    style: 'color:blue;cursor:pointer;',
+                    templet: function (item, index) {
+                        if (item.companyName != "") {
+                            return '<a class="tabCompanyName" href="../src/views/cominfo/companyshow/slider.html?pid=' + item.pid + '" target="_blank" rel="_blank" style="color:blue;cursor:pointer;" title="' + item.companyName + '">' + item.companyName + '</a>';
+                        }
+                    }
+                }
+                , {field: 'companyAddress', title: '地址', minWidth: 60, unresize: true}
+                , {field: 'companyRepresentative', title: '法人代表', minWidth: 60, unresize: true}
+                , {field: 'tablelabel', title: '电话', minWidth: 60, unresize: true}
+                , {field: 'organizationCode', title: '组织机构代码', minWidth: 60, unresize: true}
+            ]];
+            statisticalBounced.bounced(element, cols, whereConditions, baseurl, title);
+
+            $("#sousuo").click(function () {
+                var onlineCompanyReload = $("#onlineCompanyReload").val();
+                table.reload('LAY-online-onlineMonitorCompany', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        companyName: onlineCompanyReload
+                    }
+                });
+            });
+            $("#chongzhi").click(function () {
+                $("#onlineCompanyReload").val("")
+                $("#sousuo").click();
+            })
+
+        };
+        var active = {
+            allEnterprise: function (othis, data) {
+                var whereConditions = {
+                    hasPermission: hasPermission
+                };
+                editwin("全部企业", whereConditions);
+            }
+            , KeyEnterprise: function (othis, data) {
+                var whereConditions = {
+                    hasPermission: hasPermission
+                    //是否重点企业
+                    , keySource: 1
+                };
+                editwin("重点企业", whereConditions);
+            }
+            , registerEnterprise:function (othis, data) {
+                var whereConditions = {
+                    hasPermission: hasPermission
+                    // 注册企业
+                    , registerFlag: 1
+                };
+                editwin("注册企业", whereConditions);
+            }
+            , checkEnterprise:function (othis, data) {
+                var whereConditions = {
+                    hasPermission: hasPermission
+                    // 待审核企业
+                    , checkFlag: 1
+                };
+                editwin("待审核企业", whereConditions);
+            }
+            , checkedEnterprise:function (othis, data) {
+                var whereConditions = {
+                    hasPermission: hasPermission
+                    // 待审核企业
+                    , checkedFlag: 1
+                };
+                editwin("已审核企业", whereConditions);
+            }
+
+        };
+        $('.enterpriseType').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    })
+</script>

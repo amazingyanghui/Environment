@@ -1,0 +1,102 @@
+
+#pointFactor input[type="checkbox"] + label {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#pointFactor [id^="checkbox-"] + label {
+    background-color: white;
+    border-radius: 5px;
+    border:1px solid #d3d3d3;
+    width:20px;
+    height:20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+}
+
+#pointFactor [id^="checkbox-"]:checked + label{
+    background-color: #eee;
+}
+#pointFactor [id^="checkbox-"]:checked + label:after{
+    content:"\2714";
+}
+#pointFactor0 input[type="checkbox"] + label {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#pointFactor0 [id^="checkbox-"] + label {
+    background-color: white;
+    border-radius: 5px;
+    border:1px solid #d3d3d3;
+    width:20px;
+    height:20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+}
+
+#pointFactor0 [id^="checkbox-"]:checked + label{
+    background-color: #eee;
+}
+#pointFactor0 [id^="checkbox-"]:checked + label:after{
+    content:"\2714";
+}
+#pointFactor1 input[type="checkbox"] + label {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#pointFactor1 [id^="checkbox-"] + label {
+    background-color: white;
+    border-radius: 5px;
+    border:1px solid #d3d3d3;
+    width:20px;
+    height:20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+}
+
+#pointFactor1 [id^="checkbox-"]:checked + label{
+    background-color: #eee;
+}
+#pointFactor1 [id^="checkbox-"]:checked + label:after{
+    content:"\2714";
+}
+#pointFactor2 input[type="checkbox"] + label {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#pointFactor2 [id^="checkbox-"] + label {
+    background-color: white;
+    border-radius: 5px;
+    border:1px solid #d3d3d3;
+    width:20px;
+    height:20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+}
+
+#pointFactor2 [id^="checkbox-"]:checked + label{
+    background-color: #eee;
+}
+#pointFactor2 [id^="checkbox-"]:checked + label:after{
+    content:"\2714";
+}
+.companyClass{
+    margin-left: -37px;
+    font-size: 24px;
+    font-weight: bold;
+}
+.qyda {
+    margin-left: 119px;
+    color: #0099FF;
+}

@@ -1,0 +1,840 @@
+<script type="text/javascript" src="common/cominfo/process.js"></script>
+<title>生产工艺</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" id="tabTitle">
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-tab"></div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title" id="com-info">
+                <li value="0" power="sc:gy:xxwh:sc:gy">生产工艺</li>
+                <li value="1" power="sc:gy:xxwh:sc:sb">生产设备</li>
+                <li value="2" power="sc:gy:xxwh:zy:yfzcl">主要原辅助材料</li>
+                <li value="3" power="sc:gy:xxwh:ys:qk">用水情况</li>
+                <li value="4" power="sc:gy:xxwh:ny:qk">能源情况</li>
+                <li value="5" power="sc:gy:xxwh:zy:cp">主要产品</li>
+                <li value="6" power="sc:gy:xxwh:yt:cg">液体储罐信息</li>
+                <li value="7" power="sc:gy:xxwh:zy:cpgy">主要产品及工艺</li>
+            </ul>
+            <div style="margin: 10px 0 0 10px">
+                <button class="layui-btn" id="add" data-events="add">新增</button>
+                <button class="layui-btn" id="mod" data-events="mod">修改</button>
+                <button class="layui-btn" id="del" data-events="del">删除</button>
+                <button class="layui-btn" id="upload" data-events="upload">上传</button>
+            </div>
+            <div class="layui-tab-content"  id="com-table">
+                <div class="layui-tab-item layui-show" power="sc:gy:xxwh:sc:gy">
+                    <div id="productionProcess0">
+                        <table id="LAY-market-cominfoProductionProcess0" lay-filter="LAY-market-cominfoProductionProcess0"></table>
+                    </div>
+                    <div id="cominfoProductionProcess0"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:sc:sb">
+                    <div id="productionProcess1">
+                        <table id="LAY-market-cominfoProductionProcess1" lay-filter="LAY-market-cominfoProductionProcess1"></table>
+                    </div>
+                    <div id="cominfoProductionProcess1"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:zy:yfzcl">
+                    <div id="productionProcess2">
+                        <table id="LAY-market-cominfoProductionProcess2" lay-filter="LAY-market-cominfoProductionProcess2"></table>
+                    </div>
+                    <div id="cominfoProductionProcess2"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:ys:qk">
+                    <div id="productionProcess3">
+                        <table id="LAY-market-cominfoProductionProcess3" lay-filter="LAY-market-cominfoProductionProcess3"></table>
+                    </div>
+                    <div id="cominfoProductionProcess3"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:ny:qk">
+                    <div id="productionProcess4">
+                        <table id="LAY-market-cominfoProductionProcess4" lay-filter="LAY-market-cominfoProductionProcess4"></table>
+                    </div>
+                    <div id="cominfoProductionProcess4"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:zy:cp">
+                    <div id="productionProcess5">
+                        <table id="LAY-market-cominfoProductionProcess5" lay-filter="LAY-market-cominfoProductionProcess5"></table>
+                    </div>
+                    <div id="cominfoProductionProcess5"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:yt:cg">
+                    <div id="productionProcess6">
+                        <table id="LAY-market-cominfoProductionProcess6" lay-filter="LAY-market-cominfoProductionProcess6"></table>
+                    </div>
+                    <div id="cominfoProductionProcess6"></div>
+                </div>
+                <div class="layui-tab-item" power="sc:gy:xxwh:zy:cpgy">
+                    <div id="productionProcess7">
+                        <table id="LAY-market-cominfoProductionProcess7" lay-filter="LAY-market-cominfoProductionProcess7"></table>
+                    </div>
+                    <div id="cominfoProductionProcess7"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="showComInfoProductionEquipment" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="comInfoProductionEquipmentShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>设备编号：</td>
+                            <td>
+                                <input type="text" name="equipmentCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>设备名称：</td>
+                            <td>
+                                <input type="text" name="equipmentName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备型号：</td>
+                            <td>
+                                <input type="text" name="equipmentModel" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备分类：</td>
+                            <td>
+                                <input type="text" name="equipmentClassifyName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>设备类型：</td>
+                            <td>
+                                <input type="text" name="equipmentTypeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备规模：</td>
+                            <td>
+                                <input type="text" name="equipmentScale" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>规模计量单位：</td>
+                            <td>
+                                <input type="text" name="equipmentScaleUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>生产工艺：</td>
+                            <td>
+                                <input type="text" name="productionProcessName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>设备容量（高度）：</td>
+                            <td>
+                                <input type="text" name="equipmentCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>对应机组编号：</td>
+                            <td>
+                                <input type="text" name="crewCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>对应机组装机容量：</td>
+                            <td>
+                                <input type="text" name="crewCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>是否热电联产：</td>
+                            <td>
+                                <input type="text" name="isCogenerationName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>处理方式：</td>
+                            <td>
+                                <input type="text" name="processingModeName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>额定出力：</td>
+                            <td>
+                                <input type="text" name="ratedOutput" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>热效率：</td>
+                            <td>
+                                <input type="text" name="thermalEfficiency" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>平均温度：</td>
+                            <td>
+                                <input type="text" name="aveTemperature" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>运行时间：</td>
+                            <td>
+                                <input type="text" name="runningHours" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年生产时间：</td>
+                            <td>
+                                <input type="text" name="annualProductionHours" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>产能：</td>
+                            <td>
+                                <input type="text" name="capacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备车间：</td>
+                            <td>
+                                <input type="text" name="equipmentWorkshop" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>数量：</td>
+                            <td>
+                                <input type="text" name="number" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>单位：</td>
+                            <td>
+                                <input type="text" name="unit" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备用途：</td>
+                            <td colspan="3">
+                                <input type="text" name="equipmentUse" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>设备使用情况：</td>
+                            <td colspan="3">
+                                <input type="text" name="equipmentUsage" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注：</td>
+                            <td colspan="3">
+                                <textarea type="text" name="remarks" lay-verify="centerStrSize|strSpecialCharacter" style="resize: none;" placeholder="" autocomplete="off" class="layui-textarea"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="showcominfoOrganicLiquidStorageLoad" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="editcominfoOrganicLiquidStorageLoadShow" action="" lay-filter="component-form-element">
+                    <table class="reporttable">
+                        <tr>
+                            <td>物料名称：</td>
+                            <td>
+                                <input type="text" name="materielName" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物料代码：</td>
+                            <td>
+                                <input type="text" name="materielCode" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>储罐类型：</td>
+                            <td>
+                                <input type="text" name="storageTankTypeStr" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>储罐容积：</td>
+                            <td>
+                                <input type="text" name="storageTankVolume" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年装载量：</td>
+                            <td>
+                                <input type="text" name="annualLoadingCapacity" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>储存温度：</td>
+                            <td>
+                                <input type="text" name="temperature" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>相同类型、容积、温度的储罐个数：</td>
+                            <td>
+                                <input type="text" name="storageTankNumber" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>挥发性有机物处理工艺：</td>
+                            <td>
+                                <input type="text" name="treatmentProcess1" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>其中：汽车/火车装载量：</td>
+                            <td>
+                                <input type="text" name="carTrainLoad" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>汽车/火车装载方式：</td>
+                            <td>
+                                <input type="text" name="carTrainLoadModeStr" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>船舶装载量：</td>
+                            <td>
+                                <input type="text" name="shipLoad" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>船舶装载方式：</td>
+                            <td>
+                                <input type="text" name="shipLoadModeStr" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td>船舶装载量：</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" name="isCogenerationName" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                            <!--</td>-->
+                            <!--<td>船舶装载方式：</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" name="processingModeName" value="" placeholder="" autocomplete="off" class="layui-input">-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <td>挥发性有机物处理工艺：</td>
+                            <td>
+                                <input type="text" name="treatmentProcess2" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>挥发性有机物产生量：</td>
+                            <td>
+                                <input type="text" name="output" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>挥发性有机物排放量：</td>
+                            <td>
+                                <input type="text" name="emissions" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                            <td>物料年周转量：</td>
+                            <td>
+                                <input type="text" name="annualTurnover" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','loadtab','upload','baseInfoAttachment','layer', 'form','formVerify'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,loadtab = layui.loadtab
+            ,layer=layui.layer
+            ,form = layui.form
+            ,upload=layui.upload
+            ,fromVerify=layui.formVerify
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,global_obj = {}
+            ,baseurl0 = setter.remoteServiceAddress + "/market/cominfoproductionprocess"
+            ,baseurl1 = setter.remoteServiceAddress + "/market/cominfoproductionequipment"
+            ,baseurl2 = setter.remoteServiceAddress + "/market/cominfoproductionmaterials"
+            ,baseurl3 = setter.remoteServiceAddress + "/market/cominfoproductionwater"
+            ,baseurl4 = setter.remoteServiceAddress + "/market/cominfoproductionenergy"
+            ,baseurl5 = setter.remoteServiceAddress + "/market/cominfoproductionproduct"
+            ,baseurl6 = setter.remoteServiceAddress + "/cominfo/organicliquidstorageload"
+            // ,baseurl7 =setter.remoteServiceAddress + "/market/cominfoproductionproduct"
+        ;//液体储罐信息url
+
+        loadtab.power("com-info","com-table");
+
+        var router = layui.router();
+        var pid=router.search.pid;
+        fromVerify.verifyForm();
+        var tabTitle=$("#tabTitle");
+        tabTitle.html("<a><cite>数据维护</cite></a><span lay-separator>/</span>" +
+            "        <a lay-href='cominfo/'><cite>企业信息</cite></a><span lay-separator>/</span>" +
+            "        <a><cite id='tabCompanyName'></cite></a><span lay-separator>/</span>" +
+            "        <a><cite>生产工艺</cite></a>");
+
+        if(layui.data(setter.userRoles).userRoles.indexOf(setter.companyRoleId) !== -1){
+            pid = layui.data(setter.userDeptId).userDeptId;
+            tabTitle.html("<a><cite>企业维护</cite></a><span lay-separator>/</span>" +
+                "        <a><cite>生产工艺</cite></a><span lay-separator>/</span>" +
+                "        <a><cite id='tabCompanyName'></cite></a>");
+        }
+        $("#tabTitle").attr("style","visibility: visible");
+
+        if(pid!=null&pid!="undefined"){
+            loadtab.tab('production');
+        }
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        var showAndHide=function () {
+            $("#productionProcess0").removeClass("layui-hide");
+            $("#productionProcess1").removeClass("layui-hide");
+            $("#productionProcess2").removeClass("layui-hide");
+            $("#productionProcess3").removeClass("layui-hide");
+            $("#productionProcess4").removeClass("layui-hide");
+            $("#productionProcess5").removeClass("layui-hide");
+            $("#productionProcess6").removeClass("layui-hide");
+            $("#productionProcess7").removeClass("layui-hide");
+            $("#cominfoProductionProcess0").addClass("layui-hide");
+            $("#cominfoProductionProcess1").addClass("layui-hide");
+            $("#cominfoProductionProcess2").addClass("layui-hide");
+            $("#cominfoProductionProcess3").addClass("layui-hide");
+            $("#cominfoProductionProcess4").addClass("layui-hide");
+            $("#cominfoProductionProcess5").addClass("layui-hide");
+            $("#cominfoProductionProcess6").addClass("layui-hide");
+            $("#cominfoProductionProcess7").addClass("layui-hide");
+            $("#add").removeClass("layui-hide");
+            $("#mod").removeClass("layui-hide");
+            $("#del").removeClass("layui-hide");
+            $("#upload").addClass("layui-hide");
+        };
+
+        var hideAndShow=function () {
+            $("#productionProcess0").addClass("layui-hide");
+            $("#productionProcess1").addClass("layui-hide");
+            $("#productionProcess2").addClass("layui-hide");
+            $("#productionProcess3").addClass("layui-hide");
+            $("#productionProcess4").addClass("layui-hide");
+            $("#productionProcess5").addClass("layui-hide");
+            $("#productionProcess6").addClass("layui-hide");
+            $("#productionProcess7").addClass("layui-hide");
+            $("#cominfoProductionProcess0").removeClass("layui-hide");
+            $("#cominfoProductionProcess1").removeClass("layui-hide");
+            $("#cominfoProductionProcess2").removeClass("layui-hide");
+            $("#cominfoProductionProcess3").removeClass("layui-hide");
+            $("#cominfoProductionProcess4").removeClass("layui-hide");
+            $("#cominfoProductionProcess5").removeClass("layui-hide");
+            $("#cominfoProductionProcess6").removeClass("layui-hide");
+            $("#cominfoProductionProcess7").removeClass("layui-hide");
+            $("#add").addClass("layui-hide");
+            $("#mod").addClass("layui-hide");
+            $("#del").addClass("layui-hide");
+            if(differType==0){
+                $("#upload").removeClass("layui-hide");
+            }
+        };
+
+        var differType=0;
+        $('#com-info li').on('click', function(){
+            differType = $(this).attr("value");
+            var elem='#LAY-market-cominfoProductionProcess'+differType;
+            showAndHide();
+            var url=baseurl0;
+            var cols=[[
+                {type: 'checkbox', unresize: true}
+                ,{type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'processName', title: '工艺名称', minWidth: 100,unresize: true,event:'setProcessName',style:'color:blue;cursor:pointer;'}
+                ,{field: 'processIntroduction', title: '工艺简介', minWidth: 100,unresize: true}
+                ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+            ]];
+
+            if(differType==1){
+                url=baseurl1;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'equipmentCode', title: '设备编号', minWidth: 100,unresize: true}
+                    ,{field: 'equipmentName', title: '设备名称', minWidth: 100,unresize: true,event:'setProcessName',style:'color:blue;cursor:pointer;'}
+                    ,{field: 'equipmentWorkshop', title: '设备车间', minWidth: 100,unresize: true}
+                    ,{field: 'equipmentModel', title: '设备型号', minWidth: 100,unresize: true}
+                    ,{field: 'number', title: '数量', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: '单位', minWidth: 100,unresize: true}
+//                    ,{field: 'equipmentUsage', title: '设备使用情况', minWidth: 100,unresize: true}
+                ]];
+            }
+            if(differType==2){
+                url=baseurl2;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'materialsName', title: '原辅材料名称', minWidth: 100,unresize: true}
+                    ,{field: 'materialsCode', title: '原辅材料编码', minWidth: 100,unresize: true}
+                    ,{field: 'plannedAnnualAmount', title: '计划年用量 ', minWidth: 100,unresize: true}
+                    ,{field: 'actualAnnualAmount', title: '实际年用量', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: ' 单位', minWidth: 100,unresize: true}
+                    ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            if(differType==3){
+                url=baseurl3;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'totalWater', title: '用水总量', minWidth: 100,unresize: true}
+                    ,{field: 'freshWater', title: '新鲜用水量', minWidth: 100,unresize: true}
+                    ,{field: 'regeneratedWater', title: '再生用水量', minWidth: 100,unresize: true}
+                    ,{field: 'selfcontainedWater', title: '自备水量', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: ' 单位', minWidth: 100,unresize: true}
+                    ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            if(differType==4){
+                url=baseurl4;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'energyCode', title: '能源代码', minWidth: 100,unresize: true}
+                    ,{field: 'energyName', title: '能源名称', minWidth: 100,unresize: true}
+                    ,{field: 'energyConsumption', title: '能源消耗量', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: '单位', minWidth: 100,unresize: true}
+                    ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            if(differType==5){
+                url=baseurl5;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'productCode', title: '产品代码', minWidth: 100,unresize: true}
+                    ,{field: 'productName', title: '产品名称', minWidth: 100,unresize: true}
+                    ,{field: 'annualOutput', title: '年产量', minWidth: 100,unresize: true}
+                    ,{field: 'actualAnnualOutput', title: '实际年产量 ', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: '单位', minWidth: 100,unresize: true}
+                    ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            if(differType==6){
+                url=baseurl6;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'materielName', title: '物料名称', minWidth: 100,unresize: true}
+                    ,{field: 'materielCode', title: '物料代码', minWidth: 100,event:"setName",unresize: true,style:"color:blue;cursor:pointer"}
+                    ,{field: 'storageTankTypeStr', title: '储罐类型', minWidth: 100,unresize: true}
+                    ,{field: 'storageTankVolume', title: '储罐容积', minWidth: 100,unresize: true}
+                    ,{field: 'annualTurnover', title: '年装载量', minWidth: 100,unresize: true}
+                    // ,{field: 'carTrainLoad', title: '汽车、火车装载量', minWidth: 100,unresize: true}
+                    // ,{field: 'carTrainLoadMode', title: '汽车、火车方式', minWidth: 100,unresize: true}
+                    ,{field: 'shipLoad', title: '船舶装载量', minWidth: 100,unresize: true}
+                    ,{field: 'shipLoadModeStr', title: '船舶装载方式', minWidth: 100,unresize: true}
+                ]];
+            }
+            if(differType==7){
+                url=baseurl0;
+                cols=[[
+                    {type: 'checkbox', unresize: true}
+                    ,{type: 'numbers', unresize: true, title: '序号'}
+                    ,{field: 'processName', title: '工艺名称', minWidth: 100,unresize: true}
+                    ,{field: 'processIntroduction', title: '工艺简介', minWidth: 100,unresize: true}
+                    ,{field: 'productCode', title: '产品代码', minWidth: 100,unresize: true}
+                    ,{field: 'productName', title: '产品名称', minWidth: 100,unresize: true}
+                    ,{field: 'annualOutput', title: '年产量', minWidth: 100,unresize: true}
+                    ,{field: 'actualAnnualOutput', title: '实际年产量', minWidth: 100,unresize: true}
+                    ,{field: 'unit', title: '计量单位', minWidth: 100,unresize: true}
+                    // ,{field: 'remarks', title: '备注', minWidth: 100,unresize: true}
+                ]];
+            }
+
+            table.render({//查询列表信息
+                elem: elem
+                ,url: url
+                ,page: true
+                ,event:true
+                ,where: {
+                    hasPermission: hasPermission
+                    ,cid:pid
+                }
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,cols: cols
+                ,skin: 'line'
+            });
+
+            table.on('tool(LAY-market-cominfoProductionProcess6)',function (obj) {
+                var data=obj.data;
+                if(obj.event=="setName"){
+                    showInfo(data);
+                }
+            });
+
+
+        });
+
+        $("#com-info li").each(function (i) {
+            if(i == 0)$(this).trigger('click');
+        });
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            var url=baseurl0;
+            if(differType==1){
+                url=baseurl1;
+            }
+            if(differType==2){
+                url=baseurl2;
+            }
+            if(differType==3){
+                url=baseurl3;
+            }
+            if(differType==4){
+                url=baseurl4;
+            }
+            if(differType==5){
+                url=baseurl5;
+            }
+            if(differType==6){
+                url=baseurl6;
+            }
+            if(differType==7){
+                url=baseurl0;
+            }
+            hideAndShow();
+            var pid=null;
+            if(data!=null){
+                pid=data[0].pid;
+            }
+            process.editWin(admin,setter,$,table,form,url,laytpl,laydate,element,differType,global_obj,pid);
+        };
+
+        //事件处理
+        var events = {
+            add : function(othis,data){
+                editwin("新增",null);
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data);
+                debugger
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var pids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        pids.push(data[i].pid);
+                    }
+                    var url=baseurl0;
+                    if(differType==1){
+                        url=baseurl1;
+                    }
+                    if(differType==2){
+                        url=baseurl2;
+                    }
+                    if(differType==3){
+                        url=baseurl3;
+                    }
+                    if(differType==4){
+                        url=baseurl4;
+                    }
+                    if(differType==5){
+                        url=baseurl5;
+                    }
+                    if(differType==6){
+                        url=baseurl6;
+                    }
+                    if(differType==7){
+                        url=baseurl0;
+                    }
+                    admin.req({//根据
+                        url: url
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(pids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload("LAY-market-cominfoProductionProcess"+differType); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-market-cominfoProductionProcess"+differType)
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+
+
+
+        //修改和增加
+        form.on('submit(component-form-element)', function(data){
+            var loadindex = layer.load(1);
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            if(data.field.pid=="undefined"){
+                data.field.pid="";
+            }
+            // layer.load(1);
+            var type = "POST";
+            if(data.field.pid!=null&data.field.pid!=""){//修改
+                type = "PUT";
+            }
+            var url=baseurl0;
+            if(differType==1){
+                url=baseurl1;
+            }
+            if(differType==2){
+                url=baseurl2;
+            }
+            if(differType==3){
+                url=baseurl3;
+            }
+            if(differType==4){
+                url=baseurl4;
+            }
+            if(differType==5){
+                url=baseurl5;
+            }
+            if(differType==6){
+                url=baseurl6;
+            }
+            if(differType==7){
+                url=baseurl0;
+            }
+            data.field.cid=pid;
+            admin.req({
+                type: type,
+                contentType:"application/json",
+                url: url,
+                data: JSON.stringify(data.field),
+                done: function(result){
+                    layer.close(loadindex);
+                    if(result.code == 0){//成功
+                        layer.msg('操作成功！', {icon: 6,time:1000},function(){
+                        });
+                        showAndHide();
+                        table.reload("LAY-market-cominfoProductionProcess"+differType);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,complete:function (res) {
+                    layer.close(loadindex);
+                }
+            });
+            return false
+        });
+        uploadFile(8);
+        function uploadFile(bizType) {
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload' //绑定元素
+                ,headers: {
+                    access_token: layui.data(setter.tableName).access_token
+                }
+                ,url: setter.remoteServiceAddress + '/cominfo/cominfobaseinfoattachment/upload/'+bizType //上传接口
+                ,accept:"images"
+                ,before : function(obj){
+                    this.data = {uploadType:1,cid:""};
+                    layer.load();
+                }
+                ,done: function(result){
+                    layer.closeAll('loading');
+                    if(result.code == 0){//成功
+                        $("[name='url']").val(result.data.src);
+                        layer.msg('上传成功！', {icon: 6,time:1000},function(){
+                        });
+                        $("#showPicture").attr("src",setter.remoteServiceAddress+result.data.src);
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+                ,error: function(){
+                    layer.closeAll('loading');
+                }
+            });
+        }
+
+        table.on('tool(LAY-market-cominfoProductionProcess0)',function (obj) {
+            var data=obj.data;
+            if(obj.event=="setProcessName"){
+                if(data.url!=null && data.url!='' && data.url!=undefined){
+                    baseInfoAttachment.view(data.url);
+                }else {
+                    return layer.msg('附件没有上传!');
+                }
+            }
+        });
+        table.on('tool(LAY-market-cominfoProductionProcess1)',function (obj) {
+            var data=obj.data;
+            if(obj.event=="setProcessName"){
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area: ['1100px', '450px']
+                    // offset: '120px',
+                    , content: showComInfoProductionEquipment.innerHTML
+                });
+
+                for(var id in data){
+                    $("#comInfoProductionEquipmentShow [name='"+id+"']").val(data[id]);
+                    $("#comInfoProductionEquipmentShow [name='"+id+"']").attr("readonly","readonly");
+                }
+            }
+        });
+
+        function showInfo(data) {
+            var pagecontent;
+            if(differType==6){
+                pagecontent=showcominfoOrganicLiquidStorageLoad.innerHTML;
+            }
+            layer.open({
+                type: 1
+                , title: "查看"
+                , area: ['1100px', '620px']
+                // offset: '120px',
+                , content: pagecontent
+                ,success: function(layero, index){
+                    if(differType==6){
+                        for(var id in data){
+                            $("#editcominfoOrganicLiquidStorageLoadShow [name='"+id+"']").val(data[id]);
+                            $("#editcominfoOrganicLiquidStorageLoadShow [name='"+id+"']").attr("readonly","readonly");
+                        }
+                    }
+
+                }
+            });
+
+        }
+    });
+</script>

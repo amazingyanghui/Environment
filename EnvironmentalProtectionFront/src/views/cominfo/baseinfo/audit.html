@@ -1,0 +1,530 @@
+
+<title>企业审核</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>数据维护</cite></a>
+        <a><cite>企业审核</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;">
+                        <div style="margin-bottom: 10px;">
+                            <div class="layui-inline">
+                                <label class="mylabel" >单位名称：</label>
+                                <input  class="layui-input myinput" id="companyNameReload" autocomplete="off" placeholder="">
+                            </div>
+                            <div class="layui-inline" style="margin-right: 35px">
+                                <label class="mylabel" >审核状态：</label>
+                                <select id="status" style="width: 150px;height: 32px;border-color:#e6e6e6;cursor: pointer">
+                                    <option value="">全部</option>
+                                    <option value="0">未审核</option>
+                                    <option value="-1">审核未通过</option>
+                                </select>
+                            </div>
+                            <button class="layui-btn" data-type="searchReload" id="searchReload">搜索</button>
+                            <button class="layui-btn" data-type="reset" id="reset">重置</button>
+                            <button class="layui-btn" data-events="audit" id="audit">审核通过</button>
+                            <button class="layui-btn" data-events="noAudit" id="noAudit">审核未通过</button>
+                            <button class="layui-btn" data-events="mod" id="mod">修改</button>
+                            <button class="layui-btn" data-events="del" id="del">删除</button>
+                        </div>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-environmental-environmentalEmergencyRisk" lay-filter="LAY-environmental-environmentalEmergencyRisk"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="registerEdit" type="text/html">
+    <div class="layui-fluid ">
+        <div class="layui-row  ">
+            <div class="layui-card-body layui-form-item  ">
+                <form class="layui-form" id="editRegister" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="pid"/>
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>企业名称：</label>
+                        <div class="layui-input-block" style="margin-left:180px;">
+                            <input type="text" id ="companyName" name="companyName" lay-verify="required" maxlength="30" placeholder="请设置企业名称" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>法人：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id ="companyRepresentative" name="companyRepresentative" lay-verify="required" maxlength="15" placeholder="请输入法人姓名" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>联系电话：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id = "environmentalProtectionPhone" maxlength="15"  name="environmentalProtectionPhone" lay-verify="required||phoneVerify" placeholder="请输入联系电话" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div  class="layui-row layui-col-space10 layui-form-item">
+                        <label class="layui-form-label" style="width: 150px;"><span class="starClass">*</span>统一社会信用代码：</label>
+                        <div class="layui-input-block"  style="margin-left:180px;">
+                            <input type="text" id="unifiedSocialCreditCode" name="unifiedSocialCreditCode" maxlength="18" lay-verify="required" placeholder="请设置统一社会信用代码" class="layui-input" />
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button id ="ifclick" class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl','laydate','dictComponent','perms','attachment','baseInfoAttachment'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,table = layui.table
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            ,dictComponent = layui.dictComponent
+            ,perms = layui.perms
+            ,attachment = layui.attachment
+            ,laydate=layui.laydate
+            ,setter = layui.setter
+            ,form = layui.form
+            ,global_obj = {}
+            ,baseurl = setter.remoteServiceAddress + "/market/cominfobaseinfo";
+            var hasPermission = false;
+
+        var heightfalg=700;
+        var heighttemp=627;
+        if(window.innerHeight > 850 ){
+
+        }else if(window.innerHeight > 700){
+            heightfalg=540;
+            heighttemp=440;
+        }else {
+            heightfalg=400;
+            heighttemp=310;
+        }
+
+        //查询列表信息
+        table.render({
+            elem: '#LAY-environmental-environmentalEmergencyRisk'
+            ,url: baseurl+"/listForStatus"
+            ,page: true
+            ,height: heightfalg
+            ,where: {
+                hasPermission: hasPermission
+            }
+            ,headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '单位名称',minWidth: 100, unresize: true}
+                ,{field: 'companyRepresentative', title: '法人',minWidth: 100,unresize: true}
+                ,{field: 'environmentalProtectionPhone', title: '联系电话', minWidth: 100,unresize: true}
+                ,{field: 'unifiedSocialCreditCode', title: '统一社会信用代码',minWidth: 100, unresize: true}
+                ,{field: 'status', title: '状态',  width: 100,unresize: true,templet:function (item, index) {
+                    if(item.status === 0){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-gray">未审核</span>';
+                    }
+                    if(item.status === -1){
+                        return '<span class="layui-btn layui-btn-xs layui-bg-orange">审核未通过</span>';
+                    }
+                }}
+            ]]
+            ,skin: 'line'
+            ,even: true //开启隔行背景
+//            ,size: 'sm' //小尺寸的表格
+            ,done:function () {
+                $(".layui-table-header").hide();
+                $(".layui-border-box").css("height",heighttemp);
+            }
+        });
+
+        $("#LAY-cominfoBaseinfo-f").on('dblclick', '.layui-table-view tbody tr', function () {
+            // 当前的tr
+            var trElem = $(this);
+            // 当前tr的index
+            var index = trElem.data('index');
+            // 找到这个table的view
+            var tableView = trElem.parents('.layui-table-view').first();
+            // alert(index)
+            // do something
+        });
+
+        //模糊查询,由于创表名字问题,其中查询字段根据实际修改
+        var active = {
+            searchReload: function(){
+                var companyName = $('#companyNameReload').val();
+                var status = $('#status').val();
+                //执行重载
+                table.reload('LAY-environmental-environmentalEmergencyRisk', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        companyName:companyName
+                        ,status:status
+                    }
+                    ,height:heightfalg
+                });
+            }
+            ,reset:function () {
+                $("#companyNameReload").val("");
+                $("#status").val("");
+                $("#searchReload").click();
+            }
+        };
+
+        $("#companyNameReload").keypress(function(event){
+            if(event.keyCode==13){
+                $("#searchReload").click();
+                $(this).blur();
+            }
+        });
+
+        $("#status").change(function () {
+            $("#searchReload").click();
+        });
+
+
+        //事件处理
+        var events = {
+            audit : function(othis,data){
+                layer.confirm('确定审核通过选中的数据吗？', function(){
+                    var ids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        ids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl+"/updateListForStatus"
+                        ,contentType:"application/json"
+                        ,type: "PUT"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('审核成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload('LAY-environmental-environmentalEmergencyRisk',{
+                                    height:heightfalg
+                                }); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+
+            }
+            ,noAudit:function (othis,data) {
+                layer.confirm('确定审核不通过选中的数据吗？', function(){
+                    var ids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        ids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl+"/updateNoListForStatus"
+                        ,contentType:"application/json"
+                        ,type: "PUT"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('审核成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload('LAY-environmental-environmentalEmergencyRisk',{
+                                    height:heightfalg
+                                }); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+            ,mod: function(othis,data){
+                editwin("修改",data[0]);
+            }
+            ,del: function(othis,data){
+                layer.confirm('确定删除选中的数据吗？', function(){
+                    var ids = [];
+                    for(var i = 0 ; i < data.length;i++){
+                        ids.push(data[i].pid);
+                    }
+                    admin.req({//根据
+                        url: baseurl
+                        ,contentType:"application/json"
+                        ,type: "DELETE"
+                        ,data: JSON.stringify(ids)
+                        ,done: function(result){
+                            if(result.code == 0){//成功
+                                layer.msg('删除成功', {
+                                    icon: 1,
+                                    time:1000
+                                });
+                                table.reload('LAY-environmental-environmentalEmergencyRisk',{
+                                    height:heightfalg
+                                }); //刷新表格
+                            }else{
+                                layer.alert(result.msg, {
+                                    skin: 'layui-layer-lan',
+                                    offset: 't',
+                                    anim: 6
+                                });
+                            }
+                        }
+                    });
+                });
+            }
+        };
+
+        //打开修改和新增界面
+        var editwin = function(title,data){
+            layer.open({
+                type: 1
+                ,title: title
+                ,area: admin.screen() < 2 ? ['80%', '300px'] : ['680px', '350px']
+                // offset: '120px',
+                ,content: registerEdit.innerHTML
+            });
+
+            for(var id in data){
+                $("#editRegister [name='"+id+"']").val(data[id]);
+            }
+
+            verifyCode(data.pid);
+
+            form.render(null, 'component-form-element');
+
+        };
+
+        global_obj.unifiedSocialCreditCode = true;
+        global_obj.companyName = true;
+        global_obj.environmentalProtectionPhone = true;
+        global_obj.usernamecode = true ;
+        //注册企业-企业名称异步判重
+        function verifyCode(pid) {
+            $("#companyName").blur(function(){
+                var companyName = $.trim( $(this).val());
+                var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+                if(reg.test(companyName)){
+                    layer.tips('企业名称种含有特殊符号', '#companyName');
+                    console.log("特殊符号 ==== "+global_obj.companyName)
+                    return ;
+                }
+                var param = {
+                    companyName:companyName
+                    ,pid:pid
+                };
+                if(companyName!=""){
+                    commonVerify(param) ;
+
+                }else{
+                    //alert("请输入企业名称！");
+                    //return;
+                }
+
+
+            });
+            $("#unifiedSocialCreditCode").blur(function () {
+                var unifiedSocialCreditCode = $.trim( $(this).val());
+                var param = {
+                    unifiedSocialCreditCode:unifiedSocialCreditCode
+                    ,pid:pid
+                };
+                if(unifiedSocialCreditCode!=""){
+                    commonVerify(param) ;
+                }else{
+                    // alert("请输入统一社会信用代码！");
+                }
+
+            });
+
+            $("#environmentalProtectionPhone").blur(function () {
+                var environmentalProtectionPhone = $.trim( $(this).val());
+                var param = {
+                    environmentalProtectionPhone:environmentalProtectionPhone
+                    ,pid:pid
+                };
+                if(environmentalProtectionPhone!=""){
+                    commonVerify(param) ;
+                }else{
+                    // alert("请输入联系人号码！"); str.substr(str.length-4)
+                }
+
+            });
+
+        }
+
+        function commonVerify(param){
+            admin.req({
+                type: 'post',
+                url: baseurl + "/VerifyCompanyName",
+                contentType:"application/json",
+                data: JSON.stringify(param),
+                done: function (result) {
+                    if(result.code == 0){
+                        if (result.data.length > 0) {//成功
+                            if( param.companyName!=""&&param.companyName!=undefined){
+                                layer.tips('企业名称已存在,请使用其他名称', '#companyName');
+                                global_obj.companyName = false;
+                                console.log("==== "+global_obj.companyName)
+                                return;
+                            }
+
+                            if(param.environmentalProtectionPhone!=""&&param.environmentalProtectionPhone!=undefined){
+                                layer.tips('该联系电话已使用,请更换其他号码', '#environmentalProtectionPhone');
+                                global_obj.unifiedSocialCreditCode = false;
+                                return;
+                            }
+
+                            if(param.unifiedSocialCreditCode!=""&&param.unifiedSocialCreditCode!=undefined){
+                                layer.tips('该统一社会信用代码已存在', '#unifiedSocialCreditCode');
+                                global_obj.unifiedSocialCreditCode = false;
+                                return;
+                            }
+
+                        } else {
+
+                            if( param.companyName!=""&&param.companyName!=undefined){
+                                global_obj.companyName = true;
+                            }
+                            if(param.environmentalProtectionPhone!=""&&param.environmentalProtectionPhone!=undefined){
+                                global_obj.environmentalProtectionPhone = true;
+                            }
+                            if(param.unifiedSocialCreditCode!=""&&param.unifiedSocialCreditCode!=undefined){
+                                global_obj.unifiedSocialCreditCode = true;
+                            }
+                        }
+                    }else{
+                        layer.alert(result.msg, {
+                            skin: 'layui-layer-lan',
+                            // offset: 't',
+                            anim: 6
+                        });
+                    }
+                }
+            });
+        }
+
+        form.on('submit(component-form-element)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            data.field.token = layui.data(setter.tableName).access_token;
+            data.field.status=0;
+            // layer.load(1);
+            var reg=/^[0-9A-Z]{18}$/;//18位统一社会信用代码有数字和大写字母组成
+            var unifiedSocialCreditCode = $.trim( $('#unifiedSocialCreditCode').val());
+            if(!reg.test(unifiedSocialCreditCode)) {
+                layer.tips('统一社会信用代码是由数字或大写英文字母组成的18位统一码!','#unifiedSocialCreditCode');
+                return false ;
+            }
+            var companyName = $.trim( $('#companyName').val());
+            var reg = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+            if(reg.test(companyName)){
+                layer.tips('企业名称种含有特殊符号', '#companyName');
+                return false ;
+            }
+//            if (global_obj.companyName == false) {
+//                layer.tips('企业名称已存在,请使用其他名称', '#companyName');
+//                return false;
+//            }
+//            if (global_obj.unifiedSocialCreditCode == false) {
+//                layer.tips('该统一社会信用代码已存在', '#unifiedSocialCreditCode');
+//                return false;
+//            }
+//            if (global_obj.environmentalProtectionPhone == false) {
+//                layer.tips('该联系电话已使用,请更换其他号码', '#environmentalProtectionPhone');
+//                return false;
+//            }
+//
+//            if(global_obj.usernamecode == false){
+//                layer.tips('用户名重复，请再次确认该统一社会信用代码', '#unifiedSocialCreditCode');
+//                return false;
+//            }
+            var type = "PUT";
+            if(global_obj.unifiedSocialCreditCode&&global_obj.unifiedSocialCreditCode&&global_obj.companyName) {
+                admin.req({
+                    type: 'POST',
+                    url: baseurl + "/VerifyCompanyName",
+                    contentType: "application/json",
+                    data: JSON.stringify(data.field),
+                    done: function (result) {
+                        if(result.data.length<1) {
+                            var loadindex = layer.load(1);
+                            admin.req({
+                                type: type,
+                                contentType: "application/json",
+                                url: baseurl+"/updateForStatus",
+                                data: JSON.stringify(data.field),
+                                done: function (result) {
+                                    layer.closeAll();
+                                    if (result.code == 0) {//成功
+                                        layer.msg('操作成功！', {icon: 6, time: 1000}, function () {
+                                        });
+                                        table.reload('LAY-environmental-environmentalEmergencyRisk',{
+                                            height:heightfalg
+                                        }); //刷新表格
+                                    } else {
+                                        layer.alert(result.msg, {
+                                            skin: 'layui-layer-lan',
+                                            offset: 't',
+                                            anim: 6
+                                        });
+                                    }
+                                }
+                                , complete: function (res) {
+                                    layer.close(loadindex);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            return false
+        });
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+            var othis = $(this)
+                ,thisEvent = othis.data('events');
+            var checkStatus = table.checkStatus("LAY-environmental-environmentalEmergencyRisk")
+                ,data = checkStatus.data; //获得选中的数据
+
+            if(thisEvent == "mod" || thisEvent == "del" || thisEvent=="audit" || thisEvent=="noAudit"){
+                if(data.length === 0){
+                    return layer.msg('未选中行!');
+                }else if(data.length > 1 && thisEvent == "mod"){
+                    return layer.msg('只能修改一条数据！');
+                }
+            }
+            events[thisEvent] && events[thisEvent].call(this, othis,data);
+        });
+    });
+</script>

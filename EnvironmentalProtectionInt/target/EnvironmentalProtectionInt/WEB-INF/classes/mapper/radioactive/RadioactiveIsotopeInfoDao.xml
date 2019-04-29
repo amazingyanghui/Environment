@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.radioactive.dao.RadioactiveIsotopeInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.radioactive.entity.RadioactiveIsotopeInfoEntity" id="radioactiveIsotopeInfoMap">
+        <result property="pid" column="pid"/>
+        <result property="cid" column="cid"/>
+        <result property="isotopeName" column="isotope_name"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="factoryActivity" column="factory_activity"/>
+        <result property="manufactureFactory" column="manufacture_factory"/>
+        <result property="radioactiveCategory" column="radioactive_category"/>
+        <result property="radioactiveCoding" column="radioactive_coding"/>
+        <result property="storageLocation" column="storage_location"/>
+        <result property="maximumOperation" column="maximum_operation"/>
+        <result property="amount" column="amount"/>
+        <result property="mainPurpose" column="main_purpose"/>
+        <result property="curstatus" column="curstatus"/>
+        <result property="person" column="person"/>
+        <result property="createdate" column="createdate"/>
+        <result property="updatedate" column="updatedate"/>
+        <result property="deletedate" column="deletedate"/>
+    </resultMap>
+    <select id="queryPage" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.radioactive.entity.RadioactiveIsotopeInfoEntity">
+        select a.*,b.company_name,y.value curstatusName,z.value radioactiveCategoryName  from radioactive_isotope_info a
+        LEFT JOIN sys_dict y ON y.key=a.curstatus AND y.type='curstatus_type'
+        LEFT JOIN sys_dict z ON z.key=a.radioactive_category AND z.type='radioactive_category_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="isotopeName != null and isotopeName != ''">
+            and a.isotope_name like CONCAT('%',#{isotopeName},'%')
+        </if>
+        <if test="manufactureFactory != null and manufactureFactory != ''">
+            and a.manufacture_factory like CONCAT('%',#{manufactureFactory},'%')
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="radioactiveCategory != null and radioactiveCategory != ''">
+            and a.radioactive_category = #{radioactiveCategory}
+        </if>
+        order by b.company_name desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="dataById" parameterType="java.lang.String" resultType="com.tengdi.environmentalprotectionint.modules.radioactive.entity.RadioactiveIsotopeInfoEntity">
+        select a.*,b.company_name,y.value curstatusName,z.value radioactiveCategoryName  from radioactive_isotope_info a
+        LEFT JOIN sys_dict y ON y.key=a.curstatus AND y.type='curstatus_type'
+        LEFT JOIN sys_dict z ON z.key=a.radioactive_category AND z.type='radioactive_category_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        AND f.cid=#{cid}
+    </select>
+
+    <select id="queryName" parameterType="java.util.Map" resultType="com.tengdi.environmentalprotectionint.modules.radioactive.entity.RadioactiveIsotopeInfoEntity">
+        select a.*,b.company_name,y.value curstatusName,z.value radioactiveCategoryName  from radioactive_isotope_info a
+        LEFT JOIN sys_dict y ON y.key=a.curstatus AND y.type='curstatus_type'
+        LEFT JOIN sys_dict z ON z.key=a.radioactive_category AND z.type='radioactive_category_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="isotopeName != null and isotopeName != ''">
+            and a.isotope_name like CONCAT('%',#{isotopeName},'%')
+        </if>
+        <if test="manufactureFactory != null and manufactureFactory != ''">
+            and a.manufacture_factory like CONCAT('%',#{manufactureFactory},'%')
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="radioactiveCategory != null and radioactiveCategory != ''">
+            and a.radioactive_category = #{radioactiveCategory}
+        </if>
+        GROUP BY a.cid
+    </select>
+
+    <select id="queryPagesum" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) from radioactive_isotope_info a
+        LEFT JOIN sys_dict y ON y.key=a.curstatus AND y.type='curstatus_type'
+        LEFT JOIN sys_dict z ON z.key=a.radioactive_category AND z.type='radioactive_category_type'
+        , cominfo_baseinfo b
+        where a.cid=b.pid
+        <if test="cid!=null and cid!=''">
+            AND a.cid=#{cid}
+        </if>
+        <if test="isotopeName != null and isotopeName != ''">
+            and a.isotope_name like CONCAT('%',#{isotopeName},'%')
+        </if>
+        <if test="manufactureFactory != null and manufactureFactory != ''">
+            and a.manufacture_factory like CONCAT('%',#{manufactureFactory},'%')
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and b.company_name like CONCAT('%',#{companyName},'%')
+        </if>
+        <if test="radioactiveCategory != null and radioactiveCategory != ''">
+            and a.radioactive_category = #{radioactiveCategory}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>交集分析</title>
+       	<link href="../../css/demoComm.css" rel="stylesheet" type="text/css"/>  
+        <script type="text/javascript" src="../../js/OpenLayers/OpenLayers-min.js"></script>
+        <script type="text/javascript" src="../../js/GeoGlobeJS.min.js"></script>
+		<script type="text/javascript" src="../../js/demoComm.js"></script>
+    </head>
+    <body>
+	       	<!-- 示例页面的地图容器div对象 -->
+	        <div id="simpleMap"></div>
+	        <!-- 示例页面的窗口容器div对象 -->
+			<div id="dialog" style="height:auto;">
+				 <div class="dtitle" >
+				 	<TABLE cellSpacing=0 cellPadding=0 width="100%">
+				 		<TR>
+				 			<TD style="color: #ffffff;font-weight: bold"> 交集分析 </TD>
+				 			<TD style="text-align: right"> <img style="cursor:hand" onclick="slideToggleDialog('dialog')" src="../../images/closeD.png"/> </TD>
+				 		</TR>
+				 	</TABLE>
+				 </div>
+				 <div style="text-align: left; width: 100%; ">
+					 <br />
+					  <TABLE align="center" cellSpacing="0" cellPadding="1" width="90%">
+					 		<TR>
+					 			<TD>注意：绘制面要素时要按照顺时针方向绘点形成面。</TD>
+					 		</TR>
+							<TR>
+					 			<TD align="center">
+									<input type="button" value="绘制几何对象组" onclick="toggleControl('drawGeometries');"/>
+									<input type="button" value="绘制相交几何对象" onclick="toggleControl('drawIntersectGeometry');"/>
+									<input type="button" value="交集分析" onclick="intersectQuery();"/>
+								</TD>
+					 		</TR>
+					  </TABLE>
+			  </div>
+			</div>
+        <!-- 脚本 -->
+        <script type="text/javascript">
+        /******************************** 参数定义开始 ********************************/
+	        //定义配置对象
+	        var Cfg = {};
+	        //定位的中心点
+	        Cfg.lonLat = "112.939,31.377";
+	        //定位的缩放级别
+	        Cfg.zoom = "4";
+			//每英寸对应的像素值
+			Cfg.DOTS_PER_INCH = 96;
+			//设置dpi
+			Geo.setDPI(Cfg.DOTS_PER_INCH); 	          	        
+			//服务名称
+			Cfg.mapWMTSLayer_Name = "1-18级WMTS矢量底图";
+			//服务地址
+			Cfg.mapWMTSLayer_Url = "http://t0.tianditu.com/vec_c/wmts";
+			//服务版本
+			Cfg.mapWMTSLayer_Version = "1.0.0";
+			//图层标识
+			Cfg.mapWMTSLayer_LayerIdentifier = "vec";
+			//样式标识
+			Cfg.mapWMTSLayer_StyleIdentifier = "default";
+			//矩阵集名称
+			Cfg.mapWMTSLayer_MatrixSet= "c";
+			//比例尺
+			Cfg.mapWMTSLayer_Scales = "2.958293554545656E8,1.479146777272828E8,7.39573388636414E7,3.69786694318207E7,1.848933471591035E7,9244667.357955175,4622333.678977588,2311166.839488794,1155583.419744397,577791.7098721985,288895.85493609926,144447.92746804963,72223.96373402482,36111.98186701241,18055.990933506204,9027.995466753102,4513.997733376551,2256.998866688275";
+			//数据格式
+			Cfg.mapWMTSLayer_Format = "tiles";
+			//图层范围
+			Cfg.mapWMTSLayer_TileFullExtent = "-180.0,-90.0,180.0,90.0";
+			//地图级别偏移量
+			Cfg.mapWMTSLayer_ZoomOffset = 1;
+			//服务名称
+			Cfg.mapWMTSAnno_Name = "1-18级WMTS矢量注记底图";
+			//服务地址
+			Cfg.mapWMTSAnno_Url = "http://t0.tianditu.com/cva_c/wmts";
+			//服务版本
+			Cfg.mapWMTSAnno_Version = "1.0.0";
+			//图层标识
+			Cfg.mapWMTSAnno_LayerIdentifier = "cva";
+			//样式标识
+			Cfg.mapWMTSAnno_StyleIdentifier = "default";
+			//矩阵集名称
+			Cfg.mapWMTSAnno_MatrixSet = "c";
+			//比例尺
+			Cfg.mapWMTSAnno_Scales = "2.958293554545656E8,1.479146777272828E8,7.39573388636414E7,3.69786694318207E7,1.848933471591035E7,9244667.357955175,4622333.678977588,2311166.839488794,1155583.419744397,577791.7098721985,288895.85493609926,144447.92746804963,72223.96373402482,36111.98186701241,18055.990933506204,9027.995466753102,4513.997733376551,2256.998866688275";
+			//数据格式
+			Cfg.mapWMTSAnno_Format = "tiles";
+			//图层范围
+			Cfg.mapWMTSAnno_TileFullExtent = "-180.0,-90.0,180.0,90.0";
+			//地图级别偏移量
+			Cfg.mapWMTSAnno_ZoomOffset = 1;
+			//系统主机IP地址 
+            Cfg.host = window.location.host;
+            //项目名称 
+            Cfg.projectName = window.location.pathname.split("/")[1];
+            //代理服务地址
+            Cfg.proxyHostUrl = 'http://' + Cfg.host + '/'+Cfg.projectName+'/proxy?url=';
+            //设置代理    
+            if(Cfg.host){
+                Geo.Request.setProxyHost(Cfg.proxyHostUrl); 
+            }			
+			var vectorLayer, controls, geometries, intersectGeometry;			
+			/******************************** 参数定义结束 ********************************/
+        	//构造地图对象实例,并添加到id为simpleMap的div容器中
+            var map = new Geo.View2D.Map("simpleMap");
+			//比例尺转分辨率
+			function getRes(scales) {
+				var res = [];
+				var scaleStr = scales.split(",");
+				for(var i = 0, j = scaleStr.length; i < j;i++) {
+					res.push(map.pyramid.getResolutionForScale(parseFloat(scaleStr[i])));
+				}
+				return res;
+			}
+			var wmtsLayer_Res = getRes(Cfg.mapWMTSLayer_Scales);
+			//创建WMTS底图图层
+			var wmtsLayer = new Geo.View2D.Layer.WMTS({
+				name : Cfg.mapWMTSLayer_Name,
+				url :  Cfg.mapWMTSLayer_Url,
+				matrixSet : Cfg.mapWMTSLayer_MatrixSet,
+				style : Cfg.mapWMTSLayer_StyleIdentifier,
+				layer : Cfg.mapWMTSLayer_LayerIdentifier,
+				resolutions: wmtsLayer_Res,
+				format : Cfg.mapWMTSLayer_Format,
+				zoomOffset: Cfg.mapWMTSLayer_ZoomOffset,
+				maxResolution :wmtsLayer_Res[0],//最大分辨率
+            	minResolution :wmtsLayer_Res[wmtsLayer_Res.length - 1],//最小分辨率
+				tileFullExtent:Geo.Bounds.fromString(Cfg.mapWMTSLayer_TileFullExtent)
+			}); 
+			var wmtsAnnoLayer_Res = getRes(Cfg.mapWMTSAnno_Scales);
+			//创建WMTS注记图层
+			var wmtsAnnoLayer = new Geo.View2D.Layer.WMTS({
+				transitionEffect:null,
+				name : Cfg.mapWMTSAnno_Name,
+				url :  Cfg.mapWMTSAnno_Url,
+				matrixSet : Cfg.mapWMTSAnno_MatrixSet,
+				style : Cfg.mapWMTSAnno_StyleIdentifier,
+				layer : Cfg.mapWMTSAnno_LayerIdentifier,
+				resolutions: wmtsAnnoLayer_Res,
+				format : Cfg.mapWMTSAnno_Format,
+				zoomOffset: Cfg.mapWMTSAnno_ZoomOffset,
+				maxResolution :wmtsAnnoLayer_Res[0],//最大分辨率
+            	minResolution :wmtsAnnoLayer_Res[wmtsAnnoLayer_Res.length - 1],//最小分辨率
+				tileFullExtent:Geo.Bounds.fromString(Cfg.mapWMTSAnno_TileFullExtent)
+			}); 
+            //添加图层
+            map.addLayers([wmtsLayer,wmtsAnnoLayer]);
+			initVector();
+			initControls()
+			function intersectQuery(){
+				if(!geometries || !intersectGeometry){
+					alert("绘制多边形与折线");
+					return;
+				}
+				var gsvc = new Geo.Analysis.GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+				gsvc.intersect(geometries, intersectGeometry, 4326, showResult);
+			}
+			function showResult(result){
+				vectorLayer.removeAllFeatures();
+				var geometries = result.geometries;
+				for (var i = 0; i < geometries.length; i++) {
+					var geo = geometries[i];
+					var feature = new Geo.Feature.Vector(geo);
+					vectorLayer.addFeatures(feature);
+				}
+				alert("操作完成！");
+			}
+			//添加多边形几何对象
+			function addGeometries(geometry){
+				if(!geometries){
+					geometries = [];
+				}
+				geometries.push(geometry);
+				var feature = new Geo.Feature.Vector(geometry);
+				vectorLayer.addFeatures(feature);
+			}
+			//添加多边形几何对象
+			function addIntersectGeometry(geometry){
+				intersectGeometry = geometry;
+				var feature = new Geo.Feature.Vector(geometry);
+				vectorLayer.addFeatures(feature);
+			}
+			//初始化矢量图层
+			function initVector() {
+				vectorLayer = new Geo.View2D.Layer.Vector("vector layer");
+				map.addLayers([vectorLayer]);
+			}
+			function initControls(){
+				controls = {
+					select: new Geo.View2D.Control.SelectFeature(vectorLayer),
+					drawGeometries: new Geo.View2D.Control.DrawFeature(vectorLayer,Geo.View2D.Handler.Polygon,{
+						featureAdded: function(feature){
+							addGeometries(feature.geometry);
+						}
+					}),
+					drawIntersectGeometry: new Geo.View2D.Control.DrawFeature(vectorLayer,Geo.View2D.Handler.Polygon,{
+						featureAdded: function(feature){
+							addIntersectGeometry(feature.geometry);
+						}
+					})
+				};
+				for (var key in controls) {
+					map.addControl(controls[key]);
+				}
+			}
+			function toggleControl(controlName) {
+				for (var key in controls) {
+					var control = controls[key];
+					if (controlName == key) {
+						control.activate();
+					} else {
+						control.deactivate();
+					}
+				}
+			}
+            //定位到中心点和缩放级别
+           	map.setCenter(new Geo.LonLat(Cfg.lonLat.split(",")[0],Cfg.lonLat.split(",")[1]), Cfg.zoom);
+        </script>
+    </body>
+</html>

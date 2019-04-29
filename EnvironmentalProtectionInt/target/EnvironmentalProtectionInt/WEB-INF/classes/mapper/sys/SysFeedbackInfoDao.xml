@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tengdi.environmentalprotectionint.modules.sys.dao.SysFeedbackInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.tengdi.environmentalprotectionint.modules.sys.entity.SysFeedbackInfoEntity" id="sysFeedbackInfoMap">
+        <result property="pid" column="pid"/>
+        <result property="loginUser" column="login_user"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userMail" column="user_mail"/>
+        <result property="questionType" column="question_type"/>
+        <result property="feedbackType" column="feedback_type"/>
+        <result property="replyStatus" column="reply_status"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="deleteDate" column="delete_date"/>
+        <result property="backup" column="backup"/>
+    </resultMap>
+
+    <select id="queryList" resultType="com.tengdi.environmentalprotectionint.modules.sys.entity.SysFeedbackInfoEntity" parameterType="java.util.Map">
+        SELECT a.*,y.company_name companyName,l.value questionTypeName,m.value feedbackTypeName,n.value replyStatusName
+        FROM sys_feedback_info a
+        LEFT JOIN cominfo_baseinfo y ON y.pid= a.login_user
+        LEFT JOIN sys_dict l ON l.`key` = a.question_type AND l.type = 'question_type_type'
+        LEFT JOIN sys_dict m ON m.`key` = a.feedback_type AND m.type = 'feedback_type_type'
+        LEFT JOIN sys_dict n ON n.`key` = a.reply_status AND n.type = 'reply_status_type'
+        WHERE 1=1
+        <if test="loginUser!=null and loginUser!=''">
+            AND a.login_user=#{loginUser}
+        </if>
+        <if test="questionType!=null and questionType!=''">
+            AND a.question_type=#{questionType}
+        </if>
+        <if test="feedbackType!=null and feedbackType!=''">
+            AND a.feedback_type=#{feedbackType}
+        </if>
+        <if test="replyStatus!=null and replyStatus!=''">
+            AND a.reply_status=#{replyStatus}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and a.create_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.create_date &lt; #{endTime}
+        </if>
+        ORDER BY a.create_date DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1)
+        FROM sys_feedback_info a
+        LEFT JOIN cominfo_baseinfo y ON y.pid= a.login_user
+        LEFT JOIN sys_dict l ON l.`key` = a.question_type AND l.type = 'question_type_type'
+        LEFT JOIN sys_dict m ON m.`key` = a.feedback_type AND m.type = 'feedback_type_type'
+        LEFT JOIN sys_dict n ON n.`key` = a.reply_status AND n.type = 'reply_status_type'
+        WHERE 1=1
+        <if test="loginUser!=null and loginUser!=''">
+            AND a.login_user=#{loginUser}
+        </if>
+        <if test="questionType!=null and questionType!=''">
+            AND a.question_type=#{questionType}
+        </if>
+        <if test="feedbackType!=null and feedbackType!=''">
+            AND a.feedback_type=#{feedbackType}
+        </if>
+        <if test="replyStatus!=null and replyStatus!=''">
+            AND a.reply_status=#{replyStatus}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and a.create_date &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND a.create_date &lt; #{endTime}
+        </if>
+    </select>
+
+    <insert id="insertData" parameterType="com.tengdi.environmentalprotectionint.modules.sys.entity.SysFeedbackInfoEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO
+        sys_feedback_info(pid,login_user,user_name,user_phone
+        ,user_mail,question_type,feedback_type
+        ,reply_status,create_date,update_date,delete_date
+        ,backup)
+        VALUES (#{pid},#{loginUser},#{userName},#{userPhone}
+        ,#{userMail},#{questionType},#{feedbackType}
+        ,#{replyStatus},#{createDate},#{updateDate},#{deleteDate}
+        ,#{backup})
+    </insert>
+
+</mapper>

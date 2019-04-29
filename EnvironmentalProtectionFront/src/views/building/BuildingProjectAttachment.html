@@ -1,0 +1,550 @@
+<title>项目建设</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a><cite>一张表</cite></a>
+        <a><cite>项目建设</cite></a>
+    </div>
+</div>
+<style  type="text/css">
+    .layui-table-body {
+        overflow-x: hidden;
+    }
+</style>
+<div class="layui-fluid" id="LAY-app-message">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div style="margin-bottom: 10px;" class="layui-layer-btn-c">
+                        <div class="layui-inline"  id="searchdiv">
+                            <input class="layui-input" style="width: 600px;" id="onlineCompanyReload" autocomplete="off" placeholder="请输入建设单位名称">
+                            <div>
+                                <select id="test" lay-search  name="test" lay-verify="required" size="10" lay-filter="test" class="selectTipHidden">
+
+                                </select>
+                            </div>
+                            <div id="divPanel" class="layui-hide"></div>
+                        </div>
+                        <button class="layui-btn" id="onlineCompanyReloadButton">搜索</button>
+                        <button class="layui-btn" id="resetReload">重置</button>
+                        <button class="layui-btn" data-type="searchShow"  id="searchShow">
+                            开启高级搜索
+                            <i class="layui-icon">&#xe61a;</i>
+                        </button>
+                        <button class="layui-btn layui-hide" data-type="searchHide"  id="searchHide" >
+                            关闭高级搜索
+                            <i class="layui-icon">&#xe619;</i>
+                        </button>
+                        <!--<button class="layui-btn" id="export" >-->
+                            <!--<span>导出</span>-->
+                        <!--</button>-->
+                        <label id="labelTip" class="labelTipHidden"></label>
+                    </div>
+                    <div id="exportTable">
+                        <table id="LAY-market-buildingProjectApproval" lay-filter="LAY-market-buildingProjectApproval"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="searchWin" type="text/html">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <!--<div class="layui-card-header">响应式组合</div>-->
+            <div class="layui-card-body">
+                <form class="layui-form" id="searchWinId" action="" lay-filter="component-form-element-search">
+                    <input type="hidden" name="fileTypeName"/>
+                    <input type="hidden" name="projectNatureName"/>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">项目名称：</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="projectName" autocomplete="off" placeholder="">
+                            </div>
+                        </div>
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">批复年份：</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" id="batchTime" name="batchTime" placeholder="请选择" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-row layui-col-space10 layui-form-item">
+                        <div class="  layui-col-md6">
+                            <label class="layui-form-label">文件类型：</label>
+                            <div class="layui-input-block">
+                                <select id="fileType" name="fileType" lay-filter="fileType" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="layui-form-label">项目性质：</label>
+                            <div class="layui-input-block">
+                                <select id="projectNature" name="projectNature" lay-filter="projectNature" lay-search>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-layer-btn-c">
+                            <button class="layui-btn " id="component-form-element-search" lay-submit lay-filter="component-form-element-search">确定</button>
+                            <button type="reset" id="reset" class="layui-btn ">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="editqualityWasteTestShowInfo" type="text/html">
+    <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title" id="com-info">
+            <li  id ="firstClick" class="layui-this" value="0">项目情况</li>
+            <li value="1">审批资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-card-body">
+                            <form class="layui-form" id="administrativePenaltyedit" action="" lay-filter="component-form-element">
+                                <input type="hidden" name="pid" value="undefined">
+                                <input type="hidden" name="cid" value="undefined">
+                                <table class="reporttable">
+                                    <tbody>
+                                    <tr>
+                                        <td>项目名称：</td>
+                                        <td>
+                                            <input type="text" name="projectName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>建设单位：</td>
+                                        <td>
+                                            <input type="text" name="companyName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目地址：</td>
+                                        <td colspan="3">
+                                            <input type="text" name="projectAddress" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>受理时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="admissibilityTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目类别：</td>
+                                        <td>
+                                            <input type="text" readonly name="projectType" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>法人代表：</td>
+                                        <td>
+                                            <input type="text" readonly name="representative" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>法人电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="legalPersonPhone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>联系人：</td>
+                                        <td>
+                                            <input type="text" readonly name="linkman" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>联系电话：</td>
+                                        <td>
+                                            <input type="text" readonly name="phone" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>审批文号：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalNumbe" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                        <td>经办人员：</td>
+                                        <td>
+                                            <input type="text" readonly name="operator" value="" placeholder="" autocomplete="off" class="layui-input">
+
+                                        </td>
+                                    <tr>
+
+                                        <td>审批单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="approvalUnitName" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="batchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>文件类型：</td>
+                                        <td>
+                                            <input type="text" name="fileTypeName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目性质：</td>
+                                        <td>
+                                            <input type="text" name="projectNatureName" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                            <!--<select id="projectNature" name="projectNature"></select>-->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评单位：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaUnit" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>环评审批机关：</td>
+                                        <td>
+                                            <input type="text" readonly name="eiaApprovalAuthority" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>项目总投资（万元）：</td>
+                                        <td>
+                                            <input type="text" name="totalInvestment" readonly value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>项目环保投资（万元）：</td>
+                                        <td>
+                                            <input type="text" readonly name="environmentalProtectionInvestment" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收申请时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceRequestTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                        <td>验收批复时间：</td>
+                                        <td>
+                                            <input type="text" readonly name="acceptanceBatchTime" value="" placeholder="" autocomplete="off" class="layui-input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>建设内容：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="constructionContent"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>审批意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="approvalOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>验收意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="acceptanceOpinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>后评价：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="postAssessment"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>环评补充意见：</td>
+                                        <td colspan="3">
+                                            <textarea  readonly style="resize: none;" name="environmentalAssessmentAddopinion"  placeholder="" class="layui-textarea"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="monitorPortinfo0">
+                    <table id="LAY-online-onlineMonitorPortinfo0" lay-filter="LAY-online-onlineMonitorPortinfo0"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/html" id="report">
+    {{#  if(d.backup != ''){ }}
+    <a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="getInfo">查看</a>
+    {{#  } }}
+</script>
+
+
+
+<script>
+    layui.use(['admin', 'table', 'util', 'laytpl', 'laydate','baseInfoAttachment'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , element = layui.element
+            , laytpl = layui.laytpl
+            , laydate = layui.laydate
+            , setter = layui.setter
+            , form = layui.form
+            , global_obj = {}
+            ,baseInfoAttachment=layui.baseInfoAttachment
+            , baseurl = setter.remoteServiceAddress + "/building/buildingprojectapproval"
+            ,baseurl2=setter.remoteServiceAddress + "/common/exportExcel"
+            ,baseurl3=setter.remoteServiceAddress + "/market/buildingprojectattachment";
+        var DISABLED = 'layui-btn-disabled';
+        var hasPermission = false;
+
+        commonReload.firstInReload($,"divPanel",searchWin.innerHTML,"test");
+
+        var tableName = "vw_building_project_approval";
+        var criterias = {
+            table: tableName,
+            title: "项目建设记录表"
+        };
+        var equalColumns=[];
+        var likeColumns=[];
+
+        //文件类型
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/file_type_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var fileType=$("#fileType");
+                var optiona=$("<option>").text("请选择").val("");
+                fileType.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    fileType.append(optionb);
+                }
+            }
+        });
+
+        //项目性质
+        admin.req({//获取字典请求
+            url: setter.remoteServiceAddress + "/market/sysdict/dicts/project_nature_type"
+            , done: function (result) {
+                var dicts=result.dicts;
+                var projectNature=$("#projectNature");
+                var optiona=$("<option>").text("请选择").val("");
+                projectNature.append(optiona);
+                for(var i=0;i<dicts.length;i++){
+                    var optionb=$("<option>").text(dicts[i].value).val(dicts[i].key);
+                    projectNature.append(optionb);
+                }
+            }
+        });
+
+        form.on('select(fileType)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='fileTypeName']").val(name);
+            }else {
+                $("[name='fileTypeName']").val("");
+            }
+        });
+
+        form.on('select(projectNature)', function(data){
+            if(data.value){
+                var name = data.elem[data.elem.selectedIndex].text;
+                // form.render('select');
+                $("[name='projectNatureName']").val(name);
+            }else {
+                $("[name='projectNatureName']").val("");
+            }
+        });
+
+        var serializeObject = function (form) {
+            var o = {};
+            var a = $("#" + form).serializeArray();
+            $.each(a, function () {
+                // 区划组件的值要排除
+                if (this.name.indexOf('region_') < 0) {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                }
+            });
+            return o;
+        };
+        // if(!(layui.data(setter.permissionName).list.indexOf('market:buildingprojectapproval:list') === -1)) hasPermission = true;
+        //
+        table.render({//查询列表信息
+            elem: '#LAY-market-buildingProjectApproval'
+            , url: baseurl
+            , page: true
+            ,height: 'full-320'
+            , where: {
+                hasPermission: hasPermission
+            }
+            , headers: {
+                access_token: layui.data(setter.tableName).access_token
+            }
+            , cols: [[
+                {type: 'numbers', unresize: true, title: '序号'}
+                ,{field: 'companyName', title: '建设单位', minWidth: 100,unresize: true,templet: function(item, index){
+                        if(item.companyName!=""){
+                            return '<span title="'+item.companyName+'">'+item.companyName+'</span>';
+                        }
+                    }}
+                ,{field: 'projectName', title: '项目名称', width: 300,unresize: true,event:'preview',style:'color:blue;cursor:pointer;',templet: function(item, index){
+                        if(item.projectName!=""){
+                            return '<span title="'+item.projectName+'">'+item.projectName+'</span>';
+                        }}}
+                ,{field: 'projectAddress', title: '项目地址', minWidth: 100,unresize: true,templet: function(item, index){
+                        if(item.projectAddress!=""){
+                            return '<span title="'+item.projectAddress+'">'+item.projectAddress+'</span>';
+                        }
+                    }}
+                ,{field: 'fileTypeName', title: '文件类型', width: 100,unresize: true}
+                ,{field: 'approvalUnitName', title: '审批单位', width: 130,unresize: true}
+                ,{field: 'batchTime', title: '批复时间', width: 120,unresize: true}
+            ]]
+            , skin: 'line'
+            , done: function(res, curr, count){
+            }
+        });
+        commonReload.companyNameReload($,admin,baseurl+"/queryName",global_obj,form,table,"onlineCompanyReload","test","component-form-element-search","divPanel","searchHide","searchShow","reset","LAY-market-buildingProjectApproval","onlineCompanyReloadButton","labelTip");
+
+        //年选择器
+        laydate.render({
+            elem: '#batchTime'
+            ,type: 'year'
+        });
+
+        table.on('tool(LAY-market-buildingProjectApproval)', function (obj) {
+            if (obj.event == 'preview') {
+                var data = obj.data;
+                layer.open({
+                    type: 1
+                    , title: "查看"
+                    , area:['1100px', '500px']
+                    // offset: '120px',
+                    , content: editqualityWasteTestShowInfo.innerHTML
+                });
+                var differType=0;
+                $('#com-info li').on('click', function(){
+                    var data = obj.data;
+                    differType = $(this).attr("value");
+                    if(differType==0){
+                        var formdata = serializeObject("administrativePenaltyedit");
+                        for (var attr in formdata) {
+                            $("#administrativePenaltyedit [name=" + attr + "]").val(data[attr]);
+                        }
+                    }
+                    if(differType==1){
+                        table.render({//查询列表信息
+                            elem: '#LAY-online-onlineMonitorPortinfo0'
+                            ,height: 'full-500'
+                            ,cols: [[
+                                {field: 'fileName', title: '资料名', minWidth: 100,unresize: true,event:'setFileName',style:'color:blue;cursor:pointer;'}
+                                ,{field: 'attachmentSize', title: '大小',minWidth: 100,unresize: true}
+                                ,{field: 'createdateStr', title: '上传时间', minWidth:100}
+                                ,{field: 'attachmentFormat', title: '格式', minWidth: 100,unresize: true}
+                            ]]
+                            ,skin: 'line'
+                            ,even: true //开启隔行背景
+                        });
+
+                        admin.req({//
+                            url: setter.remoteServiceAddress + "/market/buildingprojectattachment/dataByFile/" + data.pid
+                            , done: function (result) {
+                                if (result.code == 0 && result.fileAttachment.length > 0) {//成功
+                                    table.reload("LAY-online-onlineMonitorPortinfo0",{//查询列表信息
+                                        data: result.fileAttachment
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                });
+                $("#firstClick").trigger('click');
+            }
+            table.on('tool(LAY-online-onlineMonitorPortinfo0)',function (obj) {
+                var data=obj.data;
+                if (obj.event == 'setFileName') {
+                    baseInfoAttachment.view(data.attachmentUrl);
+                }
+            });
+
+        });
+        table.reload("LAY-market-buildingProjectApproval"); //刷新表格
+
+//        //导出excel表
+//        $("#export").bind("click", function () {
+//            var loadindex = layer.load(1);
+//            likeColumns=[];
+//            equalColumns=[];
+//
+//            commonReload.exportCommon($,criterias,likeColumns,equalColumns,"divPanel",null);
+//
+//            if (likeColumns.length > 0) {
+//                criterias.likeColumns = likeColumns;
+//            } else {
+//                delete criterias.likeColumns;
+//            }
+//            if (equalColumns.length > 0) {
+//                criterias.equalColumns = equalColumns;
+//            } else {
+//                delete criterias.equalColumns;
+//            }
+//
+//            var header = "建设单位,项目名称,项目地址,文件类型,项目性质,审批单位,批复时间,项目总投资(万元),项目环保投资(万元),环评单位,环评审批机关,受理时间,验收申请时间,验收批复时间,建设内容";
+//            var headerfield = "companyName,projectName,project_address,fileTypeName,projectNatureName,approvalUnitName,batch_time,total_investment,environmental_protection_investment,eia_unit,eia_approval_authority,admissibility_time,acceptance_request_time,acceptance_batch_time,construction_content";
+//
+//            var limits=$("#exportTable .layui-table-page .layui-laypage-count").text();
+//            var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            // var obj=document.getElementById("exportTable");
+//            // var limits=obj.option[obj.selectedIndex].text;
+//            //     $('#exportTable').val();
+//            //     var limits=   $('#exportTable').find(".layui-laypage-count").text();
+//            //     var limit=limits.substring(limits.indexOf(" ")+1,limits.lastIndexOf(" "));
+//            criterias.headers = header;
+//            criterias.headerFields = headerfield;
+//            criterias.page=1;
+//            criterias.orderColumn="companyName DESC";
+//            criterias.limit=limit;
+//            admin.req({
+//                url: baseurl2 + "/export",
+//                data: criterias
+//                , done: function (result) {
+//                    layer.close(loadindex);
+//                    delete criterias.equalColumns;
+//                    delete criterias.likeColumns;
+//                    if (result.code == 0) {
+//                        location.href = setter.remoteServiceAddress + result.data.src;
+//                    }
+//                }
+//                ,complete:function (res) {
+//                    layer.close(loadindex);
+//                }
+//            });
+//        });
+
+
+    });
+</script>
