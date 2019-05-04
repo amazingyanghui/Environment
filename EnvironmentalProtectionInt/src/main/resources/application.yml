@@ -21,6 +21,8 @@ spring:
             max-file-size: 100MB
             max-request-size: 100MB
             enabled: true
+            maxFileSize: 100Mb
+            maxRequestSize: 100Mb
     redis:
         database: 0
         host: 127.0.0.1

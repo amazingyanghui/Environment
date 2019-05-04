@@ -96,6 +96,7 @@ public class CominfoBaseinfoAttachmentController extends BaseController{
             String filePath = request.getSession().getServletContext().getRealPath("/");
             String fileUploadPath = "/uploadfile/" + type + "/" + DateUtils.getDate().getTime() + "/";//暂时存在这里
             String filePathnew = filePath + fileUploadPath;
+            System.out.print(filePathnew);
             String srcnewpath = "";
             String header = request.getHeader("User-Agent").toUpperCase();
             if (header.contains("MSIE") || header.contains("TRIDENT") || header.contains("EDGE")) {//IE

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
 import com.tengdi.environmentalprotectionint.modules.common.utils.Utils;
+import com.tengdi.environmentalprotectionint.modules.task.entity.CheckRecord;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -117,6 +118,75 @@ public class MobileEnforcementSceneEntity implements Serializable {
 	@TableField(exist = false)
 	private String representativePhone;
 
+	/**
+	 * 统一社会信用代码
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private String unifiedSocialCreditCode;
+
+	public String getUnifiedSocialCreditCode() {
+		return unifiedSocialCreditCode;
+	}
+
+	public void setUnifiedSocialCreditCode(String unifiedSocialCreditCode) {
+		this.unifiedSocialCreditCode = unifiedSocialCreditCode;
+	}
+
+	/**
+	 * 所属区县（数据字典）
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private String districtAndCounty;
+
+	public String getDistrictAndCounty() {
+		return districtAndCounty;
+	}
+
+	public void setDistrictAndCounty(String districtAndCounty) {
+		this.districtAndCounty = districtAndCounty;
+	}
+
+	/**
+	 * 所属行业IDS
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private String industryids;
+
+	public String getIndustryids() {
+		return industryids;
+	}
+
+	public void setIndustryids(String industryids) {
+		this.industryids = industryids;
+	}
+	/**
+	 * 检查目的
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private String checkpurpose;
+
+	public String getCheckpurpose() {
+		return checkpurpose;
+	}
+
+	public void setCheckpurpose(String checkpurpose) {
+		this.checkpurpose = checkpurpose;
+	}
+
+	/**
+	 * 生产状态
+	 */
+	@TableField(exist = false)
+	private String productionstate;
+
+	public String getProductionstate() {
+		return productionstate;
+	}
+
+	public void setProductionstate(String productionstate) {
+		this.productionstate = productionstate;
+	}
+
 	public String getCompanyRepresentative() {
 		return companyRepresentative;
 	}
@@ -192,6 +262,78 @@ public class MobileEnforcementSceneEntity implements Serializable {
 	 */
 	@TableField(exist = false)
 	private String examinationResultsName;
+
+	/**
+	 * 办理人
+	 */
+	@TableField(exist = false)
+	private String taskmanager;
+	/**
+	 * 任务名
+	 */
+	@TableField(exist = false)
+	private String taskname;
+	/**
+	 * 任务描述
+	 */
+	@TableField(exist = false)
+	private String taskdescription;
+	/**
+	 * 办理意见
+	 */
+	@TableField(exist = false)
+	private String handlingopinions;
+
+	private CheckRecord record;
+	private MobileEnforcementAttachmentEntity attachmentEntity;
+
+	public CheckRecord getRecord() {
+		return record;
+	}
+
+	public void setRecord(CheckRecord record) {
+		this.record = record;
+	}
+
+	public MobileEnforcementAttachmentEntity getAttachmentEntity() {
+		return attachmentEntity;
+	}
+
+	public void setAttachmentEntity(MobileEnforcementAttachmentEntity attachmentEntity) {
+		this.attachmentEntity = attachmentEntity;
+	}
+
+	public String getTaskmanager() {
+		return taskmanager;
+	}
+
+	public void setTaskmanager(String taskmanager) {
+		this.taskmanager = taskmanager;
+	}
+
+	public String getTaskname() {
+		return taskname;
+	}
+
+	public void setTaskname(String taskname) {
+		this.taskname = taskname;
+	}
+
+	public String getTaskdescription() {
+		return taskdescription;
+	}
+
+	public void setTaskdescription(String taskdescription) {
+		this.taskdescription = taskdescription;
+	}
+
+	public String getHandlingopinions() {
+		return handlingopinions;
+	}
+
+	public void setHandlingopinions(String handlingopinions) {
+		this.handlingopinions = handlingopinions;
+	}
 
 	public String getExaminationResultsName() {
 		return examinationResultsName;

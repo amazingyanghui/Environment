@@ -17,4 +17,63 @@ VALUES(#{taskName},#{assignedUserId},#{startTime},#{endTime},#{taskDescribe},#{h
         UPDATE `sys_task`  st SET  st.`responsible_user_id`=#{map.uid} WHERE st.`id`=#{map.tid}
 
     </update>
+
+    <select id="queryCominfo" resultType="com.tengdi.environmentalprotectionint.modules.cominfo.entity.CominfoBaseinfoEntity">
+        SELECT ci.`pid`,ci.`company_name` FROM `cominfo_baseinfo` ci
+    </select>
+
+    <insert id="insertTask" parameterType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        <selectKey resultType="java.lang.String" keyProperty="pid" order="BEFORE">
+            SELECT replace(uuid(), '-', '')
+        </selectKey>
+        INSERT INTO `mobile_enforcement_scene`(`pid`,`taskname`,`check_starttime`,`check_endtime`,`taskdescription`,`handlingopinions`,`taskmanager`)
+        VALUES(#{pid},#{taskname},#{checkStarttime},#{checkEndtime},#{taskdescription},#{handlingopinions},#{taskmanager})
+    </insert>
+    <select id="queryTaskToDo" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+         SELECT * FROM `mobile_enforcement_scene` WHERE `status` =0
+         <if test="_parameter!=''">
+             AND `taskmanager`=#{taskmanager}
+         </if>
+    </select>
+
+    <select id="queryAllTask" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT * FROM `mobile_enforcement_scene` WHERE `status` !=2 AND `status` !=3
+        <if test="_parameter!=''">
+            AND `taskmanager`=#{taskmanager}
+        </if>
+    </select>
+
+    <select id="OvertimeTask" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT * FROM `mobile_enforcement_scene` WHERE `check_endtime` &lt; NOW()  AND `status`=0
+        <if test="_parameter!=''">
+            AND `taskmanager`=#{taskmanager}
+        </if>
+    </select>
+
+    <select id="onTimeTask" resultType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        SELECT * FROM `mobile_enforcement_scene` WHERE DATEDIFF(NOW(),`check_endtime`)&lt;2   AND `status`=0
+        <if test="_parameter!=''">
+            AND `taskmanager`=#{taskmanager}
+        </if>
+    </select>
+
+    <select id="queryByUserID" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysUserEntity">
+        SELECT * FROM sys_user  su WHERE su.`user_id`=#{userID}
+    </select>
+
+    <select id="queryDicts" resultType="com.tengdi.userauthenuuid.modules.sys.entity.SysDictEntity">
+        SELECT * FROM sys_dict sd WHERE sd.`type`='production_state_type'
+    </select>
+
+    <update id="updateTask" parameterType="com.tengdi.environmentalprotectionint.modules.mobile.entity.MobileEnforcementSceneEntity">
+        UPDATE `mobile_enforcement_scene` SET `check_person_name`=#{checkPersonName},`check_company`=#{checkCompany},`checkpurpose`=#{checkpurpose},`checked_company_name`=#{checkedCompanyName},`checked_company_address`=#{checkedCompanyAddress},
+        `unified_social_credit_code`=#{unifiedSocialCreditCode},`checked_company_legal`=#{checkedCompanyLegal},`checked_company_legal_phone`=#{checkedCompanyLegalPhone},`district_and_county`=#{districtAndCounty},`industryids`=#{industryids},`status`=1
+        WHERE pid=#{pid}
+    </update>
+
+    <insert id="insertCheckRecord" parameterType="com.tengdi.environmentalprotectionint.modules.task.entity.CheckRecord">
+        INSERT INTO `checkrecord`(`checktype`,`company_name`,`company_address`,`registeredaddress`,`chargeperson`,`chargepersonpost`,`personnumber`,`productionstate`,`commissioningtime`,`signingtime`,`pollutanttype`,`enterpriseprocedures`,`drainagedirection`,`treatmentfacilities`,`efflux`,`waterremark`,`gastreatment`,`siteconditions`,`gasremark`,`wastestorage`,`hazardoustorage`,`warehouse`,`ledger`,`noise`,`canteen`,`dormitory`,`protectionfacilitie`,`complaint`,`complaintremark`,`conclusion`,`rectification`,`taskid`)
+         VALUES(#{checktype},#{companyName},#{companyAddress},#{registeredAddress},#{chargePerson},#{chargePersonpost},#{personNumber},#{productionState},#{commisSioningTime},#{signingTime},#{pollutantType},#{enterpriseTrocedures},#{drainagediRection},#{treatmentFacilities},#{efflux},#{waterRemark},#{gasTreatment},#{siteconditions},#{gasRemark},#{wastestorage},#{hazardouStorage},#{warehouse},#{ledger},#{noise},#{canteen},#{dormitory},#{protectionFacilitie},#{complaint},#{complaintRemark},#{conclusion},#{rectification},#{taskid});
+
+    </insert>
 </mapper>
